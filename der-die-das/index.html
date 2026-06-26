@@ -615,10 +615,14 @@ function startSession(mode){
     queue=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0).sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,15);
     if(!queue.length) queue=shuffle(ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked)).slice(0,10);
   } else {
-    let due=ITEMS.filter(it=>S.cards[it.id] && S.cards[it.id].due<=t); shuffle(due);
+    let due=ITEMS.filter(it=>S.cards[it.id] && S.cards[it.id].due<=t);
+    shuffle(due);                                                              // Zufall nur als Tiebreak bei gleicher Faelligkeit
+    due.sort((a,b)=>(S.cards[a.id].due-S.cards[b.id].due)||(S.cards[b.id].miss-S.cards[a.id].miss)); // am laengsten ueberfaellig zuerst, dann schwerste zuerst
     // neue Karten: max NEW_PER_DAY pro Kalendertag (auch bei mehrmaligem Spielen)
     const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
-    const allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));  // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
+    let allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));    // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
+    // Wiederholungs-Stau hat Vorrang: bei vielen faelligen Karten neue drosseln, sonst verhungern alte Woerter nie wiederholt
+    if(due.length>=MAX_SESSION) allow=0; else allow=Math.min(allow, MAX_SESSION-due.length);
     let neu=[];
     const takeFrom=(stage,k)=>{const p=shuffle(ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it)));
       let a=0; for(let i=0;i<p.length&&a<k&&neu.length<allow;i++){neu.push(p[i]);a++;}};
@@ -761,7 +765,7 @@ function renderHome(){
   const due=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].due<=t).length;
   const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
   const dailyNewLeft=Math.max(0,NEW_PER_DAY-newToday);
-  const sessNew=Math.min(NEW_PER_SESSION, dailyNewLeft, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
+  const sessNew=due>=MAX_SESSION?0:Math.min(NEW_PER_SESSION, dailyNewLeft, MAX_SESSION-due, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
   const roundSize=Math.min(MAX_SESSION, due+sessNew);
   const sb=document.getElementById("startBtn");
   if(S.lastDay===t && dailyNewLeft===0){
