@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="der die das">
+<title>der, die, das — Kyana</title>
+<style>
+  :root{
+    --der:#2D6CDF; --die:#E0467C; --das:#1FA85C;
+    --bg:#F4F6FB; --card:#FFFFFF; --ink:#1F2A44; --muted:#7A86A1;
+    --ok:#1FA85C; --bad:#E0467C; --gold:#F2A93B;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; height:100%;}
+  body{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink);
+    display:flex; justify-content:center;}
+  #app{width:100%; max-width:760px; min-height:100%; display:flex; flex-direction:column;
+    padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);}
+  .screen{flex:1; min-height:0; display:none; flex-direction:column;}
+  .screen.on{display:flex;}
+  .top{display:flex; justify-content:space-between; align-items:center; padding:12px 2px 4px; gap:8px;}
+  .badge{background:#fff; border-radius:16px; padding:7px 13px; font-weight:700; font-size:17px; box-shadow:0 2px 8px rgba(31,42,68,.07); text-align:center;}
+  .badge small{display:block; font-size:11px; color:var(--muted); font-weight:600;}
+  .streak{color:var(--gold);}
+  .streakhero{display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#FFF1D6,#FFE0A8); border:2px solid var(--gold); border-radius:20px; padding:13px 18px; margin:10px 2px 6px; box-shadow:0 3px 14px rgba(242,169,59,.28);}
+  .streakhero.hot .flameBig{animation:flamepulse 1.4s ease-in-out infinite;}
+  .flameBig{width:46px; height:46px; flex:none; display:block;}
+  .flameBig svg{width:100%; height:100%; display:block;}
+  .streakinfo{flex:1; min-width:0;}
+  .streakinfo b{font-size:clamp(28px,8vw,36px); color:#B5710A; line-height:1;}
+  .streakinfo span{font-weight:700; color:#8a5a10; font-size:clamp(13px,4vw,15px);}
+  .streaksub{font-size:12.5px; color:#9a6a1a; font-weight:600; margin-top:3px;}
+  .medalrow{display:flex; flex-wrap:wrap; gap:6px; margin:0 2px 8px;}
+  .medalrow .med{width:34px; height:34px; display:block;}
+  .medalrow .med svg{width:100%; height:100%; display:block;}
+  @keyframes flamepulse{0%,100%{transform:scale(1) rotate(-2deg);}50%{transform:scale(1.13) rotate(2deg);}}
+  .unlock.perfect{background:linear-gradient(135deg,#E7F7EE,#C9F0D8); border-color:var(--das); color:#10663a;}
+  .unlock.medalbox{display:flex; align-items:center; gap:8px; justify-content:center;}
+  .unlock.medalbox svg{width:30px; height:30px; flex:none;}
+  #confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:60;}
+  #confetti i{position:absolute; top:-16px; width:9px; height:14px; border-radius:2px; animation:cfall linear forwards;}
+  @keyframes cfall{to{transform:translateY(112vh) rotate(540deg); opacity:.15;}}
+  .mascot{display:inline-block; width:44px; height:44px; vertical-align:middle; flex:none;}
+  .mascot svg{width:100%; height:100%; display:block;}
+  .mascot.lg{width:74px; height:74px;}
+  .mascot.bounce{animation:mbounce .5s ease;}
+  @keyframes mbounce{0%,100%{transform:translateY(0) scale(1);}35%{transform:translateY(-9px) scale(1.06);}}
+  h1{font-size:clamp(24px,6vw,30px); margin:6px 2px 2px;}
+  .sub{color:var(--muted); margin:0 2px 12px; font-size:clamp(14px,4vw,16px);}
+  .btn{border:none; border-radius:18px; font-family:inherit; font-weight:800; cursor:pointer; transition:transform .07s;}
+  .btn:active{transform:scale(.97);}
+  .big{font-size:clamp(20px,5.5vw,24px); padding:18px; width:100%; color:#fff; background:var(--der); box-shadow:0 6px 0 #2152ad;}
+  .big:active{box-shadow:0 2px 0 #2152ad; transform:translateY(4px);}
+  .center{flex:1; display:flex; flex-direction:column; justify-content:center; gap:14px;}
+  .stages{display:flex; flex-direction:column; gap:10px; margin-top:8px;}
+  .stage{display:flex; align-items:center; gap:13px; background:#fff; border-radius:16px; padding:14px; box-shadow:0 2px 8px rgba(31,42,68,.06);}
+  .stage .num{width:40px; height:40px; border-radius:11px; background:var(--der); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex:none;}
+  .stage .meta{flex:1; min-width:0;}
+  .stage .meta b{font-size:17px;}
+  .stage .meta div{font-size:13px; color:var(--muted);}
+  .stage.locked{opacity:.5;}
+  .stage.locked .num{background:#b9c0d4;}
+  .bar{height:8px; background:#e7ebf5; border-radius:6px; overflow:hidden; margin-top:6px;}
+  .bar i{display:block; height:100%; background:var(--das); width:0;}
+  .row{display:flex; gap:10px;}
+  .row .btn{flex:1;}
+  .link{background:none; border:none; color:var(--muted); font-size:15px; text-decoration:underline; cursor:pointer; font-family:inherit; padding:8px;}
+  /* play */
+  #play{justify-content:flex-start;}
+  .progress{height:10px; background:#e7ebf5; border-radius:8px; overflow:hidden; margin:6px 2px 12px;}
+  .progress i{display:block; height:100%; background:var(--der); width:0; transition:width .2s;}
+  .promptwrap{flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; justify-content:center;}
+  .prompt{background:#fff; border-radius:22px; padding:26px 20px; text-align:center; box-shadow:0 4px 16px rgba(31,42,68,.08);}
+  .hint{color:var(--muted); font-size:clamp(15px,4.6vw,18px); font-weight:700; margin-bottom:8px;}
+  .word{font-size:clamp(32px,9vw,46px); font-weight:800; line-height:1.15;}
+  .speaker{display:inline-block; margin-left:10px; font-size:.5em; vertical-align:middle; color:var(--der); cursor:pointer; user-select:none;}
+  .sentence{font-size:clamp(21px,5.6vw,30px); font-weight:700; line-height:1.4;}
+  .sentence .blank{color:var(--der); border-bottom:4px solid var(--der); padding:0 12px;}
+  .sentence .blank.filled{color:var(--ok); border-color:var(--ok);}
+  .scaffold{margin-top:14px; font-size:clamp(13px,3.8vw,15px); color:var(--der); font-weight:700; background:#eef3fc; border-radius:10px; padding:8px 12px; display:inline-block;}
+  .intro{font-size:clamp(17px,4.8vw,21px); line-height:1.5; font-weight:600; color:var(--ink); padding:6px 2px;}
+  .feedback{text-align:center; font-weight:800; font-size:clamp(15px,4.4vw,19px); min-height:24px; margin:10px 2px;}
+  .feedback.ok{color:var(--ok);} .feedback.bad{color:var(--bad);}
+  .feedback .why{display:block; color:var(--muted); font-weight:600; font-size:.85em; margin-top:3px;}
+  .ctl{display:flex; gap:8px; justify-content:center; align-items:center; margin-top:10px; flex-wrap:wrap;}
+  .ctlbtn{border:none; border-radius:12px; font-family:inherit; font-weight:800; font-size:clamp(14px,4vw,16px); padding:9px 16px; background:#e7ebf5; color:var(--ink); cursor:pointer;}
+  .ctlbtn.weiter{background:var(--der); color:#fff;}
+  .ctlbtn.undo{background:#fff; color:var(--bad); border:1.5px solid var(--bad);}
+  .opts{display:flex; flex-direction:column; gap:11px; padding-top:4px;}
+  .opt{font-size:clamp(20px,5.4vw,26px); padding:17px; background:#fff; color:var(--ink); box-shadow:0 3px 0 #d7ddec; border:2px solid #e7ebf5;}
+  .opt.der{color:var(--der);} .opt.die{color:var(--die);} .opt.das{color:var(--das);}
+  .opt.correct{background:var(--ok); color:#fff; border-color:var(--ok); box-shadow:0 3px 0 #157a43;}
+  .opt.wrong{background:var(--bad); color:#fff; border-color:var(--bad); box-shadow:0 3px 0 #a82e59;}
+  /* done */
+  .done-card{background:#fff; border-radius:22px; padding:28px; text-align:center; box-shadow:0 4px 16px rgba(31,42,68,.08);}
+  .done-card .big-streak{font-size:60px; font-weight:800; color:var(--gold); line-height:1;}
+  .stars{font-size:30px; color:var(--gold); letter-spacing:4px;}
+  .unlock{background:linear-gradient(135deg,#FFF6E5,#FFE9C7); border:2px solid var(--gold); border-radius:16px; padding:14px; margin-top:14px; font-weight:700; color:#7a5c00;}
+  .tiny{font-size:12px; color:var(--muted); text-align:center; margin-top:10px; padding:0 6px;}
+  /* data */
+  #data{overflow-y:auto;}
+  .panel{background:#fff; border-radius:16px; padding:16px; box-shadow:0 2px 8px rgba(31,42,68,.06); margin-bottom:12px;}
+  .panel h2{font-size:17px; margin:0 0 8px;}
+  .panel p{font-size:14px; color:var(--muted); margin:4px 0;}
+  textarea{width:100%; height:74px; border:1px solid #d7ddec; border-radius:10px; padding:8px; font-family:monospace; font-size:12px; resize:none;}
+  .hardlist{font-size:14px; line-height:1.6;}
+  .hardlist span{display:inline-block; background:#f0f3fa; border-radius:8px; padding:2px 9px; margin:3px 3px 0 0;}
+  .danger{color:var(--bad); border:1px solid var(--bad); background:#fff;}
+  .toggle{display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:15px;}
+</style>
+</head>
+<body>
+<div id="confetti"></div>
+<div id="app">
+
+  <!-- HOME -->
+  <div id="home" class="screen on">
+    <div class="streakhero" id="streakHero">
+      <span class="flameBig" id="streakFlame"></span>
+      <div class="streakinfo">
+        <div><b id="streakN">0</b> <span id="streakLabel">Tage in Folge</span></div>
+        <div class="streaksub" id="streakSub"></div>
+      </div>
+    </div>
+    <div class="medalrow" id="medalRow"></div>
+    <div class="top">
+      <div class="badge" id="shieldBadge" style="display:none; color:var(--der);">1<small>Schutztag</small></div>
+      <div class="badge"><span id="pointsN">0</span><small>Sterne</small></div>
+    </div>
+    <h1><span class="mascot" id="homeMascot" style="width:50px;height:50px;"></span> Hallo Kyana!</h1>
+    <p class="sub" id="homeSub">Bereit fürs tägliche Üben?</p>
+    <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
+    <div id="saveWarn" class="tiny" style="color:var(--bad); margin:0 2px 8px;"></div>
+    <button class="btn big" id="startBtn">Heute üben</button>
+    <button class="btn" id="hardBtn" style="display:none; background:var(--die); color:#fff; padding:13px; margin-top:8px; width:100%; font-size:clamp(16px,4.6vw,19px);">Schwere Wörter üben</button>
+    <div class="stages" id="stageList"></div>
+    <button class="link" id="toData" style="align-self:center; margin-top:6px;">Für Eltern: Sicherung &amp; schwere Wörter</button>
+    <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play" class="screen">
+    <div class="top">
+      <button class="link" id="quitBtn" style="padding:4px 0;">‹ zurück</button>
+      <span class="mascot" id="playMascot"></span>
+      <div class="badge"><span id="sessN">0/0</span><small>heute</small></div>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+    <div class="promptwrap"><div class="prompt" id="promptBox"></div></div>
+    <div class="feedback" id="fb"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <!-- DONE -->
+  <div id="done" class="screen">
+    <div class="center">
+      <div class="done-card">
+        <div style="text-align:center;"><span class="mascot lg" id="doneMascot"></span></div>
+        <div class="stars" id="doneStars">★★★</div>
+        <h1>Super gemacht!</h1>
+        <p class="sub" id="doneMsg"></p>
+        <div class="big-streak"><span class="flameBig" id="doneFlame" style="width:38px;height:38px;display:inline-block;vertical-align:middle;"></span> <span id="doneStreak">0</span></div>
+        <div style="color:var(--muted); font-weight:700; margin-top:2px;" id="doneStreakLabel">Tage in Folge</div>
+        <div id="unlockBox"></div>
+      </div>
+      <button class="btn big" id="homeBtn">Zurück</button>
+    </div>
+  </div>
+
+  <!-- DATA / ELTERN -->
+  <div id="data" class="screen">
+    <div class="top">
+      <button class="link" id="dataBack" style="padding:4px 0;">‹ zurück</button>
+      <div class="badge"><span id="bestN">0</span><small>längster Streak</small></div>
+    </div>
+    <h1 style="font-size:22px;">Für Eltern</h1>
+    <div class="panel">
+      <div class="toggle">Ton (Wörter vorlesen) <button class="btn" id="muteBtn" style="background:var(--der); color:#fff; padding:8px 16px; font-size:15px;">an</button></div>
+      <p style="margin-top:8px;">Kommt kein Ton, am iPad eine deutsche Stimme aktivieren: Einstellungen, Bedienungshilfen, Gesprochene Inhalte, Stimmen, Deutsch.</p>
+    </div>
+    <div class="panel">
+      <h2>Schwere Wörter</h2>
+      <p>Wo Kyana am häufigsten danebenlag. Gute Kandidaten zum gemeinsamen Üben.</p>
+      <div class="hardlist" id="hardList">Noch nichts geübt.</div>
+    </div>
+    <div class="panel">
+      <h2>Fortschritt sichern</h2>
+      <p>Diesen Code kopieren und z.B. in eine Notiz oder Mail an dich legen. Falls Safari die Daten löscht, kannst du damit wiederherstellen.</p>
+      <textarea id="backupOut" readonly></textarea>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" id="copyBtn" style="background:var(--der); color:#fff; padding:12px;">Code kopieren</button>
+      </div>
+      <p style="margin-top:12px;">Wiederherstellen: Code hier einfügen und auf Wiederherstellen tippen.</p>
+      <textarea id="backupIn" placeholder="Code hier einfügen ..."></textarea>
+      <div class="row" style="margin-top:8px;">
+        <button class="btn" id="restoreBtn" style="background:var(--das); color:#fff; padding:12px;">Wiederherstellen</button>
+      </div>
+      <p id="dataMsg" style="color:var(--das); font-weight:700; min-height:18px;"></p>
+    </div>
+    <div class="panel">
+      <h2>Neu anfangen</h2>
+      <p>Löscht den ganzen Fortschritt und fängt bei Stufe 1 von vorn an.</p>
+      <button class="btn danger" id="resetBtn" style="padding:12px; width:100%;">Alles zurücksetzen</button>
+    </div>
+  </div>
+
+</div>
+<script>
+"use strict";
+// ================= Daten (geprüfte Genus-/Mehrzahlformen aus dem Heft) =================
+const G = {
+ Tisch:"der",Stuhl:"der",Stift:"der",Rucksack:"der",Lehrer:"der",Hund:"der",Apfel:"der",Saft:"der",Teller:"der",
+ "Löffel":"der","Käse":"der",Kopf:"der",Arm:"der","Fuß":"der",Baum:"der",Mond:"der",Stern:"der",Berg:"der",Wald:"der",
+ Ball:"der",Schrank:"der",Teppich:"der",Spiegel:"der",Bus:"der",Zug:"der",Park:"der",Bahnhof:"der",Mann:"der",
+ Vater:"der",Bruder:"der",Opa:"der",Rock:"der",Schal:"der",Pullover:"der",Schuh:"der",Vogel:"der",Fisch:"der",Korb:"der",
+ Lampe:"die",Tafel:"die",Schere:"die",Pause:"die","Tür":"die",Wand:"die",Milch:"die",Gabel:"die",Hand:"die",Nase:"die",
+ Katze:"die",Maus:"die",Kuh:"die",Blume:"die",Sonne:"die",Wiese:"die","Straße":"die",Ampel:"die",Bank:"die",Frau:"die",
+ Mutter:"die",Schwester:"die",Oma:"die",Hose:"die",Jacke:"die","Mütze":"die",Socke:"die",Tasche:"die",Banane:"die",
+ Halle:"die",Matte:"die",Schule:"die",Stadt:"die",
+ Buch:"das",Heft:"das",Bett:"das",Fenster:"das",Regal:"das",Kissen:"das",Brot:"das",Messer:"das",Ei:"das",Glas:"das",
+ Bein:"das",Auge:"das",Ohr:"das",Pferd:"das",Schwein:"das",Hemd:"das",Kleid:"das",Auto:"das",Fahrrad:"das",Haus:"das",
+ Kind:"das","Mädchen":"das",Bild:"das"
+};
+const P = {
+ Tisch:"Tische",Stuhl:"Stühle",Ball:"Bälle",Baum:"Bäume",Kopf:"Köpfe","Fuß":"Füße",Hund:"Hunde",Apfel:"Äpfel",
+ Buch:"Bücher",Haus:"Häuser",Kind:"Kinder",Glas:"Gläser",Ei:"Eier",Mann:"Männer",Stern:"Sterne",Brot:"Brote",
+ Lampe:"Lampen",Blume:"Blumen",Katze:"Katzen",Tasche:"Taschen",Frau:"Frauen","Tür":"Türen",Hose:"Hosen",Jacke:"Jacken",
+ Nase:"Nasen",Hand:"Hände",Maus:"Mäuse",Rock:"Röcke",Auto:"Autos",Opa:"Opas","Mädchen":"Mädchen","Löffel":"Löffel",
+ Fenster:"Fenster",Teller:"Teller",Vogel:"Vögel",Bett:"Betten",Bild:"Bilder",Stift:"Stifte",Schuh:"Schuhe",Zug:"Züge",
+ Berg:"Berge",Pferd:"Pferde",Kleid:"Kleider",Kuh:"Kühe","Mütze":"Mützen",Schwein:"Schweine"
+};
+function art(w,c){const g=G[w]; if(c==="nom")return g; if(c==="akk")return g==="der"?"den":g; return g==="der"?"dem":(g==="die"?"der":"dem");}
+// Verschmelzung Präposition + Artikel (natürliches Deutsch)
+const MERGE={"in dem":"im","in das":"ins","an dem":"am","an das":"ans","zu dem":"zum","zu der":"zur","von dem":"vom","bei dem":"beim"};
+function merge(prep,a){const k=prep+" "+a; return MERGE[k]||k;}
+function chunk(prep,w,c){return merge(prep,art(w,c));}
+// Stufe 3: Wechselpräpositionen (in/auf/an) — Wo? = Dativ, Wohin? = Akkusativ
+// Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
+const W=[
+ {pre:"Kyana springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Matte","Bett","Stuhl"]},{pre:"Kyana sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Matte","Bett","Stuhl"]},
+ {pre:"Kyana geht",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule","Stadt"]},{pre:"Kyana ist",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule","Stadt"]},
+ {pre:"Kyana legt das Buch",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Stuhl","Regal","Bett"]},{pre:"Das Buch liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Stuhl","Regal","Bett"]},
+ {pre:"Die Katze springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Stuhl","Tisch","Bett"]},{pre:"Die Katze schläft",prep:"auf",c:"dat",h:"Wo?",pool:["Bett","Stuhl","Matte"]},
+ {pre:"Kyana hängt die Jacke",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank"]},{pre:"Die Jacke ist",prep:"in",c:"dat",h:"Wo?",pool:["Schrank"]},
+ {pre:"Der Vogel fliegt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Tisch","Schrank"]},{pre:"Der Vogel sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Baum","Tisch","Schrank"]},
+ {pre:"Kyana stellt das Glas",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Das Glas steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
+ {pre:"Kyana schreibt",prep:"an",c:"akk",h:"Wohin?",pool:["Tafel"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Tafel","Wand"]},
+ {pre:"Kyana geht",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tür"]},{pre:"Kyana steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tür"]},
+ {pre:"Die Maus läuft",prep:"in",c:"akk",h:"Wohin?",pool:["Haus"]},{pre:"Die Maus ist",prep:"in",c:"dat",h:"Wo?",pool:["Haus"]},
+ {pre:"Kyana rennt",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Kyana spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
+ {pre:"Kyana klettert",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
+ {pre:"Kyana steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Kyana sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]}
+];
+// Stufe 4: Dativ-Präpositionen (mit, aus, bei, zu, von) — immer Dativ
+const D=[
+ {pre:"Kyana spielt",prep:"mit",pool:["Ball","Hund","Katze"]},
+ {pre:"Kyana schreibt",prep:"mit",pool:["Stift"]},
+ {pre:"Kyana fährt",prep:"mit",pool:["Bus","Zug","Fahrrad","Auto"]},
+ {pre:"Die Maus kommt",prep:"aus",pool:["Haus","Wald"]},
+ {pre:"Kyana kommt",prep:"aus",pool:["Schule","Stadt","Halle"]},
+ {pre:"Kyana trinkt",prep:"aus",pool:["Glas"]},
+ {pre:"Kyana ist",prep:"bei",pool:["Oma","Opa","Mutter","Vater"]},
+ {pre:"Kyana sitzt",prep:"bei",pool:["Lehrer","Bruder","Schwester"]},
+ {pre:"Kyana geht",prep:"zu",pool:["Oma","Opa","Mutter","Vater"]},
+ {pre:"Kyana läuft",prep:"zu",pool:["Schule","Bus","Park"]},
+ {pre:"Das Geschenk ist",prep:"von",pool:["Oma","Opa","Vater","Mutter"]},
+ {pre:"Der Brief ist",prep:"von",pool:["Lehrer","Bruder","Schwester"]}
+];
+// Stufe 5: Akkusativ-Präpositionen (für, ohne, durch, um, gegen) — immer Akkusativ
+const A=[
+ {pre:"Das Geschenk ist",prep:"für",pool:["Opa","Oma","Mutter","Vater"]},
+ {pre:"Das ist",prep:"für",pool:["Kind","Bruder","Schwester","Lehrer"]},
+ {pre:"Kyana kauft etwas",prep:"für",pool:["Hund","Katze","Vogel"]},
+ {pre:"Kyana läuft",prep:"durch",pool:["Park","Wald","Halle"]},
+ {pre:"Der Hund rennt",prep:"durch",pool:["Park","Wald","Stadt"]},
+ {pre:"Kyana geht",prep:"ohne",pool:["Jacke","Mütze","Tasche"]},
+ {pre:"Kyana spielt",prep:"ohne",pool:["Ball","Schuh"]},
+ {pre:"Der Ball fliegt",prep:"gegen",pool:["Wand","Tür","Baum"]},
+ {pre:"Das Auto fährt",prep:"gegen",pool:["Baum","Wand"]},
+ {pre:"Kyana läuft",prep:"um",pool:["Baum","Tisch","Haus"]},
+ {pre:"Der Hund läuft",prep:"um",pool:["Haus","Baum","Stuhl"]},
+ {pre:"Kyana rennt",prep:"um",pool:["Tisch","Baum"]}
+];
+const STAGES=[
+ {id:1,name:"der, die, das",desc:"Welcher Artikel?"},
+ {id:2,name:"Mehrzahl",desc:"einer oder viele?"},
+ {id:3,name:"Wo oder Wohin?",desc:"in, auf, an"},
+ {id:4,name:"Dativ-Wörter",desc:"mit, aus, bei, zu, von"},
+ {id:5,name:"Akkusativ-Wörter",desc:"für, ohne, durch, um, gegen"},
+ {id:6,name:"Welcher Fall?",desc:"alle Präpositionen gemischt"}
+];
+const INTRO={
+ 2:"Mehrzahl heißt mehr als eins. Aus einem Ball werden viele Bälle. In der Mehrzahl ist der Artikel immer die.",
+ 3:"Wo etwas ist (es bleibt) oder wohin es geht (es bewegt sich)? Danach richtet sich der Artikel. Lies das Verb.",
+ 4:"Nach mit, aus, bei, zu, von kommt der Dativ: der und das werden zu dem, die wird zu der.",
+ 5:"Nach für, ohne, durch, um, gegen kommt der Akkusativ: der wird zu den, die und das bleiben.",
+ 6:"Jetzt alles gemischt. Schau auf die Präposition und das Verb und entscheide selbst: Dativ, Akkusativ oder Wo und Wohin."
+};
+
+// ================= Items =================
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function deUml(s){return s.replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u");}
+function umlautTip(sing,plur){ if(/au/.test(sing)&&/äu/.test(plur)) return "Tipp: au wird äu.";
+  if(/ä/.test(plur)) return "Tipp: a wird ä."; if(/ö/.test(plur)) return "Tipp: o wird ö.";
+  if(/ü/.test(plur)) return "Tipp: u wird ü."; return ""; }
+function plOpts(w){const pl=P[w]; const cand=[];
+  if(deUml(pl)!==pl) cand.push(deUml(pl));            // Umlaut-Falle zuerst (Bälle vs Balle)
+  [w, w+"e", w+"en", w+"er", w+"s"].forEach(x=>cand.push(x));
+  const c=[...new Set(cand.filter(x=>x!==pl))];
+  return shuffle([pl,c[0],c[1]].filter(Boolean)).map(x=>"die "+x);}
+function genusHint(w){const g=G[w];
+  if(/chen$/.test(w)) return "Wörter auf -chen sind immer das.";
+  if(/ung$/.test(w)) return "Wörter auf -ung sind die.";
+  if(/e$/.test(w)&&g==="die") return "Viele Wörter auf -e sind die.";
+  if(/er$/.test(w)&&g==="der") return "Viele Wörter auf -er sind der.";
+  return "";}
+function buildItems(){const items=[];
+  Object.keys(G).forEach(w=>items.push({id:"g:"+w,stage:1,kind:"genus",word:w,answer:G[w]}));
+  Object.keys(P).forEach(w=>items.push({id:"p:"+w,stage:2,kind:"plural",word:w}));
+  W.forEach((x,i)=>items.push({id:"w:"+i,stage:3,kind:"case",x:x}));
+  D.forEach((x,i)=>items.push({id:"d:"+i,stage:4,kind:"case",x:x}));
+  A.forEach((x,i)=>items.push({id:"a:"+i,stage:5,kind:"case",x:x}));
+  D.forEach((x,i)=>items.push({id:"m:d"+i,stage:6,kind:"case",x:Object.assign({trueCase:"dat"},x)}));
+  A.forEach((x,i)=>items.push({id:"m:a"+i,stage:6,kind:"case",x:Object.assign({trueCase:"akk"},x)}));
+  W.slice(0,10).forEach((x,i)=>items.push({id:"m:w"+i,stage:6,kind:"case",x:Object.assign({wechsel:true},x)}));
+  return items;}
+const ITEMS=buildItems();
+const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
+// liefert {prompt(html), options[], correct, explain, speak}
+function cardData(it){
+  if(it.kind==="genus"){
+    return {prompt:'<div class="hint">Welcher Artikel?</div><div class="word">'+it.word+spk(G[it.word]+" "+it.word)+'</div>',
+      options:["der","die","das"], correct:G[it.word], scaffold:genusHint(it.word),
+      explain:genusHint(it.word)||("Merk dir: "+G[it.word]+" "+it.word+"."), speak:G[it.word]+" "+it.word};
+  }
+  if(it.kind==="plural"){
+    return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div><div class="word">'+G[it.word]+" "+it.word+spk("die "+P[it.word])+'</div>',
+      options:plOpts(it.word), correct:"die "+P[it.word], scaffold:umlautTip(it.word,P[it.word]),
+      explain:"Die Mehrzahl ist „die "+P[it.word]+"“.", speak:"die "+P[it.word]};
+  }
+  const x=it.x;
+  const seen=(S.cards[it.id]&&S.cards[it.id].seen)||[];
+  const unseen=x.pool.filter(n=>!seen.includes(n));
+  const pk=unseen.length?unseen:x.pool;            // ungesehene Nomen zuerst -> alle Varianten kommen dran
+  const w = pk[Math.floor(Math.random()*pk.length)];
+  const cc = it.stage===4 ? "dat" : it.stage===5 ? "akk" : it.stage===6 ? (x.trueCase||x.c) : x.c;
+  const correct=chunk(x.prep,w,cc);
+  let options, scaf;
+  if(it.stage===6 && x.wechsel){
+    options=[chunk(x.prep,w,"akk"),chunk(x.prep,w,"dat")];     // Wo/Wohin ohne Hinweis, Verb lesen
+    scaf="Bewegung (wohin) oder Ruhe (wo)? Lies das Verb.";
+  }
+  else if(it.stage===6){
+    const oc = cc==="dat"?"akk":"dat";
+    const og = cc==="dat" ? (art(w,"dat")==="dem"?"der":"dem") : (art(w,"akk")==="den"?"die":"den");
+    options=[correct, chunk(x.prep,w,oc), merge(x.prep,og)];   // richtiger Fall vs. falscher Fall vs. falsches Genus
+    scaf="Lies das kleine Wort: mit, aus, bei, zu, von → Dativ. für, ohne, durch, um, gegen → Akkusativ.";
+  }
+  else if(it.stage===5){ options=[merge(x.prep,"den"),merge(x.prep,"die"),merge(x.prep,"das")];
+    scaf="für, ohne, durch, um, gegen → immer die Akkusativ-Form"; }
+  else if(it.stage===3){ options=[chunk(x.prep,w,"akk"),chunk(x.prep,w,"dat")]; scaf=x.h; }
+  else { const other=art(w,"dat")==="dem"?"der":"dem";
+    options=[correct,merge(x.prep,other),merge(x.prep,art(w,"akk"))];
+    scaf="mit, aus, bei, zu, von → immer die Dativ-Form"; }
+  options=shuffle([...new Set(options)]);
+  let rule;
+  if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da ist etwas schon.";
+  else if(it.stage===4 || (it.stage===6&&cc==="dat")) rule = "Nach mit, aus, bei, zu, von kommt der Dativ.";
+  else rule = "Nach für, ohne, durch, um, gegen kommt der Akkusativ.";
+  return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div>',
+    options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w};
+}
+function spk(text){return '<span class="speaker" data-say="'+text.replace(/"/g,'')+'">▶</span>';}
+function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind==="genus") return G[it.word]+" "+it.word;
+  const x=it.x, w=x.pool[0], cc=it.stage===4?"dat":it.stage===5?"akk":it.stage===6?x.trueCase:x.c; return chunk(x.prep,w,cc)+" "+w; }
+
+// ================= Zustand =================
+const KEY="ddd_kyana_v2";
+const INTERVAL={1:1,2:2,3:4,4:8,5:15};
+const NEW_PER_DAY=20, NEW_PER_SESSION=10, MAX_SESSION=22, MAX_REPEAT=3;
+const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0};
+function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[]},DEFAULTS);}
+const MILESTONES=[3,7,14,30,60,100];
+const FLAME='<svg viewBox="0 0 32 32"><path d="M16 2c2 5-2 7-3 10-1 2 0 4 2 4 2 0 3-2 3-4 3 3 4 6 4 9a10 10 0 1 1-20 0c0-4 2-7 4-9 1 3 3 3 4 1 2-3 1-7 2-11z" fill="#FF8A1E"/><path d="M16 15c1 2-1 3-1 5 0 2 1 3 3 3 1 0 2-1 2-3 0-2-2-4-4-5z" fill="#FFD23F"/></svg>';
+function medalSvg(m){return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#F4C24B" stroke="#C77F0E" stroke-width="1.5"/><circle cx="12" cy="12" r="6" fill="#F2A93B"/><text x="12" y="15.5" font-size="8" text-anchor="middle" fill="#6b4400" font-weight="bold">'+m+'</text></svg>';}
+function tage(n){return n===1?"Tag":"Tage";}
+const PRAISE=["Super!","Toll!","Klasse!","Stark!","Bravo!","Genau!","Perfekt!"];
+const GENTLE=["Fast!","Gleich nochmal!","Kein Problem!","Nicht ganz!"];
+function mascotSvg(mood){
+  let eyes,mouth;
+  if(mood==="happy"||mood==="cheer"){
+    eyes='<path d="M21 26 q4 -4.5 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M41 26 q4 -4.5 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+    mouth='<path d="M29 49 q6 5 12 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
+  } else if(mood==="oops"){
+    eyes='<circle cx="25" cy="27" r="3" fill="#2e2014"/><circle cx="45" cy="27" r="3" fill="#2e2014"/>';
+    mouth='<path d="M31 51 q4 -3 8 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
+  } else {
+    eyes='<circle cx="25" cy="27" r="3" fill="#2e2014"/><circle cx="45" cy="27" r="3" fill="#2e2014"/>';
+    mouth='<path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
+  }
+  return '<svg viewBox="0 0 70 62">'
+    +'<ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"/><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"/>'        // Ohren
+    +'<rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"/>'                                                     // Kopf
+    +'<rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"/>'                                                  // Schnauze
+    +eyes
+    +'<ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/>' // Nasenlöcher
+    +mouth
+    +'</svg>';
+}
+function setMascot(id,mood,bounce){const el=document.getElementById(id); if(!el)return; el.innerHTML=mascotSvg(mood);
+  if(bounce){ el.classList.remove("bounce"); void el.offsetWidth; el.classList.add("bounce"); }}
+function confetti(n){const c=document.getElementById("confetti"); if(!c)return; c.innerHTML="";
+  const cols=["#2D6CDF","#E0467C","#1FA85C","#F2A93B","#FF8A1E"]; const N=n||40;
+  for(let i=0;i<N;i++){const p=document.createElement("i"); p.style.left=(Math.random()*100)+"%"; p.style.background=cols[i%cols.length];
+    p.style.animationDelay=(Math.random()*0.4).toFixed(2)+"s"; p.style.animationDuration=(1.4+Math.random()*0.8).toFixed(2)+"s"; c.appendChild(p);}
+  setTimeout(()=>{if(c)c.innerHTML="";},2600);}
+// lokaler Tag: folgt der Zeitzone des Geräts, passt sich beim Reisen automatisch an
+function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
+let S=load(), saveOk=true;
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
+function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=3)n++;} return n;}
+function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
+function checkUnlock(){let ch=null; for(let s=1;s<6;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
+
+// ================= Sprachausgabe =================
+let deVoice=null;
+function loadVoices(){ try{ if(!window.speechSynthesis) return; const vs=speechSynthesis.getVoices(); deVoice=vs.find(v=>/de[-_]/i.test(v.lang))||deVoice; }catch(e){} }
+function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) return;
+  const u=new SpeechSynthesisUtterance(text); u.lang="de-DE"; u.rate=0.9; if(deVoice)u.voice=deVoice;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
+
+// ================= Session =================
+let queue=[], sessionTotal=0, cleared, missSess, current=null, firstTry=0, pending=null, advTimer=null;
+function startSession(mode){
+  const t=today();
+  if(mode==="hard"){
+    queue=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0).sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,15);
+    if(!queue.length) queue=shuffle(ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked)).slice(0,10);
+  } else {
+    let due=ITEMS.filter(it=>S.cards[it.id] && S.cards[it.id].due<=t); shuffle(due);
+    // neue Karten: max NEW_PER_DAY pro Kalendertag (auch bei mehrmaligem Spielen)
+    const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
+    const allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));  // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
+    let neu=[];
+    const takeFrom=(stage,k)=>{const p=ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it));
+      let a=0; for(let i=0;i<p.length&&a<k&&neu.length<allow;i++){neu.push(p[i]);a++;}};
+    let stagesNew=[]; for(let st=1;st<=S.unlocked;st++){ if(ITEMS.some(it=>it.stage===st&&!S.cards[it.id])) stagesNew.push(st); }
+    const newest=stagesNew[stagesNew.length-1];
+    if(newest&&newest>1) takeFrom(newest,2);
+    for(let st=1; st<=S.unlocked && neu.length<allow; st++) takeFrom(st,allow);
+    neu=neu.slice(0,allow);
+    queue=neu.concat(due).slice(0,MAX_SESSION);    // neue Wörter zuerst sichern, dann mit Wiederholungen auffüllen
+    if(queue.length===0) queue=shuffle(ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked)).slice(0,10);
+  }
+  shuffle(queue);
+  sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null;
+  show("play"); nextCard();
+}
+function nextCard(){
+  if(queue.length===0){ finishSession(); return; }
+  current=queue[0];
+  if(INTRO[current.stage] && !(S.seenIntro&&S.seenIntro[current.stage])){ showIntro(current.stage); return; }
+  renderCurrent();
+}
+function showIntro(stage){
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML="";
+  box.innerHTML='<div class="hint">Neu: '+STAGES[stage-1].name+'</div><div class="intro">'+INTRO[stage]+'</div>';
+  const b=document.createElement("button"); b.className="btn big"; b.textContent="Verstanden, los!";
+  b.onclick=()=>{ S.seenIntro=S.seenIntro||{}; S.seenIntro[stage]=1; save(); renderCurrent(); };
+  opts.appendChild(b);
+}
+function renderCurrent(){
+  const it=current, d=cardData(it);
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt;
+  box.querySelectorAll(".speaker").forEach(s=>s.onclick=()=>say(s.getAttribute("data-say")));
+  const bx=(S.cards[it.id]&&S.cards[it.id].box)||0;
+  if(d.scaffold && bx<3){ const sc=document.createElement("div"); sc.className="scaffold"; sc.textContent=d.scaffold; box.appendChild(sc); }
+  d.options.forEach(o=>{ const b=document.createElement("button");
+    b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
+    b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
+  const rem=new Set(queue.map(q=>q.id)).size, done=Math.max(0,sessionTotal-rem);
+  document.getElementById("sessN").textContent=done+"/"+sessionTotal;
+  document.getElementById("progBar").style.width=(100*done/sessionTotal)+"%";
+  setMascot("playMascot","idle");
+}
+function answer(btn,chosen,d,it){
+  [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
+  const fb=document.getElementById("fb");
+  const right=chosen===d.correct;
+  if(d.blankFill){const bl=document.querySelector("#promptBox .blank"); if(bl){bl.textContent=d.correct; bl.classList.add("filled");}}
+  if(right){ btn.classList.add("correct"); fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
+  else { btn.classList.add("wrong");
+    fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false);
+    [...document.querySelectorAll(".opt")].forEach(b=>{if(b.textContent===d.correct)b.classList.add("correct");}); setMascot("playMascot","oops"); }
+  say(d.speak);
+  pending={d,it,right};                                    // erst beim Weiter verbuchen, ein Vertipper kann zurück
+  const ctl=document.createElement("div"); ctl.className="ctl";
+  const rep=document.createElement("button"); rep.className="ctlbtn"; rep.textContent="▶"; rep.onclick=(e)=>{e.stopPropagation(); say(d.speak);}; ctl.appendChild(rep);
+  if(!right){ const ub=document.createElement("button"); ub.className="ctlbtn undo"; ub.textContent="↶ Vertippt"; ub.onclick=undoPending; ctl.appendChild(ub); }
+  const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
+  fb.appendChild(ctl);
+  advTimer=setTimeout(commitNext, right?1300:2200);
+}
+function commitNext(){
+  if(!pending) return; const {d,it,right}=pending; pending=null;
+  if(advTimer){clearTimeout(advTimer);advTimer=null;}
+  const card=S.cards[it.id]||{box:0,due:today(),miss:0,born:today()};
+  if(right){
+    if(!missSess[it.id]) firstTry++;                       // beim ersten Versuch richtig
+    let cap=5;
+    if(it.kind==="case"){ card.seen=card.seen||[]; if(d.w&&!card.seen.includes(d.w)) card.seen.push(d.w);
+      if(card.seen.length < Math.min(2,it.x.pool.length)) cap=2; }  // "sicher" ab 2 verschiedenen Nomen
+    card.box=Math.min((card.box||0)+1,cap); card.due=today()+INTERVAL[card.box];
+    card.miss=Math.max(0,(card.miss||0)-1);                 // Fehler altern
+    S.points++; cleared.add(it.id); queue.shift();
+  } else {
+    card.box=1; card.due=today(); card.miss=(card.miss||0)+1;
+    if(it.kind==="case"&&d.w){ const gi=byId["g:"+d.w]; if(gi&&S.cards[gi.id]){ S.cards[gi.id].box=1; S.cards[gi.id].due=today(); } } // Genus auffrischen
+    missSess[it.id]=(missSess[it.id]||0)+1;
+    queue.shift();
+    if(missSess[it.id]<MAX_REPEAT) queue.splice(Math.min(3,queue.length),0,it); // begrenzt wiederholen
+  }
+  S.cards[it.id]=card; save();
+  document.getElementById("pointsN").textContent=S.points;
+  nextCard();
+}
+function undoPending(){ if(!pending) return; pending=null; if(advTimer){clearTimeout(advTimer);advTimer=null;} renderCurrent(); } // nichts verbucht, gleiche Karte nochmal
+function finishSession(){
+  const t=today(); let freezeMsg=""; const prevStreak=S.streak;
+  if(S.lastDay===null){ S.streak=1; }
+  else { const diff=t-S.lastDay;
+    if(diff<=0){}
+    else if(diff===1){ S.streak+=1; }
+    else if(diff===2 && (S.freeze||0)>0){ S.freeze-=1; S.streak+=1; freezeMsg="Ein Schutztag hat deinen Streak gerettet."; }
+    else { S.streak=1; }
+  }
+  S.lastDay=t;
+  if(S.streak>0 && S.streak%5===0 && (S.freeze||0)<1){ S.freeze=1; if(!freezeMsg) freezeMsg="Schutztag verdient: ein verpasster Tag wird dir einmal verziehen."; }
+  S.best=Math.max(S.best||0,S.streak);
+  S.medals=S.medals||[]; let medalNew=null;
+  MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
+  const grew = S.streak>prevStreak;
+  const perfect = sessionTotal>0 && firstTry>=sessionTotal;
+  const acc = sessionTotal? firstTry/sessionTotal : 1;          // Sterne nach Treffern beim ersten Versuch
+  const stars = acc>=0.9?3:acc>=0.6?2:1;
+  const u=checkUnlock(); save();
+  document.getElementById("doneStars").textContent="★".repeat(stars)+"☆".repeat(3-stars);
+  const df=document.getElementById("doneFlame"); if(df) df.innerHTML=FLAME;
+  document.getElementById("doneStreak").textContent=S.streak;
+  const dl=document.getElementById("doneStreakLabel"); if(dl) dl.textContent=tage(S.streak)+" in Folge";
+  const offen=sessionTotal-cleared.size;
+  document.getElementById("doneMsg").textContent="Du hast "+sessionTotal+" Wörter geübt, "+firstTry+" auf Anhieb richtig."+(offen>0?" Ein paar üben wir morgen weiter.":"");
+  const ub=document.getElementById("unlockBox"); ub.innerHTML="";
+  if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">Streak +1, jetzt '+S.streak+' '+tage(S.streak)+' in Folge!</div>';
+  if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
+  if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Tage am Stück, neues Abzeichen!</div>';
+  if(u){const st=STAGES[u-1]; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+' — '+st.name+'!</div>';}
+  if(freezeMsg){ ub.innerHTML+='<div class="unlock" style="background:#eef3fc;border-color:var(--der);color:#1f3864;">'+freezeMsg+'</div>'; }
+  show("done");
+  setMascot("doneMascot","cheer",true);
+  confetti((perfect||medalNew!=null||u)?85:40);
+}
+
+// ================= UI =================
+function show(id){["home","play","done","data"].forEach(s=>document.getElementById(s).classList.toggle("on",s===id));
+  if(id==="home")renderHome(); if(id==="data")renderData();}
+function renderHome(){
+  document.getElementById("streakN").textContent=S.streak;
+  document.getElementById("pointsN").textContent=S.points;
+  document.getElementById("streakFlame").innerHTML=FLAME;
+  document.getElementById("streakHero").classList.toggle("hot", S.streak>0);
+  document.getElementById("streakLabel").textContent=tage(S.streak)+" in Folge";
+  const nextM=MILESTONES.find(m=>m>S.streak), rest=nextM?nextM-S.streak:0;
+  document.getElementById("streakSub").textContent = S.streak===0
+    ? "Heute starten und Tag 1 holen."
+    : (nextM ? ("Noch "+rest+" "+tage(rest)+" bis zum "+nextM+"-Tage-Abzeichen.") : ("Bestwert: "+(S.best||S.streak)+" "+tage(S.best||S.streak)+"."));
+  const meds=(S.medals||[]).slice().sort((a,b)=>a-b);
+  document.getElementById("medalRow").innerHTML = meds.map(m=>'<span class="med">'+medalSvg(m)+'</span>').join("");
+  setMascot("homeMascot", S.streak>0?"happy":"idle");
+  const t=today();
+  const due=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].due<=t).length;
+  const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
+  const dailyNewLeft=Math.max(0,NEW_PER_DAY-newToday);
+  const sessNew=Math.min(NEW_PER_SESSION, dailyNewLeft, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
+  const roundSize=Math.min(MAX_SESSION, due+sessNew);
+  const sb=document.getElementById("startBtn");
+  if(S.lastDay===t && dailyNewLeft===0){
+    if(due>0){ document.getElementById("homeSub").textContent="Tagesziel geschafft! Wiederholen ist freiwillig."; sb.textContent="Wiederholen (freiwillig)"; }
+    else { document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; sb.textContent="Nochmal üben (freiwillig)"; }
+  } else {
+    document.getElementById("homeSub").textContent=(S.lastDay===t)?("Zweite Runde: "+roundSize+" Wörter."):("Heute: "+roundSize+" Wörter, Runde 1 von 2.");
+    sb.textContent=(S.lastDay===t)?"Weiter üben":"Heute üben";
+  }
+  const allMast = S.unlocked>=6 && stageMastered(6)>=unlockNeed(6);
+  const lb=document.getElementById("levelBox"); lb.style.color="var(--gold)"; lb.style.fontWeight="800";
+  lb.textContent = allMast ? "Geschafft! Du kannst der, die, das und die wichtigsten Fälle." : "";
+  document.getElementById("shieldBadge").style.display=(S.freeze>0)?"block":"none";
+  const list=document.getElementById("stageList"); list.innerHTML="";
+  STAGES.forEach(st=>{
+    const total=ITEMS.filter(it=>it.stage===st.id).length;
+    const learned=ITEMS.filter(it=>it.stage===st.id && S.cards[it.id] && S.cards[it.id].box>=3).length;
+    const locked=st.id>S.unlocked;
+    const d=document.createElement("div"); d.className="stage"+(locked?" locked":"");
+    d.innerHTML='<div class="num">'+st.id+'</div><div class="meta"><b>'+st.name+'</b><div>'+
+      (locked?("frei ab "+unlockNeed(st.id-1)+" sicheren Wörtern in Stufe "+(st.id-1)):st.desc)+
+      '</div><div class="bar"><i style="width:'+(100*learned/total)+'%"></i></div></div>';
+    list.appendChild(d);
+  });
+  document.getElementById("saveWarn").textContent = saveOk ? "" : "Achtung: Fortschritt kann nicht gespeichert werden. Bitte nicht im privaten Safari-Modus benutzen.";
+  const hasHard=ITEMS.some(it=>S.cards[it.id]&&S.cards[it.id].miss>0);
+  document.getElementById("hardBtn").style.display=hasHard?"block":"none";
+}
+function renderData(){
+  document.getElementById("bestN").textContent=S.best||0;
+  document.getElementById("muteBtn").textContent=S.mute?"aus":"an";
+  document.getElementById("muteBtn").style.background=S.mute?"#b9c0d4":"var(--der)";
+  const hard=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0)
+    .sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,12);
+  const hl=document.getElementById("hardList");
+  hl.innerHTML = hard.length ? hard.map(it=>'<span>'+label(it)+" ("+S.cards[it.id].miss+"×)</span>").join("") : "Noch keine Fehler. Super.";
+  document.getElementById("backupOut").value=JSON.stringify(S);
+  document.getElementById("dataMsg").textContent="";
+  document.getElementById("backupIn").value="";
+}
+// kleiner Ton (Klick-Feedback)
+let actx=null;
+function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended")actx.resume();
+  const o=actx.createOscillator(),g=actx.createGain(); o.connect(g); g.connect(actx.destination);
+  o.frequency.value=ok?660:200; o.type=ok?"sine":"square"; g.gain.value=0.05;
+  o.start(); o.frequency.exponentialRampToValueAtTime(ok?880:160,actx.currentTime+0.12);
+  g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+0.18); o.stop(actx.currentTime+0.2);}catch(e){}}
+
+document.getElementById("startBtn").onclick=()=>startSession();
+document.getElementById("hardBtn").onclick=()=>startSession("hard");
+document.getElementById("homeBtn").onclick=()=>show("home");
+document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); show("home"); };
+document.getElementById("toData").onclick=()=>show("data");
+document.getElementById("dataBack").onclick=()=>show("home");
+document.getElementById("muteBtn").onclick=()=>{S.mute=!S.mute; save(); renderData(); if(!S.mute) say("der Tisch");};
+document.getElementById("copyBtn").onclick=()=>{const ta=document.getElementById("backupOut"); ta.select(); ta.setSelectionRange(0,99999);
+  try{document.execCommand("copy");}catch(e){} if(navigator.clipboard){try{navigator.clipboard.writeText(ta.value);}catch(e){}}
+  document.getElementById("dataMsg").textContent="Code kopiert.";};
+document.getElementById("restoreBtn").onclick=()=>{const v=document.getElementById("backupIn").value.trim(); const m=document.getElementById("dataMsg");
+  try{const o=JSON.parse(v); if(!o||!o.cards) throw 0; S=Object.assign({cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false},o); save(); renderData(); m.style.color="var(--das)"; m.textContent="Wiederhergestellt.";}
+  catch(e){m.style.color="var(--bad)"; m.textContent="Code nicht lesbar.";}};
+document.getElementById("resetBtn").onclick=()=>{ if(confirm("Wirklich allen Fortschritt löschen?")){ S={cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false}; save(); show("home"); } };
+if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
+renderHome();
+</script>
+</body>
+</html>
