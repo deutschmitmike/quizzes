@@ -222,7 +222,16 @@ const G = {
  Halle:"die",Matte:"die",Schule:"die",Stadt:"die",
  Buch:"das",Heft:"das",Bett:"das",Fenster:"das",Regal:"das",Kissen:"das",Brot:"das",Messer:"das",Ei:"das",Glas:"das",
  Bein:"das",Auge:"das",Ohr:"das",Pferd:"das",Schwein:"das",Hemd:"das",Kleid:"das",Auto:"das",Fahrrad:"das",Haus:"das",
- Kind:"das","Mädchen":"das",Bild:"das"
+ Kind:"das","Mädchen":"das",Bild:"das",
+ Computer:"der",Roller:"der",Kuchen:"der",Tee:"der",Garten:"der","Löwe":"der",Tiger:"der",Affe:"der",Elefant:"der","Bär":"der",
+ Frosch:"der",Hase:"der",Schmetterling:"der",Hut:"der",Mantel:"der",Handschuh:"der",Finger:"der",Zahn:"der",Mund:"der",Bauch:"der",
+ Daumen:"der",Regenschirm:"der",Luftballon:"der",Teddy:"der",Honig:"der",Schnee:"der",Regen:"der",
+ Suppe:"die",Pizza:"die",Tomate:"die",Kartoffel:"die",Gurke:"die",Birne:"die",Orange:"die",Erdbeere:"die",Zitrone:"die",Karotte:"die",
+ Ente:"die","Schildkröte":"die",Schlange:"die",Biene:"die",Spinne:"die",Giraffe:"die",Brille:"die",Uhr:"die",Treppe:"die","Küche":"die",
+ Toilette:"die",Kerze:"die",Puppe:"die",Gitarre:"die",Wolke:"die","Brücke":"die",Insel:"die",Tante:"die",Lippe:"die",Schokolade:"die",Butter:"die",
+ Handy:"das",Spielzeug:"das",Bonbon:"das",Eis:"das",Wasser:"das",Obst:"das","Gemüse":"das",Fleisch:"das","Hähnchen":"das","Brötchen":"das",
+ "Würstchen":"das",Huhn:"das",Kaninchen:"das",Pony:"das",Krokodil:"das",Zebra:"das",Boot:"das",Schiff:"das",Flugzeug:"das",Zimmer:"das",
+ Sofa:"das",Klavier:"das",Gesicht:"das",Haar:"das",Knie:"das",Herz:"das",Geschenk:"das",Spiel:"das",Papier:"das",Meer:"das",Dorf:"das"
 };
 const P = {
  Tisch:"Tische",Stuhl:"Stühle",Ball:"Bälle",Baum:"Bäume",Kopf:"Köpfe","Fuß":"Füße",Hund:"Hunde",Apfel:"Äpfel",
@@ -230,7 +239,17 @@ const P = {
  Lampe:"Lampen",Blume:"Blumen",Katze:"Katzen",Tasche:"Taschen",Frau:"Frauen","Tür":"Türen",Hose:"Hosen",Jacke:"Jacken",
  Nase:"Nasen",Hand:"Hände",Maus:"Mäuse",Rock:"Röcke",Auto:"Autos",Opa:"Opas","Mädchen":"Mädchen","Löffel":"Löffel",
  Fenster:"Fenster",Teller:"Teller",Vogel:"Vögel",Bett:"Betten",Bild:"Bilder",Stift:"Stifte",Schuh:"Schuhe",Zug:"Züge",
- Berg:"Berge",Pferd:"Pferde",Kleid:"Kleider",Kuh:"Kühe","Mütze":"Mützen",Schwein:"Schweine"
+ Berg:"Berge",Pferd:"Pferde",Kleid:"Kleider",Kuh:"Kühe","Mütze":"Mützen",Schwein:"Schweine",
+ Computer:"Computer",Roller:"Roller",Kuchen:"Kuchen",Garten:"Gärten","Löwe":"Löwen",Tiger:"Tiger",Affe:"Affen",Elefant:"Elefanten","Bär":"Bären",
+ Frosch:"Frösche",Hase:"Hasen",Schmetterling:"Schmetterlinge",Hut:"Hüte",Mantel:"Mäntel",Handschuh:"Handschuhe",Finger:"Finger",Zahn:"Zähne",
+ Mund:"Münder",Bauch:"Bäuche",Daumen:"Daumen",Regenschirm:"Regenschirme",Luftballon:"Luftballons",Teddy:"Teddys",
+ Suppe:"Suppen",Pizza:"Pizzas",Tomate:"Tomaten",Kartoffel:"Kartoffeln",Gurke:"Gurken",Birne:"Birnen",Orange:"Orangen",Erdbeere:"Erdbeeren",
+ Zitrone:"Zitronen",Karotte:"Karotten",Ente:"Enten","Schildkröte":"Schildkröten",Schlange:"Schlangen",Biene:"Bienen",Spinne:"Spinnen",
+ Giraffe:"Giraffen",Brille:"Brillen",Uhr:"Uhren",Treppe:"Treppen","Küche":"Küchen",Toilette:"Toiletten",Kerze:"Kerzen",Puppe:"Puppen",
+ Gitarre:"Gitarren",Wolke:"Wolken","Brücke":"Brücken",Insel:"Inseln",Tante:"Tanten",Lippe:"Lippen",
+ Handy:"Handys",Bonbon:"Bonbons","Hähnchen":"Hähnchen","Brötchen":"Brötchen","Würstchen":"Würstchen",Huhn:"Hühner",Kaninchen:"Kaninchen",
+ Pony:"Ponys",Krokodil:"Krokodile",Zebra:"Zebras",Boot:"Boote",Schiff:"Schiffe",Flugzeug:"Flugzeuge",Zimmer:"Zimmer",Sofa:"Sofas",
+ Klavier:"Klaviere",Gesicht:"Gesichter",Haar:"Haare",Knie:"Knie",Herz:"Herzen",Geschenk:"Geschenke",Spiel:"Spiele",Papier:"Papiere",Meer:"Meere",Dorf:"Dörfer"
 };
 function art(w,c){const g=G[w]; if(c==="nom")return g; if(c==="akk")return g==="der"?"den":g; return g==="der"?"dem":(g==="die"?"der":"dem");}
 // Verschmelzung Präposition + Artikel (natürliches Deutsch)
@@ -252,7 +271,11 @@ const W=[
  {pre:"Die Maus läuft",prep:"in",c:"akk",h:"Wohin?",pool:["Haus"]},{pre:"Die Maus ist",prep:"in",c:"dat",h:"Wo?",pool:["Haus"]},
  {pre:"Kyana rennt",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Kyana spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
  {pre:"Kyana klettert",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
- {pre:"Kyana steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Kyana sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]}
+ {pre:"Kyana steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Kyana sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]},
+ {pre:"Kyana springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Bett"]},{pre:"Kyana sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Stuhl","Bett"]},
+ {pre:"Kyana geht",prep:"in",c:"akk",h:"Wohin?",pool:["Garten","Küche","Zimmer"]},{pre:"Kyana ist",prep:"in",c:"dat",h:"Wo?",pool:["Garten","Küche","Zimmer"]},
+ {pre:"Kyana läuft",prep:"auf",c:"akk",h:"Wohin?",pool:["Brücke","Wiese"]},{pre:"Kyana steht",prep:"auf",c:"dat",h:"Wo?",pool:["Brücke","Wiese"]},
+ {pre:"Das Boot fährt",prep:"auf",c:"dat",h:"Wo?",pool:["Meer"]},{pre:"Kyana klebt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]}
 ];
 // Stufe 4: Dativ-Präpositionen (mit, aus, bei, zu, von) — immer Dativ
 const D=[
@@ -267,7 +290,13 @@ const D=[
  {pre:"Kyana geht",prep:"zu",pool:["Oma","Opa","Mutter","Vater"]},
  {pre:"Kyana läuft",prep:"zu",pool:["Schule","Bus","Park"]},
  {pre:"Das Geschenk ist",prep:"von",pool:["Oma","Opa","Vater","Mutter"]},
- {pre:"Der Brief ist",prep:"von",pool:["Lehrer","Bruder","Schwester"]}
+ {pre:"Der Brief ist",prep:"von",pool:["Lehrer","Bruder","Schwester"]},
+ {pre:"Kyana spielt",prep:"mit",pool:["Puppe","Ball","Gitarre"]},
+ {pre:"Kyana fährt",prep:"mit",pool:["Boot","Schiff","Roller"]},
+ {pre:"Kyana kommt",prep:"aus",pool:["Küche","Garten","Zimmer"]},
+ {pre:"Kyana ist",prep:"bei",pool:["Tante","Oma","Opa"]},
+ {pre:"Kyana geht",prep:"zu",pool:["Tante","Oma","Opa"]},
+ {pre:"Das Geschenk ist",prep:"von",pool:["Tante","Oma","Opa"]}
 ];
 // Stufe 5: Akkusativ-Präpositionen (für, ohne, durch, um, gegen) — immer Akkusativ
 const A=[
@@ -282,22 +311,35 @@ const A=[
  {pre:"Das Auto fährt",prep:"gegen",pool:["Baum","Wand"]},
  {pre:"Kyana läuft",prep:"um",pool:["Baum","Tisch","Haus"]},
  {pre:"Der Hund läuft",prep:"um",pool:["Haus","Baum","Stuhl"]},
- {pre:"Kyana rennt",prep:"um",pool:["Tisch","Baum"]}
+ {pre:"Kyana rennt",prep:"um",pool:["Tisch","Baum"]},
+ {pre:"Das Geschenk ist",prep:"für",pool:["Tante","Bruder","Schwester"]},
+ {pre:"Kyana läuft",prep:"durch",pool:["Garten","Wald","Park"]},
+ {pre:"Kyana spielt",prep:"ohne",pool:["Puppe","Tasche"]},
+ {pre:"Der Ball fliegt",prep:"gegen",pool:["Wand","Schrank","Baum"]},
+ {pre:"Kyana rennt",prep:"um",pool:["Sofa","Tisch","Baum"]}
 ];
+// Stufe 7+8: ausgewählte Nomen (8 der, 8 die, 8 das) — festigen das Genus aus Stufe 1
+const EXTRA=["Hund","Tisch","Apfel","Ball","Vogel","Fisch","Stuhl","Schrank",
+ "Katze","Blume","Lampe","Maus","Tasche","Jacke","Sonne","Tür",
+ "Buch","Kind","Auto","Haus","Pferd","Bett","Fenster","Bild"];
 const STAGES=[
  {id:1,name:"der, die, das",desc:"Welcher Artikel?"},
  {id:2,name:"Mehrzahl",desc:"einer oder viele?"},
  {id:3,name:"Wo oder Wohin?",desc:"in, auf, an"},
  {id:4,name:"Dativ-Wörter",desc:"mit, aus, bei, zu, von"},
  {id:5,name:"Akkusativ-Wörter",desc:"für, ohne, durch, um, gegen"},
- {id:6,name:"Welcher Fall?",desc:"alle Präpositionen gemischt"}
+ {id:6,name:"Welcher Fall?",desc:"alle Präpositionen gemischt"},
+ {id:7,name:"er, sie, es",desc:"Wörter ersetzen"},
+ {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"}
 ];
 const INTRO={
  2:"Mehrzahl heißt mehr als eins. Aus einem Ball werden viele Bälle. In der Mehrzahl ist der Artikel immer die.",
  3:"Wo etwas ist (es bleibt) oder wohin es geht (es bewegt sich)? Danach richtet sich der Artikel. Lies das Verb.",
  4:"Nach mit, aus, bei, zu, von kommt der Dativ: der und das werden zu dem, die wird zu der.",
  5:"Nach für, ohne, durch, um, gegen kommt der Akkusativ: der wird zu den, die und das bleiben.",
- 6:"Jetzt alles gemischt. Schau auf die Präposition und das Verb und entscheide selbst: Dativ, Akkusativ oder Wo und Wohin."
+ 6:"Jetzt alles gemischt. Schau auf die Präposition und das Verb und entscheide selbst: Dativ, Akkusativ oder Wo und Wohin.",
+ 7:"Statt das Nomen zu wiederholen, sagt man ein kurzes Wort: der Hund → er, die Katze → sie, das Kind → es. Der Artikel verrät es: der → er, die → sie, das → es.",
+ 8:"Was gehört Kyana? Bei der- und das-Wörtern heißt es mein (mein Hund, mein Buch). Bei die-Wörtern heißt es meine (meine Katze). Du musst also wissen: der, die oder das?"
 };
 
 // ================= Items =================
@@ -326,6 +368,8 @@ function buildItems(){const items=[];
   D.forEach((x,i)=>items.push({id:"m:d"+i,stage:6,kind:"case",x:Object.assign({trueCase:"dat"},x)}));
   A.forEach((x,i)=>items.push({id:"m:a"+i,stage:6,kind:"case",x:Object.assign({trueCase:"akk"},x)}));
   W.slice(0,10).forEach((x,i)=>items.push({id:"m:w"+i,stage:6,kind:"case",x:Object.assign({wechsel:true},x)}));
+  EXTRA.forEach(w=>items.push({id:"pr:"+w,stage:7,kind:"pron",word:w}));
+  EXTRA.forEach(w=>items.push({id:"po:"+w,stage:8,kind:"poss",word:w}));
   return items;}
 const ITEMS=buildItems();
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
@@ -340,6 +384,16 @@ function cardData(it){
     return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div><div class="word">'+G[it.word]+" "+it.word+spk(G[it.word]+" "+it.word)+'</div>',
       options:plOpts(it.word), correct:"die "+P[it.word], scaffold:umlautTip(it.word,P[it.word]),
       explain:"Die Mehrzahl ist „die "+P[it.word]+"“.", speak:"die "+P[it.word]};
+  }
+  if(it.kind==="pron"){const g=G[it.word]; const corr=g==="der"?"er":g==="die"?"sie":"es";
+    return {prompt:'<div class="hint">Welches Wort passt?</div><div class="word">'+g+" "+it.word+spk(g+" "+it.word)+'</div><div class="sentence" style="margin-top:10px">→ <span class="blank">?</span> ist da.</div>',
+      options:["er","sie","es"], correct:corr, scaffold:"der → er, die → sie, das → es",
+      explain:"Merke: "+g+" "+it.word+" → "+corr+".", speak:g+" "+it.word, blankFill:true};
+  }
+  if(it.kind==="poss"){const g=G[it.word]; const corr=g==="die"?"meine":"mein";
+    return {prompt:'<div class="hint">mein oder meine?</div><div class="sentence">Das ist <span class="blank">?</span> '+it.word+spk(it.word)+'.</div>',
+      options:["mein","meine"], correct:corr, scaffold:"der/das → mein, die → meine",
+      explain:"Es heißt "+corr+" "+it.word+" ("+g+" "+it.word+").", speak:corr+" "+it.word, blankFill:true};
   }
   const x=it.x;
   const seen=(S.cards[it.id]&&S.cards[it.id].seen)||[];
@@ -375,6 +429,8 @@ function cardData(it){
 }
 function spk(text){return '<span class="speaker" data-say="'+text.replace(/"/g,'')+'">▶</span>';}
 function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind==="genus") return G[it.word]+" "+it.word;
+  if(it.kind==="pron"){const g=G[it.word]; return (g==="der"?"er":g==="die"?"sie":"es")+" ("+it.word+")";}
+  if(it.kind==="poss") return (G[it.word]==="die"?"meine":"mein")+" "+it.word;
   const x=it.x, w=x.pool[0], cc=it.stage===4?"dat":it.stage===5?"akk":it.stage===6?x.trueCase:x.c; return chunk(x.prep,w,cc)+" "+w; }
 
 // ================= Zustand =================
@@ -424,7 +480,7 @@ function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
 function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=3)n++;} return n;}
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
-function checkUnlock(){let ch=null; for(let s=1;s<6;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
+function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
 
 // ================= Sprachausgabe =================
 let deVoice=null;
@@ -597,9 +653,10 @@ function renderHome(){
     document.getElementById("homeSub").textContent=(S.lastDay===t)?("Zweite Runde: "+roundSize+" Wörter."):("Heute: "+roundSize+" Wörter, Runde 1 von 2.");
     sb.textContent=(S.lastDay===t)?"Weiter üben":"Heute üben";
   }
-  const allMast = S.unlocked>=6 && stageMastered(6)>=unlockNeed(6);
+  const lastSt=STAGES.length;
+  const allMast = S.unlocked>=lastSt && stageMastered(lastSt)>=unlockNeed(lastSt);
   const lb=document.getElementById("levelBox"); lb.style.color="var(--gold)"; lb.style.fontWeight="800";
-  lb.textContent = allMast ? "Geschafft! Du kannst der, die, das und die wichtigsten Fälle." : "";
+  lb.textContent = allMast ? "Geschafft! Du kannst der, die, das, die Fälle, er/sie/es und mein/meine." : "";
   document.getElementById("shieldBadge").style.display=(S.freeze>0)?"block":"none";
   const list=document.getElementById("stageList"); list.innerHTML="";
   STAGES.forEach(st=>{
