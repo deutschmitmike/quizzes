@@ -332,12 +332,12 @@ const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
 // liefert {prompt(html), options[], correct, explain, speak}
 function cardData(it){
   if(it.kind==="genus"){
-    return {prompt:'<div class="hint">Welcher Artikel?</div><div class="word">'+it.word+spk(G[it.word]+" "+it.word)+'</div>',
+    return {prompt:'<div class="hint">Welcher Artikel?</div><div class="word">'+it.word+spk(it.word)+'</div>',
       options:["der","die","das"], correct:G[it.word], scaffold:genusHint(it.word),
       explain:genusHint(it.word)||("Merk dir: "+G[it.word]+" "+it.word+"."), speak:G[it.word]+" "+it.word};
   }
   if(it.kind==="plural"){
-    return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div><div class="word">'+G[it.word]+" "+it.word+spk("die "+P[it.word])+'</div>',
+    return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div><div class="word">'+G[it.word]+" "+it.word+spk(G[it.word]+" "+it.word)+'</div>',
       options:plOpts(it.word), correct:"die "+P[it.word], scaffold:umlautTip(it.word,P[it.word]),
       explain:"Die Mehrzahl ist „die "+P[it.word]+"“.", speak:"die "+P[it.word]};
   }
@@ -446,7 +446,7 @@ function startSession(mode){
     const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
     const allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));  // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
     let neu=[];
-    const takeFrom=(stage,k)=>{const p=ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it));
+    const takeFrom=(stage,k)=>{const p=shuffle(ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it)));
       let a=0; for(let i=0;i<p.length&&a<k&&neu.length<allow;i++){neu.push(p[i]);a++;}};
     let stagesNew=[]; for(let st=1;st<=S.unlocked;st++){ if(ITEMS.some(it=>it.stage===st&&!S.cards[it.id])) stagesNew.push(st); }
     const newest=stagesNew[stagesNew.length-1];
