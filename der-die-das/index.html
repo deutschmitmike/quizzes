@@ -545,7 +545,7 @@ function cardData(it){
   return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div>',
     options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w};
 }
-function spk(text){return '<span class="speaker" data-say="'+text.replace(/"/g,'')+'">▶</span>';}
+function spk(text){return "";}  // Vorlese-Dreieck in der Frage entfernt (kein Tipp mehr)
 function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind==="genus") return G[it.word]+" "+it.word;
   if(it.kind==="pron"){const g=G[it.word]; return (g==="der"?"er":g==="die"?"sie":"es")+" ("+it.word+")";}
   if(it.kind==="poss") return (G[it.word]==="die"?"meine":"mein")+" "+it.word;
