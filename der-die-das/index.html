@@ -285,7 +285,8 @@ const G = {
  Taschenlampe:"die",Brieftasche:"die",Landkarte:"die",Werkzeug:"das",Seil:"das",Zelt:"das",Paket:"das",Foto:"das","Gemälde":"das",Tag:"der",
  Monat:"der",Morgen:"der",Abend:"der",Geburtstag:"der",Traum:"der",Name:"der",Woche:"die",Stunde:"die",Minute:"die",Nacht:"die",
  Idee:"die",Geschichte:"die",Farbe:"die",Zahl:"die",Reise:"die",Party:"die",Jahr:"das",Lied:"das",Wort:"das","Märchen":"das",
- Wetter:"das",Geld:"das"
+ Wetter:"das",Geld:"das",
+ Kaffee:"der",Brief:"der",Stein:"der",Sand:"der",Himmel:"der",Wind:"der",Wagen:"der",Boden:"der",Mensch:"der",Kollege:"der",Chef:"der",Held:"der",Stock:"der",Anfang:"der",Zeitung:"die",Wurst:"die",Tasse:"die",Zwiebel:"die",Traube:"die",Zunge:"die",Familie:"die",Mama:"die",Hilfe:"die",Arbeit:"die",Musik:"die",Sache:"die",Zeit:"die",Welt:"die",Tier:"das",Telefon:"das",Radio:"das",Land:"das",Papa:"der"
 };
 const P = {
  Tisch:"Tische",Stuhl:"Stühle",Ball:"Bälle",Baum:"Bäume",Kopf:"Köpfe","Fuß":"Füße",Hund:"Hunde",Apfel:"Äpfel",
@@ -337,7 +338,8 @@ const P = {
  Schraube:"Schrauben",Nadel:"Nadeln",Schnur:"Schnüre",Taschenlampe:"Taschenlampen",Brieftasche:"Brieftaschen",Landkarte:"Landkarten",Werkzeug:"Werkzeuge",Seil:"Seile",Zelt:"Zelte",Paket:"Pakete",
  Foto:"Fotos","Gemälde":"Gemälde",Tag:"Tage",Monat:"Monate",Morgen:"Morgen",Abend:"Abende",Geburtstag:"Geburtstage",Traum:"Träume",Name:"Namen",Woche:"Wochen",
  Stunde:"Stunden",Minute:"Minuten",Nacht:"Nächte",Idee:"Ideen",Geschichte:"Geschichten",Farbe:"Farben",Zahl:"Zahlen",Reise:"Reisen",Party:"Partys",Jahr:"Jahre",
- Lied:"Lieder",Wort:"Wörter","Märchen":"Märchen"
+ Lied:"Lieder",Wort:"Wörter","Märchen":"Märchen",
+ Brief:"Briefe",Stein:"Steine",Wind:"Winde",Wagen:"Wagen",Boden:"Böden",Mensch:"Menschen",Kollege:"Kollegen",Chef:"Chefs",Held:"Helden",Stock:"Stöcke",Anfang:"Anfänge",Zeitung:"Zeitungen",Wurst:"Würste",Tasse:"Tassen",Zwiebel:"Zwiebeln",Traube:"Trauben",Zunge:"Zungen",Familie:"Familien",Mama:"Mamas",Arbeit:"Arbeiten",Sache:"Sachen",Welt:"Welten",Tier:"Tiere",Telefon:"Telefone",Radio:"Radios",Land:"Länder",Papa:"Papas"
 };
 function art(w,c){const g=G[w]; if(c==="nom")return g; if(c==="akk")return g==="der"?"den":g; return g==="der"?"dem":(g==="die"?"der":"dem");}
 // Verschmelzung Präposition + Artikel (natürliches Deutsch)
