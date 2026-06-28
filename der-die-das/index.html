@@ -770,7 +770,6 @@ function answer(btn,chosen,d,it){
     [...document.querySelectorAll(".opt")].forEach(b=>{if(b.textContent===d.correct)b.classList.add("correct");}); setMascot("playMascot","oops"); }
   pending={d,it,right};                                    // erst beim Weiter verbuchen, ein Vertipper kann zurück
   const ctl=document.createElement("div"); ctl.className="ctl";
-  if(!right){ const ub=document.createElement("button"); ub.className="ctlbtn undo"; ub.textContent="↶ Vertippt"; ub.onclick=undoPending; ctl.appendChild(ub); }
   const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
   fb.appendChild(ctl);
   advTimer=setTimeout(commitNext, right?1000:1900);
