@@ -599,7 +599,7 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
 // ================= Zustand =================
 const KEY="ddd_kyana_v2";
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
-const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=999, MAX_REPEAT=3;  // eine grosse Runde: alle faelligen + bis zu 20 neue, dann "heute geschafft"
+const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=25, MAX_REPEAT=3;  // eine Runde max. 25 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
@@ -738,6 +738,24 @@ function rfAnswer(said,c){ [...document.querySelectorAll(".opt")].forEach(b=>b.d
   srsApply(c.id, correct); document.getElementById("pointsN").textContent=S.points; gIdx++;
   advTimer=setTimeout(rfRender, correct?800:1600);
 }
+function startMC(){ gQ=gamePool(10).map(it=>({id:"g:"+it.word, word:it.word, g:G[it.word]})); gIdx=0; gRight=0; show("play"); mcRender(); }
+function mcRender(){ if(!document.getElementById("play").classList.contains("on")) return;
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML="";
+  if(gIdx>=gQ.length){ gameDailyFinish(); return; }
+  const c=gQ[gIdx];
+  box.innerHTML='<div class="hint">Welcher Artikel?</div>'+(IMGS[c.word]?'<img class="wordimg" src="'+IMGS[c.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+c.word+'</div>';
+  ["der","die","das"].forEach(a=>{ const b=document.createElement("button"); b.className="btn opt "+a; b.textContent=a; b.onclick=()=>mcAnswer(a,c); opts.appendChild(b); });
+  document.getElementById("sessN").textContent=gIdx+"/"+gQ.length; document.getElementById("progBar").style.width=(100*gIdx/gQ.length)+"%"; setMascot("playMascot","idle");
+}
+function mcAnswer(a,c){ [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
+  const right=(a===c.g); const fb=document.getElementById("fb");
+  [...document.querySelectorAll(".opt")].forEach(b=>{ if(b.textContent===c.g)b.classList.add("correct"); else if(b.textContent===a&&!right)b.classList.add("wrong"); });
+  if(right){ gRight++; fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
+  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+'<span class="why">Richtig: '+c.g+' '+c.word+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
+  srsApply(c.id,right); document.getElementById("pointsN").textContent=S.points; gIdx++;
+  advTimer=setTimeout(mcRender, right?800:1500);
+}
 function startSort(){ gQ=gamePool(6).map(it=>({id:"g:"+it.word, word:it.word, g:G[it.word], done:false, col:null, right:false}));
   gRight=0; gPlaced=0; gSel=null; show("play"); sortRender(); }
 function sortRender(){ if(!document.getElementById("play").classList.contains("on")) return;
@@ -761,7 +779,8 @@ function sortPlace(a){ if(gSel==null||!gQ[gSel]||gQ[gSel].done) return; const c=
   srsApply(c.id,c.right); beep(c.right); setMascot("playMascot",c.right?"happy":"oops",true); gSel=null; sortRender(); }
 function gameDailyFinish(){ firstTry=gRight; sessionTotal=gQ.length; cleared=new Set(); for(let i=0;i<gRight;i++)cleared.add(i); finishSession(); }
 function startDaily(){ const seen=Object.keys(S.cards).length; const r=Math.random();   // "Heute üben" zeigt zufällig auch ein Spiel
-  if(seen>=8 && r<0.25) startRF(); else if(seen>=8 && r<0.5) startSort(); else startSession(); }
+  if(seen>=8){ if(r<0.18) startRF(); else if(r<0.36) startSort(); else if(r<0.54) startMC(); else startSession(); }
+  else startSession(); }
 function startSession(mode){
   const t=today();
   if(mode==="hard"){
@@ -961,7 +980,7 @@ function renderHome(){
   const sessNew=Math.min(NEW_PER_SESSION, dailyNewLeft, roomNew, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
   const roundSize=Math.min(MAX_SESSION, due)+sessNew;
   const sb=document.getElementById("startBtn");
-  if(S.lastDay===t && roundSize===0){
+  if(S.lastDay===t){
     document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; sb.textContent="Nochmal üben (freiwillig)";
   } else {
     const wdh = Math.min(due,MAX_SESSION);
