@@ -159,6 +159,9 @@
     </div>
     <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
+    <div style="display:flex; gap:8px; margin-top:8px;">
+      <button class="btn" id="rfBtn" style="flex:1; background:var(--die); color:#fff; padding:11px; font-size:15px;">Spiel: richtig oder falsch?</button>
+    </div>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
       <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
@@ -706,6 +709,40 @@ function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) r
 
 // ================= Session =================
 let queue=[], sessionTotal=0, cleared, missSess, current=null, firstTry=0, pending=null, advTimer=null;
+let gQ=[], gIdx=0, gRight=0;   // Spielmodi (eigene Eingabe-Oberflaeche ueber demselben SRS)
+function srsApply(id,right){ const c=S.cards[id]||{box:0,due:today(),miss:0,born:today()};
+  if(right){ c.box=Math.min((c.box||0)+1,6); c.miss=Math.max(0,(c.miss||0)-1); c.due=today()+INTERVAL[c.box]; S.points++; }
+  else { c.box=1; c.due=today(); c.miss=(c.miss||0)+1; }
+  S.cards[id]=c; save(); }
+function gamePool(n){ let p=ITEMS.filter(it=>it.stage===1 && S.cards[it.id]); if(p.length<n) p=ITEMS.filter(it=>it.stage===1); return shuffle(p.slice()).slice(0,n); }
+function startRF(){
+  gQ=gamePool(10).map(it=>{ const w=it.word, g=G[w];
+    if(P[w] && Math.random()<0.5){ const corr="die "+P[w]; const ok=Math.random()<0.5; let shown=corr; if(!ok){ const o=plOpts(w); shown=o.find(x=>x!==corr)||corr; }
+      return {id:"p:"+w, q:g+" "+w+" → "+shown, right:shown===corr, full:corr}; }
+    const ok=Math.random()<0.5; const shg=ok?g:shuffle(["der","die","das"].filter(a=>a!==g))[0];
+    return {id:"g:"+w, q:shg+" "+w, right:shg===g, full:g+" "+w}; });
+  gIdx=0; gRight=0; show("play"); rfRender();
+}
+function rfRender(){ if(!document.getElementById("play").classList.contains("on")) return;
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML="";
+  if(gIdx>=gQ.length){ box.innerHTML='<div class="hint">Geschafft!</div><div class="word">'+gRight+' / '+gQ.length+' richtig</div>';
+    const b=document.createElement("button"); b.className="btn big"; b.textContent="Zurück"; b.onclick=()=>show("home"); opts.appendChild(b);
+    setMascot("playMascot","cheer",true); confetti(gRight>=Math.ceil(gQ.length*0.8)?60:25); return; }
+  const c=gQ[gIdx];
+  box.innerHTML='<div class="hint">Richtig oder falsch?</div><div class="word">'+c.q+'</div>';
+  const yes=document.createElement("button"); yes.className="btn opt"; yes.style.cssText="background:var(--ok);color:#fff;border-color:var(--ok);box-shadow:0 3px 0 #157a43;"; yes.textContent="✓ richtig"; yes.onclick=()=>rfAnswer(true,c);
+  const no=document.createElement("button"); no.className="btn opt"; no.style.cssText="background:var(--bad);color:#fff;border-color:var(--bad);box-shadow:0 3px 0 #a82e59;"; no.textContent="✗ falsch"; no.onclick=()=>rfAnswer(false,c);
+  opts.appendChild(yes); opts.appendChild(no);
+  document.getElementById("sessN").textContent=gIdx+"/"+gQ.length; document.getElementById("progBar").style.width=(100*gIdx/gQ.length)+"%"; setMascot("playMascot","idle");
+}
+function rfAnswer(said,c){ [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
+  const correct=(said===c.right); const fb=document.getElementById("fb");
+  if(correct){ gRight++; fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
+  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+'<span class="why">Richtig: '+c.full+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
+  srsApply(c.id, correct); document.getElementById("pointsN").textContent=S.points; gIdx++;
+  advTimer=setTimeout(rfRender, correct?800:1600);
+}
 function startSession(mode){
   const t=today();
   if(mode==="hard"){
@@ -971,6 +1008,7 @@ function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
     lbPickName(n); show("home");
   }); }
 document.getElementById("startBtn").onclick=()=>startSession();
+document.getElementById("rfBtn").onclick=()=>startRF();
 document.getElementById("welJoin").onclick=()=>welcomeJoin(document.getElementById("welNameInput").value);
 document.getElementById("welNameInput").addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
 document.getElementById("welSkip").onclick=()=>{ S.noName=1; save(); show("home"); };
