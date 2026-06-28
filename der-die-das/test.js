@@ -34,7 +34,8 @@ function makeCtx(src, fetchImpl, extra) {
   ck("alle Stufe-7/8-Wörter sind in G", EXTRA.every(w => w in G));
   ck("10 Stufen vorhanden", STAGES.length === 10, "ist " + STAGES.length);
   const cnt = {}; ITEMS.forEach(it => cnt[it.stage] = (cnt[it.stage] || 0) + 1);
-  [3,4,5,6,7,8,9,10].forEach(s => ck("Stufe " + s + " hat 100 Karten", cnt[s] === 100, "ist " + cnt[s]));
+  [3,4,5,6].forEach(s => ck("Stufe " + s + " hat 100 Karten", cnt[s] === 100, "ist " + cnt[s]));
+  [7,8,9,10].forEach(s => ck("Stufe " + s + " hat 30 Karten", cnt[s] === 30, "ist " + cnt[s]));
   ck("genug Karten (>1000)", ITEMS.length > 1000, "ist " + ITEMS.length);
   ck("lbEntry() läuft", (() => { try { const e = lbEntry(); return typeof e.pct === "number" && "sicher" in e; } catch (_) { return false; } })());
 
