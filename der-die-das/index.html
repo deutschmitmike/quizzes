@@ -482,7 +482,8 @@ const STAGES=[
  {id:6,name:"Welcher Fall?",desc:"alle Präpositionen gemischt"},
  {id:7,name:"er, sie, es",desc:"Wörter ersetzen"},
  {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"},
- {id:9,name:"sein oder ihr?",desc:"wem gehört es?"}
+ {id:9,name:"sein oder ihr?",desc:"wem gehört es?"},
+ {id:10,name:"ihn, sie, es",desc:"das Nomen ersetzen"}
 ];
 const INTRO={
  2:"Mehrzahl heißt mehr als eins. Aus einem Ball werden viele Bälle. In der Mehrzahl ist der Artikel immer die.",
@@ -492,7 +493,8 @@ const INTRO={
  6:"Jetzt alles gemischt. Schau auf die Präposition und das Verb und entscheide selbst: Dativ, Akkusativ oder Wo und Wohin.",
  7:"Statt das Nomen zu wiederholen, sagt man ein kurzes Wort: der Hund → er, die Katze → sie, das Kind → es. Der Artikel verrät es: der → er, die → sie, das → es.",
  8:"Was gehört Kyana? Bei der- und das-Wörtern heißt es mein (mein Hund, mein Buch). Bei die-Wörtern heißt es meine (meine Katze). Du musst also wissen: der, die oder das?",
- 9:"Wem gehört es? Bei einem Mann oder Jungen (er) heißt es sein, bei einer Frau oder einem Mädchen (sie) heißt es ihr. Bei die-Wörtern kommt ein e dran: seine, ihre."
+ 9:"Wem gehört es? Bei einem Mann oder Jungen (er) heißt es sein, bei einer Frau oder einem Mädchen (sie) heißt es ihr. Bei die-Wörtern kommt ein e dran: seine, ihre.",
+ 10:"Statt das Nomen zu wiederholen, sagt man ein kurzes Wort: den Hund → ihn, die Katze → sie, das Kind → es. Schau auf den Artikel: den → ihn, die → sie, das → es."
 };
 
 // ================= Items =================
@@ -524,6 +526,7 @@ function buildItems(){const items=[];
   EXTRA.forEach(w=>items.push({id:"pr:"+w,stage:7,kind:"pron",word:w}));
   EXTRA.forEach(w=>items.push({id:"po:"+w,stage:8,kind:"poss",word:w}));
   POSS3.forEach((x,i)=>items.push({id:"ps:"+i,stage:9,kind:"poss3",x:x}));
+  EXTRA.forEach(w=>items.push({id:"pa:"+w,stage:10,kind:"pakk",word:w}));
   return items;}
 const ITEMS=buildItems();
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
@@ -554,6 +557,11 @@ function cardData(it){
     return {prompt:'<div class="hint">sein oder ihr?</div><div class="sentence">Das ist '+p.who+'.<br>Das ist <span class="blank">?</span> '+w+'.</div>',
       options:shuffle(["sein","seine","ihr","ihre"]), correct:corr, scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)",
       explain:p.who+": "+(p.g==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+w+"“.", speak:corr+" "+w, blankFill:true, w:w};
+  }
+  if(it.kind==="pakk"){const g=G[it.word]; const akk=g==="der"?"den":(g==="die"?"die":"das"); const corr=g==="der"?"ihn":(g==="die"?"sie":"es");
+    return {prompt:'<div class="hint">ihn, sie oder es?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="sentence">Kyana sieht '+akk+' '+it.word+'.<br>Kyana sieht <span class="blank">?</span>.</div>',
+      options:["ihn","sie","es"], correct:corr, scaffold:"den → ihn, die → sie, das → es",
+      explain:akk+" "+it.word+" → "+corr+".", speak:"Kyana sieht "+corr, blankFill:true};
   }
   const x=it.x;
   const seen=(S.cards[it.id]&&S.cards[it.id].seen)||[];
@@ -592,6 +600,7 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
   if(it.kind==="pron"){const g=G[it.word]; return (g==="der"?"er":g==="die"?"sie":"es")+" ("+it.word+")";}
   if(it.kind==="poss") return (G[it.word]==="die"?"meine":"mein")+" "+it.word;
   if(it.kind==="poss3"){const p=it.x,w=p.pool[0],end=G[w]==="die"?"e":""; return (p.g==="er"?"sein":"ihr")+end+" "+w;}
+  if(it.kind==="pakk"){const g=G[it.word]; return (g==="der"?"ihn":g==="die"?"sie":"es")+" ("+it.word+")";}
   const x=it.x, w=x.pool[0], cc=it.stage===4?"dat":it.stage===5?"akk":it.stage===6?x.trueCase:x.c; return chunk(x.prep,w,cc)+" "+w; }
 
 // ================= Zustand =================

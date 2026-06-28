@@ -33,7 +33,7 @@ function makeCtx(src, fetchImpl, extra) {
   ck("alle Mehrzahl-Wörter sind in G", Object.keys(P).every(w => w in G));
   ck("alle Stufe-7/8-Wörter sind in G", EXTRA.every(w => w in G));
   ck("alle Stufe-9-Wörter (sein/ihr) sind in G", POSS3.every(x => x.pool.every(w => w in G)));
-  ck("9 Stufen vorhanden", STAGES.length === 9, "ist " + STAGES.length);
+  ck("10 Stufen vorhanden", STAGES.length === 10, "ist " + STAGES.length);
   ck("genug Karten (>1000)", ITEMS.length > 1000, "ist " + ITEMS.length);
   ck("lbEntry() läuft", (() => { try { const e = lbEntry(); return typeof e.pct === "number" && "sicher" in e; } catch (_) { return false; } })());
 
