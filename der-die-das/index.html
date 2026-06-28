@@ -571,7 +571,7 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
 // ================= Zustand =================
 const KEY="ddd_kyana_v2";
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
-const NEW_PER_DAY=20, NEW_PER_SESSION=15, MAX_SESSION=22, MAX_REPEAT=3;  // pro Runde bis zu 15 neue + Wiederholungen, pro Tag max 20 neue
+const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=22, MAX_REPEAT=3;  // 20 neue pro Runde = 20 pro Tag (eine Runde) + Wiederholungen
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
