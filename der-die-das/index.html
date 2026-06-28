@@ -36,6 +36,13 @@
   .medalrow{display:flex; flex-wrap:wrap; gap:6px; margin:0 2px 8px;}
   .medalrow .med{width:34px; height:34px; display:block;}
   .medalrow .med svg{width:100%; height:100%; display:block;}
+  .bigbar{height:16px; background:#e7ebf5; border-radius:10px; overflow:hidden;}
+  .bigbar i{display:block; height:100%; background:linear-gradient(90deg,#1FA85C,#7BE0A8); width:0; transition:width .6s ease;}
+  .lbrow{display:flex; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid #eef0f6; font-size:15px;}
+  .lbrow.me{background:#eef3fc; border-radius:8px; font-weight:800;}
+  .lbrank{width:26px; text-align:center; font-weight:800; color:var(--gold);}
+  .lbname{flex:1; font-weight:700;}
+  .lbval{color:var(--muted); font-size:13px; white-space:nowrap;}
   @keyframes flamepulse{0%,100%{transform:scale(1) rotate(-2deg);}50%{transform:scale(1.13) rotate(2deg);}}
   .unlock.perfect{background:linear-gradient(135deg,#E7F7EE,#C9F0D8); border-color:var(--das); color:#10663a;}
   .unlock.medalbox{display:flex; align-items:center; gap:8px; justify-content:center;}
@@ -127,17 +134,26 @@
     </div>
     <div class="medalrow" id="medalRow"></div>
     <div class="top">
-      <div class="badge" id="shieldBadge" style="display:none; color:var(--der);">1<small>Schutztag</small></div>
       <div class="badge"><span id="pointsN">0</span><small>Sterne</small></div>
     </div>
-    <h1><span class="mascot" id="homeMascot" style="width:50px;height:50px;"></span> Hallo Kyana!</h1>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"></span> Hallo Kyana und Marta!</h1>
     <p class="sub" id="homeSub">Bereit fürs tägliche Üben?</p>
+    <div id="progWrap" style="margin:6px 2px 12px;">
+      <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:var(--ink); margin-bottom:4px;">
+        <span>Dein Fortschritt</span><span id="progPct">0 %</span>
+      </div>
+      <div class="bigbar"><i id="progFill"></i></div>
+      <div id="progCount" style="font-size:12px; color:var(--muted); margin-top:4px;"></div>
+    </div>
     <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
     <div id="saveWarn" class="tiny" style="color:var(--bad); margin:0 2px 8px;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
     <button class="btn" id="hardBtn" style="display:none; background:var(--die); color:#fff; padding:13px; margin-top:8px; width:100%; font-size:clamp(16px,4.6vw,19px);">Schwere Wörter üben</button>
     <div class="stages" id="stageList"></div>
-    <button class="link" id="toData" style="align-self:center; margin-top:6px;">Für Eltern: Sicherung &amp; schwere Wörter</button>
+    <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
+      <h2 style="font-size:17px; margin:0 0 8px;">Rangliste</h2>
+      <div id="lbList"></div>
+    </div>
     <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
   </div>
 
@@ -174,16 +190,17 @@
   <div id="data" class="screen">
     <div class="top">
       <button class="link" id="dataBack" style="padding:4px 0;">‹ zurück</button>
-      <div class="badge"><span id="bestN">0</span><small>längster Streak</small></div>
+      <div class="badge"><span id="bestN">0</span><small>Übungstage</small></div>
     </div>
     <h1 style="font-size:22px;">Für Eltern</h1>
     <div class="panel">
-      <div class="toggle">Ton (Wörter vorlesen) <button class="btn" id="muteBtn" style="background:var(--der); color:#fff; padding:8px 16px; font-size:15px;">an</button></div>
-      <p style="margin-top:8px;">Kommt kein Ton, am iPad eine deutsche Stimme aktivieren: Einstellungen, Bedienungshilfen, Gesprochene Inhalte, Stimmen, Deutsch.</p>
+      <h2>Fortschritt</h2>
+      <p>Genauigkeit beim ersten Versuch: <b id="statAcc">noch keine Daten</b></p>
+      <div id="statStages" style="font-size:14px; color:var(--muted); line-height:1.7; margin-top:4px;"></div>
     </div>
     <div class="panel">
       <h2>Schwere Wörter</h2>
-      <p>Wo Kyana am häufigsten danebenlag. Gute Kandidaten zum gemeinsamen Üben.</p>
+      <p>Die Wörter mit den meisten Fehlern. Gute Kandidaten zum gemeinsamen Üben.</p>
       <div class="hardlist" id="hardList">Noch nichts geübt.</div>
     </div>
     <div class="panel">
@@ -553,13 +570,17 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
 
 // ================= Zustand =================
 const KEY="ddd_kyana_v2";
-const INTERVAL={1:1,2:2,3:4,4:8,5:15};
-const NEW_PER_DAY=20, NEW_PER_SESSION=15, MAX_SESSION=22, MAX_REPEAT=3;
+const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
+const NEW_PER_DAY=20, NEW_PER_SESSION=15, MAX_SESSION=22, MAX_REPEAT=3;  // pro Runde bis zu 15 neue + Wiederholungen, pro Tag max 20 neue
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0};
-function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[]},DEFAULTS);}
+function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
+// ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
+const SYNC_URL="";  // z.B. "https://deinprojekt-default-rtdb.europe-west1.firebasedatabase.app/"
 const MILESTONES=[3,7,14,30,60,100];
+const WORD_MILESTONES=[20,50,100,150];
 const FLAME='<svg viewBox="0 0 32 32"><path d="M16 2c2 5-2 7-3 10-1 2 0 4 2 4 2 0 3-2 3-4 3 3 4 6 4 9a10 10 0 1 1-20 0c0-4 2-7 4-9 1 3 3 3 4 1 2-3 1-7 2-11z" fill="#FF8A1E"/><path d="M16 15c1 2-1 3-1 5 0 2 1 3 3 3 1 0 2-1 2-3 0-2-2-4-4-5z" fill="#FFD23F"/></svg>';
-function medalSvg(m){return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#F4C24B" stroke="#C77F0E" stroke-width="1.5"/><circle cx="12" cy="12" r="6" fill="#F2A93B"/><text x="12" y="15.5" font-size="8" text-anchor="middle" fill="#6b4400" font-weight="bold">'+m+'</text></svg>';}
+function medalSvg(m,kind){const g=kind==="teal"?["#7BD8C9","#2BA89A","#0d6b5e","#1c8475"]:["#F4C24B","#F2A93B","#6b4400","#C77F0E"];
+  return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="'+g[0]+'" stroke="'+g[3]+'" stroke-width="1.5"/><circle cx="12" cy="12" r="6" fill="'+g[1]+'"/><text x="12" y="15.5" font-size="'+(m>=100?6.2:8)+'" text-anchor="middle" fill="'+g[2]+'" font-weight="bold">'+m+'</text></svg>';}
 function tage(n){return n===1?"Tag":"Tage";}
 const PRAISE=["Super!","Toll!","Klasse!","Stark!","Bravo!","Genau!","Perfekt!"];
 const GENTLE=["Fast!","Gleich nochmal!","Kein Problem!","Nicht ganz!"];
@@ -591,6 +612,26 @@ function confetti(n){const c=document.getElementById("confetti"); if(!c)return; 
   for(let i=0;i<N;i++){const p=document.createElement("i"); p.style.left=(Math.random()*100)+"%"; p.style.background=cols[i%cols.length];
     p.style.animationDelay=(Math.random()*0.4).toFixed(2)+"s"; p.style.animationDuration=(1.4+Math.random()*0.8).toFixed(2)+"s"; c.appendChild(p);}
   setTimeout(()=>{if(c)c.innerHTML="";},2600);}
+// ===== Rangliste =====
+const CROWN='<svg viewBox="0 0 24 24" width="17" height="17" style="vertical-align:-3px"><path d="M2 8l4.5 4L12 4l5.5 8L22 8l-2.2 11H4.2z" fill="#F2A93B" stroke="#C77F0E" stroke-width="0.8" stroke-linejoin="round"/></svg>';
+function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
+  return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
+    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length, ts:Date.now()}; }
+function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+"lb/"+S.playerId+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
+function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+"lb.json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
+function lbPickName(n){ S.playerName=n; save(); renderHome(); }
+function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
+  if(!SYNC_URL){ panel.style.display="none"; return; }
+  panel.style.display="block"; const list=document.getElementById("lbList");
+  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Mach mit und vergleiche dich mit deinen Freundinnen:</div><div class="row"><button class="btn lbpick" data-n="Kyana">Ich bin Kyana</button><button class="btn lbpick" data-n="Marta">Ich bin Marta</button></div>';
+    list.querySelectorAll(".lbpick").forEach(b=>{b.style.background="var(--der)";b.style.color="#fff";b.style.padding="11px";b.style.fontSize="15px";b.onclick=()=>lbPickName(b.getAttribute("data-n"));}); return; }
+  syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
+  syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
+    if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
+    const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name).sort((a,b)=>(b.pct-a.pct)||(b.sicher-a.sicher));
+    list.innerHTML = arr.length ? arr.map((e,i)=>'<div class="lbrow'+(e.name===S.playerName?' me':'')+'"><span class="lbrank">'+(i===0?CROWN:(i+1)+'.')+'</span><span class="lbname">'+e.name+'</span><span class="lbval">'+e.pct+' % · '+e.days+' '+(e.days===1?"Tag":"Tage")+'</span></div>').join("")
+      : '<div style="color:var(--muted);font-size:13px;">Noch niemand dabei. Spiel eine Runde, dann erscheinst du hier.</div>';
+  }); }
 // lokaler Tag: folgt der Zeitzone des Geräts, passt sich beim Reisen automatisch an
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
 let S=load(), saveOk=true;
@@ -620,18 +661,18 @@ function startSession(mode){
     due.sort((a,b)=>(S.cards[a.id].due-S.cards[b.id].due)||(S.cards[b.id].miss-S.cards[a.id].miss)); // am laengsten ueberfaellig zuerst, dann schwerste zuerst
     // neue Karten: max NEW_PER_DAY pro Kalendertag (auch bei mehrmaligem Spielen)
     const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
-    let allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));    // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
-    // Wiederholungs-Stau hat Vorrang: bei vielen faelligen Karten neue drosseln, sonst verhungern alte Woerter nie wiederholt
-    if(due.length>=MAX_SESSION) allow=0; else allow=Math.min(allow, MAX_SESSION-due.length);
+    const allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));  // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
     let neu=[];
-    const takeFrom=(stage,k)=>{const p=shuffle(ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it)));
+    const takeFrom=(stage,k)=>{const p=ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it));
       let a=0; for(let i=0;i<p.length&&a<k&&neu.length<allow;i++){neu.push(p[i]);a++;}};
     let stagesNew=[]; for(let st=1;st<=S.unlocked;st++){ if(ITEMS.some(it=>it.stage===st&&!S.cards[it.id])) stagesNew.push(st); }
     const newest=stagesNew[stagesNew.length-1];
     if(newest&&newest>1) takeFrom(newest,2);
     for(let st=1; st<=S.unlocked && neu.length<allow; st++) takeFrom(st,allow);
     neu=neu.slice(0,allow);
-    queue=neu.concat(due).slice(0,MAX_SESSION);    // neue Wörter zuerst sichern, dann mit Wiederholungen auffüllen
+    const dueCapped=due.slice(0,MAX_SESSION);                        // Wiederholungen zuerst (gut für unregelmäßiges Spielen)
+    const room=Math.max(0,MAX_SESSION-dueCapped.length);
+    queue=dueCapped.concat(neu.slice(0,room));                       // neue nur, wenn nach den Wiederholungen Platz bleibt
     if(queue.length===0) queue=shuffle(ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked)).slice(0,10);
   }
   shuffle(queue);
@@ -656,7 +697,6 @@ function renderCurrent(){
   const it=current, d=cardData(it);
   const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
   fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt;
-  box.querySelectorAll(".speaker").forEach(s=>s.onclick=()=>say(s.getAttribute("data-say")));
   const bx=(S.cards[it.id]&&S.cards[it.id].box)||0;
   if(d.scaffold && bx<3){ const sc=document.createElement("div"); sc.className="scaffold"; sc.textContent=d.scaffold; box.appendChild(sc); }
   d.options.forEach(o=>{ const b=document.createElement("button");
@@ -676,29 +716,35 @@ function answer(btn,chosen,d,it){
   else { btn.classList.add("wrong");
     fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false);
     [...document.querySelectorAll(".opt")].forEach(b=>{if(b.textContent===d.correct)b.classList.add("correct");}); setMascot("playMascot","oops"); }
-  say(d.speak);
   pending={d,it,right};                                    // erst beim Weiter verbuchen, ein Vertipper kann zurück
   const ctl=document.createElement("div"); ctl.className="ctl";
-  const rep=document.createElement("button"); rep.className="ctlbtn"; rep.textContent="▶"; rep.onclick=(e)=>{e.stopPropagation(); say(d.speak);}; ctl.appendChild(rep);
   if(!right){ const ub=document.createElement("button"); ub.className="ctlbtn undo"; ub.textContent="↶ Vertippt"; ub.onclick=undoPending; ctl.appendChild(ub); }
   const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
   fb.appendChild(ctl);
-  advTimer=setTimeout(commitNext, right?1300:2200);
+  advTimer=setTimeout(commitNext, right?1000:1900);
 }
 function commitNext(){
   if(!pending) return; const {d,it,right}=pending; pending=null;
   if(advTimer){clearTimeout(advTimer);advTimer=null;}
   const card=S.cards[it.id]||{box:0,due:today(),miss:0,born:today()};
+  const firstAttempt=!missSess[it.id];
+  if(firstAttempt){ S.stats=S.stats||{attempts:0,firstRight:0}; S.stats.attempts++; if(right) S.stats.firstRight++; }  // Genauigkeit erster Versuch
   if(right){
-    if(!missSess[it.id]) firstTry++;                       // beim ersten Versuch richtig
-    let cap=5;
-    if(it.kind==="case"){ card.seen=card.seen||[]; if(d.w&&!card.seen.includes(d.w)) card.seen.push(d.w);
-      if(card.seen.length < Math.min(2,it.x.pool.length)) cap=2; }  // "sicher" ab 2 verschiedenen Nomen
-    card.box=Math.min((card.box||0)+1,cap); card.due=today()+INTERVAL[card.box];
-    card.miss=Math.max(0,(card.miss||0)-1);                 // Fehler altern
-    S.points++; cleared.add(it.id); queue.shift();
+    if(firstAttempt){                                       // erster Versuch richtig: Box hoch, Stern fürs Können
+      firstTry++; S.points++;
+      let cap=6;
+      if(it.kind==="case"){ card.seen=card.seen||[]; if(d.w&&!card.seen.includes(d.w)) card.seen.push(d.w);
+        if(card.seen.length < Math.min(2,it.x.pool.length)) cap=2; }  // "sicher" ab 2 verschiedenen Nomen
+      card.box=Math.min((card.box||0)+1,cap);
+      card.miss=Math.max(0,(card.miss||0)-1);               // Fehler altern
+      card.due=today()+INTERVAL[card.box];
+    } else {
+      card.due=today()+1;                                   // war diese Runde mal falsch: morgen kurz bestätigen, Box bleibt
+    }
+    cleared.add(it.id); queue.shift();
   } else {
-    card.box=1; card.due=today(); card.miss=(card.miss||0)+1;
+    card.box=1;                                             // echtes Nichtwissen: wieder von vorn drillen (Vertipper fängt der Zurück-Knopf ab)
+    card.due=today(); card.miss=(card.miss||0)+1;
     if(it.kind==="case"&&d.w){ const gi=byId["g:"+d.w]; if(gi&&S.cards[gi.id]){ S.cards[gi.id].box=1; S.cards[gi.id].due=today(); } } // Genus auffrischen
     missSess[it.id]=(missSess[it.id]||0)+1;
     queue.shift();
@@ -710,19 +756,14 @@ function commitNext(){
 }
 function undoPending(){ if(!pending) return; pending=null; if(advTimer){clearTimeout(advTimer);advTimer=null;} renderCurrent(); } // nichts verbucht, gleiche Karte nochmal
 function finishSession(){
-  const t=today(); let freezeMsg=""; const prevStreak=S.streak;
-  if(S.lastDay===null){ S.streak=1; }
-  else { const diff=t-S.lastDay;
-    if(diff<=0){}
-    else if(diff===1){ S.streak+=1; }
-    else if(diff===2 && (S.freeze||0)>0){ S.freeze-=1; S.streak+=1; freezeMsg="Ein Schutztag hat deinen Streak gerettet."; }
-    else { S.streak=1; }
-  }
-  S.lastDay=t;
-  if(S.streak>0 && S.streak%5===0 && (S.freeze||0)<1){ S.freeze=1; if(!freezeMsg) freezeMsg="Schutztag verdient: ein verpasster Tag wird dir einmal verziehen."; }
-  S.best=Math.max(S.best||0,S.streak);
+  const t=today(); const prevStreak=S.streak||0;
+  if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
+  S.lastDay=t; S.best=S.streak;
   S.medals=S.medals||[]; let medalNew=null;
   MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
+  S.wordMedals=S.wordMedals||[]; let wordMedalNew=null;                    // lernbasierte Abzeichen
+  const masteredCount=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
+  WORD_MILESTONES.forEach(m=>{ if(masteredCount>=m && S.wordMedals.indexOf(m)<0){ S.wordMedals.push(m); wordMedalNew=m; } });
   const grew = S.streak>prevStreak;
   const perfect = sessionTotal>0 && firstTry>=sessionTotal;
   const acc = sessionTotal? firstTry/sessionTotal : 1;          // Sterne nach Treffern beim ersten Versuch
@@ -731,18 +772,19 @@ function finishSession(){
   document.getElementById("doneStars").textContent="★".repeat(stars)+"☆".repeat(3-stars);
   const df=document.getElementById("doneFlame"); if(df) df.innerHTML=FLAME;
   document.getElementById("doneStreak").textContent=S.streak;
-  const dl=document.getElementById("doneStreakLabel"); if(dl) dl.textContent=tage(S.streak)+" in Folge";
+  const dl=document.getElementById("doneStreakLabel"); if(dl) dl.textContent=(S.streak===1?"Übungstag":"Übungstage");
   const offen=sessionTotal-cleared.size;
   document.getElementById("doneMsg").textContent="Du hast "+sessionTotal+" Wörter geübt, "+firstTry+" auf Anhieb richtig."+(offen>0?" Ein paar üben wir morgen weiter.":"");
   const ub=document.getElementById("unlockBox"); ub.innerHTML="";
-  if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">Streak +1, jetzt '+S.streak+' '+tage(S.streak)+' in Folge!</div>';
+  if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">'+S.streak+'. Übungstag geschafft, weiter so!</div>';
   if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
-  if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Tage am Stück, neues Abzeichen!</div>';
+  if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Übungstage, neues Abzeichen!</div>';
+  if(wordMedalNew!=null) ub.innerHTML+='<div class="unlock medalbox" style="background:linear-gradient(135deg,#E2F7F2,#C3EFE6);border-color:#2BA89A;color:#0d6b5e;">'+medalSvg(wordMedalNew,"teal")+' '+wordMedalNew+' Wörter gemeistert!</div>';
   if(u){const st=STAGES[u-1]; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+' — '+st.name+'!</div>';}
-  if(freezeMsg){ ub.innerHTML+='<div class="unlock" style="background:#eef3fc;border-color:var(--der);color:#1f3864;">'+freezeMsg+'</div>'; }
   show("done");
   setMascot("doneMascot","cheer",true);
-  confetti((perfect||medalNew!=null||u)?85:40);
+  confetti((stars>=3?75:stars>=2?45:25)+((perfect||medalNew!=null||wordMedalNew!=null||u)?20:0));
+  syncPush();   // eigenen Stand in die Rangliste hochladen
 }
 
 // ================= UI =================
@@ -753,33 +795,40 @@ function renderHome(){
   document.getElementById("pointsN").textContent=S.points;
   document.getElementById("streakFlame").innerHTML=FLAME;
   document.getElementById("streakHero").classList.toggle("hot", S.streak>0);
-  document.getElementById("streakLabel").textContent=tage(S.streak)+" in Folge";
+  document.getElementById("streakLabel").textContent=(S.streak===1?"Übungstag":"Übungstage");
   const nextM=MILESTONES.find(m=>m>S.streak), rest=nextM?nextM-S.streak:0;
   document.getElementById("streakSub").textContent = S.streak===0
-    ? "Heute starten und Tag 1 holen."
-    : (nextM ? ("Noch "+rest+" "+tage(rest)+" bis zum "+nextM+"-Tage-Abzeichen.") : ("Bestwert: "+(S.best||S.streak)+" "+tage(S.best||S.streak)+"."));
+    ? "Heute starten und den ersten Übungstag holen."
+    : (nextM ? ("Noch "+rest+" bis zum "+nextM+"-Übungstage-Abzeichen.") : ("Schon "+S.streak+" Übungstage, super!"));
   const meds=(S.medals||[]).slice().sort((a,b)=>a-b);
-  document.getElementById("medalRow").innerHTML = meds.map(m=>'<span class="med">'+medalSvg(m)+'</span>').join("");
+  const wmeds=(S.wordMedals||[]).slice().sort((a,b)=>a-b);
+  document.getElementById("medalRow").innerHTML = meds.map(m=>'<span class="med">'+medalSvg(m)+'</span>').join("")+wmeds.map(m=>'<span class="med">'+medalSvg(m,"teal")+'</span>').join("");
   setMascot("homeMascot", S.streak>0?"happy":"idle");
+  let prog=0; for(const id in S.cards){ prog += Math.min(S.cards[id].box,3)/3; }   // füllt sich mit jedem richtig beantworteten Wort
+  const pct=Math.round(100*prog/ITEMS.length);
+  const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
+  document.getElementById("progFill").style.width=pct+"%";
+  document.getElementById("progPct").textContent=pct+" %";
+  document.getElementById("progCount").textContent=sicher+" von "+ITEMS.length+" Wörtern sicher";
   const t=today();
   const due=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].due<=t).length;
   const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
   const dailyNewLeft=Math.max(0,NEW_PER_DAY-newToday);
-  const sessNew=due>=MAX_SESSION?0:Math.min(NEW_PER_SESSION, dailyNewLeft, MAX_SESSION-due, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
-  const roundSize=Math.min(MAX_SESSION, due+sessNew);
+  const roomNew=Math.max(0, MAX_SESSION-Math.min(due,MAX_SESSION));
+  const sessNew=Math.min(NEW_PER_SESSION, dailyNewLeft, roomNew, ITEMS.filter(it=>!S.cards[it.id]&&it.stage<=S.unlocked).length);
+  const roundSize=Math.min(MAX_SESSION, due)+sessNew;
   const sb=document.getElementById("startBtn");
-  if(S.lastDay===t && dailyNewLeft===0){
-    if(due>0){ document.getElementById("homeSub").textContent="Tagesziel geschafft! Wiederholen ist freiwillig."; sb.textContent="Wiederholen (freiwillig)"; }
-    else { document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; sb.textContent="Nochmal üben (freiwillig)"; }
+  if(S.lastDay===t && roundSize===0){
+    document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; sb.textContent="Nochmal üben (freiwillig)";
   } else {
-    document.getElementById("homeSub").textContent=(S.lastDay===t)?("Zweite Runde: "+roundSize+" Wörter."):("Heute: "+roundSize+" Wörter, Runde 1 von 2.");
+    const wdh = Math.min(due,MAX_SESSION);
+    document.getElementById("homeSub").textContent=(S.lastDay===t?"Weiter geht's: ":"Los geht's: ")+roundSize+" Wörter"+(wdh>0?" ("+wdh+" Wiederholung"+(wdh===1?"":"en")+")":"")+".";
     sb.textContent=(S.lastDay===t)?"Weiter üben":"Heute üben";
   }
   const lastSt=STAGES.length;
   const allMast = S.unlocked>=lastSt && stageMastered(lastSt)>=unlockNeed(lastSt);
   const lb=document.getElementById("levelBox"); lb.style.color="var(--gold)"; lb.style.fontWeight="800";
   lb.textContent = allMast ? "Geschafft! Du kannst der, die, das, die Fälle, er/sie/es und mein/meine." : "";
-  document.getElementById("shieldBadge").style.display=(S.freeze>0)?"block":"none";
   const list=document.getElementById("stageList"); list.innerHTML="";
   STAGES.forEach(st=>{
     const total=ITEMS.filter(it=>it.stage===st.id).length;
@@ -794,11 +843,13 @@ function renderHome(){
   document.getElementById("saveWarn").textContent = saveOk ? "" : "Achtung: Fortschritt kann nicht gespeichert werden. Bitte nicht im privaten Safari-Modus benutzen.";
   const hasHard=ITEMS.some(it=>S.cards[it.id]&&S.cards[it.id].miss>0);
   document.getElementById("hardBtn").style.display=hasHard?"block":"none";
+  renderLeaderboard();
 }
 function renderData(){
   document.getElementById("bestN").textContent=S.best||0;
-  document.getElementById("muteBtn").textContent=S.mute?"aus":"an";
-  document.getElementById("muteBtn").style.background=S.mute?"#b9c0d4":"var(--der)";
+  const sd=S.stats||{attempts:0,firstRight:0};
+  document.getElementById("statAcc").textContent = sd.attempts? Math.round(100*sd.firstRight/sd.attempts)+" % ("+sd.firstRight+" von "+sd.attempts+")" : "noch keine Daten";
+  document.getElementById("statStages").innerHTML = STAGES.map(s=>{ const tot=ITEMS.filter(it=>it.stage===s.id).length; const mas=ITEMS.filter(it=>it.stage===s.id&&S.cards[it.id]&&S.cards[it.id].box>=3).length; return s.name+": "+mas+" von "+tot+" sicher"; }).join("<br>");
   const hard=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0)
     .sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,12);
   const hl=document.getElementById("hardList");
@@ -819,9 +870,9 @@ document.getElementById("startBtn").onclick=()=>startSession();
 document.getElementById("hardBtn").onclick=()=>startSession("hard");
 document.getElementById("homeBtn").onclick=()=>show("home");
 document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); show("home"); };
-document.getElementById("toData").onclick=()=>show("data");
+let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tippen
+document.getElementById("homeTitle").onclick=()=>{ tapN++; clearTimeout(tapT); tapT=setTimeout(()=>{tapN=0;},1500); if(tapN>=5){ tapN=0; show("data"); } };
 document.getElementById("dataBack").onclick=()=>show("home");
-document.getElementById("muteBtn").onclick=()=>{S.mute=!S.mute; save(); renderData(); if(!S.mute) say("der Tisch");};
 document.getElementById("copyBtn").onclick=()=>{const ta=document.getElementById("backupOut"); ta.select(); ta.setSelectionRange(0,99999);
   try{document.execCommand("copy");}catch(e){} if(navigator.clipboard){try{navigator.clipboard.writeText(ta.value);}catch(e){}}
   document.getElementById("dataMsg").textContent="Code kopiert.";};
@@ -829,7 +880,6 @@ document.getElementById("restoreBtn").onclick=()=>{const v=document.getElementBy
   try{const o=JSON.parse(v); if(!o||!o.cards) throw 0; S=Object.assign({cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false},o); save(); renderData(); m.style.color="var(--das)"; m.textContent="Wiederhergestellt.";}
   catch(e){m.style.color="var(--bad)"; m.textContent="Code nicht lesbar.";}};
 document.getElementById("resetBtn").onclick=()=>{ if(confirm("Wirklich allen Fortschritt löschen?")){ S={cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false}; save(); show("home"); } };
-if(window.speechSynthesis){ loadVoices(); speechSynthesis.onvoiceschanged=loadVoices; }
 renderHome();
 </script>
 </body>
