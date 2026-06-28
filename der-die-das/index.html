@@ -159,8 +159,9 @@
     </div>
     <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
-    <div style="display:flex; gap:8px; margin-top:8px;">
-      <button class="btn" id="rfBtn" style="flex:1; background:var(--die); color:#fff; padding:11px; font-size:15px;">Spiel: richtig oder falsch?</button>
+    <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+      <button class="btn" id="rfBtn" style="flex:1; min-width:140px; background:var(--die); color:#fff; padding:11px; font-size:14px;">Richtig oder falsch?</button>
+      <button class="btn" id="sortBtn" style="flex:1; min-width:140px; background:var(--das); color:#fff; padding:11px; font-size:14px;">Sortieren</button>
     </div>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
@@ -709,7 +710,7 @@ function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) r
 
 // ================= Session =================
 let queue=[], sessionTotal=0, cleared, missSess, current=null, firstTry=0, pending=null, advTimer=null;
-let gQ=[], gIdx=0, gRight=0;   // Spielmodi (eigene Eingabe-Oberflaeche ueber demselben SRS)
+let gQ=[], gIdx=0, gRight=0, gPlaced=0, gSel=null;   // Spielmodi (eigene Eingabe-Oberflaeche ueber demselben SRS)
 function srsApply(id,right){ const c=S.cards[id]||{box:0,due:today(),miss:0,born:today()};
   if(right){ c.box=Math.min((c.box||0)+1,6); c.miss=Math.max(0,(c.miss||0)-1); c.due=today()+INTERVAL[c.box]; S.points++; }
   else { c.box=1; c.due=today(); c.miss=(c.miss||0)+1; }
@@ -743,6 +744,29 @@ function rfAnswer(said,c){ [...document.querySelectorAll(".opt")].forEach(b=>b.d
   srsApply(c.id, correct); document.getElementById("pointsN").textContent=S.points; gIdx++;
   advTimer=setTimeout(rfRender, correct?800:1600);
 }
+function startSort(){ gQ=gamePool(6).map(it=>({id:"g:"+it.word, word:it.word, g:G[it.word], done:false, col:null, right:false}));
+  gRight=0; gPlaced=0; gSel=null; show("play"); sortRender(); }
+function sortRender(){ if(!document.getElementById("play").classList.contains("on")) return;
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML="";
+  if(gPlaced>=gQ.length){ box.innerHTML='<div class="hint">Geschafft!</div><div class="word">'+gRight+' / '+gQ.length+' richtig</div>';
+    const b=document.createElement("button"); b.className="btn big"; b.textContent="Zurück"; b.onclick=()=>show("home"); opts.appendChild(b);
+    setMascot("playMascot","cheer",true); confetti(gRight>=Math.ceil(gQ.length*0.8)?60:25); return; }
+  let html='<div class="hint">Tippe ein Wort, dann die richtige Spalte.</div>';
+  html+='<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0;min-height:46px;">';
+  gQ.forEach((c,i)=>{ if(!c.done) html+='<button class="sortchip" data-i="'+i+'" style="border:2px solid #d7ddec;border-radius:12px;background:#fff;font-family:inherit;font-weight:800;font-size:clamp(16px,4.6vw,20px);padding:8px 14px;color:var(--ink);">'+c.word+'</button>'; });
+  html+='</div><div style="display:flex;gap:6px;">';
+  [['der','var(--der)'],['die','var(--die)'],['das','var(--das)']].forEach(function(p){ const a=p[0],col=p[1];
+    let placed=gQ.filter(c=>c.done&&c.col===a).map(c=>'<div style="margin-top:5px;padding:4px 6px;border-radius:8px;background:'+(c.right?'var(--ok)':'var(--bad)')+';color:#fff;font-size:13px;font-weight:700;">'+c.word+'</div>').join('');
+    html+='<div class="sortcol" data-a="'+a+'" style="flex:1;border:2px dashed '+col+';border-radius:12px;min-height:96px;padding:6px;text-align:center;"><div style="font-weight:800;color:'+col+';font-size:18px;">'+a+'</div>'+placed+'</div>'; });
+  html+='</div>';
+  box.innerHTML=html;
+  box.querySelectorAll('.sortchip').forEach(ch=>ch.onclick=()=>{ gSel=+ch.getAttribute('data-i'); box.querySelectorAll('.sortchip').forEach(x=>{x.style.outline='';}); ch.style.outline='3px solid var(--der)'; ch.style.outlineOffset='1px'; });
+  box.querySelectorAll('.sortcol').forEach(co=>co.onclick=()=>sortPlace(co.getAttribute('data-a')));
+  document.getElementById("sessN").textContent=gPlaced+"/"+gQ.length; document.getElementById("progBar").style.width=(100*gPlaced/gQ.length)+"%"; setMascot("playMascot","idle");
+}
+function sortPlace(a){ if(gSel==null||!gQ[gSel]||gQ[gSel].done) return; const c=gQ[gSel]; c.done=true; c.col=a; c.right=(a===c.g); gPlaced++; if(c.right)gRight++;
+  srsApply(c.id,c.right); beep(c.right); setMascot("playMascot",c.right?"happy":"oops",true); gSel=null; sortRender(); }
 function startSession(mode){
   const t=today();
   if(mode==="hard"){
@@ -1009,6 +1033,7 @@ function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
   }); }
 document.getElementById("startBtn").onclick=()=>startSession();
 document.getElementById("rfBtn").onclick=()=>startRF();
+document.getElementById("sortBtn").onclick=()=>startSort();
 document.getElementById("welJoin").onclick=()=>welcomeJoin(document.getElementById("welNameInput").value);
 document.getElementById("welNameInput").addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
 document.getElementById("welSkip").onclick=()=>{ S.noName=1; save(); show("home"); };
