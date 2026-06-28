@@ -158,7 +158,6 @@
       <div id="progCount" style="font-size:12px; color:var(--muted); margin-top:4px;"></div>
     </div>
     <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
-    <div id="saveWarn" class="tiny" style="color:var(--bad); margin:0 2px 8px;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
@@ -902,7 +901,6 @@ function renderHome(){
       '</div><div class="bar"><i style="width:'+(100*learned/total)+'%"></i></div></div>';
     list.appendChild(d);
   });
-  document.getElementById("saveWarn").textContent = saveOk ? "" : "Achtung: Fortschritt kann nicht gespeichert werden. Bitte nicht im privaten Safari-Modus benutzen.";
   renderLeaderboard();
 }
 function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); if(!panel) return;
