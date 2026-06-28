@@ -8,7 +8,7 @@ const html = fs.readFileSync(__dirname + "/index.html", "utf8");
 const mm = html.match(/<script>\s*"use strict";([\s\S]*?)<\/script>/);
 if (!mm) { console.log("FAIL  <script> nicht gefunden"); process.exit(1); }
 const baseSrc = '"use strict";' + mm[1];
-const EXPORT = "\n;globalThis.__x={G,P,W,D,A,ITEMS,EXTRA,POSS3,STAGES,cardData,startSession,today,MAX_SESSION,getQueue:()=>queue,getS:()=>S,setS:x=>{S=x;},fresh,lbEntry,cloudSave,cloudLoad,adoptIfNewer,tryJoin,nameKey};";
+const EXPORT = "\n;globalThis.__x={G,P,W,D,A,ITEMS,EXTRA,STAGES,cardData,startSession,today,MAX_SESSION,getQueue:()=>queue,getS:()=>S,setS:x=>{S=x;},fresh,lbEntry,cloudSave,cloudLoad,adoptIfNewer,tryJoin,nameKey};";
 const strip = s => s.replace(/if\(SYNC_URL && !S\.playerName[\s\S]*$/, "").replace(/renderHome\(\);\s*cloudSync\(\);[^\n]*$/, "").replace(/renderHome\(\);\s*$/, "");
 
 function el() { return new Proxy({ style: {}, classList: { add() {}, remove() {}, toggle() {} }, innerHTML: "", value: "", appendChild() {}, querySelectorAll: () => [], addEventListener() {}, getAttribute: () => "", setAttribute() {}, focus() {} }, { get(t, p) { return (p in t) ? t[p] : ((...a) => el()); }, set(t, p, v) { t[p] = v; return true; } }); }
@@ -26,14 +26,15 @@ function makeCtx(src, fetchImpl, extra) {
   // ---- Teil 1: Inhalt, Karten, SRS (Datei wie veröffentlicht, ohne Sync) ----
   let X;
   try { X = makeCtx(strip(baseSrc) + EXPORT); } catch (e) { console.log("FAIL  Skript-Laufzeitfehler: " + e.message); process.exit(1); }
-  const { G, P, W, D, A, ITEMS, EXTRA, POSS3, STAGES, cardData, startSession, today, MAX_SESSION, getQueue, setS, fresh, lbEntry } = X;
+  const { G, P, W, D, A, ITEMS, EXTRA, STAGES, cardData, startSession, today, MAX_SESSION, getQueue, setS, fresh, lbEntry } = X;
 
   ck("Genus aller Nomen gültig (der/die/das)", Object.values(G).every(v => ["der", "die", "das"].includes(v)));
   ck("alle Satz-Pool-Wörter sind in G", [...new Set([...W, ...D, ...A].flatMap(x => x.pool))].every(w => w in G));
   ck("alle Mehrzahl-Wörter sind in G", Object.keys(P).every(w => w in G));
   ck("alle Stufe-7/8-Wörter sind in G", EXTRA.every(w => w in G));
-  ck("alle Stufe-9-Wörter (sein/ihr) sind in G", POSS3.every(x => x.pool.every(w => w in G)));
   ck("10 Stufen vorhanden", STAGES.length === 10, "ist " + STAGES.length);
+  const cnt = {}; ITEMS.forEach(it => cnt[it.stage] = (cnt[it.stage] || 0) + 1);
+  [3,4,5,6,7,8,9,10].forEach(s => ck("Stufe " + s + " hat 100 Karten", cnt[s] === 100, "ist " + cnt[s]));
   ck("genug Karten (>1000)", ITEMS.length > 1000, "ist " + ITEMS.length);
   ck("lbEntry() läuft", (() => { try { const e = lbEntry(); return typeof e.pct === "number" && "sicher" in e; } catch (_) { return false; } })());
 
