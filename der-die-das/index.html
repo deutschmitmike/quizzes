@@ -148,11 +148,11 @@
     <div class="top">
       <div class="badge"><span id="pointsN">0</span><small>Sterne</small></div>
     </div>
-    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"></span> Hallo Kyana und Marta!</h1>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"></span> Hallo! Ich bin Bobby!</h1>
     <p class="sub" id="homeSub">Bereit fürs tägliche Üben?</p>
     <div id="progWrap" style="margin:6px 2px 12px;">
       <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:var(--ink); margin-bottom:4px;">
-        <span>Dein Fortschritt</span><span id="progPct">0 %</span>
+        <span>Sichere Wörter</span><span id="progPct">0 ⭐</span>
       </div>
       <div class="bigbar"><i id="progFill"></i></div>
       <div id="progCount" style="font-size:12px; color:var(--muted); margin-top:4px;"></div>
@@ -858,12 +858,11 @@ function renderHome(){
   const wmeds=(S.wordMedals||[]).slice().sort((a,b)=>a-b);
   document.getElementById("medalRow").innerHTML = meds.map(m=>'<span class="med">'+medalSvg(m)+'</span>').join("")+wmeds.map(m=>'<span class="med">'+medalSvg(m,"teal")+'</span>').join("");
   setMascot("homeMascot", S.streak>0?"happy":"idle");
-  let prog=0; for(const id in S.cards){ prog += Math.min(S.cards[id].box,3)/3; }   // füllt sich mit jedem richtig beantworteten Wort
-  const pct=Math.round(100*prog/ITEMS.length);
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
-  document.getElementById("progFill").style.width=pct+"%";
-  document.getElementById("progPct").textContent=pct+" %";
-  document.getElementById("progCount").textContent=sicher+" von "+ITEMS.length+" Wörtern sicher";
+  const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
+  document.getElementById("progFill").style.width=(100*within/STEP)+"%";
+  document.getElementById("progPct").textContent=sicher+" ⭐";
+  document.getElementById("progCount").textContent="Noch "+(STEP-within)+" Wörter bis zum nächsten Stern";
   const t=today();
   const due=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].due<=t).length;
   const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
