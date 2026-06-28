@@ -162,6 +162,7 @@
     <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
       <button class="btn" id="rfBtn" style="flex:1; min-width:140px; background:var(--die); color:#fff; padding:11px; font-size:14px;">Richtig oder falsch?</button>
       <button class="btn" id="sortBtn" style="flex:1; min-width:140px; background:var(--das); color:#fff; padding:11px; font-size:14px;">Sortieren</button>
+      <button class="btn" id="fangBtn" style="flex:1; min-width:140px; background:var(--der); color:#fff; padding:11px; font-size:14px;">Fangen</button>
     </div>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
@@ -710,7 +711,7 @@ function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) r
 
 // ================= Session =================
 let queue=[], sessionTotal=0, cleared, missSess, current=null, firstTry=0, pending=null, advTimer=null;
-let gQ=[], gIdx=0, gRight=0, gPlaced=0, gSel=null;   // Spielmodi (eigene Eingabe-Oberflaeche ueber demselben SRS)
+let gQ=[], gIdx=0, gRight=0, gPlaced=0, gSel=null, fangTimer=null;   // Spielmodi (eigene Eingabe-Oberflaeche ueber demselben SRS)
 function srsApply(id,right){ const c=S.cards[id]||{box:0,due:today(),miss:0,born:today()};
   if(right){ c.box=Math.min((c.box||0)+1,6); c.miss=Math.max(0,(c.miss||0)-1); c.due=today()+INTERVAL[c.box]; S.points++; }
   else { c.box=1; c.due=today(); c.miss=(c.miss||0)+1; }
@@ -767,6 +768,31 @@ function sortRender(){ if(!document.getElementById("play").classList.contains("o
 }
 function sortPlace(a){ if(gSel==null||!gQ[gSel]||gQ[gSel].done) return; const c=gQ[gSel]; c.done=true; c.col=a; c.right=(a===c.g); gPlaced++; if(c.right)gRight++;
   srsApply(c.id,c.right); beep(c.right); setMascot("playMascot",c.right?"happy":"oops",true); gSel=null; sortRender(); }
+function startFang(){ gQ=gamePool(10).map(it=>({id:"g:"+it.word, word:it.word, g:G[it.word], answered:false})); gIdx=0; gRight=0; show("play"); fangNext(); }
+function fangNext(){ if(!document.getElementById("play").classList.contains("on")){ if(fangTimer)clearTimeout(fangTimer); return; }
+  const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
+  fb.textContent=""; fb.className="feedback";
+  if(gIdx>=gQ.length){ box.innerHTML='<div class="hint">Geschafft!</div><div class="word">'+gRight+' / '+gQ.length+' gefangen</div>'; opts.innerHTML='';
+    const b=document.createElement("button"); b.className="btn big"; b.textContent="Zurück"; b.onclick=()=>show("home"); opts.appendChild(b);
+    setMascot("playMascot","cheer",true); confetti(gRight>=Math.ceil(gQ.length*0.8)?60:25); return; }
+  const c=gQ[gIdx];
+  box.innerHTML='<div class="hint">Tippe den richtigen Korb, bevor das Wort unten ist.</div><div style="position:relative;height:200px;overflow:hidden;margin-top:8px;"><div id="fangWord" style="position:absolute;left:0;right:0;top:0;text-align:center;font-size:clamp(26px,7vw,38px);font-weight:800;color:var(--ink);">'+c.word+'</div></div>';
+  opts.innerHTML='';
+  const row=document.createElement("div"); row.style.cssText="display:flex;gap:8px;";
+  [['der','var(--der)'],['die','var(--die)'],['das','var(--das)']].forEach(function(p){ const b=document.createElement("button"); b.className="btn"; b.style.cssText="flex:1;background:"+p[1]+";color:#fff;padding:16px;font-size:20px;"; b.textContent=p[0]; b.onclick=()=>fangTap(p[0],c); row.appendChild(b); });
+  opts.appendChild(row);
+  const fw=document.getElementById("fangWord"); requestAnimationFrame(()=>{ if(fw){ fw.style.transition="top 4s linear"; fw.style.top="160px"; } });
+  document.getElementById("sessN").textContent=gIdx+"/"+gQ.length; document.getElementById("progBar").style.width=(100*gIdx/gQ.length)+"%"; setMascot("playMascot","idle");
+  fangTimer=setTimeout(()=>fangTap(null,c), 4200);
+}
+function fangTap(a,c){ if(!document.getElementById("play").classList.contains("on")) return; if(c.answered) return; c.answered=true;
+  if(fangTimer){clearTimeout(fangTimer);fangTimer=null;}
+  const right=(a===c.g); if(right)gRight++; srsApply(c.id,right); beep(right);
+  const fw=document.getElementById("fangWord"); if(fw){ fw.style.transition="none"; fw.style.color=right?"var(--ok)":"var(--bad)"; }
+  const fb=document.getElementById("fb"); fb.innerHTML= right?PRAISE[Math.floor(Math.random()*PRAISE.length)]:('Richtig: '+c.g+' '+c.word); fb.className="feedback "+(right?"ok":"bad");
+  setMascot("playMascot",right?"happy":"oops",true); gIdx++;
+  advTimer=setTimeout(fangNext, right?700:1400);
+}
 function startSession(mode){
   const t=today();
   if(mode==="hard"){
@@ -1034,6 +1060,7 @@ function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
 document.getElementById("startBtn").onclick=()=>startSession();
 document.getElementById("rfBtn").onclick=()=>startRF();
 document.getElementById("sortBtn").onclick=()=>startSort();
+document.getElementById("fangBtn").onclick=()=>startFang();
 document.getElementById("welJoin").onclick=()=>welcomeJoin(document.getElementById("welNameInput").value);
 document.getElementById("welNameInput").addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
 document.getElementById("welSkip").onclick=()=>{ S.noName=1; save(); show("home"); };
