@@ -59,7 +59,7 @@ function makeCtx(src, fetchImpl, extra) {
   const FAKE = "http://fake/", cloud = {};
   const fetchImpl = (url, opts) => { if (opts && opts.method === "PUT") { cloud[url] = JSON.parse(opts.body); return Promise.resolve({}); } return Promise.resolve({ json: () => Promise.resolve(url in cloud ? cloud[url] : null) }); };
   const ctl = { confirm: false };
-  const src2 = strip(baseSrc.replace('const SYNC_URL="";', 'const SYNC_URL="' + FAKE + '";')) + EXPORT;
+  const src2 = strip(baseSrc.replace(/const SYNC_URL="[^"]*";/, 'const SYNC_URL="' + FAKE + '";')) + EXPORT;
   const Y = makeCtx(src2, fetchImpl, { confirm: () => ctl.confirm });
   const card = b => ({ box: b, due: 0, miss: 0, born: 0 });
   const flush = () => new Promise(r => setTimeout(r, 15));
