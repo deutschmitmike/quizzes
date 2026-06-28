@@ -614,29 +614,43 @@ function confetti(n){const c=document.getElementById("confetti"); if(!c)return; 
   setTimeout(()=>{if(c)c.innerHTML="";},2600);}
 // ===== Rangliste =====
 const CROWN='<svg viewBox="0 0 24 24" width="17" height="17" style="vertical-align:-3px"><path d="M2 8l4.5 4L12 4l5.5 8L22 8l-2.2 11H4.2z" fill="#F2A93B" stroke="#C77F0E" stroke-width="0.8" stroke-linejoin="round"/></svg>';
+function nameKey(n){ return (n||"").trim().toLowerCase().replace(/[.#$\[\]\/\s]+/g,"_")||"_"; }  // Firebase-tauglicher Schluessel aus dem Namen
+function esc(s){ return (s||"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
 function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
   return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
     sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length, ts:Date.now()}; }
-function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+"lb/"+S.playerId+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
+function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+"lb/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+"lb.json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
-function lbPickName(n){ S.playerName=n; save(); renderHome(); }
+// ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
+function cloudSave(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+"save/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(S)}).catch(()=>{}); }catch(e){} }
+function cloudLoad(cb){ if(!SYNC_URL||!S.playerName){ cb(null); return; } try{ fetch(SYNC_URL+"save/"+nameKey(S.playerName)+".json").then(r=>r.json()).then(o=>cb(o)).catch(()=>cb(null)); }catch(e){ cb(null); } }
+function adoptIfNewer(o){ if(!o||!o.cards) return false;       // mehr Karten ODER neuerer Zeitstempel gewinnt -> ein leeres iPad ueberschreibt nie den vollen Cloud-Stand
+  const lp=Object.keys(S.cards).length, cp=Object.keys(o.cards).length;
+  if(cp>lp || (o.ts||0)>(S.ts||0)){ S=Object.assign(fresh(),o); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} return true; }
+  return false; }
+function cloudSync(){ if(!SYNC_URL||!S.playerName) return; cloudLoad(o=>{ if(adoptIfNewer(o)) renderHome(); }); }
+function lbPickName(n){ n=(n||"").trim(); if(!n) return; S.playerName=n;
+  if(SYNC_URL){ cloudLoad(o=>{ if(!adoptIfNewer(o)){ save(); cloudSave(); } renderHome(); }); }  // gleicher Name auf neuem iPad -> alten Stand holen; sonst eigenen hochladen
+  else { save(); renderHome(); } }
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
-  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Mach mit und vergleiche dich mit deinen Freundinnen:</div><div class="row"><button class="btn lbpick" data-n="Kyana">Ich bin Kyana</button><button class="btn lbpick" data-n="Marta">Ich bin Marta</button></div>';
-    list.querySelectorAll(".lbpick").forEach(b=>{b.style.background="var(--der)";b.style.color="#fff";b.style.padding="11px";b.style.fontSize="15px";b.onclick=()=>lbPickName(b.getAttribute("data-n"));}); return; }
+  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Mach mit und gib deinen Namen ein:</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Dein Name" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
+    const inp=document.getElementById("lbNameInput"), jn=document.getElementById("lbJoin");
+    if(jn) jn.onclick=()=>lbPickName(inp.value);
+    if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") lbPickName(inp.value); }); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
     const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name).sort((a,b)=>(b.pct-a.pct)||(b.sicher-a.sicher));
-    list.innerHTML = arr.length ? arr.map((e,i)=>'<div class="lbrow'+(e.name===S.playerName?' me':'')+'"><span class="lbrank">'+(i===0?CROWN:(i+1)+'.')+'</span><span class="lbname">'+e.name+'</span><span class="lbval">'+e.pct+' % · '+e.days+' '+(e.days===1?"Tag":"Tage")+'</span></div>').join("")
+    list.innerHTML = arr.length ? arr.map((e,i)=>'<div class="lbrow'+(e.name===S.playerName?' me':'')+'"><span class="lbrank">'+(i===0?CROWN:(i+1)+'.')+'</span><span class="lbname">'+esc(e.name)+'</span><span class="lbval">'+e.pct+' % · '+e.days+' '+(e.days===1?"Tag":"Tage")+'</span></div>').join("")
       : '<div style="color:var(--muted);font-size:13px;">Noch niemand dabei. Spiel eine Runde, dann erscheinst du hier.</div>';
   }); }
 // lokaler Tag: folgt der Zeitzone des Geräts, passt sich beim Reisen automatisch an
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
 let S=load(), saveOk=true;
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
+function save(){try{S.ts=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
 function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=3)n++;} return n;}
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
 function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
@@ -784,7 +798,8 @@ function finishSession(){
   show("done");
   setMascot("doneMascot","cheer",true);
   confetti((stars>=3?75:stars>=2?45:25)+((perfect||medalNew!=null||wordMedalNew!=null||u)?20:0));
-  syncPush();   // eigenen Stand in die Rangliste hochladen
+  syncPush();   // Kurz-Stand in die Rangliste hochladen
+  cloudSave();  // vollen Lernstand online sichern (Backup + Sync)
 }
 
 // ================= UI =================
@@ -879,8 +894,9 @@ document.getElementById("copyBtn").onclick=()=>{const ta=document.getElementById
 document.getElementById("restoreBtn").onclick=()=>{const v=document.getElementById("backupIn").value.trim(); const m=document.getElementById("dataMsg");
   try{const o=JSON.parse(v); if(!o||!o.cards) throw 0; S=Object.assign({cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false},o); save(); renderData(); m.style.color="var(--das)"; m.textContent="Wiederhergestellt.";}
   catch(e){m.style.color="var(--bad)"; m.textContent="Code nicht lesbar.";}};
-document.getElementById("resetBtn").onclick=()=>{ if(confirm("Wirklich allen Fortschritt löschen?")){ S={cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false}; save(); show("home"); } };
+document.getElementById("resetBtn").onclick=()=>{ if(confirm("Wirklich allen Fortschritt löschen?")){ S=fresh(); save(); show("home"); } };
 renderHome();
+cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 </script>
 </body>
 </html>
