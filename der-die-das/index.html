@@ -754,10 +754,34 @@ function renderCurrent(){
   const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
   fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt;
   const bx=(S.cards[it.id]&&S.cards[it.id].box)||0;
-  if(d.scaffold && bx<3){ const sc=document.createElement("div"); sc.className="scaffold"; sc.textContent=d.scaffold; box.appendChild(sc); }
-  d.options.forEach(o=>{ const b=document.createElement("button");
-    b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
-    b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
+  const recall=bx>=3;                                       // sicheres Wort -> Abruf statt Ankreuzen
+  if(d.scaffold && !recall){ const sc=document.createElement("div"); sc.className="scaffold"; sc.textContent=d.scaffold; box.appendChild(sc); }
+  if(recall && it.kind==="genus"){                          // Stufe 1: Artikel selbst tippen
+    const row=document.createElement("div"); row.style.cssText="display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap;";
+    const inp=document.createElement("input"); inp.type="text"; inp.maxLength=5; inp.placeholder="der / die / das"; inp.setAttribute("autocapitalize","off"); inp.setAttribute("autocomplete","off");
+    inp.style.cssText="border:2px solid var(--der); border-radius:14px; padding:12px; font-family:inherit; font-size:22px; text-align:center; width:190px;";
+    const b=document.createElement("button"); b.className="ctlbtn weiter"; b.style.padding="12px 18px"; b.textContent="Prüfen";
+    const go=()=>{ const v=inp.value.trim().toLowerCase().split(/\s+/)[0]; if(!v) return; finishRecall(v===d.correct, d, it); };
+    b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+    row.appendChild(inp); row.appendChild(b); opts.appendChild(row);
+    setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
+  } else if(recall){                                        // andere Stufen: Selbst-Check
+    const showBtn=document.createElement("button"); showBtn.className="btn big"; showBtn.textContent="Antwort zeigen";
+    showBtn.onclick=()=>{
+      opts.innerHTML="";
+      if(d.blankFill){ const bl=document.querySelector("#promptBox .blank"); if(bl){ bl.textContent=d.correct; bl.classList.add("filled"); } }
+      const sol=document.createElement("div"); sol.style.cssText="text-align:center; font-size:clamp(20px,5.4vw,26px); font-weight:800; color:var(--ok); margin:6px 0 12px;"; sol.textContent=d.correct; opts.appendChild(sol);
+      const row=document.createElement("div"); row.className="ctl";
+      const yes=document.createElement("button"); yes.className="ctlbtn weiter"; yes.textContent="Wusste ich"; yes.onclick=()=>{ beep(true); pending={d,it,right:true}; commitNext(); };
+      const no=document.createElement("button"); no.className="ctlbtn undo"; no.textContent="Nochmal"; no.onclick=()=>{ beep(false); pending={d,it,right:false}; commitNext(); };
+      row.appendChild(yes); row.appendChild(no); opts.appendChild(row);
+    };
+    opts.appendChild(showBtn);
+  } else {
+    d.options.forEach(o=>{ const b=document.createElement("button");
+      b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
+      b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
+  }
   const rem=new Set(queue.map(q=>q.id)).size, done=Math.max(0,sessionTotal-rem);
   document.getElementById("sessN").textContent=done+"/"+sessionTotal;
   document.getElementById("progBar").style.width=(100*done/sessionTotal)+"%";
@@ -773,6 +797,16 @@ function answer(btn,chosen,d,it){
     fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false);
     [...document.querySelectorAll(".opt")].forEach(b=>{if(b.textContent===d.correct)b.classList.add("correct");}); setMascot("playMascot","oops"); }
   pending={d,it,right};                                    // erst beim Weiter verbuchen, ein Vertipper kann zurück
+  const ctl=document.createElement("div"); ctl.className="ctl";
+  const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
+  fb.appendChild(ctl);
+  advTimer=setTimeout(commitNext, right?1000:1900);
+}
+function finishRecall(right,d,it){                          // Tipp-Modus: Ergebnis + Weiter (wie answer, aber ohne Knopf-Markierung)
+  const fb=document.getElementById("fb"); document.getElementById("opts").innerHTML="";
+  if(right){ fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
+  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
+  pending={d,it,right};
   const ctl=document.createElement("div"); ctl.className="ctl";
   const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
   fb.appendChild(ctl);
