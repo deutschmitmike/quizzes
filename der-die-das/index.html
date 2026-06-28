@@ -716,7 +716,7 @@ function srsApply(id,right){ const c=S.cards[id]||{box:0,due:today(),miss:0,born
   if(right){ c.box=Math.min((c.box||0)+1,6); c.miss=Math.max(0,(c.miss||0)-1); c.due=today()+INTERVAL[c.box]; S.points++; }
   else { c.box=1; c.due=today(); c.miss=(c.miss||0)+1; }
   S.cards[id]=c; save(); }
-function gamePool(n){ let p=ITEMS.filter(it=>it.stage===1 && S.cards[it.id]); if(p.length<n) p=ITEMS.filter(it=>it.stage===1); return shuffle(p.slice()).slice(0,n); }
+function gamePool(n){ let p=ITEMS.filter(it=>it.stage===1 && it.word && S.cards[it.id]); if(p.length<n) p=ITEMS.filter(it=>it.stage===1 && it.word); return shuffle(p.slice()).slice(0,n); }
 function startRF(){
   gQ=gamePool(10).map(it=>{ const w=it.word, g=G[w];
     if(P[w] && Math.random()<0.5){ const corr="die "+P[w]; const ok=Math.random()<0.5; let shown=corr; if(!ok){ const o=plOpts(w); shown=o.find(x=>x!==corr)||corr; }
