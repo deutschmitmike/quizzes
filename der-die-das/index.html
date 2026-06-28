@@ -151,7 +151,7 @@
     <button class="btn" id="hardBtn" style="display:none; background:var(--die); color:#fff; padding:13px; margin-top:8px; width:100%; font-size:clamp(16px,4.6vw,19px);">Schwere Wörter üben</button>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
-      <h2 style="font-size:17px; margin:0 0 8px;">Rangliste</h2>
+      <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
       <div id="lbList"></div>
     </div>
     <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
@@ -578,6 +578,7 @@ function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedal
 const SYNC_URL="";  // z.B. "https://deinprojekt-default-rtdb.europe-west1.firebasedatabase.app/"
 const MILESTONES=[3,7,14,30,60,100];
 const WORD_MILESTONES=[20,50,100,150];
+const TEAM_GOALS=[50,100,200,350,500,750,1000,1500,2000,2770];  // gemeinsames Ziel: Summe gemeisterter Woerter aller Kinder
 const FLAME='<svg viewBox="0 0 32 32"><path d="M16 2c2 5-2 7-3 10-1 2 0 4 2 4 2 0 3-2 3-4 3 3 4 6 4 9a10 10 0 1 1-20 0c0-4 2-7 4-9 1 3 3 3 4 1 2-3 1-7 2-11z" fill="#FF8A1E"/><path d="M16 15c1 2-1 3-1 5 0 2 1 3 3 3 1 0 2-1 2-3 0-2-2-4-4-5z" fill="#FFD23F"/></svg>';
 function medalSvg(m,kind){const g=kind==="teal"?["#7BD8C9","#2BA89A","#0d6b5e","#1c8475"]:["#F4C24B","#F2A93B","#6b4400","#C77F0E"];
   return '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="'+g[0]+'" stroke="'+g[3]+'" stroke-width="1.5"/><circle cx="12" cy="12" r="6" fill="'+g[1]+'"/><text x="12" y="15.5" font-size="'+(m>=100?6.2:8)+'" text-anchor="middle" fill="'+g[2]+'" font-weight="bold">'+m+'</text></svg>';}
@@ -642,16 +643,23 @@ function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   //
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
-  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Mach mit und gib deinen Namen ein:</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Dein Name" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
+  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Macht zusammen das Ziel voll — gib deinen Namen ein:</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Dein Name" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
     const inp=document.getElementById("lbNameInput"), jn=document.getElementById("lbJoin");
     if(jn) jn.onclick=()=>tryJoin(inp.value);
     if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") tryJoin(inp.value); }); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
-    const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name).sort((a,b)=>(b.pct-a.pct)||(b.sicher-a.sicher));
-    list.innerHTML = arr.length ? arr.map((e,i)=>'<div class="lbrow'+(e.name===S.playerName?' me':'')+'"><span class="lbrank">'+(i===0?CROWN:(i+1)+'.')+'</span><span class="lbname">'+esc(e.name)+'</span><span class="lbval">'+e.pct+' % · '+e.days+' '+(e.days===1?"Tag":"Tage")+'</span></div>').join("")
-      : '<div style="color:var(--muted);font-size:13px;">Noch niemand dabei. Spiel eine Runde, dann erscheinst du hier.</div>';
+    const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name);
+    const total=arr.reduce((s,e)=>s+(e.sicher||0),0);
+    const goal=TEAM_GOALS.find(g=>g>total)||TEAM_GOALS[TEAM_GOALS.length-1];
+    const pct=Math.min(100,Math.round(100*total/goal));
+    const names=arr.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(e=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+esc(e.name)+': '+(e.sicher||0)+'</span>').join("");
+    list.innerHTML =
+      '<div style="font-size:15px;margin-bottom:6px;">Gemeinsam <b>'+total+'</b> von '+goal+' Wörtern sicher</div>'+
+      '<div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(total>=goal?'Ziel geschafft! 🎉 Weiter so!':('Noch '+(goal-total)+' Wörter bis zum Ziel 🎯'))+'</div>'+
+      '<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px;">'+(names||'<span style="color:var(--muted);font-size:13px;">Noch niemand dabei. Spielt eine Runde!</span>')+'</div>';
   }); }
 // lokaler Tag: folgt der Zeitzone des Geräts, passt sich beim Reisen automatisch an
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
