@@ -632,13 +632,20 @@ function cloudSync(){ if(!SYNC_URL||!S.playerName) return; cloudLoad(o=>{ if(ado
 function lbPickName(n){ n=(n||"").trim(); if(!n) return; S.playerName=n;
   if(SYNC_URL){ cloudLoad(o=>{ if(!adoptIfNewer(o)){ save(); cloudSave(); } renderHome(); }); }  // gleicher Name auf neuem iPad -> alten Stand holen; sonst eigenen hochladen
   else { save(); renderHome(); } }
+function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   // vergebene Namen schuetzen, aber eigenes 2. iPad zulassen
+  syncPull(o=>{ const taken = o && o!==false && o[key] && o[key].name;
+    if(taken){
+      if(window.confirm('Den Namen „'+n+'" gibt es schon.\n\nBist du das? Dann OK – dein Stand wird geladen.\nSonst „Abbrechen" und einen anderen Namen wählen.')) lbPickName(n);
+      else { const inp=document.getElementById("lbNameInput"); if(inp){ inp.value=""; inp.focus(); } }
+    } else lbPickName(n);
+  }); }
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
   if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Mach mit und gib deinen Namen ein:</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Dein Name" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
     const inp=document.getElementById("lbNameInput"), jn=document.getElementById("lbJoin");
-    if(jn) jn.onclick=()=>lbPickName(inp.value);
-    if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") lbPickName(inp.value); }); return; }
+    if(jn) jn.onclick=()=>tryJoin(inp.value);
+    if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") tryJoin(inp.value); }); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
