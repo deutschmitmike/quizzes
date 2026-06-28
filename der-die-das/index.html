@@ -124,6 +124,17 @@
 <div id="confetti"></div>
 <div id="app">
 
+  <!-- WELCOME (Name zuerst) -->
+  <div id="welcome" class="screen">
+    <div class="center">
+      <h1><span class="mascot" id="welMascot" style="width:56px;height:56px;"></span> Hallo!</h1>
+      <p class="sub">Wie heißt du? Nur Vorname oder Spitzname.</p>
+      <input id="welNameInput" maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="width:100%; border:1.5px solid #d7ddec; border-radius:14px; padding:14px; font-family:inherit; font-size:18px; text-align:center;">
+      <button class="btn big" id="welJoin" style="margin-top:12px;">Los geht's</button>
+      <button class="link" id="welSkip" style="align-self:center;">ohne Namen üben</button>
+    </div>
+  </div>
+
   <!-- HOME -->
   <div id="home" class="screen on">
     <div class="streakhero" id="streakHero">
@@ -149,7 +160,6 @@
     <div id="levelBox" style="margin:0 2px 10px; font-size:13px; color:var(--muted); font-weight:700;"></div>
     <div id="saveWarn" class="tiny" style="color:var(--bad); margin:0 2px 8px;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
-    <button class="btn" id="hardBtn" style="display:none; background:var(--die); color:#fff; padding:13px; margin-top:8px; width:100%; font-size:clamp(16px,4.6vw,19px);">Schwere Wörter üben</button>
     <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display:none; margin-top:12px;">
       <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
@@ -660,10 +670,8 @@ function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   //
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
-  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Macht zusammen das Ziel voll — gib deinen Vornamen oder Spitznamen ein (kein voller Name):</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
-    const inp=document.getElementById("lbNameInput"), jn=document.getElementById("lbJoin");
-    if(jn) jn.onclick=()=>tryJoin(inp.value);
-    if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") tryJoin(inp.value); }); return; }
+  if(!S.playerName){ list.innerHTML='<button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button>';
+    const jn=document.getElementById("lbJoinNow"); if(jn) jn.onclick=()=>show("welcome"); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
@@ -834,8 +842,8 @@ function finishSession(){
 }
 
 // ================= UI =================
-function show(id){["home","play","done","data"].forEach(s=>document.getElementById(s).classList.toggle("on",s===id));
-  if(id==="home")renderHome(); if(id==="data")renderData();}
+function show(id){["welcome","home","play","done","data"].forEach(s=>document.getElementById(s).classList.toggle("on",s===id));
+  if(id==="home")renderHome(); if(id==="data")renderData(); if(id==="welcome")setMascot("welMascot","happy");}
 function renderHome(){
   document.getElementById("streakN").textContent=S.streak;
   document.getElementById("pointsN").textContent=S.points;
@@ -887,8 +895,6 @@ function renderHome(){
     list.appendChild(d);
   });
   document.getElementById("saveWarn").textContent = saveOk ? "" : "Achtung: Fortschritt kann nicht gespeichert werden. Bitte nicht im privaten Safari-Modus benutzen.";
-  const hasHard=ITEMS.some(it=>S.cards[it.id]&&S.cards[it.id].miss>0);
-  document.getElementById("hardBtn").style.display=hasHard?"block":"none";
   renderLeaderboard();
 }
 function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); if(!panel) return;
@@ -927,8 +933,15 @@ function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioCon
   o.start(); o.frequency.exponentialRampToValueAtTime(ok?880:160,actx.currentTime+0.12);
   g.gain.exponentialRampToValueAtTime(0.0001,actx.currentTime+0.18); o.stop(actx.currentTime+0.2);}catch(e){}}
 
+function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
+  syncPull(o=>{ const taken=o&&o!==false&&o[key]&&o[key].name;
+    if(taken && !window.confirm('Den Namen „'+n+'" gibt es schon. Bist du das? OK = dein Stand wird geladen, Abbrechen = anderen Namen wählen.')) return;
+    lbPickName(n); show("home");
+  }); }
 document.getElementById("startBtn").onclick=()=>startSession();
-document.getElementById("hardBtn").onclick=()=>startSession("hard");
+document.getElementById("welJoin").onclick=()=>welcomeJoin(document.getElementById("welNameInput").value);
+document.getElementById("welNameInput").addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
+document.getElementById("welSkip").onclick=()=>{ S.noName=1; save(); show("home"); };
 document.getElementById("homeBtn").onclick=()=>show("home");
 document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); show("home"); };
 let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tippen
@@ -943,7 +956,7 @@ document.getElementById("resetBtn").onclick=()=>{
   if(SYNC_URL && nm){ const k=nameKey(nm); try{ fetch(SYNC_URL+"save/"+k+".json",{method:"DELETE"}).catch(()=>{}); fetch(SYNC_URL+"lb/"+k+".json",{method:"DELETE"}).catch(()=>{}); }catch(e){} }
   S=fresh(); save(); show("home");
 };
-renderHome();
+if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 </script>
 </body>

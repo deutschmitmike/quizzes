@@ -9,7 +9,7 @@ const mm = html.match(/<script>\s*"use strict";([\s\S]*?)<\/script>/);
 if (!mm) { console.log("FAIL  <script> nicht gefunden"); process.exit(1); }
 const baseSrc = '"use strict";' + mm[1];
 const EXPORT = "\n;globalThis.__x={G,P,W,D,A,ITEMS,EXTRA,POSS3,STAGES,cardData,startSession,today,MAX_SESSION,getQueue:()=>queue,getS:()=>S,setS:x=>{S=x;},fresh,lbEntry,cloudSave,cloudLoad,adoptIfNewer,tryJoin,nameKey};";
-const strip = s => s.replace(/renderHome\(\);\s*cloudSync\(\);[^\n]*$/, "").replace(/renderHome\(\);\s*$/, "");
+const strip = s => s.replace(/if\(SYNC_URL && !S\.playerName[\s\S]*$/, "").replace(/renderHome\(\);\s*cloudSync\(\);[^\n]*$/, "").replace(/renderHome\(\);\s*$/, "");
 
 function el() { return new Proxy({ style: {}, classList: { add() {}, remove() {}, toggle() {} }, innerHTML: "", value: "", appendChild() {}, querySelectorAll: () => [], addEventListener() {}, getAttribute: () => "", setAttribute() {}, focus() {} }, { get(t, p) { return (p in t) ? t[p] : ((...a) => el()); }, set(t, p, v) { t[p] = v; return true; } }); }
 function makeCtx(src, fetchImpl, extra) {
