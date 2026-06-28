@@ -55,7 +55,7 @@ function makeCtx(src, fetchImpl, extra) {
   }
   const s1 = srs(5), s2 = srs(40);
   ck("ohne Stau: neue Wörter kommen dazu", s1.neu > 0 && s1.overdueFirst);
-  ck("bei Stau: keine neuen, überfälligste zuerst", s2.neu === 0 && s2.overdueFirst && s2.len === MAX_SESSION);
+  ck("große Runde: ALLE fälligen drin (kein Cap) + neue", s2.overdueFirst && s2.neu > 0 && s2.len >= 40);
 
   // ---- Teil 2: Cloud-Sync (mit aktivierter SYNC_URL + simulierter Datenbank) ----
   const FAKE = "http://fake/", cloud = {};

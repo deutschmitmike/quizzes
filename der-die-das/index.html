@@ -599,7 +599,7 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
 // ================= Zustand =================
 const KEY="ddd_kyana_v2";
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
-const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=22, MAX_REPEAT=3;  // 20 neue pro Runde = 20 pro Tag (eine Runde) + Wiederholungen
+const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=999, MAX_REPEAT=3;  // eine grosse Runde: alle faelligen + bis zu 20 neue, dann "heute geschafft"
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
@@ -714,7 +714,7 @@ function srsApply(id,right){ const c=S.cards[id]||{box:0,due:today(),miss:0,born
 function gamePool(n){ let p=ITEMS.filter(it=>it.stage===1 && it.word && S.cards[it.id]); if(p.length<n) p=ITEMS.filter(it=>it.stage===1 && it.word); return shuffle(p.slice()).slice(0,n); }
 function startRF(){
   gQ=gamePool(10).map(it=>{ const w=it.word, g=G[w];
-    if(P[w] && Math.random()<0.5){ const corr="die "+P[w]; const ok=Math.random()<0.5; let shown=corr; if(!ok){ const o=plOpts(w); shown=o.find(x=>x!==corr)||corr; }
+    if(S.unlocked>=2 && P[w] && Math.random()<0.5){ const corr="die "+P[w]; const ok=Math.random()<0.5; let shown=corr; if(!ok){ const o=plOpts(w); shown=o.find(x=>x!==corr)||corr; }
       return {id:"p:"+w, q:g+" "+w+" → "+shown, right:shown===corr, full:corr}; }
     const ok=Math.random()<0.5; const shg=ok?g:shuffle(["der","die","das"].filter(a=>a!==g))[0];
     return {id:"g:"+w, q:shg+" "+w, right:shg===g, full:g+" "+w}; });
