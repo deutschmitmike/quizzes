@@ -210,20 +210,6 @@
       <div class="hardlist" id="hardList">Noch nichts geübt.</div>
     </div>
     <div class="panel">
-      <h2>Fortschritt sichern</h2>
-      <p>Diesen Code kopieren und z.B. in eine Notiz oder Mail an dich legen. Falls Safari die Daten löscht, kannst du damit wiederherstellen.</p>
-      <textarea id="backupOut" readonly></textarea>
-      <div class="row" style="margin-top:8px;">
-        <button class="btn" id="copyBtn" style="background:var(--der); color:#fff; padding:12px;">Code kopieren</button>
-      </div>
-      <p style="margin-top:12px;">Wiederherstellen: Code hier einfügen und auf Wiederherstellen tippen.</p>
-      <textarea id="backupIn" placeholder="Code hier einfügen ..."></textarea>
-      <div class="row" style="margin-top:8px;">
-        <button class="btn" id="restoreBtn" style="background:var(--das); color:#fff; padding:12px;">Wiederherstellen</button>
-      </div>
-      <p id="dataMsg" style="color:var(--das); font-weight:700; min-height:18px;"></p>
-    </div>
-    <div class="panel">
       <h2>Neu anfangen</h2>
       <p>Löscht den ganzen Fortschritt und fängt bei Stufe 1 von vorn an.</p>
       <button class="btn danger" id="resetBtn" style="padding:12px; width:100%;">Alles zurücksetzen</button>
@@ -673,7 +659,7 @@ function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   //
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
-  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Macht zusammen das Ziel voll — gib deinen Namen ein:</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Dein Name" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
+  if(!S.playerName){ list.innerHTML='<div style="margin-bottom:8px;color:var(--muted);font-size:14px;">Macht zusammen das Ziel voll — gib deinen Vornamen oder Spitznamen ein (kein voller Name):</div><div class="row"><input id="lbNameInput" maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="flex:1;min-width:0;border:1px solid #d7ddec;border-radius:12px;padding:11px;font-family:inherit;font-size:15px;"><button class="btn" id="lbJoin" style="background:var(--der);color:#fff;padding:11px 16px;font-size:15px;white-space:nowrap;">Mitmachen</button></div>';
     const inp=document.getElementById("lbNameInput"), jn=document.getElementById("lbJoin");
     if(jn) jn.onclick=()=>tryJoin(inp.value);
     if(inp) inp.addEventListener("keydown",e=>{ if(e.key==="Enter") tryJoin(inp.value); }); return; }
@@ -930,9 +916,6 @@ function renderData(){
     .sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,12);
   const hl=document.getElementById("hardList");
   hl.innerHTML = hard.length ? hard.map(it=>'<span>'+label(it)+" ("+S.cards[it.id].miss+"×)</span>").join("") : "Noch keine Fehler. Super.";
-  document.getElementById("backupOut").value=JSON.stringify(S);
-  document.getElementById("dataMsg").textContent="";
-  document.getElementById("backupIn").value="";
   renderAllKids();
 }
 // kleiner Ton (Klick-Feedback)
@@ -950,12 +933,6 @@ document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTi
 let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tippen
 document.getElementById("homeTitle").onclick=()=>{ tapN++; clearTimeout(tapT); tapT=setTimeout(()=>{tapN=0;},1500); if(tapN>=5){ tapN=0; show("data"); } };
 document.getElementById("dataBack").onclick=()=>show("home");
-document.getElementById("copyBtn").onclick=()=>{const ta=document.getElementById("backupOut"); ta.select(); ta.setSelectionRange(0,99999);
-  try{document.execCommand("copy");}catch(e){} if(navigator.clipboard){try{navigator.clipboard.writeText(ta.value);}catch(e){}}
-  document.getElementById("dataMsg").textContent="Code kopiert.";};
-document.getElementById("restoreBtn").onclick=()=>{const v=document.getElementById("backupIn").value.trim(); const m=document.getElementById("dataMsg");
-  try{const o=JSON.parse(v); if(!o||!o.cards) throw 0; S=Object.assign({cards:{},streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false},o); save(); renderData(); m.style.color="var(--das)"; m.textContent="Wiederhergestellt.";}
-  catch(e){m.style.color="var(--bad)"; m.textContent="Code nicht lesbar.";}};
 document.getElementById("resetBtn").onclick=()=>{ if(confirm("Wirklich allen Fortschritt löschen?")){ S=fresh(); save(); show("home"); } };
 renderHome();
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)

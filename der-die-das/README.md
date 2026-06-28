@@ -41,7 +41,7 @@ Damit die Kinder zusammen auf ein **gemeinsames Ziel** hinarbeiten (Summe der ge
    }
    ```
 
-   Damit sind zwei Pfade offen, ohne Login: `lb` (Rangliste: Name, Prozent, Übungstage) und `save` (der vollständige Lernstand jedes Kindes, als Online-Backup und zum Synchronisieren zwischen mehreren iPads). Für eine kleine, private Freundinnen-Liste ist das in Ordnung — wer die URL kennt, könnte die Daten sehen/ändern; es stehen aber nur Lernfortschritt und Name drin, nichts Persönliches.
+   Damit sind zwei Pfade offen, ohne Login: `lb` (Rangliste: Name, Prozent, Übungstage) und `save` (der vollständige Lernstand jedes Kindes, als Online-Backup und zum Synchronisieren zwischen mehreren iPads). Für eine kleine, private Freundinnen-Liste ist das in Ordnung — wer die URL kennt, könnte die Daten sehen/ändern; es stehen aber nur Lernfortschritt und Name drin, nichts Persönliches. Tipp: online am besten nur **Vornamen/Spitznamen** verwenden (das Namensfeld weist auch darauf hin).
 
 6. Oben auf der Realtime-Database-Seite die **Datenbank-URL** kopieren, z.B.
    `https://ddd-rangliste-default-rtdb.europe-west1.firebasedatabase.app/`
@@ -70,13 +70,13 @@ Zusätzlich wird der **vollständige Lernstand online gesichert** (Pfad `save`, 
 - Auf jedem iPad die Pages-URL in **Safari** öffnen.
 - Über **Teilen → Zum Home-Bildschirm** hinzufügen. Dann startet es wie eine App, im Vollbild, und merkt sich den Fortschritt.
 - Einmal täglich „Heute üben". Eine Runde sind rund 20 Karten (bis zu 15 neue Wörter plus Wiederholungen). Danach „Heute geschafft".
-- Eltern-Bereich (Statistik, Sicherung, schwere Wörter, Neustart): **fünfmal auf die Begrüßung tippen**.
+- Eltern-Bereich (Statistik, Übersicht aller Kinder, schwere Wörter, Neustart): **fünfmal auf die Begrüßung tippen**.
 
 ---
 
 ## 4. Hinweise
 
-- **Ohne `SYNC_URL` (Standard):** Der Lernstand liegt nur im Safari dieses Geräts. „Verlauf und Websitedaten löschen" oder der private Modus können ihn löschen. Darum am besten **zum Home-Bildschirm hinzufügen** (eigener Speicher, von Safaris 7-Tage-Löschung ausgenommen). Im Eltern-Bereich gibt es zusätzlich einen **Sicherungs-Code** zum Kopieren/Wiederherstellen.
+- **Ohne `SYNC_URL` (Standard):** Der Lernstand liegt nur im Safari dieses Geräts. „Verlauf und Websitedaten löschen" oder der private Modus können ihn löschen. Darum am besten **zum Home-Bildschirm hinzufügen** (eigener Speicher, von Safaris 7-Tage-Löschung ausgenommen).
 - **Mit `SYNC_URL` (Rangliste aktiv):** Zusätzlich wird der vollständige Lernstand online gesichert (Backup) und zwischen iPads synchronisiert. Das entschärft den Datenverlust deutlich.
 - **Rangliste/Sync ist optional:** Bleibt `SYNC_URL` leer, läuft alles rein lokal und offline, das Ranglisten-Feld bleibt unsichtbar.
 - Online liegen nur Lernfortschritt (Boxen/Streak) + der frei gewählte Name — nichts Persönliches.
