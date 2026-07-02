@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>finden ＋ gefallen ・ 100 題選擇</title>
+<style>
+  :root{
+    --orange:#EA5206; --accent:#F2884B; --bg:#FFF7F2; --card:#FFFFFF;
+    --green:#1B7A43; --green-bg:#E6F4EA; --red:#C0341D; --red-bg:#FCEBE7;
+    --ink:#2B2320; --muted:#7A6F69; --line:#F0DACE; --blue:#2C6E8F; --blue-bg:#E8F1F5;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;}
+  .wrap{max-width:430px;margin:0 auto;padding:14px 14px 92px;}
+  header h1{font-size:21px;margin:6px 0 2px;color:var(--orange);}
+  header p.sub{margin:0 0 12px;font-size:13px;color:var(--muted);}
+
+  .rule{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:13px;margin-bottom:14px;}
+  .rule h2{font-size:15px;margin:0 0 8px;color:var(--orange);}
+  .rule .row{font-size:13.5px;margin:6px 0;}
+  .rule b{color:var(--orange);}
+  .de{font-style:italic;}
+  .chip{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;margin:1px 2px;font-size:12.5px;font-style:italic;}
+  .warn{font-size:12.5px;margin:8px 0 0;padding:8px 10px;background:var(--bg);border-radius:9px;color:var(--ink);}
+  .warn b{color:var(--orange);}
+  .warn .sw{color:var(--blue);font-weight:bold;}
+  .tablewrap{overflow-x:auto;margin-top:8px;}
+  table.pron{border-collapse:collapse;width:100%;font-size:12.5px;}
+  table.pron th,table.pron td{border:1px solid var(--line);padding:4px 5px;text-align:center;}
+  table.pron th{background:var(--accent);color:#fff;}
+
+  .bar{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 0 6px;margin-bottom:8px;border-bottom:1px solid var(--line);}
+  .bar .track{height:8px;background:var(--line);border-radius:6px;overflow:hidden;}
+  .bar .fill{height:100%;width:0;background:var(--orange);transition:width .25s;}
+  .bar .stats{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:5px;}
+  .bar .stats b{color:var(--orange);}
+
+  .item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 13px 10px;margin-bottom:12px;}
+  .item .top{display:flex;justify-content:space-between;align-items:baseline;font-size:11.5px;color:var(--muted);margin-bottom:4px;gap:6px;}
+  .item .badge{background:var(--accent);color:#fff;border-radius:6px;padding:1px 7px;font-weight:bold;letter-spacing:.3px;flex:0 0 auto;}
+  .item .who{text-align:right;}
+  .qline{font-size:14.5px;margin:2px 0 4px;}
+  .qde{font-style:italic;}
+  .perspective{font-size:12px;margin:4px 0 8px;padding:5px 9px;border-radius:8px;font-weight:bold;}
+  .perspective.switch{background:var(--blue-bg);color:var(--blue);}
+  .perspective.keep{background:var(--bg);color:var(--muted);}
+  .ask{font-size:13px;color:var(--muted);margin:2px 0 10px;}
+  .ask b{color:var(--orange);font-style:normal;}
+
+  .opt{display:block;width:100%;text-align:left;font-family:Arial,sans-serif;font-size:15px;
+    padding:11px 12px;margin:7px 0;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);cursor:pointer;font-style:italic;}
+  .opt:active{border-color:var(--accent);}
+  .opt.ok{border-color:var(--green);background:var(--green-bg);color:var(--green);}
+  .opt.bad{border-color:var(--red);background:var(--red-bg);color:var(--red);}
+  .opt .mark{font-style:normal;float:right;font-weight:bold;}
+
+  .fb{font-size:12.5px;margin-top:8px;padding:8px 10px;border-radius:9px;display:none;}
+  .fb.show{display:block;}
+  .fb.good{background:var(--green-bg);color:var(--green);}
+  .fb.bad{background:var(--red-bg);color:var(--red);}
+  .fb b{font-style:italic;}
+
+  .foot{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;max-width:430px;margin:0 auto;}
+  .btn{display:block;width:100%;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;color:#fff;background:var(--orange);border:none;border-radius:11px;padding:12px;cursor:pointer;letter-spacing:1px;}
+  .btn:active{background:#c8460a;}
+  .btn.ghost{background:#fff;color:var(--orange);border:2px solid var(--orange);}
+  .row2{display:flex;gap:8px;}
+  .row2 .btn{flex:1;}
+
+  .result{background:var(--orange);color:#fff;border-radius:14px;padding:18px;text-align:center;margin-bottom:14px;display:none;}
+  .result.show{display:block;}
+  .result .big{font-size:32px;font-weight:bold;display:block;}
+  .result .msg{font-size:14px;margin-top:4px;}
+  footer{text-align:center;font-size:11px;color:var(--muted);margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>finden ＋ Akkusativ　vs.　gefallen ＋ Dativ</h1>
+  <p class="sub">A2 選擇題 ・ 共 100 題，用點的，不用打字。</p>
+</header>
+
+<section class="rule">
+  <h2>先看規則</h2>
+  <div class="row"><b>finden</b> 接<b>第四格（Akkusativ）</b>：<span class="chip">den</span><span class="chip">das</span><span class="chip">die</span>，回答用 <span class="chip">ihn</span><span class="chip">es</span><span class="chip">sie</span>。</div>
+  <div class="row"><b>gefallen</b> 接<b>第三格（Dativ）</b>：<span class="chip">mir</span><span class="chip">dir</span><span class="chip">ihm</span><span class="chip">ihr</span><span class="chip">uns</span><span class="chip">euch</span><span class="chip">ihnen</span>，東西是<b>主語</b>：<span class="de">er／es／sie gefällt …</span>。</div>
+  <div class="tablewrap">
+    <table class="pron">
+      <tr><th>人稱</th><th>ich</th><th>du</th><th>er</th><th>sie(單)</th><th>wir</th><th>ihr</th><th>sie(複)</th></tr>
+      <tr><th>Dativ</th><td>mir</td><td>dir</td><td>ihm</td><td>ihr</td><td>uns</td><td>euch</td><td>ihnen</td></tr>
+    </table>
+  </div>
+  <p class="warn"><b>兩種回答視角，題目會標出來：</b><br>
+  <span class="sw">🔄 對話（換人稱）</span>：問 <span class="de">ihr</span>，你代表大家回答就用 <span class="de">wir</span>；問 <span class="de">du</span> 就用 <span class="de">ich</span>。<br>
+  <b>👉 轉述（不換）</b>：問「他 / 她 / 他們」怎麼想，答句人稱不變，例如問 <span class="de">er</span> 就答 <span class="de">er</span>。</p>
+</section>
+
+<div class="bar">
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <div class="stats"><span>已作答 <b id="answered">0</b> / 100</span><span>答對 <b id="hits">0</b></span></div>
+</div>
+
+<div class="result" id="result">
+  <span class="big" id="resBig">0 / 100</span>
+  <span class="msg" id="resMsg"></span>
+</div>
+
+<div id="list"></div>
+
+<footer>Deutsch mit Mike ・ A2 Grammatik</footer>
+</div>
+
+<div class="foot">
+  <div class="row2">
+    <button class="btn" id="scoreBtn">看成績 Ergebnis</button>
+    <button class="btn ghost" id="resetBtn">重來 Nochmal</button>
+  </div>
+</div>
+
+<script>
+/* ---------- 資料 ---------- */
+const NOUNS=[
+  ["der Pullover","m"],["das Kleid","n"],["die Wohnung","f"],["das Auto","n"],["die Schuhe","p"],
+  ["die Tasche","f"],["der Tisch","m"],["das Sofa","n"],["der Stuhl","m"],["der Teppich","m"],
+  ["die Lampe","f"],["das Fahrrad","n"],["der Fernseher","m"],["das Bild","n"],["der Computer","m"],
+  ["die Jacke","f"],["der Rock","m"],["das Buch","n"],["die Uhr","f"],["der Rucksack","m"]
+];
+const AKK={m:{art:"den",ans:"ihn"},n:{art:"das",ans:"es"},f:{art:"die",ans:"sie"},p:{art:"die",ans:"sie"}};
+const SUBJ={m:"Er",n:"Es",f:"Sie",p:"Sie"};
+const VERBG={m:"gefällt",n:"gefällt",f:"gefällt",p:"gefallen"};
+const FIND={ich:"finde",du:"findest",er:"findet",sieSg:"findet",wir:"finden",ihr:"findet",siePl:"finden"};
+const NOM={ich:"ich",du:"du",er:"er",sieSg:"sie",wir:"wir",ihr:"ihr",siePl:"sie"};
+const DAT={ich:"mir",du:"dir",er:"ihm",sieSg:"ihr",wir:"uns",ihr:"euch",siePl:"ihnen"};
+
+/* 對話會換人稱（第一/第二人稱之間）*/
+const DIALOG={du:"ich",ihr:"wir",ich:"du",wir:"ihr"};
+const DIALOG_ASK=Object.keys(DIALOG);
+/* 轉述不換人稱（第三人稱）*/
+const REPORT=["er","sieSg","siePl"];
+
+const AKK_CONFUSE={ihn:"es",es:"sie",sie:"ihn"};
+const DAT_CONFUSE={mir:"dir",dir:"mir",ihm:"ihr",ihr:"ihnen",uns:"euch",euch:"uns",ihnen:"ihm"};
+const DAT_LOOKS_AKK={ihm:"ihn",ihr:"sie",ihnen:"sie",mir:"mich",dir:"dich"};
+const ALL_AKK=["ihn","es","sie"];
+const ALL_DAT=["mir","dir","ihm","ihr","uns","euch","ihnen"];
+
+function bare(n){return n.replace(/^(der|das|die)\s+/,"");}
+function cap(s){return s[0].toUpperCase()+s.slice(1);}
+function pLabel(p){return p==="sieSg"?"sie（她）":p==="siePl"?"sie（他們）":p;}
+
+let seed=20260702;
+function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+function pick(a){return a[Math.floor(rnd()*a.length)];}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+/* 保證剛好四個不重複選項 */
+function fillTo4(core,pool){
+  const seen=new Set(); const out=[];
+  for(const o of core){ if(seen.has(o.t))continue; seen.add(o.t); out.push(o); }
+  for(const o of pool){ if(out.length>=4)break; if(seen.has(o.t))continue; seen.add(o.t); out.push(o); }
+  return out.slice(0,4);
+}
+
+/* ---------- 題型 ---------- */
+/* A：finden 答句。mode "dialog"（換人稱）或 "report"（不換）*/
+function makeA(noun,g,idx,mode){
+  let askP,ansP;
+  if(mode==="dialog"){ askP=pick(DIALOG_ASK); ansP=DIALOG[askP]; }
+  else { askP=pick(REPORT); ansP=askP; }
+  const frage="Wie "+FIND[askP]+" "+NOM[askP]+" "+AKK[g].art+" "+bare(noun)+"?";
+  const gold=cap(NOM[ansP])+" "+FIND[ansP]+" "+AKK[g].ans+" toll.";
+  const akkConf=AKK_CONFUSE[AKK[g].ans];
+  const core=[
+    {t:gold,ok:true},
+    {t:cap(NOM[ansP])+" "+FIND[ansP]+" "+DAT[ansP]+" toll.",why:"格位錯了，finden 要用第四格 "+AKK[g].ans+"，"+DAT[ansP]+" 是第三格。"},
+    {t:cap(NOM[ansP])+" "+FIND[ansP]+" "+akkConf+" toll.",why:"代名詞選錯，"+noun+" 要用 "+AKK[g].ans+"，不是 "+akkConf+"。"}
+  ];
+  // 第三個誘答：dialog 用「沒換人稱」，report 用另一個 Akk 代名詞
+  if(mode==="dialog") core.push({t:cap(NOM[askP])+" "+FIND[askP]+" "+AKK[g].ans+" toll.",why:"人稱沒換，問句問 "+NOM[askP]+"，回答要用 "+NOM[ansP]+"。"});
+  else core.push({t:cap(NOM[ansP])+" "+FIND[ansP]+" "+pick(ALL_AKK.filter(x=>x!==AKK[g].ans&&x!==akkConf))+" toll.",why:"代名詞選錯，"+noun+" 要用 "+AKK[g].ans+"。"});
+  const pool=ALL_AKK.filter(x=>x!==AKK[g].ans).map(x=>({t:cap(NOM[ansP])+" "+FIND[ansP]+" "+x+" toll.",why:"代名詞選錯，"+noun+" 要用 "+AKK[g].ans+"。"}))
+    .concat(ALL_DAT.filter(x=>x!==DAT[ansP]).map(x=>({t:cap(NOM[ansP])+" "+FIND[ansP]+" "+x+" toll.",why:"格位錯了，finden 要用第四格 "+AKK[g].ans+"。"})));
+  const opts=fillTo4(core,pool);
+  return {idx,type:"A",mode,noun,g,askP,ansP,frage,ask:'用 <b>finden</b> 回答：',gold,opts:shuffle(opts)};
+}
+
+/* B：gefallen 答句。dialog / report */
+function makeB(noun,g,idx,mode){
+  let askP,ansP;
+  if(mode==="dialog"){ askP=pick(DIALOG_ASK); ansP=DIALOG[askP]; }
+  else { askP=pick(REPORT); ansP=askP; }
+  const frage="Wie "+VERBG[g]+" "+DAT[askP]+" "+noun+"?";
+  const gold=SUBJ[g]+" "+VERBG[g]+" "+DAT[ansP]+".";
+  const wrongVerb=VERBG[g]==="gefällt"?"gefallen":"gefällt";
+  const datConf=DAT_CONFUSE[DAT[ansP]];
+  const looksAkk=DAT_LOOKS_AKK[DAT[ansP]];
+  const core=[
+    {t:gold,ok:true},
+    {t:SUBJ[g]+" "+VERBG[g]+" "+datConf+".",why:"代名詞混淆，這個人稱要用 "+DAT[ansP]+"，不是 "+datConf+"。"},
+    {t:SUBJ[g]+" "+wrongVerb+" "+DAT[ansP]+".",why:(g==="p"?"複數主語要用 gefallen。":"單數主語要用 gefällt。")}
+  ];
+  if(mode==="dialog") core.push({t:SUBJ[g]+" "+VERBG[g]+" "+DAT[askP]+".",why:"這是問句裡的人稱（"+DAT[askP]+"），回答要用 "+DAT[ansP]+"。"});
+  else if(looksAkk&&looksAkk!==DAT[ansP]) core.push({t:SUBJ[g]+" "+VERBG[g]+" "+looksAkk+".",why:"格位錯了，gefallen 要用第三格 "+DAT[ansP]+"。"});
+  else core.push({t:SUBJ[g]+" "+VERBG[g]+" "+pick(ALL_DAT.filter(x=>x!==DAT[ansP]&&x!==datConf))+".",why:"代名詞選錯，這個人稱要用 "+DAT[ansP]+"。"});
+  const pool=[];
+  if(looksAkk&&looksAkk!==DAT[ansP]) pool.push({t:SUBJ[g]+" "+VERBG[g]+" "+looksAkk+".",why:"格位錯了，gefallen 要用第三格 "+DAT[ansP]+"。"});
+  ALL_DAT.filter(x=>x!==DAT[ansP]).forEach(x=>pool.push({t:SUBJ[g]+" "+VERBG[g]+" "+x+".",why:"代名詞選錯，這個人稱要用 "+DAT[ansP]+"。"}));
+  const opts=fillTo4(core,pool);
+  return {idx,type:"B",mode,noun,g,askP,ansP,frage,ask:'用 <b>gefallen</b> 回答（東西當主語）：',gold,opts:shuffle(opts)};
+}
+
+/* C：gefallen 問句 → finden 問句（同人稱，考冠詞 vs 代名詞跨格）*/
+function makeC(noun,g,idx){
+  const p=pick(["ich","du","er","sieSg","wir","ihr","siePl"]);
+  const frage="Wie "+VERBG[g]+" "+DAT[p]+" "+noun+"?";
+  const gold="Wie "+FIND[p]+" "+NOM[p]+" "+AKK[g].art+" "+bare(noun)+"?";
+  const artConf=AKK[g].art==="den"?"das":(AKK[g].art==="das"?"die":"den");
+  const wrongVerbForm=(p==="ich"?"findest":"finde");
+  const core=[
+    {t:gold,ok:true},
+    {t:"Wie "+FIND[p]+" "+NOM[p]+" "+DAT[p]+"?",why:"finden 後面要接「冠詞＋名詞」（"+AKK[g].art+" "+bare(noun)+"），不能留第三格 "+DAT[p]+"。"},
+    {t:"Wie "+FIND[p]+" "+NOM[p]+" "+artConf+" "+bare(noun)+"?",why:"冠詞錯了，"+noun+" 的第四格是 "+AKK[g].art+"。"},
+    {t:"Wie "+wrongVerbForm+" "+NOM[p]+" "+AKK[g].art+" "+bare(noun)+"?",why:"動詞變化錯了，"+NOM[p]+" 要用 "+FIND[p]+"。"}
+  ];
+  const pool=["den","das","die"].filter(a=>a!==AKK[g].art).map(a=>({t:"Wie "+FIND[p]+" "+NOM[p]+" "+a+" "+bare(noun)+"?",why:"冠詞錯了，"+noun+" 的第四格是 "+AKK[g].art+"。"}));
+  const opts=fillTo4(core,pool);
+  return {idx,type:"C",mode:"keep",noun,g,askP:p,ansP:p,frage,ask:'把問句改成 <b>finden</b> 的問法：',gold,opts:shuffle(opts)};
+}
+
+/* ---------- 生成 100 題 ----------
+   規劃（讓七個人稱都當「回答人稱」）：
+   - Dialog-A / Dialog-B：涵蓋 ich, du, wir, ihr
+   - Report-A / Report-B：涵蓋 er, sie(她), sie(他們)
+   - C 改寫：七個人稱都可能
+   題型與 noun 均衡分布 */
+function buildBank(){
+  const plan=[]; // {kind}
+  // 40 dialog（A/B 各半），30 report（A/B 各半），30 改寫
+  for(let i=0;i<20;i++) plan.push({fn:"A",mode:"dialog"});
+  for(let i=0;i<20;i++) plan.push({fn:"B",mode:"dialog"});
+  for(let i=0;i<15;i++) plan.push({fn:"A",mode:"report"});
+  for(let i=0;i<15;i++) plan.push({fn:"B",mode:"report"});
+  for(let i=0;i<30;i++) plan.push({fn:"C",mode:"keep"});
+  const order=shuffle(plan);
+  // noun 均衡：每個 noun 出現 5 次（20×5＝100）
+  const nounSeq=shuffle([].concat(...NOUNS.map(n=>[n,n,n,n,n])));
+  const items=[];
+  order.forEach((pl,idx)=>{
+    const [noun,g]=nounSeq[idx];
+    if(pl.fn==="A") items.push(makeA(noun,g,idx,pl.mode));
+    else if(pl.fn==="B") items.push(makeB(noun,g,idx,pl.mode));
+    else items.push(makeC(noun,g,idx));
+  });
+  return items;
+}
+
+const BANK=buildBank();
+const state={};
+const PRAISE=["很好！","答對了！","漂亮！","完全正確！","做得好！"];
+
+function render(){
+  const list=document.getElementById("list");
+  list.innerHTML="";
+  BANK.forEach(it=>{
+    const box=document.createElement("div");
+    box.className="item";
+    const typeName={A:"finden 答句",B:"gefallen 答句",C:"改寫問句"}[it.type];
+    let persp="";
+    if(it.type==="C"){
+      persp='<div class="perspective keep">👉 改寫問句（人稱不變：'+pLabel(it.p||it.askP)+'）</div>';
+    }else if(it.mode==="dialog"){
+      persp='<div class="perspective switch">🔄 對話：問 '+pLabel(it.askP)+'，你回答要換成 <b>'+pLabel(it.ansP)+'</b></div>';
+    }else{
+      persp='<div class="perspective keep">👉 轉述：問 '+pLabel(it.askP)+' 怎麼想，答句人稱不變（'+pLabel(it.ansP)+'）</div>';
+    }
+    box.innerHTML=`
+      <div class="top"><span class="badge">${it.idx+1}</span><span class="who">${typeName}</span></div>
+      <p class="qline"><span class="qde">${it.frage}</span></p>
+      ${persp}
+      <p class="ask">${it.ask}</p>
+      <div class="opts" id="opts_${it.idx}"></div>
+      <div class="fb" id="fb_${it.idx}"></div>`;
+    list.appendChild(box);
+    const optBox=box.querySelector("#opts_"+it.idx);
+    it.opts.forEach((o,oi)=>{
+      const b=document.createElement("button");
+      b.className="opt"; b.innerHTML=o.t;
+      b.addEventListener("click",()=>choose(it,oi,b));
+      optBox.appendChild(b);
+    });
+  });
+  updateBar();
+}
+
+function choose(it,oi,btn){
+  if(state[it.idx]&&state[it.idx].answered) return;
+  const opt=it.opts[oi];
+  const fb=document.getElementById("fb_"+it.idx);
+  const all=document.getElementById("opts_"+it.idx).children;
+  for(const b of all) b.disabled=true;
+  if(opt.ok){
+    btn.className="opt ok"; btn.insertAdjacentHTML("beforeend",'<span class="mark">✓</span>');
+    fb.className="fb show good"; fb.textContent="✓ "+PRAISE[it.idx%PRAISE.length];
+    state[it.idx]={answered:true,correct:true};
+  }else{
+    btn.className="opt bad"; btn.insertAdjacentHTML("beforeend",'<span class="mark">✗</span>');
+    it.opts.forEach((o,i)=>{ if(o.ok){ all[i].className="opt ok"; all[i].insertAdjacentHTML("beforeend",'<span class="mark">✓</span>'); } });
+    fb.className="fb show bad"; fb.innerHTML="✗ "+(opt.why||"")+"<br>正解：<b>"+it.gold+"</b>";
+    state[it.idx]={answered:true,correct:false};
+  }
+  updateBar();
+}
+
+function updateBar(){
+  const ans=Object.keys(state).length;
+  const hits=Object.values(state).filter(s=>s.correct).length;
+  document.getElementById("answered").textContent=ans;
+  document.getElementById("hits").textContent=hits;
+  document.getElementById("fill").style.width=ans+"%";
+}
+
+function showScore(){
+  const ans=Object.keys(state).length;
+  const hits=Object.values(state).filter(s=>s.correct).length;
+  const r=document.getElementById("result"); r.className="result show";
+  document.getElementById("resBig").textContent=hits+" / 100";
+  let msg;
+  if(ans<100) msg="還有 "+(100-ans)+" 題沒作答，做完再看一次分數會更準。";
+  else if(hits===100) msg="滿分，這些陷阱都難不倒你！";
+  else if(hits>=80) msg="很不錯，錯的地方多半是人稱視角，回到上面的說明對照一下。";
+  else if(hits>=50) msg="有進步空間，先分清楚 finden 用第四格、gefallen 用第三格，再注意 🔄 對話要換人稱。";
+  else msg="別急，先把 Dativ 表背熟，也要記得對話時 ihr→wir、du→ich。";
+  document.getElementById("resMsg").textContent=msg;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function reset(){
+  for(const k in state) delete state[k];
+  document.getElementById("result").className="result";
+  seed=20260702; render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+render();
+document.getElementById("scoreBtn").addEventListener("click",showScore);
+document.getElementById("resetBtn").addEventListener("click",reset);
+</script>
+</body>
+</html>
