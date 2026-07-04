@@ -1035,13 +1035,21 @@ function mcRender(){ if(!document.getElementById("play").classList.contains("on"
   ["der","die","das"].forEach(a=>{ const b=document.createElement("button"); b.className="btn opt "+a; b.textContent=a; b.onclick=()=>mcAnswer(a,c); opts.appendChild(b); });
   document.getElementById("sessN").textContent=gIdx+"/"+gQ.length; document.getElementById("progBar").style.width=(100*gIdx/gQ.length)+"%"; setMascot("playMascot","idle");
 }
-function mcAnswer(a,c){ [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
+function mcAnswer(a,c){
   const right=(a===c.g); const fb=document.getElementById("fb");
-  [...document.querySelectorAll(".opt")].forEach(b=>{ if(b.textContent===c.g)b.classList.add("correct"); else if(b.textContent===a&&!right)b.classList.add("wrong"); });
-  if(right){ gRight++; fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
-  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+'<span class="why">Richtig: '+c.g+' '+c.word+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
-  srsApply(c.id,right); document.getElementById("pointsN").textContent=S.points; gIdx++;
-  advTimer=setTimeout(mcRender, right?800:1500);
+  if(right){
+    [...document.querySelectorAll(".opt")].forEach(b=>{ b.disabled=true; if(b.textContent===c.g)b.classList.add("correct"); });
+    gRight++; fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true);
+    srsApply(c.id,true); document.getElementById("pointsN").textContent=S.points; gIdx++;
+    advTimer=setTimeout(mcRender, 800);
+  } else {
+    srsApply(c.id,false); document.getElementById("pointsN").textContent=S.points;   // Fehler zaehlt fuer SRS
+    fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+' Tippe auf den richtigen Artikel: <b>'+c.g+'</b>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops");
+    [...document.querySelectorAll(".opt")].forEach(b=>{
+      if(b.textContent===c.g){ b.classList.add("correct"); b.disabled=false; b.onclick=()=>mcRender(); }  // richtiger Artikel -> dieselbe Karte nochmal (gIdx bleibt)
+      else { if(b.textContent===a)b.classList.add("wrong"); b.disabled=true; }
+    });
+  }
 }
 function startSort(){ gQ=gamePool(6).map(it=>({id:"g:"+it.word, word:it.word, g:G[it.word], done:false, col:null, right:false}));
   gRight=0; gPlaced=0; gSel=null; show("play"); sortRender(); }
@@ -1065,8 +1073,8 @@ function sortRender(){ if(!document.getElementById("play").classList.contains("o
 function sortPlace(a){ if(gSel==null||!gQ[gSel]||gQ[gSel].done) return; const c=gQ[gSel]; c.done=true; c.col=a; c.right=(a===c.g); gPlaced++; if(c.right)gRight++;
   srsApply(c.id,c.right); beep(c.right); setMascot("playMascot",c.right?"happy":"oops",true); gSel=null; sortRender(); }
 function gameDailyFinish(){ firstTry=gRight; sessionTotal=gQ.length; cleared=new Set(); for(let i=0;i<gRight;i++)cleared.add(i); finishSession(); }
-function startDaily(){ const seen=Object.keys(S.cards).length; const r=Math.random();   // "Heute üben" zeigt zufällig auch ein Spiel
-  if(seen>=8){ if(r<0.18) startRF(); else if(r<0.36) startSort(); else if(r<0.54) startMC(); else startSession(); }
+function startDaily(){ const seen=Object.keys(S.cards).length; const r=Math.random();   // "Heute üben" zeigt zufällig auch ein Spiel (Richtig/Falsch entfernt: reines Raten ohne Artikel-Lernen)
+  if(seen>=8){ if(r<0.20) startSort(); else if(r<0.45) startMC(); else startSession(); }
   else startSession(); }
 function startStageTest(stage){   // Lehrerversion: 20 Karten NUR aus dieser Stufe, SRS egal
   queue=shuffle(ITEMS.filter(it=>it.stage===stage)).slice(0,20);
@@ -1168,19 +1176,26 @@ function renderCurrent(){
   setMascot("playMascot","idle");
 }
 function answer(btn,chosen,d,it){
-  [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
   const fb=document.getElementById("fb");
   const right=chosen===d.correct;
   if(d.blankFill){const bl=document.querySelector("#promptBox .blank"); if(bl){bl.textContent=d.correct; bl.classList.add("filled");}}
-  if(right){ btn.classList.add("correct"); fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
-  else { btn.classList.add("wrong");
-    fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false);
-    [...document.querySelectorAll(".opt")].forEach(b=>{if(b.textContent===d.correct)b.classList.add("correct");}); setMascot("playMascot","oops"); }
-  pending={d,it,right};                                    // erst beim Weiter verbuchen, ein Vertipper kann zurück
-  const ctl=document.createElement("div"); ctl.className="ctl";
-  const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
-  fb.appendChild(ctl);
-  advTimer=setTimeout(commitNext, right?1000:1900);
+  pending={d,it,right};
+  if(right){
+    [...document.querySelectorAll(".opt")].forEach(b=>b.disabled=true);
+    btn.classList.add("correct"); fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true);
+    const ctl=document.createElement("div"); ctl.className="ctl";
+    const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
+    fb.appendChild(ctl);
+    advTimer=setTimeout(commitNext, 1000);
+  } else {
+    // aktive Korrektur: falsch Angetipptes sperren, den richtigen markieren – erst der bewusste Tipp darauf führt weiter (kein Auto-Sprung, kein Wegklicken)
+    btn.classList.add("wrong");
+    fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Tippe auf die richtige Lösung: <b>"+d.correct+"</b>"+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops");
+    [...document.querySelectorAll(".opt")].forEach(b=>{
+      if(b.textContent===d.correct){ b.classList.add("correct"); b.disabled=false; b.onclick=commitNext; }
+      else { b.disabled=true; }
+    });
+  }
 }
 function finishRecall(right,d,it){                          // Tipp-Modus: Ergebnis + Weiter (wie answer, aber ohne Knopf-Markierung)
   const fb=document.getElementById("fb"); document.getElementById("opts").innerHTML="";
@@ -1214,8 +1229,7 @@ function commitNext(){
     card.due=today(); card.miss=(card.miss||0)+1;
     if(it.kind==="case"&&d.w){ const gi=byId["g:"+d.w]; if(gi&&S.cards[gi.id]){ S.cards[gi.id].box=1; S.cards[gi.id].due=today(); } } // Genus auffrischen
     missSess[it.id]=(missSess[it.id]||0)+1;
-    queue.shift();
-    if(missSess[it.id]<MAX_REPEAT) queue.splice(Math.min(3,queue.length),0,it); // begrenzt wiederholen
+    // Anki-Stil: dieselbe Karte bleibt vorne und kommt sofort nochmal – bis sie richtig ist (kein Vorziehen, keine Kappung)
   }
   S.cards[it.id]=card; save();
   document.getElementById("pointsN").textContent=S.points;
