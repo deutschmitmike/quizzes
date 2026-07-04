@@ -1401,6 +1401,17 @@ document.getElementById("resetBtn").onclick=()=>{
 };
 if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
+
+/* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
+const APP_BUILD="2026-07-04-1";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+(function(){ try{
+  fetch("version.json?cb="+Date.now(),{cache:"no-store"})
+    .then(r=>r.ok?r.json():null)
+    .then(v=>{ if(!v||!v.build||v.build===APP_BUILD) return;
+      const flag="ddd_upd_"+v.build; if(sessionStorage.getItem(flag)) return;   // nur 1x pro Sitzung -> keine Reload-Schleife
+      sessionStorage.setItem(flag,"1"); location.replace(location.pathname+"?v="+encodeURIComponent(v.build)); })
+    .catch(()=>{});
+}catch(e){} })();
 </script>
 
 
