@@ -331,10 +331,11 @@
     <div class="top">
       <div class="badge"><span id="pointsN">1</span><small>Sterne</small></div>
     </div>
-    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> Hallo! Ich bin Bobby! (Lehrer-Test)</h1>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> <span id="homeGreet">Hallo! Ich bin Bobby! (Lehrer-Test)</span></h1>
     <div class="critters" id="critterRow"></div>
     <div class="critternext" id="critterNext"></div>
     <p class="sub" id="homeSub"></p>
+    <div id="playerScores" style="display:flex;flex-wrap:wrap;gap:6px;margin:2px 2px 8px;"></div>
     <div id="progWrap" style="margin:6px 2px 12px;">
       <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:var(--ink); margin-bottom:4px;">
         <span id="progLabel">Noch 20 Wörter bis zum nächsten Stern</span><span id="progPct">0 ⭐</span>
@@ -933,7 +934,7 @@ function nameKey(n){ return (n||"").trim().toLowerCase().replace(/[.#$\[\]\/\s]+
 function esc(s){ return (s||"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
 function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
   return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
-    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length, ts:Date.now()}; }
+    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length, sterne:(S.points||0), ts:Date.now()}; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+"lb/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+"lb.json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
@@ -963,6 +964,8 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
     const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name);
+    { const ps=document.getElementById("playerScores");
+      if(ps) ps.innerHTML=arr.slice().sort((a,b)=>(b.sterne||0)-(a.sterne||0)).map(e=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+esc(e.name)+': '+(e.sterne||0)+' ⭐</span>').join(""); }
     const total=arr.reduce((s,e)=>s+(e.sicher||0),0);
     const goal=TEAM_GOALS.find(g=>g>total)||TEAM_GOALS[TEAM_GOALS.length-1];
     const pct=Math.min(100,Math.round(100*total/goal));
@@ -1296,6 +1299,8 @@ function renderHome(){
   if(cn){ if(gotN<ANIMALS.length){ const need=STAR_GOALS[gotN]-(S.points||0); cn.textContent="Noch "+need+" ⭐ bis "+ANIMALS[gotN]; }
     else cn.textContent="Alle Tiere gesammelt! 🎉"; }
   setMascot("homeMascot", S.streak>0?"happy":"idle");
+  { const gname=(S.playerName||"").trim(); const hg=document.getElementById("homeGreet");
+    if(hg) hg.textContent = gname ? ("Hallo "+gname+"! Ich heiße auch "+gname+"! (Lehrer-Test)") : "Hallo! Ich bin Bobby! (Lehrer-Test)"; }
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";
