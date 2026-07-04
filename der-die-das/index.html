@@ -1215,7 +1215,8 @@ function commitNext(){
     card.due=today(); card.miss=(card.miss||0)+1;
     if(it.kind==="case"&&d.w){ const gi=byId["g:"+d.w]; if(gi&&S.cards[gi.id]){ S.cards[gi.id].box=1; S.cards[gi.id].due=today(); } } // Genus auffrischen
     missSess[it.id]=(missSess[it.id]||0)+1;
-    // Anki-Stil: dieselbe Karte bleibt vorne und kommt sofort nochmal – bis sie richtig ist (kein Vorziehen, keine Kappung)
+    queue.shift();
+    queue.splice(Math.min(3,queue.length),0,it);   // ~3 Positionen später wieder einschieben (bei wenig Rest ans Ende), IMMER – die Karte muss in dieser Session noch 1x richtig sein, sonst endet die Session nicht
   }
   S.cards[it.id]=card; save();
   document.getElementById("pointsN").textContent=S.points;
