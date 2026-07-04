@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="der die das">
-<title>der, die, das - Kyana</title>
+<title>der, die, das - LEHRER</title>
 <style>
   :root{
     --der:#2D6CDF; --die:#E0467C; --das:#1FA85C;
@@ -331,7 +331,7 @@
     <div class="top">
       <div class="badge"><span id="pointsN">1</span><small>Sterne</small></div>
     </div>
-    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> Hallo! Ich bin Bobby!</h1>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> Hallo! Ich bin Bobby! (Lehrer-Test)</h1>
     <div class="critters" id="critterRow"></div>
     <div class="critternext" id="critterNext"></div>
     <p class="sub" id="homeSub"></p>
@@ -344,6 +344,11 @@
     <div id="levelBox" style="margin: 0px 2px 10px; font-size: 13px; color: var(--gold); font-weight: 800;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
     <div class="stages" id="stageList"><div class="stage"><div class="num">1</div><div class="meta"><b>der, die, das</b><div>Welcher Artikel?</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">2</div><div class="meta"><b>Mehrzahl</b><div>frei ab 12 sicheren Wörtern in Stufe 1</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">3</div><div class="meta"><b>Wo oder Wohin?</b><div>frei ab 12 sicheren Wörtern in Stufe 2</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">4</div><div class="meta"><b>Dativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 3</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">5</div><div class="meta"><b>Akkusativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 4</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">6</div><div class="meta"><b>Welcher Fall?</b><div>frei ab 12 sicheren Wörtern in Stufe 5</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">7</div><div class="meta"><b>er, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 6</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">8</div><div class="meta"><b>mein oder meine?</b><div>frei ab 12 sicheren Wörtern in Stufe 7</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">9</div><div class="meta"><b>sein oder ihr?</b><div>frei ab 12 sicheren Wörtern in Stufe 8</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">10</div><div class="meta"><b>ihn, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 9</div><div class="bar"><i style="width:0%"></i></div></div></div></div>
+    <div class="panel" id="teacherPanel" style="margin-top:12px; border:2px dashed var(--der);">
+      <h2 style="font-size:16px; margin:0 0 4px;">Lehrer: Stufe testen</h2>
+      <div style="font-size:12px; color:var(--muted); margin:0 0 8px;">20 Karten nur aus dieser Stufe, unabhängig vom Lernstand.</div>
+      <div id="teacherBtns" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
     <div class="panel" id="lbPanel" style="display: block; margin-top: 12px;">
       <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
       <div id="lbList"><button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button></div>
@@ -876,13 +881,13 @@ function label(it){ if(it.kind==="plural") return "die "+P[it.word]; if(it.kind=
   const x=it.x, w=it.w||x.pool[0], cc=it.stage===4?"dat":it.stage===5?"akk":it.stage===6?x.trueCase:x.c; return chunk(x.prep,w,cc)+" "+w; }
 
 // ================= Zustand =================
-const KEY="ddd_kyana_v2";
+const KEY="ddd_kyana_lehrer_v1";   // Lehrerversion: getrennter Speicher
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
 const NEW_PER_DAY=20, NEW_PER_SESSION=20, MAX_SESSION=25, MAX_REPEAT=3;  // eine Runde max. 25 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
-const SYNC_URL="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";  // Firebase Realtime Database (Rangliste/Sync)
+const SYNC_URL="";  // Lehrerversion: keine Rangliste/Cloud
 const RESET_PW="loeschen123";  // Eltern-Passwort fuer "Alles zuruecksetzen" (hier aenderbar)
 const MILESTONES=[3,7,14,30,60,100];
 const WORD_MILESTONES=[20,50,100,150];
@@ -971,6 +976,7 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
 let S=load(), saveOk=true;
 S.crittersSeen=crittersGot(S.points||0);   // Basislinie: bereits verdiente Tiere nicht nachtraeglich als "neu" melden
+S.unlocked=STAGES.length; save();   // Lehrerversion: alle Stufen frei
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
 function save(){try{S.ts=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
 function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=3)n++;} return n;}
@@ -1061,6 +1067,12 @@ function gameDailyFinish(){ firstTry=gRight; sessionTotal=gQ.length; cleared=new
 function startDaily(){ const seen=Object.keys(S.cards).length; const r=Math.random();   // "Heute üben" zeigt zufällig auch ein Spiel
   if(seen>=8){ if(r<0.18) startRF(); else if(r<0.36) startSort(); else if(r<0.54) startMC(); else startSession(); }
   else startSession(); }
+function startStageTest(stage){   // Lehrerversion: 20 Karten NUR aus dieser Stufe, SRS egal
+  queue=shuffle(ITEMS.filter(it=>it.stage===stage)).slice(0,20);
+  if(!queue.length){ alert("Keine Karten in Stufe "+stage); return; }
+  sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null;
+  show("play"); nextCard();
+}
 function startSession(mode){
   const t=today();
   if(mode==="hard"){
@@ -1299,6 +1311,8 @@ function renderHome(){
       '</div><div class="bar"><i style="width:'+(100*learned/total)+'%"></i></div></div>';
     list.appendChild(d);
   });
+  const tb=document.getElementById("teacherBtns");
+  if(tb && !tb.children.length){ STAGES.forEach(st=>{ const b=document.createElement("button"); b.className="btn"; b.style.cssText="flex:0 0 auto; padding:8px 13px; font-size:15px; background:#eef1f7; color:var(--ink);"; b.textContent=st.id; b.title=st.name; b.onclick=()=>startStageTest(st.id); tb.appendChild(b); }); }
   renderLeaderboard();
 }
 function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); if(!panel) return;
