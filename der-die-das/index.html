@@ -1389,7 +1389,9 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-07-04-1";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-07-04-2";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+(function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
+  t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
   fetch("version.json?cb="+Date.now(),{cache:"no-store"})
     .then(r=>r.ok?r.json():null)
