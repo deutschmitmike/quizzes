@@ -1471,6 +1471,8 @@ function startSession(mode){
     const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
     const allow=Math.max(0, Math.min(NEW_PER_SESSION, NEW_PER_DAY-newToday));  // pro Runde max NEW_PER_SESSION, pro Tag max NEW_PER_DAY
     let neu=[];
+    const perStage=Math.max(2,Math.ceil(allow/2));      // pro Stufe hoechstens so viele Kandidaten
+    const poolMax=perStage*(S.unlocked+1);              // grosszuegig sammeln - die eigentliche Auswahl trifft das Mischen
     // schwere Woerter (dickes Woerterbuch) erst anfassen, wenn die Grundwoerter durch sind
     const easyFirst=arr=>{ const e=arr.filter(it=>!HARD.has(it.word)); return e.length?e:arr; };
     const takeFrom=(stage,k)=>{ let p;
@@ -1480,13 +1482,22 @@ function startSession(mode){
         p=[]; const ord=shuffle(["der","die","das"]); let x=0;
         while(byG.der.length||byG.die.length||byG.das.length){ const g=ord[x%3]; if(byG[g].length) p.push(byG[g].shift()); x++; }
       } else { p=shuffle(easyFirst(ITEMS.filter(it=>it.stage===stage&&!S.cards[it.id]&&!neu.includes(it)))); }
-      let a=0; for(let i=0;i<p.length&&a<k&&neu.length<allow;i++){neu.push(p[i]);a++;}};
+      let a=0; for(let i=0;i<p.length&&a<k&&neu.length<poolMax;i++){neu.push(p[i]);a++;}};
     let stagesNew=[]; for(let st=1;st<=S.unlocked;st++){ if(ITEMS.some(it=>it.stage===st&&!S.cards[it.id])) stagesNew.push(st); }
     const newest=stagesNew[stagesNew.length-1];
     if(newest&&newest>1) takeFrom(newest,2);
-    takeFrom(1, Math.ceil(allow/2));                                             // Stufe 1 gedeckelt: hoechstens die Haelfte der neuen Karten
-    for(let st=2; st<=S.unlocked && neu.length<allow; st++) takeFrom(st,4);      // andere Stufen reihum bedienen
-    for(let st=1; st<=S.unlocked && neu.length<allow; st++) takeFrom(st,allow);  // Rest auffuellen, falls dann noch Platz ist
+    for(let st=1; st<=S.unlocked; st++) takeFrom(st, perStage);   // aus JEDER freigeschalteten Stufe Kandidaten sammeln, Auswahl faellt beim Mischen
+    // reihum nach Stufe mischen: bei wenig Platz (viele Wiederholungen) darf nicht immer dieselbe Stufe gewinnen
+    { const grp={}; neu.forEach(it=>{(grp[it.stage]=grp[it.stage]||[]).push(it);});
+      const s1=grp[1]||[]; const rest=Object.keys(grp).filter(s=>s!=="1").sort((a,b)=>a-b);
+      const mix=[]; const ziel=neu.length; let ri=0;
+      while(mix.length<ziel){ let weiter=false;                       // abwechselnd Stufe 1 / eine der anderen -> Stufe 1 bekommt rund die Haelfte
+        if(s1.length){ mix.push(s1.shift()); weiter=true; }
+        if(mix.length>=ziel) break;
+        for(let n=0;n<rest.length;n++){ const g=grp[rest[(ri+n)%rest.length]];
+          if(g.length){ mix.push(g.shift()); ri=(ri+n+1)%rest.length; weiter=true; break; } }
+        if(!weiter) break; }
+      neu=mix; }
     neu=neu.slice(0,allow);
     const dueCapped=due.slice(0,MAX_SESSION);                        // Wiederholungen zuerst (gut für unregelmäßiges Spielen)
     const room=Math.max(0,MAX_SESSION-dueCapped.length);
@@ -1782,7 +1793,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-10-2";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-10-3";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
