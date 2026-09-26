@@ -1548,7 +1548,11 @@ function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards
 function save(){try{S.ts=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
 function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=SICHER_BOX)n++;} return n;}
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
-function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
+const SEEN_OPEN=15, MAX_ACTIVE=3;   // naechste Stufe schon nach 15 gesehenen Karten - aber hoechstens 3 unfertige Stufen neben den Artikeln gleichzeitig
+function stageSeen(st){ let n=0; for(const id in S.cards){ if(byId[id]&&byId[id].stage===st) n++; } return n; }
+function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked!==s) continue;
+  let active=0; for(let t=2;t<=S.unlocked;t++){ if(stageMastered(t)<unlockNeed(t)) active++; }
+  if(stageMastered(s)>=unlockNeed(s) || (s>1 && stageSeen(s)>=SEEN_OPEN && active<MAX_ACTIVE)){S.unlocked=s+1; ch=s+1;} } return ch;}
 
 // ================= Sprachausgabe =================
 let deVoice=null;
@@ -1677,7 +1681,8 @@ function startSession(mode){
       while(neu.length<allow && lists.some(l=>l.length) && guard++<2000){ const l=lists[seq[si%seq.length]]; if(l.length) neu.push(l.shift()); si++; }
     }
     neu=neu.slice(0,allow);
-    const dueCapped=due.slice(0,MAX_SESSION);                        // Wiederholungen zuerst (gut für unregelmäßiges Spielen)
+    const MIN_NEW=Math.min(3,neu.length);                            // mindestens 3 neue Karten pro Runde - sonst fuellen Wiederholungen die Runde dauerhaft (Stillstand)
+    const dueCapped=due.slice(0,MAX_SESSION-MIN_NEW);               // Wiederholungen zuerst (gut für unregelmäßiges Spielen)
     const room=Math.max(0,MAX_SESSION-dueCapped.length);
     queue=dueCapped.concat(neu.slice(0,room));                       // neue nur, wenn nach den Wiederholungen Platz bleibt
     if(queue.length<TARGET_SESSION){                                 // immer auf ~TARGET auffuellen: noch-nicht-faellige Karten als Extra-Wiederholung, bald faellige zuerst
@@ -1904,7 +1909,7 @@ function renderHome(){
     const locked=st.id>S.unlocked;
     const d=document.createElement("div"); d.className="stage"+(locked?" locked":"");
     d.innerHTML='<div class="num">'+st.id+'</div><div class="meta"><b>'+st.name+'</b><div>'+
-      (locked?("frei ab "+unlockNeed(st.id-1)+" sicheren Wörtern in Stufe "+(st.id-1)):st.desc)+
+      (locked?("kommt nach Stufe "+(st.id-1)):st.desc)+
       '</div><div class="bar"><i style="width:'+(100*learned/total)+'%"></i></div></div>';
     list.appendChild(d);
   });
@@ -1983,7 +1988,7 @@ if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Nam
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-10";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-11";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
