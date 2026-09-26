@@ -1447,8 +1447,9 @@ function weakStage(stages){ let best=null, br=0;   // Stufe (ausser 1) mit den m
   for(const st of stages){ let n=0,m=0; for(const id in S.cards){ const it=byId[id]; if(it&&String(it.stage)===String(st)){ n++; m+=S.cards[id].miss||0; } }
     if(n>=5 && m/n>br){ br=m/n; best=st; } }
   return br>=0.5 ? best : null; }   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
-const NEW_PER_DAY=15, NEW_PER_SESSION=15, MAX_SESSION=20, MAX_REPEAT=3;  // eine Runde pro Tag, max. 20 Karten
-const TARGET_SESSION=15;  // Runde auf ~15 auffuellen, auch wenn wenig faellig ist
+let NEW_PER_DAY, NEW_PER_SESSION, MAX_SESSION, MAX_REPEAT=3, TARGET_SESSION;   // Rundengroesse je Spielerin: erst klein, dann voll
+const RUNDE_START=[20,15,15], RUNDE_VOLL=[30,25,20], RUNDE_START_TAGE=7;   // [max Karten, max neue, Mindestfuellung]
+function rundeSetzen(){ const r=((S&&S.streak)||0)>=RUNDE_START_TAGE ? RUNDE_VOLL : RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2]; }
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:16,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
@@ -1652,7 +1653,7 @@ function startStageTest(stage){   // Lehrerversion: 20 Karten NUR aus dieser Stu
 }
 function startDaily(){ if(!EXTRA_ROUNDS && S.lastDay===today()) return; startSession(); }   // immer die Hauptrunde (der/die/das): konsistent, mit Bildern, Sternen, aktiver Korrektur & SRS. Mini-Spiele entfernt (für Kinder zu wechselhaft/frustig)
 function startSession(mode){
-  const t=today();
+  const t=today(); rundeSetzen();
   const R=S.resume;
   if(!EXTRA_ROUNDS && mode!=="hard" && R && R.day===t && R.ids && R.ids.length){   // abgebrochene Tagesrunde fortsetzen
     queue=R.ids.map(id=>byId[id]).filter(Boolean);
@@ -1860,6 +1861,7 @@ function finishSession(){
 function show(id){["welcome","home","play","done","data"].forEach(s=>document.getElementById(s).classList.toggle("on",s===id));
   if(id==="home")renderHome(); if(id==="data")renderData(); if(id==="welcome")setMascot("welMascot","happy");}
 function renderHome(){
+  rundeSetzen();
   document.getElementById("streakN").textContent=S.streak;
   document.getElementById("pointsN").textContent=S.points;
   document.getElementById("streakFlame").innerHTML=FLAME;
@@ -1995,7 +1997,7 @@ if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Nam
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-9";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-10";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
