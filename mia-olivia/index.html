@@ -1413,8 +1413,9 @@ function label(it){ if(it.kind==="perf"){const v=VBY[it.word]; return AUXF[v.aux
 // ================= Zustand =================
 const KEY="mo_v1";   // eigener Speicher (localStorage gilt fuer die ganze Domain, der-die-das nutzt einen anderen)
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
-const NEW_PER_DAY=30, NEW_PER_SESSION=30, MAX_SESSION=35, MAX_REPEAT=3;  // eine Runde max. 35 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
-const TARGET_SESSION=25;  // Runde immer auf ~25 auffuellen (Extra-Wiederholungen), auch wenn wenig faellig ist
+const SICHER_BOX=4;   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
+const NEW_PER_DAY=25, NEW_PER_SESSION=25, MAX_SESSION=30, MAX_REPEAT=3;  // eine Runde max. 30 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
+const TARGET_SESSION=20;  // Runde immer auf ~20 auffuellen (Extra-Wiederholungen), auch wenn wenig faellig ist
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
@@ -1464,7 +1465,7 @@ function nameKey(n){ return (n||"").trim().toLowerCase().replace(/[.#$\[\]\/\s]+
 function esc(s){ return (s||"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
 function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
   return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
-    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length, sterne:(S.points||0), ts:Date.now()}; }
+    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length, sterne:(S.points||0), ts:Date.now()}; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
@@ -1512,7 +1513,7 @@ let S=load(), saveOk=true;
 S.crittersSeen=crittersGot(S.points||0);   // Basislinie: bereits verdiente Tiere nicht nachtraeglich als "neu" melden
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
 function save(){try{S.ts=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
-function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=3)n++;} return n;}
+function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=SICHER_BOX)n++;} return n;}
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
 function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked===s && stageMastered(s)>=unlockNeed(s)){S.unlocked=s+1; ch=s+1;} } return ch;}
 
@@ -1693,19 +1694,7 @@ function renderCurrent(){
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     row.appendChild(inp); row.appendChild(b); opts.appendChild(row);
     setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
-  } else if(recall){                                        // andere Stufen: Selbst-Check
-    const showBtn=document.createElement("button"); showBtn.className="btn big"; showBtn.textContent="Antwort zeigen";
-    showBtn.onclick=()=>{
-      opts.innerHTML="";
-      if(d.blankFill) fillBlanks(d);
-      const sol=document.createElement("div"); sol.style.cssText="text-align:center; font-size:clamp(20px,5.4vw,26px); font-weight:800; color:var(--ok); margin:6px 0 12px;"; sol.textContent=d.correct; opts.appendChild(sol);
-      const row=document.createElement("div"); row.className="ctl";
-      const yes=document.createElement("button"); yes.className="ctlbtn weiter"; yes.textContent="Wusste ich"; yes.onclick=()=>{ beep(true); pending={d,it,right:true}; commitNext(); };
-      const no=document.createElement("button"); no.className="ctlbtn undo"; no.textContent="Nochmal"; no.onclick=()=>{ beep(false); pending={d,it,right:false}; commitNext(); };
-      row.appendChild(yes); row.appendChild(no); opts.appendChild(row);
-    };
-    opts.appendChild(showBtn);
-  } else {
+  } else {                                                  // alle anderen: immer echte Auswahl (Selbst-Check abgeschafft - war eine Hintertuer)
     d.options.forEach(o=>{ const b=document.createElement("button");
       b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
       b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
@@ -1784,7 +1773,7 @@ function finishSession(){
   S.medals=S.medals||[]; let medalNew=null;
   MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
   S.wordMedals=S.wordMedals||[]; let wordMedalNew=null;                    // lernbasierte Abzeichen
-  const masteredCount=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
+  const masteredCount=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   WORD_MILESTONES.forEach(m=>{ if(masteredCount>=m && S.wordMedals.indexOf(m)<0){ S.wordMedals.push(m); wordMedalNew=m; } });
   const grew = S.streak>prevStreak;
   const perfect = sessionTotal>0 && firstTry>=sessionTotal;
@@ -1836,7 +1825,7 @@ function renderHome(){
   setMascot("homeMascot", S.streak>0?"happy":"idle");
   { const gname=(S.playerName||"").trim(); const hg=document.getElementById("homeGreet");
     if(hg) hg.textContent = gname ? ("Hallo "+gname+"!") : "Hallo!"; }
-  const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=3).length;
+  const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";
   document.getElementById("progPct").textContent=sicher+" ⭐";
@@ -1863,7 +1852,7 @@ function renderHome(){
   const list=document.getElementById("stageList"); list.innerHTML="";
   STAGES.forEach(st=>{
     const total=ITEMS.filter(it=>it.stage===st.id).length;
-    const learned=ITEMS.filter(it=>it.stage===st.id && S.cards[it.id] && S.cards[it.id].box>=3).length;
+    const learned=ITEMS.filter(it=>it.stage===st.id && S.cards[it.id] && S.cards[it.id].box>=SICHER_BOX).length;
     const locked=st.id>S.unlocked;
     const d=document.createElement("div"); d.className="stage"+(locked?" locked":"");
     d.innerHTML='<div class="num">'+st.id+'</div><div class="meta"><b>'+st.name+'</b><div>'+
@@ -1894,7 +1883,7 @@ function renderData(){
   document.getElementById("bestN").textContent=S.best||0;
   const sd=S.stats||{attempts:0,firstRight:0};
   document.getElementById("statAcc").textContent = sd.attempts? Math.round(100*sd.firstRight/sd.attempts)+" % ("+sd.firstRight+" von "+sd.attempts+")" : "noch keine Daten";
-  document.getElementById("statStages").innerHTML = STAGES.map(s=>{ const tot=ITEMS.filter(it=>it.stage===s.id).length; const mas=ITEMS.filter(it=>it.stage===s.id&&S.cards[it.id]&&S.cards[it.id].box>=3).length; return s.name+": "+mas+" von "+tot+" sicher"; }).join("<br>");
+  document.getElementById("statStages").innerHTML = STAGES.map(s=>{ const tot=ITEMS.filter(it=>it.stage===s.id).length; const mas=ITEMS.filter(it=>it.stage===s.id&&S.cards[it.id]&&S.cards[it.id].box>=SICHER_BOX).length; return s.name+": "+mas+" von "+tot+" sicher"; }).join("<br>");
   const hard=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0)
     .sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,12);
   const hl=document.getElementById("hardList");
@@ -1936,7 +1925,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-1";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-2";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
