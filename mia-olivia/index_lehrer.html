@@ -1824,7 +1824,7 @@ function commitNext(){
     queue.shift();
     queue.splice(Math.min(3,queue.length),0,it);   // ~3 Positionen später wieder einschieben (bei wenig Rest ans Ende), IMMER – die Karte muss in dieser Session noch 1x richtig sein, sonst endet die Session nicht
   }
-  if(S.resume && S.resume.day===today()) S.resume.ids=queue.map(q=>q.id);
+  playedHere=true; if(S.resume && S.resume.day===today()) S.resume.ids=queue.map(q=>q.id);
   S.cards[it.id]=card; save();
   document.getElementById("pointsN").textContent=S.points;
   nextCard();
@@ -1983,7 +1983,8 @@ function switchPlayer(){ if(!S.playerName) return;                    // geteilt
   save(); syncPush(); cloudSave(); try{ localStorage.setItem(KEY+"_p_"+nameKey(S.playerName), JSON.stringify(S)); }catch(e){}
   S=fresh(); save(); const i=document.getElementById("welNameInput"); if(i) i.value=""; show("welcome"); }
 document.getElementById("switchBtn").onclick=()=>{ if(confirm("Spielerin wechseln? Dein Stand ist gespeichert.")) switchPlayer(); };
-document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden"){ save(); syncPush(); cloudSave(); }   // Geraet wechseln: beim Verlassen hochladen,
+let playedHere=false;   // nur hochladen, wenn auf DIESEM Geraet seit dem Oeffnen gespielt wurde - sonst koennte ein altes/leeres Geraet den echten Stand ueberschreiben
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden"){ if(playedHere){ save(); syncPush(); cloudSave(); } }   // Geraet wechseln: beim Verlassen hochladen,
   else if(!document.getElementById("play").classList.contains("on")) cloudSync(); });                                          // beim Zurueckkommen neuesten Stand holen
 document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); syncPush(); cloudSave(); show("home"); };   // auch abgebrochene Runden gleich hochladen
 let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tippen
@@ -2003,7 +2004,7 @@ if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Nam
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-14";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-15";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
