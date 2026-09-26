@@ -1549,7 +1549,7 @@ function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); i
     const kids=all?Object.keys(all).map(k=>all[k]).filter(s=>s&&s.cards&&s.playerName):[];
     kids.sort((a,b)=>(b.streak||0)-(a.streak||0));
     box.innerHTML = kids.length ? kids.map(s=>{
-      let prog=0,sicher=0; for(const id in s.cards){ const b=s.cards[id].box||0; prog+=Math.min(b,3)/3; if(b>=3)sicher++; }
+      let prog=0,sicher=0; for(const id in s.cards){ const b=s.cards[id].box||0; prog+=Math.min(b,3)/3; if(b>=SICHER_BOX)sicher++; }
       const pct=Math.round(100*prog/ITEMS.length);
       const hard=Object.keys(s.cards).filter(id=>byId[id]&&(s.cards[id].miss||0)>0)
         .sort((a,b)=>(s.cards[b].miss||0)-(s.cards[a].miss||0)).slice(0,6).map(id=>esc(label(byId[id]))).join(", ");
@@ -1605,7 +1605,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-3";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-4";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
