@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="der die das">
+<title>der, die, das - LEHRER</title>
+<style>
+  :root{
+    --der:#2D6CDF; --die:#E0467C; --das:#1FA85C;
+    --bg:#F4F6FB; --card:#FFFFFF; --ink:#1F2A44; --muted:#7A86A1;
+    --ok:#1FA85C; --bad:#E0467C; --gold:#F2A93B;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; height:100%;}
+  body{font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink);
+    display:flex; justify-content:center;}
+  #app{width:100%; max-width:760px; min-height:100%; display:flex; flex-direction:column;
+    padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom);}
+  .screen{flex:1; min-height:0; display:none; flex-direction:column;}
+  .screen.on{display:flex;}
+  .top{display:flex; justify-content:space-between; align-items:center; padding:12px 2px 4px; gap:8px;}
+  .badge{background:#fff; border-radius:16px; padding:7px 13px; font-weight:700; font-size:17px; box-shadow:0 2px 8px rgba(31,42,68,.07); text-align:center;}
+  .badge small{display:block; font-size:11px; color:var(--muted); font-weight:600;}
+  .streak{color:var(--gold);}
+  .streakhero{display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#FFF1D6,#FFE0A8); border:2px solid var(--gold); border-radius:20px; padding:13px 18px; margin:10px 2px 6px; box-shadow:0 3px 14px rgba(242,169,59,.28);}
+  .streakhero.hot .flameBig{animation:flamepulse 1.4s ease-in-out infinite;}
+  .flameBig{width:46px; height:46px; flex:none; display:block;}
+  .flameBig svg{width:100%; height:100%; display:block;}
+  .streakinfo{flex:1; min-width:0;}
+  .streakinfo b{font-size:clamp(28px,8vw,36px); color:#B5710A; line-height:1;}
+  .streakinfo span{font-weight:700; color:#8a5a10; font-size:clamp(13px,4vw,15px);}
+  .streaksub{font-size:12.5px; color:#9a6a1a; font-weight:600; margin-top:3px;}
+  .medalrow{display:flex; flex-wrap:wrap; gap:6px; margin:0 2px 8px;}
+  .medalrow .med{width:34px; height:34px; display:block;}
+  .medalrow .med svg{width:100%; height:100%; display:block;}
+  .bigbar{height:16px; background:#e7ebf5; border-radius:10px; overflow:hidden;}
+  .bigbar i{display:block; height:100%; background:linear-gradient(90deg,#1FA85C,#7BE0A8); width:0; transition:width .6s ease;}
+  .lbrow{display:flex; align-items:center; gap:10px; padding:8px 4px; border-bottom:1px solid #eef0f6; font-size:15px;}
+  .lbrow.me{background:#eef3fc; border-radius:8px; font-weight:800;}
+  .lbrank{width:26px; text-align:center; font-weight:800; color:var(--gold);}
+  .lbname{flex:1; font-weight:700;}
+  .lbval{color:var(--muted); font-size:13px; white-space:nowrap;}
+  @keyframes flamepulse{0%,100%{transform:scale(1) rotate(-2deg);}50%{transform:scale(1.13) rotate(2deg);}}
+  .unlock.perfect{background:linear-gradient(135deg,#E7F7EE,#C9F0D8); border-color:var(--das); color:#10663a;}
+  .unlock.medalbox{display:flex; align-items:center; gap:8px; justify-content:center;}
+  .unlock.medalbox svg{width:30px; height:30px; flex:none;}
+  #confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:60;}
+  #confetti i{position:absolute; top:-16px; width:9px; height:14px; border-radius:2px; animation:cfall linear forwards;}
+  @keyframes cfall{to{transform:translateY(112vh) rotate(540deg); opacity:.15;}}
+  .mascot{display:inline-block; width:44px; height:44px; vertical-align:middle; flex:none;}
+  .mascot svg{width:100%; height:100%; display:block;}
+  .mascot.lg{width:74px; height:74px;}
+  .mascot.bounce{animation:mbounce .5s ease;}
+  @keyframes mbounce{0%,100%{transform:translateY(0) scale(1);}35%{transform:translateY(-9px) scale(1.06);}}
+  h1{font-size:clamp(24px,6vw,30px); margin:6px 2px 2px;}
+  .sub{color:var(--muted); margin:0 2px 12px; font-size:clamp(14px,4vw,16px);}
+  .btn{border:none; border-radius:18px; font-family:inherit; font-weight:800; cursor:pointer; transition:transform .07s;}
+  .btn:active{transform:scale(.97);}
+  .big{font-size:clamp(20px,5.5vw,24px); padding:18px; width:100%; color:#fff; background:var(--der); box-shadow:0 6px 0 #2152ad;}
+  .big:active{box-shadow:0 2px 0 #2152ad; transform:translateY(4px);}
+  .center{flex:1; display:flex; flex-direction:column; justify-content:center; gap:14px;}
+  .stages{display:flex; flex-direction:column; gap:10px; margin-top:8px;}
+  .stage{display:flex; align-items:center; gap:13px; background:#fff; border-radius:16px; padding:14px; box-shadow:0 2px 8px rgba(31,42,68,.06);}
+  .stage .num{width:40px; height:40px; border-radius:11px; background:var(--der); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex:none;}
+  .stage .meta{flex:1; min-width:0;}
+  .stage .meta b{font-size:17px;}
+  .stage .meta div{font-size:13px; color:var(--muted);}
+  .stage.locked{opacity:.5;}
+  .stage.locked .num{background:#b9c0d4;}
+  .bar{height:8px; background:#e7ebf5; border-radius:6px; overflow:hidden; margin-top:6px;}
+  .bar i{display:block; height:100%; background:var(--das); width:0;}
+  .row{display:flex; gap:10px;}
+  .row .btn{flex:1;}
+  .link{background:none; border:none; color:var(--muted); font-size:15px; text-decoration:underline; cursor:pointer; font-family:inherit; padding:8px;}
+  /* play */
+  #play{justify-content:flex-start;}
+  .progress{height:10px; background:#e7ebf5; border-radius:8px; overflow:hidden; margin:6px 2px 12px;}
+  .progress i{display:block; height:100%; background:var(--der); width:0; transition:width .2s;}
+  .critters{display:flex; flex-wrap:wrap; gap:5px; justify-content:center; margin:2px 0 4px;}
+  .critternext{text-align:center; font-size:14px; color:var(--muted); font-weight:800; margin:0 0 10px;}
+  .critters span{font-size:25px; line-height:1.1; transition:transform .15s;}
+  .critters .locked{filter:grayscale(1); opacity:.25;}
+  .critters .got.pop{animation:critpop .5s ease;}
+  @keyframes critpop{0%{transform:scale(.4);}60%{transform:scale(1.35);}100%{transform:scale(1);}}
+  .promptwrap{flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; justify-content:center;}
+  .prompt{background:#fff; border-radius:22px; padding:26px 20px; text-align:center; box-shadow:0 4px 16px rgba(31,42,68,.08);}
+  .hint{color:var(--muted); font-size:clamp(15px,4.6vw,18px); font-weight:700; margin-bottom:8px;}
+  .word{font-size:clamp(32px,9vw,46px); font-weight:800; line-height:1.15;}
+  .wordimg{display:block; width:clamp(120px,40vw,180px); height:clamp(120px,40vw,180px); object-fit:cover; border-radius:18px; margin:0 auto 12px; box-shadow:0 3px 12px rgba(31,42,68,.12); background:#eef1f7;}
+  .speaker{display:inline-block; margin-left:10px; font-size:.5em; vertical-align:middle; color:var(--der); cursor:pointer; user-select:none;}
+  .sentence{font-size:clamp(21px,5.6vw,30px); font-weight:700; line-height:1.4;}
+  .sentence .blank{color:var(--der); border-bottom:4px solid var(--der); padding:0 12px;}
+  .sentence .blank.filled{color:var(--ok); border-color:var(--ok);}
+  .scaffold{margin-top:14px; font-size:clamp(13px,3.8vw,15px); color:var(--der); font-weight:700; background:#eef3fc; border-radius:10px; padding:8px 12px; display:inline-block;}
+  .intro{font-size:clamp(17px,4.8vw,21px); line-height:1.5; font-weight:600; color:var(--ink); padding:6px 2px;}
+  .feedback{text-align:center; font-weight:800; font-size:clamp(15px,4.4vw,19px); min-height:24px; margin:10px 2px;}
+  .feedback.ok{color:var(--ok);} .feedback.bad{color:var(--bad);}
+  .feedback .why{display:block; color:var(--muted); font-weight:600; font-size:.85em; margin-top:3px;}
+  .ctl{display:flex; gap:8px; justify-content:center; align-items:center; margin-top:10px; flex-wrap:wrap;}
+  .ctlbtn{border:none; border-radius:12px; font-family:inherit; font-weight:800; font-size:clamp(14px,4vw,16px); padding:9px 16px; background:#e7ebf5; color:var(--ink); cursor:pointer;}
+  .ctlbtn.weiter{background:var(--der); color:#fff;}
+  .ctlbtn.undo{background:#fff; color:var(--bad); border:1.5px solid var(--bad);}
+  .opts{display:flex; flex-direction:column; gap:11px; padding-top:4px;}
+  .opt{font-size:clamp(20px,5.4vw,26px); padding:17px; background:#fff; color:var(--ink); box-shadow:0 3px 0 #d7ddec; border:2px solid #e7ebf5;}
+  .opt.der{color:var(--der);} .opt.die{color:var(--die);} .opt.das{color:var(--das);}
+  .opt.correct{background:var(--ok); color:#fff; border-color:var(--ok); box-shadow:0 3px 0 #157a43;}
+  .opt.wrong{background:var(--bad); color:#fff; border-color:var(--bad); box-shadow:0 3px 0 #a82e59;}
+  /* done */
+  .done-card{background:#fff; border-radius:22px; padding:28px; text-align:center; box-shadow:0 4px 16px rgba(31,42,68,.08);}
+  .done-card .big-streak{font-size:60px; font-weight:800; color:var(--gold); line-height:1;}
+  .stars{font-size:30px; color:var(--gold); letter-spacing:4px;}
+  .unlock{background:linear-gradient(135deg,#FFF6E5,#FFE9C7); border:2px solid var(--gold); border-radius:16px; padding:14px; margin-top:14px; font-weight:700; color:#7a5c00;}
+  .tiny{font-size:12px; color:var(--muted); text-align:center; margin-top:10px; padding:0 6px;}
+  /* data */
+  #data{overflow-y:auto;}
+  .panel{background:#fff; border-radius:16px; padding:16px; box-shadow:0 2px 8px rgba(31,42,68,.06); margin-bottom:12px;}
+  .panel h2{font-size:17px; margin:0 0 8px;}
+  .panel p{font-size:14px; color:var(--muted); margin:4px 0;}
+  textarea{width:100%; height:74px; border:1px solid #d7ddec; border-radius:10px; padding:8px; font-family:monospace; font-size:12px; resize:none;}
+  .hardlist{font-size:14px; line-height:1.6;}
+  .hardlist span{display:inline-block; background:#f0f3fa; border-radius:8px; padding:2px 9px; margin:3px 3px 0 0;}
+  .danger{color:var(--bad); border:1px solid var(--bad); background:#fff;}
+  .toggle{display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:15px;}
+</style>
+</head>
+<body>
+<div id="confetti"></div>
+<div id="app">
+
+  <!-- WELCOME (Name zuerst) -->
+  <div id="welcome" class="screen">
+    <div class="center">
+      <h1><span class="mascot" id="welMascot" style="width:56px;height:56px;"></span> Hallo!</h1>
+      <p class="sub">Wie heißt du? Nur Vorname oder Spitzname.</p>
+      <input id="welNameInput" maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="width:100%; border:1.5px solid #d7ddec; border-radius:14px; padding:14px; font-family:inherit; font-size:18px; text-align:center;">
+      <button class="btn big" id="welJoin" style="margin-top:12px;">Los geht's</button>
+      <button class="link" id="welSkip" style="align-self:center;">ohne Namen üben</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="home" class="screen on">
+    <div class="streakhero" id="streakHero">
+      <span class="flameBig" id="streakFlame"><svg viewBox="0 0 32 32"><path d="M16 2c2 5-2 7-3 10-1 2 0 4 2 4 2 0 3-2 3-4 3 3 4 6 4 9a10 10 0 1 1-20 0c0-4 2-7 4-9 1 3 3 3 4 1 2-3 1-7 2-11z" fill="#FF8A1E"></path><path d="M16 15c1 2-1 3-1 5 0 2 1 3 3 3 1 0 2-1 2-3 0-2-2-4-4-5z" fill="#FFD23F"></path></svg></span>
+      <div class="streakinfo">
+        <div><b id="streakN">0</b> <span id="streakLabel">Übungstage</span></div>
+        <div class="streaksub" id="streakSub">Heute starten und den ersten Übungstag holen.</div>
+      </div>
+    </div>
+    <div class="medalrow" id="medalRow"></div>
+    <div class="top">
+      <div class="badge"><span id="pointsN">1</span><small>Sterne</small></div>
+    </div>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> <span id="homeGreet">Hallo! Ich bin Bobby! (Lehrer-Test)</span></h1>
+    <div class="critters" id="critterRow"></div>
+    <div class="critternext" id="critterNext"></div>
+    <p class="sub" id="homeSub"></p>
+    <div id="playerScores" style="display:flex;flex-wrap:wrap;gap:6px;margin:2px 2px 8px;"></div>
+    <div id="progWrap" style="margin:6px 2px 12px;">
+      <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:800; color:var(--ink); margin-bottom:4px;">
+        <span id="progLabel">Noch 20 Wörter bis zum nächsten Stern</span><span id="progPct">0 ⭐</span>
+      </div>
+      <div class="bigbar"><i id="progFill" style="width: 0%;"></i></div>
+    </div>
+    <div id="levelBox" style="margin: 0px 2px 10px; font-size: 13px; color: var(--gold); font-weight: 800;"></div>
+    <button class="btn big" id="startBtn">Heute üben</button>
+    <div class="stages" id="stageList"><div class="stage"><div class="num">1</div><div class="meta"><b>der, die, das</b><div>Welcher Artikel?</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">2</div><div class="meta"><b>Mehrzahl</b><div>frei ab 12 sicheren Wörtern in Stufe 1</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">3</div><div class="meta"><b>Wo oder Wohin?</b><div>frei ab 12 sicheren Wörtern in Stufe 2</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">4</div><div class="meta"><b>Dativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 3</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">5</div><div class="meta"><b>Akkusativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 4</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">6</div><div class="meta"><b>Welcher Fall?</b><div>frei ab 12 sicheren Wörtern in Stufe 5</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">7</div><div class="meta"><b>er, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 6</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">8</div><div class="meta"><b>mein oder meine?</b><div>frei ab 12 sicheren Wörtern in Stufe 7</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">9</div><div class="meta"><b>sein oder ihr?</b><div>frei ab 12 sicheren Wörtern in Stufe 8</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">10</div><div class="meta"><b>ihn, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 9</div><div class="bar"><i style="width:0%"></i></div></div></div></div>
+    <div class="panel" id="teacherPanel" style="margin-top:12px; border:2px dashed var(--der);">
+      <h2 style="font-size:16px; margin:0 0 4px;">Lehrer: Stufe testen</h2>
+      <div style="font-size:12px; color:var(--muted); margin:0 0 8px;">20 Karten nur aus dieser Stufe, unabhängig vom Lernstand.</div>
+      <div id="teacherBtns" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
+    <div class="panel" id="focusPanel" style="margin-top:12px; border:2px dashed var(--das);">
+      <h2 style="font-size:16px; margin:0 0 4px;">Lehrer: Schwerpunkt setzen</h2>
+      <div style="font-size:12px; color:var(--muted); margin:0 0 8px;">Das Thema bekommt 2 Wochen lang deutlich mehr neue Karten, bei allen Spielenden dieser App.</div>
+      <div id="focusNow" style="font-size:14px; font-weight:700; margin:0 0 8px;">lädt ...</div>
+      <div id="focusBtns" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+    </div>
+    <div class="panel" id="lbPanel" style="display: block; margin-top: 12px;">
+      <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
+      <div id="lbList"><button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button></div>
+    </div>
+    <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play" class="screen">
+    <div class="top">
+      <button class="link" id="quitBtn" style="padding:4px 0;">‹ zurück</button>
+      <span class="mascot" id="playMascot"></span>
+      <button class="link" id="helpBtn" style="padding:4px 12px; font-size:20px; font-weight:800; text-decoration:none; color:var(--der);" title="Regel zeigen">?</button>
+      <div class="badge"><span id="sessN">0/0</span><small>heute</small></div>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+    <div class="promptwrap"><div class="prompt" id="promptBox"></div></div>
+    <div class="feedback" id="fb"></div>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <!-- DONE -->
+  <div id="done" class="screen">
+    <div class="center">
+      <div class="done-card">
+        <div style="text-align:center;"><span class="mascot lg" id="doneMascot"></span></div>
+        <div class="stars" id="doneStars">★★★</div>
+        <h1>Super gemacht!</h1>
+        <p class="sub" id="doneMsg"></p>
+        <div class="big-streak"><span class="flameBig" id="doneFlame" style="width:38px;height:38px;display:inline-block;vertical-align:middle;"></span> <span id="doneStreak">0</span></div>
+        <div style="color:var(--muted); font-weight:700; margin-top:2px;" id="doneStreakLabel">Tage in Folge</div>
+        <div id="unlockBox"></div>
+      </div>
+      <button class="btn big" id="homeBtn">Zurück</button>
+    </div>
+  </div>
+
+  <!-- DATA / ELTERN -->
+  <div id="data" class="screen">
+    <div class="top">
+      <button class="link" id="dataBack" style="padding:4px 0;">‹ zurück</button>
+      <div class="badge"><span id="bestN">0</span><small>Übungstage</small></div>
+    </div>
+    <h1 style="font-size:22px;">Für Eltern</h1>
+    <div class="panel">
+      <h2>Fortschritt</h2>
+      <p>Genauigkeit beim ersten Versuch: <b id="statAcc">noch keine Daten</b></p>
+      <div id="statStages" style="font-size:14px; color:var(--muted); line-height:1.7; margin-top:4px;"></div>
+    </div>
+    <div class="panel" id="allKidsPanel" style="display:none;">
+      <h2>Alle Kinder (online)</h2>
+      <p>Übersicht aller Kinder, die mit Namen online mitmachen.</p>
+      <div id="allKids">lädt ...</div>
+    </div>
+    <div class="panel">
+      <h2>Schwere Wörter (dieses Kind)</h2>
+      <p>Die Wörter mit den meisten Fehlern. Gute Kandidaten zum gemeinsamen Üben.</p>
+      <div class="hardlist" id="hardList">Noch nichts geübt.</div>
+    </div>
+    <div class="panel">
+      <h2>Vorlesen</h2>
+      <p>Nach jeder Antwort wird die richtige Lösung vorgelesen.</p>
+      <button class="btn" id="muteBtn" style="padding:12px; width:100%; background:#eef1f7; color:var(--ink);"></button>
+    </div>
+    <div class="panel">
+      <h2>Fortschritt sichern</h2>
+      <p>Der Lernstand ist online gesichert. Zusätzlich kann man ihn hier als Datei speichern oder aus einer Datei zurückholen.</p>
+      <div class="row" style="margin-top:8px;"><button class="btn" id="exportBtn" style="padding:12px; background:#eef1f7; color:var(--ink);">Als Datei sichern</button><button class="btn" id="importBtn" style="padding:12px; background:#eef1f7; color:var(--ink);">Aus Datei laden</button></div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+    <div class="panel">
+      <h2>Neu anfangen</h2>
+      <p>Löscht den ganzen Fortschritt und fängt bei Stufe 1 von vorn an.</p>
+      <button class="btn danger" id="resetBtn" style="padding:12px; width:100%;">Alles zurücksetzen</button>
+    </div>
+  </div>
+
+</div>
+<script>
+%%SCRIPT%%</script>
+
+
+</body></html>

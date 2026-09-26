@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lehrer-Übersicht</title>
+<style>
+  :root{ --der:#2D6CDF; --die:#E0467C; --das:#1FA85C; --bg:#F4F6FB; --card:#fff; --ink:#1F2A44; --muted:#7A86A1; --warn:#C77F0E; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink);}
+  main{max-width:860px; margin:0 auto; padding:16px;}
+  h1{font-size:24px; margin:8px 0 4px;} .sub{color:var(--muted); font-size:14px; margin:0 0 16px;}
+  .group{background:var(--card); border-radius:16px; padding:16px; margin:0 0 16px; box-shadow:0 2px 8px rgba(31,42,68,.06);}
+  .group h2{font-size:19px; margin:0 0 4px;} .links{font-size:13px; margin:0 0 10px;} .links a{color:var(--der); margin-right:12px;}
+  .focus{background:#f2f6ff; border-radius:12px; padding:10px 12px; margin:0 0 12px; font-size:14px;}
+  .focus b{display:block; margin-bottom:6px;} .btns{display:flex; flex-wrap:wrap; gap:6px;}
+  button{border:none; border-radius:10px; padding:7px 11px; font:inherit; font-size:13px; font-weight:700; background:#e7ebf5; color:var(--ink); cursor:pointer;}
+  button.on{background:var(--der); color:#fff;}
+  .kids{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px;}
+  .kid{border:1px solid #e7ebf5; border-radius:12px; padding:12px; font-size:14px;}
+  .kid .n{font-size:17px; font-weight:800;} .kid .row{display:flex; justify-content:space-between; padding:2px 0; border-bottom:1px dashed #eef0f6;}
+  .kid .row span:first-child{color:var(--muted);} .warn{color:var(--warn); font-weight:700;}
+  .prob{margin-top:6px; font-size:13px; color:var(--muted);} .empty{color:var(--muted); font-size:14px;}
+</style></head>
+<body><main>
+<h1>Lehrer-Übersicht</h1>
+<p class="sub">Alle Schüler aller Gruppen. Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.</p>
+<div id="root">lädt ...</div>
+</main>
+<script>
+"use strict";
+const META=%%META%%;
+const DB="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";
+const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
+const esc=s=>String(s==null?"":s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+const KIND={g:"Artikel",p:"Plural",w:"Wo/Wohin",d:"Dativ",a:"Akkusativ",m:"Fall gemischt",pr:"er/sie/es",po:"mein/meine",ps:"sein/ihr",pa:"ihn/sie/es",adj:"Adjektiv",pf:"Perfekt",pt:"Präteritum",vp:"Präsens",vm:"Modalverb",ns:"Nebensatz",ko:"Komparativ"};
+function label(id){ const p=id.split(":"), k=p[0], t=KIND[k]||k;
+  if(k==="adj") return p[4]+" "+p[5]+" ("+t+")"; if(k==="ns") return t+" "+(+p[1]+1); if(k==="ko") return p[1]+" ("+(p[2]==="S"?"Superlativ":"Komparativ")+")";
+  return p[p.length-1]+" ("+t+")"; }
+function kidHtml(S){ const t=today(), cards=Object.entries(S.cards||{}), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
+  const st=S.stats||{}, acc=st.attempts?Math.round(100*st.firstRight/st.attempts)+" %":"–";
+  const log=(S.log||[]).filter(L=>L.d>t-7), n7=log.reduce((a,L)=>a+L.n,0), ok7=log.reduce((a,L)=>a+L.ok,0);
+  const ago=S.lastDay!=null?t-S.lastDay:null, agoTxt=ago==null?"noch nie":ago===0?"heute":ago===1?"gestern":"vor "+ago+" Tagen";
+  const prob=cards.filter(([,c])=>(c.miss||0)>=2).sort((a,b)=>b[1].miss-a[1].miss).slice(0,6).map(([id,c])=>esc(label(id))+" ("+c.miss+")");
+  const row=(k,v,w)=>'<div class="row"><span>'+k+'</span><span'+(w?' class="warn"':'')+'>'+v+'</span></div>';
+  return '<div class="kid"><div class="n">'+esc(S.playerName)+'</div>'
+    +row("zuletzt geübt",agoTxt,ago==null||ago>3)
+    +row("letzte 7 Tage",S.log?(log.length+" Tage, "+n7+" Karten"+(n7?", "+Math.round(100*ok7/n7)+" %":"")):"(noch keine Tagesdaten)",S.log&&log.length<3)
+    +row("Übungstage gesamt",S.streak||0)+row("Karten gesehen / sicher",cards.length+" / "+sicher)+row("Treffer 1. Versuch gesamt",acc)
+    +(prob.length?'<div class="prob">Hängt: '+prob.join(", ")+'</div>':"")+'</div>'; }
+function focusHtml(g,fo){ const cur=(fo&&fo.stage&&fo.until>=today())?fo:null;
+  return '<div class="focus"><b>Schwerpunkt: '+(cur?esc(cur.name)+" (noch "+(cur.until-today())+" Tage)":"keiner")+'</b><div class="btns">'
+    +g.focusOpts.map(o=>'<button data-g="'+g.id+'" data-s="'+o[0]+'" data-n="'+esc(o[1])+'"'+(cur&&cur.stage===o[0]?' class="on"':'')+'>'+esc(o[1])+'</button>').join("")
+    +'<button data-g="'+g.id+'" data-s="0">kein Schwerpunkt</button></div></div>'; }
+async function load(){ const root=document.getElementById("root"); let html="";
+  for(const g of META){ let saves={}, fo=null;
+    try{ saves=await (await fetch(DB+g.savePath+".json?t="+Date.now())).json()||{}; fo=await (await fetch(DB+g.lbPath+"/_focus.json?t="+Date.now())).json(); }catch(e){ html+='<div class="group"><h2>'+esc(g.name)+'</h2><p class="empty">gerade offline</p></div>'; continue; }
+    const kids=Object.values(saves).filter(S=>S&&S.cards&&S.playerName).sort((a,b)=>(b.lastDay||0)-(a.lastDay||0));
+    html+='<div class="group"><h2>'+esc(g.name)+'</h2><div class="links"><a href="../'+g.folder+'/">Schüler-Link</a><a href="../'+g.folder+'/index_lehrer.html">Lehrerversion (Stufen testen)</a></div>'
+      +focusHtml(g,fo)+(kids.length?'<div class="kids">'+kids.map(kidHtml).join("")+'</div>':'<p class="empty">Noch niemand hat hier gespielt.</p>')+'</div>'; }
+  root.innerHTML=html;
+  root.querySelectorAll("button[data-g]").forEach(b=>b.onclick=async()=>{ const g=META.find(x=>x.id===b.dataset.g), s=+b.dataset.s, url=DB+g.lbPath+"/_focus.json";
+    try{ if(s) await fetch(url,{method:"PUT",body:JSON.stringify({stage:s,name:b.dataset.n,until:today()+14})}); else await fetch(url,{method:"DELETE"}); load(); }
+    catch(e){ alert("Speichern hat nicht geklappt."); } }); }
+load();
+</script>
+</body></html>
