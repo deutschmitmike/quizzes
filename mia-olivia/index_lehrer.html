@@ -1713,7 +1713,6 @@ function startSession(mode){
 function nextCard(){
   if(queue.length===0){ finishSession(); return; }
   current=queue[0];
-  if(INTRO[current.stage] && !(S.seenIntro&&S.seenIntro[current.stage])){ showIntro(current.stage); return; }
   renderCurrent();
 }
 function showIntro(stage){
@@ -2002,7 +2001,7 @@ if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Nam
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-11";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-12";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
