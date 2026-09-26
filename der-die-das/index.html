@@ -1091,7 +1091,7 @@ function weakStage(stages){ let best=null, br=0;   // Stufe (ausser 1) mit den m
   for(const st of stages){ let n=0,m=0; for(const id in S.cards){ const it=byId[id]; if(it&&String(it.stage)===String(st)){ n++; m+=S.cards[id].miss||0; } }
     if(n>=5 && m/n>br){ br=m/n; best=st; } }
   return br>=0.5 ? best : null; }   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
-const NEW_PER_DAY=25, NEW_PER_SESSION=25, MAX_SESSION=30, MAX_REPEAT=3;  // eine Runde max. 30 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
+const NEW_PER_DAY=25, NEW_PER_SESSION=25, MAX_SESSION=35, MAX_REPEAT=3;  // eine Runde max. 35 Karten (seit Build 7: mehr Platz fuer Wiederholungen, neue bleiben max. 25), danach "heute geschafft" (kein 2.-Runde-Zwang)
 const TARGET_SESSION=20;  // Runde immer auf ~20 auffuellen (Extra-Wiederholungen), auch wenn wenig faellig ist
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}
@@ -1614,7 +1614,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-6";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-7";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
