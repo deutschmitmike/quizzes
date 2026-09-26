@@ -1501,11 +1501,11 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
     const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name);
     { const ps=document.getElementById("playerScores");
-      if(ps) ps.innerHTML=arr.slice().sort((a,b)=>(b.sterne||0)-(a.sterne||0)).map(e=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+esc(e.name)+': '+(e.sterne||0)+' ⭐</span>').join(""); }
+      if(ps) ps.innerHTML=arr.slice().sort((a,b)=>((b.sicher||0)-(a.sicher||0))||((b.sterne||0)-(a.sterne||0))).map((e,i)=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+(i+1)+'. '+esc(e.name)+': '+(e.sicher||0)+' sicher</span>').join(""); }
     const total=arr.reduce((s,e)=>s+(e.sicher||0),0);
     const goal=TEAM_GOALS.find(g=>g>total)||TEAM_GOALS[TEAM_GOALS.length-1];
     const pct=Math.min(100,Math.round(100*total/goal));
-    const names=arr.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(e=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+esc(e.name)+': '+(e.sicher||0)+'</span>').join("");
+    const names=arr.length?'<span style="color:var(--muted);font-size:13px;">Ein Wort ist sicher, wenn es nach mindestens 4 Tagen Pause noch richtig ist.</span>':'';
     list.innerHTML =
       '<div style="font-size:15px;margin-bottom:6px;">Gemeinsam <b>'+total+'</b> von '+goal+' Wörtern sicher</div>'+
       '<div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
@@ -1939,7 +1939,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-2";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-3";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
