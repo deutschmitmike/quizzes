@@ -1412,6 +1412,7 @@ function label(it){ if(it.kind==="perf"){const v=VBY[it.word]; return AUXF[v.aux
 
 // ================= Zustand =================
 const KEY="mo_v1";   // eigener Speicher (localStorage gilt fuer die ganze Domain, der-die-das nutzt einen anderen)
+const EXTRA_ROUNDS=false;   // Mia/Olivia: keine freiwilligen Extrarunden (Lehrerversion: true)
 const INTERVAL={1:1,2:2,3:4,4:8,5:15,6:30};
 const SICHER_BOX=4;   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
 const NEW_PER_DAY=25, NEW_PER_SESSION=25, MAX_SESSION=30, MAX_REPEAT=3;  // eine Runde max. 30 Karten, danach "heute geschafft" (kein 2.-Runde-Zwang)
@@ -1606,9 +1607,14 @@ function sortRender(){ if(!document.getElementById("play").classList.contains("o
 function sortPlace(a){ if(gSel==null||!gQ[gSel]||gQ[gSel].done) return; const c=gQ[gSel]; c.done=true; c.col=a; c.right=(a===c.g); gPlaced++; if(c.right)gRight++;
   srsApply(c.id,c.right); beep(c.right); setMascot("playMascot",c.right?"happy":"oops",true); gSel=null; sortRender(); }
 function gameDailyFinish(){ firstTry=gRight; sessionTotal=gQ.length; cleared=new Set(); for(let i=0;i<gRight;i++)cleared.add(i); finishSession(); }
-function startDaily(){ startSession(); }   // immer die Hauptrunde (der/die/das): konsistent, mit Bildern, Sternen, aktiver Korrektur & SRS. Mini-Spiele entfernt (für Kinder zu wechselhaft/frustig)
+function startDaily(){ if(!EXTRA_ROUNDS && S.lastDay===today()) return; startSession(); }   // immer die Hauptrunde (der/die/das): konsistent, mit Bildern, Sternen, aktiver Korrektur & SRS. Mini-Spiele entfernt (für Kinder zu wechselhaft/frustig)
 function startSession(mode){
   const t=today();
+  const R=S.resume;
+  if(!EXTRA_ROUNDS && mode!=="hard" && R && R.day===t && R.ids && R.ids.length){   // abgebrochene Tagesrunde fortsetzen
+    queue=R.ids.map(id=>byId[id]).filter(Boolean);
+    if(queue.length){ sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null; show("play"); nextCard(); return; }
+  }
   if(mode==="hard"){
     queue=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0).sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,15);
     if(!queue.length) queue=shuffle(ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked)).slice(0,10);
@@ -1662,6 +1668,7 @@ function startSession(mode){
   }
   shuffle(queue);
   sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null;
+  if(mode!=="hard"){ S.resume={day:t, ids:queue.map(q=>q.id)}; save(); }   // Rest der Tagesrunde merken
   show("play"); nextCard();
 }
 function nextCard(){
@@ -1761,6 +1768,7 @@ function commitNext(){
     queue.shift();
     queue.splice(Math.min(3,queue.length),0,it);   // ~3 Positionen später wieder einschieben (bei wenig Rest ans Ende), IMMER – die Karte muss in dieser Session noch 1x richtig sein, sonst endet die Session nicht
   }
+  if(S.resume && S.resume.day===today()) S.resume.ids=queue.map(q=>q.id);
   S.cards[it.id]=card; save();
   document.getElementById("pointsN").textContent=S.points;
   nextCard();
@@ -1769,7 +1777,7 @@ function undoPending(){ if(!pending) return; pending=null; if(advTimer){clearTim
 function finishSession(){
   const t=today(); const prevStreak=S.streak||0;
   if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
-  S.lastDay=t; S.best=S.streak;
+  S.lastDay=t; S.best=S.streak; S.resume=null;
   S.medals=S.medals||[]; let medalNew=null;
   MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
   S.wordMedals=S.wordMedals||[]; let wordMedalNew=null;                    // lernbasierte Abzeichen
@@ -1839,11 +1847,11 @@ function renderHome(){
   const roundSize=Math.min(MAX_SESSION, due)+sessNew;
   const sb=document.getElementById("startBtn");
   if(S.lastDay===t){
-    document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; sb.textContent="Nochmal üben (freiwillig)";
+    document.getElementById("homeSub").textContent="Heute geschafft! Komm morgen wieder."; if(EXTRA_ROUNDS){ sb.style.display=""; sb.textContent="Nochmal üben (freiwillig)"; } else sb.style.display="none";
   } else {
     const wdh = Math.min(due,MAX_SESSION);
     document.getElementById("homeSub").textContent="";
-    sb.textContent=(S.lastDay===t)?"Weiter üben":"Heute üben";
+    sb.style.display=""; sb.textContent=(S.resume&&S.resume.day===t&&S.resume.ids&&S.resume.ids.length)?"Runde fortsetzen":"Heute üben";
   }
   const lastSt=STAGES.length;
   const allMast = S.unlocked>=lastSt && stageMastered(lastSt)>=unlockNeed(lastSt);
@@ -1925,7 +1933,7 @@ if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-3";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-4";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
