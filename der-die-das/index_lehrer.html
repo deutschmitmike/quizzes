@@ -264,7 +264,7 @@ const GROUP={
  "savePath": "save",
  "mascot": true,
  "critters": true,
- "allOpen": false,
+ "allOpen": true,
  "intros": true,
  "typedRecall": false,
  "teenPron": false,
@@ -296,8 +296,57 @@ const GROUP={
  "cardWord": "Wörter",
  "focusOpts": null,
  "zh": false,
- "topicGroups": [],
- "topicWeights": [],
+ "topicGroups": [
+  [
+   [
+    1
+   ]
+  ],
+  [
+   [
+    2
+   ]
+  ],
+  [
+   [
+    3,
+    4,
+    5
+   ],
+   [
+    6
+   ]
+  ],
+  [
+   [
+    7,
+    8,
+    9,
+    10
+   ]
+  ],
+  [
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14
+   ]
+  ]
+ ],
+ "topicWeights": [
+  3,
+  1,
+  2,
+  1,
+  2
+ ],
  "sound": false
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
@@ -513,7 +562,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-26-26"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-26-27"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";

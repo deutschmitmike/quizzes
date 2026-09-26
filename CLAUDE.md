@@ -31,7 +31,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Auswahlkarten (Lücke, Satzbau): **nur eine Option darf einen korrekten Satz ergeben**, auch umgangssprachlich nicht zwei. Beispiel: bei Konjunktiv II nie „können“ als Falschantwort in „___ Sie mir helfen?“.
 - Chinesische Bedeutung (Schalter `zh`) nur für Gruppen, die Chinesisch lesen: **Mia & Olivia ja, Kyana nein.** Traditionelle Zeichen, Taiwan-Wortschatz, Trenner „，“, keine Gedankenstriche.
 - Didaktik: keine Stufen ohne echten Schwierigkeitszuwachs, keine Mini-Spiele, aktive Korrektur (die richtige Lösung selbst antippen), **keine Selbstbewertungs-Knöpfe** (Ankis vier Knöpfe). Die Bewertung ergibt sich automatisch aus richtig/falsch und Antwortzeit. **Keine Hilfe-Taste (?) und kein Ton**, weder Klicktöne noch Vorlesen (Mike, 2026-09-26; Schalter `sound` im Steckbrief).
-- Kyana: Bobby, Sammeltiere, Stufen werden nacheinander freigeschaltet, Einführungsseiten, 35 Karten, Extrarunden erlaubt, freier Name.
+- Kyana: Bobby, Sammeltiere, alle Themen gleichzeitig wie bei Mia & Olivia (seit 2026-09-26, ihr Wunsch; Einführungsseite beim ersten Kontakt mit einem Thema), 35 Karten, Extrarunden erlaubt, freier Name.
 - Mia & Olivia: kein Maskottchen, alle Themen gleichzeitig (gewichtet), eine Runde pro Tag (20 Karten, nach 7 Übungstagen 30), sichere Karten werden getippt, Vergleich mit der Vorwoche statt Rangliste, Anmeldung nur über die Knöpfe „Ich bin Mia/Olivia“.
 
 ## Lernverfahren (Stand 2026-09-26)

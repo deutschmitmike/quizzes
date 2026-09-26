@@ -9,7 +9,7 @@ const GROUP={
  "savePath": "save",
  "mascot": true,
  "critters": true,
- "allOpen": false,
+ "allOpen": true,
  "intros": true,
  "typedRecall": false,
  "teenPron": false,
@@ -41,8 +41,57 @@ const GROUP={
  "cardWord": "Wörter",
  "focusOpts": null,
  "zh": false,
- "topicGroups": [],
- "topicWeights": [],
+ "topicGroups": [
+  [
+   [
+    1
+   ]
+  ],
+  [
+   [
+    2
+   ]
+  ],
+  [
+   [
+    3,
+    4,
+    5
+   ],
+   [
+    6
+   ]
+  ],
+  [
+   [
+    7,
+    8,
+    9,
+    10
+   ]
+  ],
+  [
+   [
+    11
+   ],
+   [
+    12
+   ],
+   [
+    13
+   ],
+   [
+    14
+   ]
+  ]
+ ],
+ "topicWeights": [
+  3,
+  1,
+  2,
+  1,
+  2
+ ],
  "sound": false
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
