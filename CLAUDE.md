@@ -26,7 +26,8 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 
 ## Inhaltliche Regeln (Mike)
 - Keine Emojis auf Karten (Frage, Knöpfe, Lösung, Erklärung). Wortbilder nur als echte Fotos (Pexels), nie Emojis oder Illustrationen.
-- Homonyme mit zwei Genera nie aufnehmen (Kiefer, See, Tau, Schild …). Gestrichene Wörter: `~/Desktop/claude cowork/wortliste/streichliste.txt`.
+- Homonyme mit zwei Genera nicht neu aufnehmen (Kiefer, See, Tau …). Ausnahme, weil schon gelernt (Karten-IDs!): *Schild, Leiter, Steuer, Band, Laster, Pony* bleiben, brauchen aber ein eindeutiges Foto der gemeinten Bedeutung (Band = Geschenkband). Gestrichene Wörter: `~/Desktop/claude cowork/wortliste/streichliste.txt`.
+- Wortfotos: Claude wählt selbst und sieht jedes Foto an (Kontaktbögen `wortliste/foto_boegen.js`), Übernahme mit `wortliste/fotos_uebernehmen.py`. Nichts Anzügliches oder Gruseliges, kein Foto, das eher ein anderes Wort zeigt.
 - Nomen kommen nach Häufigkeit dran (`NRANK`, Untertitel-Häufigkeit), Krimi- und Schimpfwörter spät.
 - Auswahlkarten (Lücke, Satzbau): **nur eine Option darf einen korrekten Satz ergeben**, auch umgangssprachlich nicht zwei. Beispiel: bei Konjunktiv II nie „können“ als Falschantwort in „___ Sie mir helfen?“.
 - Chinesische Bedeutung (Schalter `zh`) nur für Gruppen, die Chinesisch lesen: **Mia & Olivia ja, Kyana nein.** Traditionelle Zeichen, Taiwan-Wortschatz, Trenner „，“, keine Gedankenstriche.
