@@ -23,4 +23,9 @@ names (feste Namensknöpfe) / allowSkip ("ohne Namen üben") · extraRounds (fre
 praise · adjDatPrep · cardWord · focusOpts (Themen für den Lehrer-Schwerpunkt)
 
 ## Tests
-Die Testskripte liegen in `~/Desktop/claude cowork/mia-olivia-build/` (compare.js: alt gegen neu Karte für Karte; verbtest, topictest, flowtest, switchtest, sampletest, effsim ...).
+Laufen automatisch bei `python3 src/build.py` (`src/tests/run_all.js`): jede Karte, keine verschwundenen Karten gegenüber dem letzten Commit,
+30 Tage Spielen, Fortsetzen abgebrochener Runden, Spielerwechsel. Effektivität: `node src/tests/sim_effekt.js <seite> [tage]`.
+
+## Übungsdaten
+`src/data/*.txt` (Verben, Präsens, Modalverben, Nebensätze, Komparativ, Satzbau, Pronomen, Reflexiv, Konjunktiv II, Relativsätze).
+Format steht im Kopf der jeweiligen Stelle in `engine.js`. Zeilen ergänzen ist unkritisch; keine ` oder ${ verwenden.

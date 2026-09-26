@@ -1,0 +1,7 @@
+können|kann|kannst|kann|können|könnt|können||1s:Ich {V} heute leider nicht mitkommen.;2s:Du {V} sehr gut zeichnen.;3s:Mias Bruder {V} schon Auto fahren.;1p:Wir {V} heute nicht Fußball spielen.;2p:Ihr {V} am Wochenende bei uns schlafen.
+müssen|muss|musst|muss|müssen|müsst|müssen||1s:Ich {V} noch Mathe lernen.;2s:Du {V} heute dein Zimmer aufräumen.;3s:Ben {V} um neun Uhr zu Hause sein.;2p:Ihr {V} in der Bibliothek leise sein.;3p:Mia und Olivia {V} morgen früh aufstehen.
+wollen|will|willst|will|wollen|wollt|wollen||3s:Olivia {V} später Ärztin werden.;2s:Was {V} du heute Abend machen?;1s:Ich {V} ein neues Handy haben.;1p:Wir {V} am Samstag schwimmen gehen.;2p:Wohin {V} ihr in den Ferien fahren?
+dürfen|darf|darfst|darf|dürfen|dürft|dürfen||3s:Mia {V} nur eine Stunde am Tag am Handy spielen.;2s:Du {V} im Unterricht nicht essen.;1s:Ich {V} heute länger aufbleiben.;2p:Ihr {V} jetzt in die Pause gehen.;3p:Die Schüler {V} im Unterricht kein Handy benutzen.
+sollen|soll|sollst|soll|sollen|sollt|sollen||2s:Du {V} heute deine Oma anrufen.;3s:Ben {V} mehr Wasser trinken.;1s:Was {V} ich jetzt machen?;1p:Wir {V} das Buch bis Montag lesen.;2p:Ihr {V} die Aufgabe allein machen.
+mögen|mag|magst|mag|mögen|mögt|mögen||3s:Mia {V} keine Tomaten.;2s:Du {V} Hunde, oder?;1s:Ich {V} deinen Bruder sehr.;1p:Wir {V} unsere neue Lehrerin.;2p:Welche Musik {V} ihr?
+möchten|möchte|möchtest|möchte|möchten|möchtet|möchten||1s:Ich {V} ein Eis essen.;2s:Was {V} du trinken?;3s:Olivia {V} Gitarre lernen.;1p:Wir {V} heute ins Kino gehen.;3p:Mia und Ben {V} später in Berlin wohnen.

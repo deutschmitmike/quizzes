@@ -1,0 +1,50 @@
+gut|besser|am besten|guter|mehr gut|am gutesten|am bessersten|Mia spielt {K} Tennis als Ben.|Olivia zeichnet {S} in unserer Klasse.
+viel|mehr|am meisten|vieler|mehr viel|am vielsten|am mehrsten|Ben isst {K} als sein Bruder.|Olivia liest {S} von uns allen.
+gern|lieber|am liebsten|gerner|mehr gern|am gernsten|am lieber|Ich trinke {K} Tee als Kaffee.|Mia isst {S} Pizza.
+hoch|höher|am höchsten|hocher|höcher|am hochsten|am höhesten|Der Turm ist {K} als die Kirche.|Mittags steht die Sonne {S}.
+nah|näher|am nächsten|naher|mehr nah|am nahsten|am nähesten|Die Bäckerei ist {K} als der Supermarkt.|Ben wohnt {S} an der Schule.
+groß|größer|am größten|großer|mehr groß|am großten|am größesten|Mias Bruder ist {K} als ihr Vater.|Ben ist {S} in unserer Klasse.
+alt|älter|am ältesten|alter|mehr alt|am altesten|am älter|Olivia ist {K} als Mia.|Oma ist {S} in unserer Familie.
+jung|jünger|am jüngsten|junger|mehr jung|am jungsten|am jüngesten|Mia ist {K} als Olivia.|Mein kleiner Bruder ist {S} in unserer Familie.
+kalt|kälter|am kältesten|kalter|mehr kalt|am kaltesten|am kältsten|Heute ist es {K} als gestern.|Im Januar ist es {S}.
+lang|länger|am längsten|langer|mehr lang|am langsten|am längesten|Die Sommerferien sind {K} als die Osterferien.|Am Freitag dauert der Unterricht {S}.
+warm|wärmer|am wärmsten|warmer|mehr warm|am warmsten|am wärmesten|Im Juli ist es {K} als im Mai.|Im August ist das Wasser im See {S}.
+kurz|kürzer|am kürzesten|kurzer|mehr kurz|am kurzesten|am kürzsten|Mias Haare sind {K} als Olivias Haare.|Im Dezember sind die Tage {S}.
+stark|stärker|am stärksten|starker|mehr stark|am starksten|am stärkesten|Ben ist {K} als sein Bruder.|Im Winter ist der Wind hier {S}.
+arm|ärmer|am ärmsten|armer|mehr arm|am armsten|am ärmesten|Die Familie ist heute {K} als früher.|In diesem Viertel sind die Menschen {S}.
+dumm|dümmer|am dümmsten|dummer|mehr dumm|am dummsten|am dümmesten|Der zweite Film ist noch {K} als der erste.|Die letzte Idee war {S}.
+oft|öfter|am häufigsten|ofter|mehr oft|am oftesten|am öftersten|Ben geht {K} ins Kino als Mia.|Olivia trainiert {S}.
+schnell|schneller|am schnellsten|mehr schnell|schnäller|am schnellesten|am schneller|Olivia läuft {K} als Ben.|Mia schwimmt {S}.
+schön|schöner|am schönsten|mehr schön|mehr schöner|am schönesten|am meisten schön|Das Wetter ist heute {K} als gestern.|Im Frühling ist der Park {S}.
+klein|kleiner|am kleinsten|mehr klein|mehr kleiner|am kleinesten|am meisten klein|Mias Zimmer ist {K} als das Zimmer von ihrem Bruder.|Von allen Hunden im Park ist Olivias Hund {S}.
+billig|billiger|am billigsten|mehr billig|mehr billiger|am billigesten|am meisten billig|Das T-Shirt ist {K} als die Jacke.|Im Supermarkt ist das Wasser {S}.
+teuer|teurer|am teuersten|mehr teuer|mehr teurer|am teuresten|am teursten|Das neue Handy ist {K} als das alte.|Im Zentrum sind die Wohnungen {S}.
+dunkel|dunkler|am dunkelsten|mehr dunkel|dünkler|am dunklesten|am dünkelsten|Im Winter ist es morgens {K} als im Sommer.|Um Mitternacht ist es {S}.
+interessant|interessanter|am interessantesten|mehr interessant|interessänter|am interessantsten|am meisten interessant|Das Buch ist {K} als der Film.|Olivia findet Biologie {S}.
+heiß|heißer|am heißesten|mehr heiß|mehr heißer|am heißsten|am meisten heiß|Der Tee ist {K} als der Kakao.|Im Juli ist es {S}.
+lustig|lustiger|am lustigsten|mehr lustig|lüstiger|am lustigesten|am meisten lustig|Ben ist {K} als sein Bruder.|Mia erzählt die Witze {S}.
+langweilig|langweiliger|am langweiligsten|mehr langweilig|mehr langweiliger|am langweiligesten|am meisten langweilig|Mathe ist für Ben {K} als Sport.|Die Deutschstunde am Freitag ist {S}.
+schwer|schwerer|am schwersten|mehr schwer|mehr schwerer|am schweresten|am meisten schwer|Der Test heute war {K} als der letzte.|Für Mia ist Physik {S}.
+leicht|leichter|am leichtesten|mehr leicht|mehr leichter|am leichtsten|am meisten leicht|Englisch ist für Olivia {K} als Französisch.|Die erste Aufgabe ist {S}.
+klug|klüger|am klügsten|kluger|mehr klug|am klugsten|am klügesten|Olivia ist {K} als ihr Bruder.|In unserer Klasse ist Mia {S}.
+schwach|schwächer|am schwächsten|schwacher|mehr schwach|am schwachsten|am schwächesten|Ben ist in Mathe {K} als in Deutsch.|Unsere Mannschaft war dieses Jahr {S}.
+laut|lauter|am lautesten|mehr laut|läuter|am lautsten|am läutesten|Mias Bruder ist {K} als Mia.|Ben lacht {S}.
+leise|leiser|am leisesten|mehr leise|mehr leiser|am leiser|am meisten leise|Olivia spricht {K} als Ben.|Mia ist in der Klasse {S}.
+früh|früher|am frühesten|mehr früh|mehr früher|am früher|am meisten früh|Heute stehe ich {K} auf als sonst.|Olivia kommt immer {S} in die Schule.
+spät|später|am spätesten|mehr spät|mehr später|am spätsten|am meisten spät|Ben kommt {K} nach Hause als Mia.|Mias Bruder steht am Wochenende {S} auf.
+krank|kränker|am kränksten|kranker|mehr krank|am kranksten|am kränkesten|Heute ist Ben {K} als gestern.|Von allen in der Familie war Oma {S}.
+dick|dicker|am dicksten|mehr dick|mehr dicker|am dickesten|am meisten dick|Mein Mathebuch ist {K} als mein Deutschbuch.|Das Wörterbuch ist {S}.
+dünn|dünner|am dünnsten|mehr dünn|mehr dünner|am dünnesten|am meisten dünn|Das Heft ist {K} als das Buch.|Dieses Handy ist {S}.
+neu|neuer|am neuesten|mehr neu|mehr neuer|am neuersten|am meisten neu|Olivias Handy ist {K} als mein Handy.|Bens Fahrrad ist {S}.
+gefährlich|gefährlicher|am gefährlichsten|mehr gefährlich|mehr gefährlicher|am gefährlichesten|am meisten gefährlich|Motorradfahren ist {K} als Fahrradfahren.|Nachts ist die Straße {S}.
+einfach|einfacher|am einfachsten|mehr einfach|mehr einfacher|am einfachesten|am meisten einfach|Die zweite Aufgabe ist {K} als die erste.|Mit dem Bus kommst du {S} zur Schule.
+schlecht|schlechter|am schlechtesten|mehr schlecht|schlächter|am schlechtsten|am meisten schlecht|Bens Note in Mathe ist {K} als in Englisch.|Am Montag ist meine Laune {S}.
+weit|weiter|am weitesten|mehr weit|mehr weiter|am weitsten|am meisten weit|Olivia wirft den Ball {K} als Ben.|Mia springt {S}.
+süß|süßer|am süßesten|mehr süß|mehr süßer|am süßsten|am meisten süß|Der Kakao ist {K} als der Tee.|Omas Kuchen ist {S}.
+wichtig|wichtiger|am wichtigsten|mehr wichtig|mehr wichtiger|am wichtigesten|am meisten wichtig|Für Mia ist Sport {K} als Mathe.|Für Ben ist sein Handy {S}.
+nett|netter|am nettesten|mehr nett|mehr netter|am nettsten|am meisten nett|Die neue Lehrerin ist {K} als die alte.|Olivias Oma ist {S}.
+hart|härter|am härtesten|harter|mehr hart|am hartesten|am härtsten|Das Training heute war {K} als gestern.|Im Winter ist der Boden {S}.
+berühmt|berühmter|am berühmtesten|mehr berühmt|mehr berühmter|am berühmtsten|am meisten berühmt|Die Sängerin ist {K} als der Schauspieler.|In Deutschland ist diese Band {S}.
+glücklich|glücklicher|am glücklichsten|mehr glücklich|mehr glücklicher|am glücklichesten|am meisten glücklich|Mia ist heute {K} als gestern.|Ben ist nach einem Sieg {S}.
+müde|müder|am müdesten|mehr müde|mehr müder|am müder|am meisten müde|Nach dem Sport ist Olivia {K} als nach der Schule.|Am Freitagabend bin ich {S}.
+scharf|schärfer|am schärfsten|scharfer|mehr scharf|am scharfsten|am schärfesten|Das Curry ist {K} als die Suppe.|Die rote Soße ist {S}.

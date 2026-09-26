@@ -1,0 +1,292 @@
+sein|war|gewesen|s||2s:{A} du schon mal in Deutschland {P}?;1s:Letzte Woche {A} ich krank {P}.;3s:Die Party {A} super {P}.|wk=wart|p3=ist/sind
+haben|hatte|gehabt|h||1s:Gestern {A} ich keine Zeit {P}.;1p:Auf der Party {A} wir viel Spaß {P}.|xw=gehatt|p3=hat/haben
+werden|wurde|geworden|s||3s:Mias Bruder {A} gestern achtzehn {P}.;3s:Das Wetter {A} plötzlich schlecht {P}.|p3=wird/werden
+sagen|-|gesagt|h||2s:Was {A} du {P}?
+sehen|sah|gesehen|h||1p:Wir {A} gestern einen guten Film {P}.;2s:{A} du meine Nachricht {P}?
+machen|-|gemacht|h||1p:Am Wochenende {A} wir einen Ausflug {P}.;2s:Was {A} du gestern {P}?
+tun|tat|getan|h||2s:Was {A} du am Wochenende {P}?;1s:Ich {A} alles für die Prüfung {P}.
+wollen|wollte||||3s:Olivia {V} eigentlich ins Kino gehen.;1p:Wir {V} nur kurz bleiben.|nf|wk=wöllte|p3=will/wollen
+können|konnte||||1s:Gestern {V} ich nicht zum Training kommen.;3s:Olivia {V} die Aufgabe nicht lösen.|nf|p3=kann/können
+gehen|ging|gegangen|s||1s:Gestern {A} ich mit Olivia ins Kino {P}.;3p:Mia und Olivia {A} nach der Schule nach Hause {P}.
+wissen|wusste|gewusst|h||3s:Mia {A} die Antwort sofort {P}.;1s:Das {A} ich nicht {P}.|p3=weiß/wissen
+kommen|kam|gekommen|s||3s:Olivia {A} heute zu spät zur Schule {P}.;2s:Wann {A} du gestern nach Hause {P}?
+müssen|musste||||3s:Am Samstag {V} Mia ihr Zimmer aufräumen.;1p:Wir {V} lange auf den Bus warten.|nf|p3=muss/müssen
+leben|-|gelebt|h||3s:Mias Oma {A} lange in Taiwan {P}.
+denken|dachte|gedacht|h||1s:Ich {A} lange über die Frage {P}.;2s:Was {A} du dir dabei {P}?|p3=denkt/denken
+hören|-|gehört|h||1s:Ich {A} das neue Lied {P}.|xw=gehöret
+finden|fand|gefunden|h||3s:Mia {A} ihren Schlüssel endlich {P}.;1s:Ich {A} das Handy unter dem Sofa {P}.
+lassen|ließ|gelassen|h||1s:Ich {A} mein Handy zu Hause {P}.
+geben|gab|gegeben|h||3s:Die Lehrerin {A} uns viele Hausaufgaben {P}.;2s:{A} du Mia das Buch schon {P}?
+reden|-|geredet|h||1p:Wir {A} die ganze Nacht {P}.
+passieren|-|passiert|s||3s:Was {A} {P}?;3s:Zum Glück {A} nichts {P}.
+helfen|half|geholfen|h||3s:Olivia {A} ihrer Schwester bei den Hausaufgaben {P}.;1p:Wir {A} unserer Oma im Garten {P}.
+nehmen|nahm|genommen|h||1s:Ich {A} den Bus um acht {P}.;3s:Olivia {A} das letzte Stück Kuchen {P}.
+bringen|brachte|gebracht|h||3s:Mia {A} Kuchen für die ganze Klasse {P}.|p3=bringt/bringen
+verstehen|verstand|verstanden|h||1s:Ich {A} die Aufgabe nicht {P}.;2p:{A} ihr alles {P}?
+sprechen|sprach|gesprochen|h||1s:Ich {A} gestern mit meiner Lehrerin {P}.;3p:Mia und Olivia {A} lange am Telefon {P}.
+essen|aß|gegessen|h||1s:Heute Mittag {A} ich eine Pizza {P}.;2s:{A} du schon {P}?
+bleiben|blieb|geblieben|s||1s:Am Sonntag {A} ich zu Hause {P}.;2p:Wie lange {A} ihr in Berlin {P}?
+fragen|-|gefragt|h||3s:Mia {A} die Lehrerin {P}.
+sterben|starb|gestorben|s||3s:Der alte Hund von Mias Oma {A} letztes Jahr {P}.
+glauben|-|geglaubt|h||1s:Das {A} ich nicht {P}.
+versuchen|-|versucht|h||1s:Ich {A} es noch einmal {P}.
+brauchen|-|gebraucht|h||1p:Für das Projekt {A} wir drei Tage {P}.
+halten|hielt|gehalten|h||3s:Olivia {A} ein Referat über Taiwan {P}.;3s:Der Bus {A} nicht {P}.
+warten|-|gewartet|h||1s:Ich {A} eine halbe Stunde {P}.
+treffen|traf|getroffen|h||1s:Ich {A} Olivia in der Stadt {P}.;3p:Mia und Olivia {A} sich im Park {P}.
+erzählen|-|erzählt|h||3s:Mia {A} mir alles {P}.
+verlieren|verlor|verloren|h||3s:Olivia {A} ihr Handy im Bus {P}.;1p:Wir {A} das Spiel knapp {P}.
+fahren|fuhr|gefahren|s||1p:Letzten Sommer {A} wir nach Italien {P}.;3s:Mia {A} mit dem Fahrrad zur Schule {P}.
+kennen|kannte|gekannt|h||3s:Olivia {A} den Weg nicht {P}.|p3=kennt/kennen
+bekommen|bekam|bekommen|h||3s:Olivia {A} eine gute Note {P}.;1s:Zum Geburtstag {A} ich ein Fahrrad {P}.
+fallen|fiel|gefallen|s||3s:Mias Handy {A} auf den Boden {P}.;1s:Ich {A} vom Fahrrad {P}.
+vergessen|vergaß|vergessen|h||1s:Ich {A} meine Hausaufgaben {P}.;2s:{A} du deinen Schlüssel schon wieder {P}?
+arbeiten|-|gearbeitet|h||3s:Mias Mutter {A} bis sechs Uhr {P}.
+suchen|-|gesucht|h||3s:Mia {A} überall ihren Schlüssel {P}.
+spielen|-|gespielt|h||3p:Mia und Olivia {A} Volleyball {P}.
+schaffen|-|geschafft|h||1s:Ich {A} die Prüfung {P}.;3s:Mia {A} es gerade noch {P}.
+schlafen|schlief|geschlafen|h||1s:Am Samstag {A} ich bis elf Uhr {P}.;2s:{A} du gut {P}?
+zeigen|-|gezeigt|h||3s:Olivia {A} mir ihre Fotos {P}.
+holen|-|geholt|h||3s:Olivia {A} Brötchen {P}.
+retten|-|gerettet|h||3s:Olivia {A} die Katze vom Baum {P}.
+laufen|lief|gelaufen|s||1s:Heute Morgen {A} ich zum Bus {P}.;3s:Mia {A} beim Sportfest am schnellsten {P}.
+entschuldigen|-|entschuldigt|h||3s:Olivia {A} sich bei ihrer Freundin {P}.
+trinken|trank|getrunken|h||3s:Olivia {A} nach dem Sport viel Wasser {P}.;1p:Wir {A} im Café einen Kakao {P}.
+verlassen|verließ|verlassen|h||3s:Mia {A} das Haus um sieben Uhr {P}.
+verschwinden|verschwand|verschwunden|s||3s:Mein Schlüssel {A} einfach {P}.;3s:Die Sonne {A} hinter den Wolken {P}.
+schreiben|schrieb|geschrieben|h||3s:Olivia {A} mir eine lange Nachricht {P}.;1p:Wir {A} heute einen Test {P}.
+stellen|-|gestellt|h||1s:Ich {A} die Flasche in den Kühlschrank {P}.
+gefallen|gefiel|gefallen|h||3s:Der Film {A} mir gut {P}.|xw=gefällt
+anrufen|rief|angerufen|h|an|1s:Ich {A} dich dreimal {P}.;3s:Mias Oma {A} gestern {P}.
+lernen|-|gelernt|h||1s:Ich {A} den ganzen Abend {P}.
+nennen|nannte|genannt|h||3p:Die Eltern {A} das Baby Lea {P}.|p3=nennt/nennen
+kriegen|-|gekriegt|h||3s:Mia {A} eine Eins {P}.
+rufen|rief|gerufen|h||3s:Mias Mutter {A} sie zum Essen {P}.
+lesen|las|gelesen|h||3s:Mia {A} das Buch in zwei Tagen {P}.;2p:{A} ihr den Text schon {P}?
+schicken|-|geschickt|h||3s:Mia {A} mir ein Foto {P}.
+kaufen|-|gekauft|h||3s:Olivia {A} neue Schuhe {P}.
+bitten|bat|gebeten|h||1s:Ich {A} meinen Bruder um Hilfe {P}.
+erinnern|-|erinnert|h||3s:Mia {A} mich an den Termin {P}.
+setzen|-|gesetzt|h||3s:Mia {A} sich neben Olivia {P}.
+bezahlen|-|bezahlt|h||3s:Olivia {A} die Rechnung {P}.
+funktionieren|-|funktioniert|h||3s:Das WLAN {A} nicht {P}.
+gewinnen|gewann|gewonnen|h||1p:Wir {A} das Fußballspiel drei zu eins {P}.;3s:Mia {A} beim Wettbewerb den ersten Preis {P}.|xw=gewinnt
+dürfen|durfte||||3s:Mia {V} nicht mitfahren.;1s:Als Kind {V} ich nicht lange aufbleiben.|nf|p3=darf/dürfen
+erwarten|-|erwartet|h||1s:Das {A} ich nicht {P}.
+fangen|fing|gefangen|h||3s:Die Katze {A} eine Maus {P}.
+erklären|-|erklärt|h||3s:Die Lehrerin {A} die Regel noch einmal {P}.
+benutzen|-|benutzt|h||2s:{A} du mein Ladegerät {P}?
+verkaufen|-|verkauft|h||3s:Olivia {A} ihr altes Fahrrad {P}.
+versprechen|versprach|versprochen|h||1s:Ich {A} es dir {P}.
+heiraten|-|geheiratet|h||3p:Mias Eltern {A} in Taiwan {P}.
+ändern|-|geändert|h||3s:Die Lehrerin {A} den Termin {P}.
+aufhören|-|aufgehört|h|auf|3s:Der Regen {A} endlich {P}.
+tragen|trug|getragen|h||3s:Olivia {A} gestern ein neues Kleid {P}.;1s:Ich {A} die schwere Tasche nach Hause {P}.
+anfangen|fing|angefangen|h|an|3s:Der Unterricht {A} um acht {P}.;1s:Ich {A} mit den Hausaufgaben {P}.
+verdienen|-|verdient|h||3s:Olivia {A} mit Babysitten Geld {P}.
+schlagen|schlug|geschlagen|h||1p:Wir {A} die andere Mannschaft {P}.
+schließen|schloss|geschlossen|h||3s:Mia {A} das Fenster {P}.
+verletzen|-|verletzt|h||3s:Olivia {A} sich beim Sport {P}.
+geschehen|geschah|geschehen|s||3s:Was {A} gestern in der Schule {P}?|xw=geschieht
+kümmern|-|gekümmert|h||3s:Olivia {A} sich um den Hund {P}.
+vorstellen|-|vorgestellt|h|vor|3s:Die neue Schülerin {A} sich {P}.
+verstecken|-|versteckt|h||3s:Olivia {A} das Geschenk im Schrank {P}.
+mögen|mochte||||3s:Als Kind {V} Olivia keinen Fisch.|nf|p3=mag/mögen
+stehlen|stahl|gestohlen|h||3s:Jemand {A} Mias Fahrrad {P}.
+fliegen|flog|geflogen|s||3s:Olivias Vater {A} letzte Woche nach Taipeh {P}.;1p:In den Ferien {A} wir nach Spanien {P}.
+fühlen|-|gefühlt|h||1s:Gestern {A} ich mich nicht gut {P}.
+entscheiden|entschied|entschieden|h||3s:Mia {A} sich für Spanisch {P}.
+schießen|schoss|geschossen|h||3s:Olivia {A} zwei Tore {P}.
+zerstören|-|zerstört|h||3s:Der Sturm {A} das Dach {P}.
+erfahren|erfuhr|erfahren|h||1s:Ich {A} es erst heute {P}.
+folgen|-|gefolgt|s||3s:Der Hund {A} uns nach Hause {P}.
+lügen|log|gelogen|h||3s:Er {A} schon wieder {P}.
+lachen|-|gelacht|h||1p:Wir {A} viel {P}.
+beginnen|begann|begonnen|h||3s:Der Film {A} um acht Uhr {P}.;3p:Die Ferien {A} endlich {P}.
+erreichen|-|erreicht|h||1s:Ich {A} den Zug gerade noch {P}.
+brechen|brach|gebrochen|h||3s:Mia {A} sich beim Skifahren den Arm {P}.|p3=bricht/brechen
+legen|-|gelegt|h||3s:Mia {A} das Buch auf den Tisch {P}.
+schauen|-|geschaut|h||1p:Wir {A} eine Serie {P}.
+vermissen|-|vermisst|h||1s:Ich {A} dich sehr {P}.
+öffnen|-|geöffnet|h||3s:Mia {A} das Fenster {P}.
+verändern|-|verändert|h||3s:Die Stadt {A} sich sehr {P}.
+werfen|warf|geworfen|h||3s:Olivia {A} den Ball ins Tor {P}.
+bauen|-|gebaut|h||1p:Im Winter {A} wir einen Schneemann {P}.
+erkennen|erkannte|erkannt|h||1s:Ich {A} dich nicht {P}.|p3=erkennt/erkennen
+erwischen|-|erwischt|h||3s:Die Lehrerin {A} Ben beim Abschreiben {P}.
+nachdenken|dachte|nachgedacht|h|nach|1s:Ich {A} lange {P}.|p3=denkt/denken
+tanzen|-|getanzt|h||3p:Mia und Olivia {A} die ganze Nacht {P}.
+mitnehmen|nahm|mitgenommen|h|mit|1s:Ich {A} einen Regenschirm {P}.
+besuchen|-|besucht|h||1p:Am Sonntag {A} wir Oma {P}.
+herausfinden|fand|herausgefunden|h|heraus|1s:Ich {A} die Lösung {P}.
+wohnen|-|gewohnt|h||1p:Früher {A} wir in Taipeh {P}.
+singen|sang|gesungen|h||3p:Mia und Olivia {A} im Chor {P}.;3s:Olivia {A} auf der Party ein Lied {P}.
+beenden|-|beendet|h||3s:Mia {A} ihr Referat {P}.
+verlieben|-|verliebt|h||3s:Olivia {A} sich {P}.
+verbringen|verbrachte|verbracht|h||1p:Wir {A} die Ferien bei Oma {P}.|p3=verbringt/verbringen
+überraschen|-|überrascht|h||3p:Mia und Olivia {A} ihre Mutter {P}.
+verpassen|-|verpasst|h||1s:Ich {A} den Bus {P}.
+hoffen|-|gehofft|h||1p:Wir {A} auf gutes Wetter {P}.
+erhalten|erhielt|erhalten|h||1s:Ich {A} deine E-Mail {P}.
+erlauben|-|erlaubt|h||3s:Mias Mutter {A} es {P}.
+überlegen|-|überlegt|h||1s:Ich {A} mir das gut {P}.
+antworten|-|geantwortet|h||3s:Olivia {A} nicht {P}.
+verraten|verriet|verraten|h||3s:Mia {A} das Geheimnis {P}.
+einladen|lud|eingeladen|h|ein|3s:Olivia {A} die ganze Klasse {P}.
+rennen|rannte|gerannt|s||3s:Der Hund {A} über die Straße {P}.;1s:Ich {A} schnell nach Hause {P}.|p3=rennt/rennen
+verzeihen|verzieh|verziehen|h||3s:Olivia {A} ihrer Freundin {P}.
+teilen|-|geteilt|h||1p:Wir {A} die Pizza {P}.
+feiern|-|gefeiert|h||1p:Am Samstag {A} wir Mias Geburtstag {P}.
+dauern|-|gedauert|h||3s:Der Film {A} drei Stunden {P}.
+scheinen|schien|geschienen|h||3s:Den ganzen Tag {A} die Sonne {P}.
+freuen|-|gefreut|h||3s:Mia {A} sich sehr über das Geschenk {P}.
+raten|riet|geraten|h||3s:Mia {A} richtig {P}.
+schreien|schrie|geschrien|h||3s:Das Baby {A} die ganze Nacht {P}.|wk=schreiete
+passen|-|gepasst|h||3s:Die Hose {A} nicht {P}.
+kosten|-|gekostet|h||3s:Das Handy {A} 300 Euro {P}.
+mitbringen|brachte|mitgebracht|h|mit|3s:Mia {A} Chips {P}.|p3=bringt/bringen
+aufgeben|gab|aufgegeben|h|auf|3s:Olivia {A} nie {P}.
+aufpassen|-|aufgepasst|h|auf|1s:Im Unterricht {A} ich gut {P}.
+erleben|-|erlebt|h||1p:In den Ferien {A} wir viel {P}.
+wünschen|-|gewünscht|h||3s:Olivia {A} sich einen Hund {P}.
+stören|-|gestört|h||3s:Der Lärm {A} mich {P}.
+vorbereiten|-|vorbereitet|h|vor|3s:Olivia {A} ihr Referat gut {P}.|xw=vorgebereitet
+steigen|stieg|gestiegen|s||1p:Am Wochenende {A} wir auf einen Berg {P}.
+wählen|-|gewählt|h||3s:Die Klasse {A} Olivia zur Klassensprecherin {P}.
+weinen|-|geweint|h||3s:Das Baby {A} {P}.
+lösen|-|gelöst|h||3s:Olivia {A} die Aufgabe {P}.
+kennenlernen|-|kennengelernt|h|kennen|1s:Ich {A} Olivia im Sportverein {P}.
+merken|-|gemerkt|h||1s:Das {A} ich nicht {P}.
+schneiden|schnitt|geschnitten|h||3s:Mia {A} sich in den Finger {P}.;1s:Ich {A} das Brot {P}.
+fernsehen|sah|ferngesehen|h|fern|1p:Gestern Abend {A} wir {P}.
+entdecken|-|entdeckt|h||3s:Mia {A} einen Fehler {P}.
+landen|-|gelandet|s||3s:Das Flugzeug {A} pünktlich {P}.
+träumen|-|geträumt|h||1s:Ich {A} von den Ferien {P}.
+besprechen|besprach|besprochen|h||1p:Wir {A} die Aufgabe in der Gruppe {P}.
+abholen|-|abgeholt|h|ab|3s:Mias Vater {A} sie vom Bahnhof {P}.
+unterhalten|unterhielt|unterhalten|h||1p:Wir {A} uns lange {P}.
+bestellen|-|bestellt|h||1p:Wir {A} eine Pizza {P}.
+anziehen|zog|angezogen|h|an|3s:Mia {A} ihre warme Jacke {P}.
+zurückkommen|kam|zurückgekommen|s|zurück|3s:Mias Vater {A} spät von der Arbeit {P}.
+mitkommen|kam|mitgekommen|s|mit|3s:Olivias Schwester {A} auch {P}.
+genießen|genoss|genossen|h||1p:Wir {A} die Sonne am Strand {P}.|xw=genießt
+lächeln|-|gelächelt|h||3s:Olivia {A} {P}.
+fliehen|floh|geflohen|s||3s:Der Dieb {A} durch das Fenster {P}.
+reparieren|-|repariert|h||3s:Mias Vater {A} das Fahrrad {P}.
+bemerken|-|bemerkt|h||3s:Niemand {A} den Fehler {P}.
+kochen|-|gekocht|h||3s:Olivia {A} heute Nudeln {P}.
+ausgehen|ging|ausgegangen|s|aus|3s:Olivia {A} am Samstag mit Freunden {P}.
+schenken|-|geschenkt|h||3s:Olivia {A} ihrer Mutter Blumen {P}.
+unterschreiben|unterschrieb|unterschrieben|h||3s:Mias Vater {A} das Zeugnis {P}.
+springen|sprang|gesprungen|s||3s:Olivia {A} vom Dreimeterbrett {P}.;3s:Die Katze {A} auf den Tisch {P}.
+streiten|stritt|gestritten|h||3p:Mia und ihr Bruder {A} sich {P}.
+bestehen|bestand|bestanden|h||3s:Olivia {A} die Prüfung {P}.
+reisen|-|gereist|s||1p:Letztes Jahr {A} wir durch Japan {P}.
+wachsen|wuchs|gewachsen|s||3s:Olivia {A} dieses Jahr zehn Zentimeter {P}.;3p:Die Tomaten im Garten {A} schnell {P}.
+probieren|-|probiert|h||1s:Ich {A} das Essen {P}.
+verbieten|verbot|verboten|h||3s:Die Lehrerin {A} Handys im Unterricht {P}.
+aufstehen|stand|aufgestanden|s|auf|1s:Heute {A} ich um sechs Uhr {P}.;3s:Olivia {A} am Sonntag spät {P}.
+ankommen|kam|angekommen|s|an|1p:Wir {A} pünktlich in Hamburg {P}.
+zuhören|-|zugehört|h|zu|2s:{A} du mir überhaupt {P}?
+packen|-|gepackt|h||2s:{A} du deinen Koffer schon {P}?
+anbieten|bot|angeboten|h|an|3s:Mias Mutter {A} uns Tee {P}.
+fressen|fraß|gefressen|h||3s:Der Hund {A} meine Hausaufgaben {P}.
+zählen|-|gezählt|h||1s:Ich {A} das Geld {P}.
+beantworten|-|beantwortet|h||3s:Mia {A} alle Fragen {P}.
+erscheinen|erschien|erschienen|s||3s:Das neue Album {A} am Freitag {P}.
+übersetzen|-|übersetzt|h||3s:Olivia {A} den Text ins Chinesische {P}.
+aufwachen|-|aufgewacht|s|auf|1s:Heute {A} ich sehr früh {P}.
+begegnen|-|begegnet|s||1s:Ich {A} Olivia im Supermarkt {P}.
+schweigen|schwieg|geschwiegen|h||3s:Olivia {A} die ganze Stunde {P}.
+aufmachen|-|aufgemacht|h|auf|3s:Mia {A} das Paket {P}.
+studieren|-|studiert|h||3s:Olivias Bruder {A} in München {P}.
+erfinden|erfand|erfunden|h||3s:Wer {A} das Telefon {P}?
+waschen|wusch|gewaschen|h||1p:Am Samstag {A} wir das Auto {P}.
+beißen|biss|gebissen|h||3s:Der Hund {A} den Briefträger {P}.
+telefonieren|-|telefoniert|h||1s:Ich {A} lange mit Oma {P}.
+riechen|roch|gerochen|h||1s:Ich {A} den Kuchen schon im Flur {P}.
+wiederholen|-|wiederholt|h||1p:Wir {A} die Vokabeln {P}.
+verabschieden|-|verabschiedet|h||1p:Wir {A} uns am Bahnhof {P}.
+weglaufen|lief|weggelaufen|s|weg|3s:Der Hund {A} {P}.
+leihen|lieh|geliehen|h||1s:Ich {A} Mia mein Fahrrad {P}.
+trainieren|-|trainiert|h||3s:Olivia {A} heute zwei Stunden {P}.
+üben|-|geübt|h||3s:Olivia {A} jeden Tag Klavier {P}.
+streichen|strich|gestrichen|h||1p:Wir {A} mein Zimmer blau {P}.
+beschreiben|beschrieb|beschrieben|h||1s:Ich {A} der Polizei den Dieb {P}.
+präsentieren|-|präsentiert|h||1p:Wir {A} unser Projekt {P}.
+wecken|-|geweckt|h||3s:Mias Mutter {A} sie um sieben {P}.
+abgeben|gab|abgegeben|h|ab|1p:Wir {A} den Test {P}.
+anschauen|-|angeschaut|h|an|3s:Mia {A} sich das Video dreimal {P}.
+malen|-|gemalt|h||3s:Mia {A} ein Bild {P}.
+einschlafen|schlief|eingeschlafen|s|ein|3s:Mia {A} vor dem Fernseher {P}.
+brennen|brannte|gebrannt|h||3s:Im Wohnzimmer {A} eine Kerze {P}.|p3=brennt/brennen
+aussteigen|stieg|ausgestiegen|s|aus|1s:Ich {A} an der falschen Haltestelle {P}.
+ausgeben|gab|ausgegeben|h|aus|1s:Ich {A} mein ganzes Geld {P}.
+aufwachsen|wuchs|aufgewachsen|s|auf|1s:Ich {A} in Taiwan {P}.
+mitmachen|-|mitgemacht|h|mit|3p:Alle {A} {P}.
+gelingen|gelang|gelungen|s||3s:Der Kuchen {A} Mia richtig gut {P}.|xw=gelingt|p3=gelingt/gelingen
+einkaufen|-|eingekauft|h|ein|1p:Am Samstag {A} wir {P}.
+ausmachen|-|ausgemacht|h|aus|3s:Olivia {A} den Fernseher {P}.
+organisieren|-|organisiert|h||3p:Mia und Olivia {A} die Party {P}.
+vorbeikommen|kam|vorbeigekommen|s|vorbei|3s:Olivia {A} gestern kurz {P}.
+schmecken|-|geschmeckt|h||3s:Das Essen {A} super {P}.
+diskutieren|-|diskutiert|h||1p:Wir {A} lange über das Thema {P}.
+duschen|-|geduscht|h||1s:Nach dem Sport {A} ich {P}.
+empfehlen|empfahl|empfohlen|h||3s:Olivia {A} mir den Film {P}.
+zurückgeben|gab|zurückgegeben|h|zurück|1s:Ich {A} das Buch {P}.
+erschrecken|erschrak|erschrocken|s||1s:Ich {A} total {P}, als das Telefon klingelte.
+putzen|-|geputzt|h||1s:Ich {A} mein Zimmer {P}.
+vergleichen|verglich|verglichen|h||1p:Wir {A} unsere Ergebnisse {P}.
+verbessern|-|verbessert|h||3s:Mia {A} ihre Note {P}.
+einsteigen|stieg|eingestiegen|s|ein|3p:Mia und Olivia {A} in den Bus {P}.
+korrigieren|-|korrigiert|h||3s:Die Lehrerin {A} die Tests {P}.
+klingeln|-|geklingelt|h||3s:Gerade {A} das Telefon {P}.
+losgehen|ging|losgegangen|s|los|3s:Der Film {A} pünktlich {P}.
+wegwerfen|warf|weggeworfen|h|weg|3s:Olivia {A} die alten Hefte {P}.
+aufräumen|-|aufgeräumt|h|auf|3s:Olivia {A} ihr Zimmer {P}.
+stechen|stach|gestochen|h||3s:Eine Biene {A} Mia {P}.
+zurückrufen|rief|zurückgerufen|h|zurück|3s:Olivia {A} nicht {P}.
+ausprobieren|-|ausprobiert|h|aus|1p:Wir {A} das neue Café {P}.
+zeichnen|-|gezeichnet|h||3s:Mia {A} ein Porträt von ihrer Katze {P}.
+fotografieren|-|fotografiert|h||3s:Mia {A} den Sonnenuntergang {P}.
+backen|backte|gebacken|h||3s:Mia {A} einen Kuchen {P}.
+stattfinden|fand|stattgefunden|h|statt|3s:Das Konzert {A} gestern {P}.
+sinken|sank|gesunken|s||3s:Das Schiff {A} im Sturm {P}.
+abfahren|fuhr|abgefahren|s|ab|3s:Der Zug {A} pünktlich {P}.
+verreisen|-|verreist|s||3p:Mias Eltern {A} für eine Woche {P}.
+frühstücken|-|gefrühstückt|h||2s:{A} du schon {P}?
+vorlesen|las|vorgelesen|h|vor|3s:Olivia {A} ihren Text {P}.
+wegfahren|fuhr|weggefahren|s|weg|1p:Am Wochenende {A} wir {P}.
+aufschreiben|schrieb|aufgeschrieben|h|auf|3s:Olivia {A} die Telefonnummer {P}.
+teilnehmen|nahm|teilgenommen|h|teil|3s:Mia {A} am Wettbewerb {P}.
+klettern|-|geklettert|s||3s:Die Katze {A} auf den Baum {P}.
+kriechen|kroch|gekrochen|s||3s:Die Katze {A} unter das Sofa {P}.
+schleichen|schlich|geschlichen|s||3s:Olivia {A} leise in die Küche {P}.
+wandern|-|gewandert|s||3p:Mia und Olivia {A} am Wochenende {P}.
+einpacken|-|eingepackt|h|ein|3s:Mia {A} das Geschenk {P}.
+anmachen|-|angemacht|h|an|1s:Ich {A} das Licht {P}.
+anmelden|-|angemeldet|h|an|3s:Olivia {A} sich für den Kurs {P}.
+regnen|-|geregnet|h||3s:Gestern {A} es den ganzen Tag {P}.
+zumachen|-|zugemacht|h|zu|2s:{A} du die Tür {P}?
+auspacken|-|ausgepackt|h|aus|1s:Ich {A} meinen Koffer noch nicht {P}.
+ausfüllen|-|ausgefüllt|h|aus|3s:Olivia {A} das Formular {P}.
+stolpern|-|gestolpert|s||3s:Mia {A} über die Tasche {P}.
+schmelzen|schmolz|geschmolzen|s||3s:Der Schnee {A} in der Sonne {P}.
+losfahren|fuhr|losgefahren|s|los|3s:Der Bus {A} ohne uns {P}.
+aufladen|lud|aufgeladen|h|auf|1s:Ich {A} mein Handy {P}.
+abbiegen|bog|abgebogen|s|ab|3s:Das Auto {A} nach links {P}.
+gießen|goss|gegossen|h||3s:Olivia {A} die Blumen {P}.
+aufessen|aß|aufgegessen|h|auf|3s:Olivia {A} alles {P}.
+hereinkommen|kam|hereingekommen|s|herein|3s:Die Lehrerin {A} {P}.
+hinfallen|fiel|hingefallen|s|hin|1s:Ich {A} auf dem Eis {P}.
+ausrutschen|-|ausgerutscht|s|aus|3s:Olivia {A} auf dem Eis {P}.
+abschreiben|schrieb|abgeschrieben|h|ab|3s:Ben {A} von Mia {P}.
+ausschlafen|schlief|ausgeschlafen|h|aus|1p:Am Sonntag {A} wir {P}.
+austrinken|trank|ausgetrunken|h|aus|1s:Ich {A} die Milch {P}.
+abwaschen|wusch|abgewaschen|h|ab|1p:Nach dem Essen {A} wir {P}.
+hochladen|lud|hochgeladen|h|hoch|3s:Mia {A} ein Video {P}.
+schneien|-|geschneit|h||3s:In der Nacht {A} es {P}.
+umsteigen|stieg|umgestiegen|s|um|1p:In Frankfurt {A} wir {P}.
+herunterladen|lud|heruntergeladen|h|herunter|3s:Olivia {A} eine neue App {P}.
+auswandern|-|ausgewandert|s|aus|3s:Olivias Onkel {A} nach Kanada {P}.
+chatten|-|gechattet|h||3p:Mia und Olivia {A} bis Mitternacht {P}.

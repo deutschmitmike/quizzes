@@ -1,0 +1,97 @@
+sein|bin|bist|ist|sind|seid|sind||3s:Mia {V} zwölf Jahre alt.;2s:Wo {V} du gerade?;2p:Ihr {V} heute sehr leise.
+haben|habe|hast|hat|haben|habt|haben||2s:Du {V} morgen einen Mathetest.;3s:Ben {V} ein neues Handy.;1p:Wir {V} heute keine Hausaufgaben.
+werden|werde|wirst|wird|werden|werdet|werden||2s:Du {V} nächste Woche dreizehn.;3s:Olivia {V} im Sommer sechzehn.;1s:Ich {V} vor Tests immer nervös.
+machen|mache|machst|macht|machen|macht|machen||1s:Ich {V} jetzt meine Hausaufgaben.;3s:Was {V} Mias Bruder am Wochenende?;2p:Was {V} ihr nach der Schule?
+gehen|gehe|gehst|geht|gehen|geht|gehen||2s:Wann {V} du heute ins Bett?;3s:Olivia {V} zu Fuß zur Schule.;1p:Wir {V} am Samstag ins Kino.
+kommen|komme|kommst|kommt|kommen|kommt|kommen||3s:Die Lehrerin {V} heute etwas später.;2s:Woher {V} du?;3p:Mia und Ben {V} zu meiner Party.
+sehen|sehe|siehst|sieht|sehen|seht|sehen||2s:Du {V} ohne Brille nicht viel.;3s:Ben {V} seine Oma jeden Sonntag.;1s:Ich {V} das Problem nicht.
+sagen|sage|sagst|sagt|sagen|sagt|sagen||3s:Mias Bruder {V} nie die Wahrheit.;2s:Was {V} du dazu?;2p:Ihr {V} das jeden Tag.
+geben|gebe|gibst|gibt|geben|gebt|geben||2s:Warum {V} du ihm dein Handy?;3s:Die Lehrerin {V} uns viele Hausaufgaben.;1s:Ich {V} dir meine Nummer.
+nehmen|nehme|nimmst|nimmt|nehmen|nehmt|nehmen||2s:Welchen Bus {V} du heute?;3s:Olivia {V} ein Stück Pizza.;1p:Wir {V} den Zug um acht.
+fahren|fahre|fährst|fährt|fahren|fahrt|fahren||2s:Du {V} mit dem Fahrrad zur Schule.;3s:Mias Bruder {V} sehr schnell.;3p:Mia und Olivia {V} im Sommer nach Italien.
+lesen|lese|liest|liest|lesen|lest|lesen||3s:Olivia {V} jeden Abend ein Buch.;2s:Was {V} du gerade?;1s:Ich {V} die Nachricht später.
+essen|esse|isst|isst|essen|esst|essen||2s:Du {V} zu viele Süßigkeiten.;3s:Ben {V} kein Fleisch.;1p:Wir {V} heute in der Mensa.
+sprechen|spreche|sprichst|spricht|sprechen|sprecht|sprechen||2s:Du {V} sehr gut Englisch.;3s:Mia {V} mit ihrer Freundin am Telefon.;2p:Ihr {V} zu laut.
+helfen|helfe|hilfst|hilft|helfen|helft|helfen||3s:Olivia {V} ihrer Mutter in der Küche.;2s:Du {V} mir bei den Hausaufgaben, oder?;1s:Ich {V} dir gern.
+schlafen|schlafe|schläfst|schläft|schlafen|schlaft|schlafen||2s:Wie lange {V} du am Wochenende?;3s:Das Baby {V} schon.;1p:Wir {V} heute bei Oma.
+laufen|laufe|läufst|läuft|laufen|lauft|laufen||3s:Mia {V} jeden Morgen im Park.;2s:Du {V} schneller als ich.;1s:Ich {V} zur Bushaltestelle.
+tragen|trage|trägst|trägt|tragen|tragt|tragen||3s:Olivia {V} heute eine neue Jacke.;2s:Warum {V} du immer eine Mütze?;1s:Ich {V} die Tasche für dich.
+waschen|wasche|wäschst|wäscht|waschen|wascht|waschen||2s:Du {V} dir nie die Hände.;3s:Mias Bruder {V} heute das Auto.;1s:Ich {V} meine Sportsachen.
+wissen|weiß|weißt|weiß|wissen|wisst|wissen||2s:Du {V} die Antwort bestimmt.;3s:Ben {V} nicht, wo sein Handy ist.;1s:Ich {V} es auch nicht.
+treffen|treffe|triffst|trifft|treffen|trefft|treffen||2s:Wann {V} du Olivia?;3s:Mia {V} ihre Freunde im Park.;1p:Wir {V} uns um drei Uhr.
+vergessen|vergesse|vergisst|vergisst|vergessen|vergesst|vergessen||3s:Ben {V} immer seine Hausaufgaben.;2s:Du {V} schon wieder dein Passwort.;1s:Ich {V} oft meinen Schlüssel.
+halten|halte|hältst|hält|halten|haltet|halten||3s:Der Bus {V} direkt vor der Schule.;2s:Du {V} dein Versprechen nie.;1s:Ich {V} kurz deine Tasche.
+lassen|lasse|lässt|lässt|lassen|lasst|lassen||2s:Warum {V} du dein Handy immer zu Hause?;3s:Mia {V} ihren Bruder nie an ihren Computer.;2p:Ihr {V} die Tür immer offen.
+fallen|falle|fällst|fällt|fallen|fallt|fallen||3s:Das Handy {V} auf den Boden.;2s:Vorsicht, du {V} gleich!;3p:Im Herbst {V} die Blätter von den Bäumen.
+werfen|werfe|wirfst|wirft|werfen|werft|werfen||3s:Ben {V} den Ball sehr weit.;2s:Warum {V} du deine Jacke auf den Boden?;1p:Wir {V} den Müll in den Mülleimer.
+finden|finde|findest|findet|finden|findet|finden||2s:Wie {V} du den Film?;3s:Mia {V} ihren Schlüssel nicht.;1s:Ich {V} Mathe langweilig.
+stehen|stehe|stehst|steht|stehen|steht|stehen||3s:Olivia {V} an der Bushaltestelle.;2s:Warum {V} du so lange vor dem Spiegel?;3p:Die Schuhe {V} vor der Tür.
+liegen|liege|liegst|liegt|liegen|liegt|liegen||3s:Dein Handy {V} auf dem Tisch.;1s:Ich {V} krank im Bett.;2s:Warum {V} du noch im Bett?
+sitzen|sitze|sitzt|sitzt|sitzen|sitzt|sitzen||2s:Du {V} auf meinem Platz.;3s:Ben {V} in der letzten Reihe.;1p:Wir {V} im Bus ganz hinten.
+bleiben|bleibe|bleibst|bleibt|bleiben|bleibt|bleiben||1s:Ich {V} heute zu Hause.;3s:Mia {V} bis sechs Uhr in der Schule.;2p:Wie lange {V} ihr in Berlin?
+heißen|heiße|heißt|heißt|heißen|heißt|heißen||2s:Wie {V} du?;3s:Mias Bruder {V} Leon.;3s:Die neue Lehrerin {V} Frau Weber.
+schreiben|schreibe|schreibst|schreibt|schreiben|schreibt|schreiben||3s:Mia {V} Olivia eine Nachricht.;2s:Was {V} du da?;1p:Wir {V} morgen einen Test.
+trinken|trinke|trinkst|trinkt|trinken|trinkt|trinken||2s:Du {V} zu wenig Wasser.;3s:Ben {V} morgens Kakao.;1s:Ich {V} keinen Kaffee.
+denken|denke|denkst|denkt|denken|denkt|denken||1s:Ich {V} oft an meine Oma.;3s:Was {V} Olivia über mich?;2s:Woran {V} du gerade?
+bringen|bringe|bringst|bringt|bringen|bringt|bringen||3s:Mia {V} einen Kuchen zur Party.;2s:Du {V} die Getränke, okay?;1s:Ich {V} dir morgen dein Buch.
+kennen|kenne|kennst|kennt|kennen|kennt|kennen||2s:Du {V} meinen Bruder doch.;3s:Olivia {V} jeden Song von dieser Band.;1p:Wir {V} die neue Schülerin noch nicht.
+gefallen|gefalle|gefällst|gefällt|gefallen|gefallt|gefallen||3s:Das neue Spiel {V} mir sehr.;3p:Die Schuhe {V} Mia nicht.
+empfehlen|empfehle|empfiehlst|empfiehlt|empfehlen|empfehlt|empfehlen||2s:Welches Buch {V} du mir?;3s:Die Lehrerin {V} uns einen Film.;1s:Ich {V} dir diese App.
+schwimmen|schwimme|schwimmst|schwimmt|schwimmen|schwimmt|schwimmen||3s:Olivia {V} dreimal pro Woche.;2s:Du {V} wie ein Fisch.;1p:Wir {V} im Sommer im See.
+fliegen|fliege|fliegst|fliegt|fliegen|fliegt|fliegen||3s:Ben {V} in den Ferien nach Spanien.;2s:Wann {V} du nach Taiwan?;3p:Die Vögel {V} im Herbst nach Süden.
+singen|singe|singst|singt|singen|singt|singen||3s:Mia {V} in einem Chor.;2s:Du {V} sehr schön.;2p:Warum {V} ihr so laut?
+rennen|renne|rennst|rennt|rennen|rennt|rennen||3s:Ben {V} zum Bus.;1s:Ich {V} jeden Tag zur Schule.;2s:Warum {V} du so schnell?
+ziehen|ziehe|ziehst|zieht|ziehen|zieht|ziehen||3s:Der Hund {V} an der Leine.;2s:Warum {V} du mich an den Haaren?
+verlieren|verliere|verlierst|verliert|verlieren|verliert|verlieren||2s:Du {V} immer beim Schach.;3s:Unsere Mannschaft {V} das Spiel.;1s:Ich {V} ständig meine Kopfhörer.
+gewinnen|gewinne|gewinnst|gewinnt|gewinnen|gewinnt|gewinnen||3s:Olivia {V} jedes Tennisspiel.;1p:Wir {V} heute bestimmt.;2s:Warum {V} du immer?
+beginnen|beginne|beginnst|beginnt|beginnen|beginnt|beginnen||3s:Der Unterricht {V} um acht Uhr.;3p:Die Ferien {V} nächste Woche.;1p:Wir {V} jetzt mit der Übung.
+tun|tue|tust|tut|tun|tut|tun||2s:Was {V} du da?;3s:Ben {V} nichts für die Schule.;1s:Ich {V} das für dich.
+spielen|spiele|spielst|spielt|spielen|spielt|spielen||3s:Ben {V} jeden Tag Fußball.;2s:Was {V} du auf deinem Handy?;1p:Wir {V} am Wochenende Karten.
+lernen|lerne|lernst|lernt|lernen|lernt|lernen||1s:Ich {V} seit einem Jahr Deutsch.;3s:Olivia {V} für den Test.;2p:Was {V} ihr in Mathe?
+wohnen|wohne|wohnst|wohnt|wohnen|wohnt|wohnen||3s:Mia {V} in einem kleinen Dorf.;2s:Wo {V} du?;1p:Wir {V} im dritten Stock.
+arbeiten|arbeite|arbeitest|arbeitet|arbeiten|arbeitet|arbeiten||3s:Mias Vater {V} in einem Krankenhaus.;2s:Du {V} zu viel am Computer.;2p:Ihr {V} heute in Gruppen.
+warten|warte|wartest|wartet|warten|wartet|warten||2s:Worauf {V} du?;3s:Olivia {V} vor dem Kino.;1p:Wir {V} schon zwanzig Minuten auf den Bus.
+kaufen|kaufe|kaufst|kauft|kaufen|kauft|kaufen||3s:Ben {V} eine neue Handyhülle.;2s:Was {V} du deiner Mutter zum Geburtstag?;1s:Ich {V} mir ein Eis.
+hören|höre|hörst|hört|hören|hört|hören||2s:Welche Musik {V} du gern?;3s:Mia {V} beim Lernen Musik.;1s:Ich {V} dich nicht.
+brauchen|brauche|brauchst|braucht|brauchen|braucht|brauchen||1s:Ich {V} ein neues Ladekabel.;3s:Olivia {V} Hilfe in Physik.;2s:Wie lange {V} du bis zur Schule?
+fragen|frage|fragst|fragt|fragen|fragt|fragen||3s:Ben {V} die Lehrerin nach der Aufgabe.;2s:Warum {V} du nicht einfach Mia?;1s:Ich {V} meinen Vater.
+antworten|antworte|antwortest|antwortet|antworten|antwortet|antworten||2s:Warum {V} du nicht auf meine Nachricht?;3s:Olivia {V} immer sofort.;1s:Ich {V} dir später.
+kochen|koche|kochst|kocht|kochen|kocht|kochen||3s:Mias Bruder {V} heute Spaghetti.;2s:Du {V} richtig gut.;1p:Wir {V} am Sonntag zusammen.
+tanzen|tanze|tanzt|tanzt|tanzen|tanzt|tanzen||3s:Mia {V} in einer Hip-Hop-Gruppe.;2s:Du {V} echt gut.;3p:Olivia und Ben {V} auf der Party.
+reisen|reise|reist|reist|reisen|reist|reisen||3s:Olivias Familie {V} gern.;2s:Wohin {V} du im Sommer?;1p:Wir {V} mit dem Zug.
+öffnen|öffne|öffnest|öffnet|öffnen|öffnet|öffnen||2s:Warum {V} du das Fenster?;3s:Die Lehrerin {V} die Tür.;1s:Ich {V} die App.
+zeigen|zeige|zeigst|zeigt|zeigen|zeigt|zeigen||3s:Mia {V} mir ihre Fotos.;2s:Du {V} mir den Weg, oder?;1s:Ich {V} dir mein neues Zimmer.
+suchen|suche|suchst|sucht|suchen|sucht|suchen||2s:Was {V} du?;3s:Ben {V} seinen Schlüssel.;1p:Wir {V} einen Platz im Bus.
+schicken|schicke|schickst|schickt|schicken|schickt|schicken||3s:Olivia {V} mir ein Video.;2s:Du {V} mir die Hausaufgaben, okay?;1s:Ich {V} dir die Adresse.
+besuchen|besuche|besuchst|besucht|besuchen|besucht|besuchen||1p:Wir {V} am Sonntag unsere Oma.;3s:Mia {V} ihre Cousine in Hamburg.;2s:Wann {V} du uns?
+erklären|erkläre|erklärst|erklärt|erklären|erklärt|erklären||3s:Die Lehrerin {V} die Aufgabe noch einmal.;2s:Du {V} das besser als die Lehrerin.;1s:Ich {V} dir das Spiel.
+bezahlen|bezahle|bezahlst|bezahlt|bezahlen|bezahlt|bezahlen||2s:Heute {V} du das Eis.;3s:Ben {V} mit dem Handy.;1s:Ich {V} die Pizza.
+lachen|lache|lachst|lacht|lachen|lacht|lachen||2s:Warum {V} du?;3s:Olivia {V} über den Witz.;3p:Alle {V} über Mias Bruder.
+glauben|glaube|glaubst|glaubt|glauben|glaubt|glauben||1s:Ich {V} dir nicht.;2s:Du {V} alles aus dem Internet.;3s:Mia {V} an ihre Mannschaft.
+chatten|chatte|chattest|chattet|chatten|chattet|chatten||3s:Olivia {V} jeden Abend mit ihren Freundinnen.;2s:Mit wem {V} du gerade?;2p:Ihr {V} die ganze Zeit.
+sammeln|sammle|sammelst|sammelt|sammeln|sammelt|sammeln||3s:Ben {V} Fußballkarten.;1s:Ich {V} Sticker.;2s:Was {V} du?
+putzen|putze|putzt|putzt|putzen|putzt|putzen||3s:Mia {V} zweimal am Tag ihre Zähne.;2s:Heute {V} du das Bad.;1p:Wir {V} am Samstag die Wohnung.
+kosten|koste|kostest|kostet|kosten|kostet|kosten||3s:Das Handy {V} fünfhundert Euro.;3p:Die Schuhe {V} achtzig Euro.
+üben|übe|übst|übt|üben|übt|üben||3s:Olivia {V} jeden Tag Klavier.;2s:Wie lange {V} du jeden Tag Gitarre?;1p:Wir {V} für das Konzert.
+rechnen|rechne|rechnest|rechnet|rechnen|rechnet|rechnen||2s:Du {V} schneller als ein Computer.;3s:Ben {V} die Aufgabe im Kopf.
+telefonieren|telefoniere|telefonierst|telefoniert|telefonieren|telefoniert|telefonieren||3s:Olivia {V} stundenlang mit ihrer Freundin.;2s:Mit wem {V} du?
+fotografieren|fotografiere|fotografierst|fotografiert|fotografieren|fotografiert|fotografieren||3s:Mia {V} gern ihr Essen.;2s:Warum {V} du alles?
+aufstehen|stehe|stehst|steht|stehen|steht|stehen|auf|1s:Ich {V} um sieben Uhr auf.;2s:Wann {V} du am Wochenende auf?;3s:Mias Bruder {V} immer sehr spät auf.
+anrufen|rufe|rufst|ruft|rufen|ruft|rufen|an|2s:Wann {V} du mich heute an?;3s:Olivia {V} jeden Sonntag ihre Oma an.;1s:Ich {V} dich später an.
+einkaufen|kaufe|kaufst|kauft|kaufen|kauft|kaufen|ein|3s:Ben {V} mit seinem Vater ein.;1p:Wir {V} am Samstag ein.;2s:Wo {V} du ein?
+fernsehen|sehe|siehst|sieht|sehen|seht|sehen|fern|3s:Mia {V} jeden Abend fern.;2s:Du {V} zu viel fern.;2p:Warum {V} ihr so spät noch fern?
+mitkommen|komme|kommst|kommt|kommen|kommt|kommen|mit|2s:Warum {V} du nicht mit?;3s:Ben {V} heute nicht mit.;1s:Ich {V} gern mit.
+anfangen|fange|fängst|fängt|fangen|fangt|fangen|an|3s:Der Film {V} um acht Uhr an.;2s:Wann {V} du mit den Hausaufgaben an?;1p:Wir {V} jetzt an.
+einladen|lade|lädst|lädt|laden|ladet|laden|ein|3s:Mia {V} die ganze Klasse ein.;2s:Wen {V} du zu deiner Party ein?;1s:Ich {V} dich ins Kino ein.
+aussehen|sehe|siehst|sieht|sehen|seht|sehen|aus|2s:Du {V} heute müde aus.;3s:Olivia {V} wie ihre Mutter aus.;3p:Die neuen Schuhe {V} toll aus.
+aufräumen|räume|räumst|räumt|räumen|räumt|räumen|auf|3s:Ben {V} nie sein Zimmer auf.;2s:Wann {V} du endlich dein Zimmer auf?;1p:Wir {V} nach der Party auf.
+abholen|hole|holst|holt|holen|holt|holen|ab|3s:Mias Vater {V} sie von der Schule ab.;1s:Ich {V} dich um fünf ab.;2s:Wann {V} du Olivia ab?
+mitnehmen|nehme|nimmst|nimmt|nehmen|nehmt|nehmen|mit|2s:Warum {V} du keinen Regenschirm mit?;3s:Olivia {V} ihr Handy überallhin mit.;1s:Ich {V} eine Flasche Wasser mit.
+aufmachen|mache|machst|macht|machen|macht|machen|auf|3s:Ben {V} das Fenster auf.;2s:Warum {V} du die Tür nicht auf?;1s:Ich {V} jetzt das Geschenk auf.
+anziehen|ziehe|ziehst|zieht|ziehen|zieht|ziehen|an|3s:Mia {V} ihre Sportschuhe an.;2s:Was {V} du heute an?;1s:Ich {V} eine warme Jacke an.
+abfahren|fahre|fährst|fährt|fahren|fahrt|fahren|ab|3s:Der Bus {V} um halb acht ab.;2s:Wann {V} du morgen ab?;3p:Die Züge {V} hier jede Stunde ab.
+ankommen|komme|kommst|kommt|kommen|kommt|kommen|an|3s:Der Zug {V} um zehn Uhr an.;2s:Wann {V} du in Berlin an?;1p:Wir {V} immer zu spät an.
+aufpassen|passe|passt|passt|passen|passt|passen|auf|3s:Ben {V} im Unterricht nie auf.;2s:Warum {V} du nicht auf?;2p:Ihr {V} heute gut auf.
+vorlesen|lese|liest|liest|lesen|lest|lesen|vor|3s:Die Lehrerin {V} eine Geschichte vor.;2s:Du {V} sehr schön vor.;1s:Ich {V} meiner kleinen Schwester vor.
+ausgeben|gebe|gibst|gibt|geben|gebt|geben|aus|3s:Olivia {V} ihr ganzes Geld für Kleidung aus.;2s:Wofür {V} du dein Taschengeld aus?
+einschlafen|schlafe|schläfst|schläft|schlafen|schlaft|schlafen|ein|3s:Ben {V} im Unterricht fast ein.;2s:Wann {V} du abends ein?;1s:Ich {V} bei Filmen immer ein.
