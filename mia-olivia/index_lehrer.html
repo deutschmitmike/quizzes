@@ -3,6 +3,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="M&amp;O Lehrer">
 <title>Deutsch - LEHRER (Mia &amp; Olivia)</title>
@@ -227,6 +229,12 @@
       <h2>Schwere Wörter (auf diesem Gerät)</h2>
       <p>Die Wörter mit den meisten Fehlern. Gute Kandidaten zum gemeinsamen Üben.</p>
       <div class="hardlist" id="hardList">Noch nichts geübt.</div>
+    </div>
+    <div class="panel">
+      <h2>Fortschritt sichern</h2>
+      <p>Der Lernstand ist online gesichert. Zusätzlich kann man ihn hier als Datei speichern oder aus einer Datei zurückholen.</p>
+      <div class="row" style="margin-top:8px;"><button class="btn" id="exportBtn" style="padding:12px; background:#eef1f7; color:var(--ink);">Als Datei sichern</button><button class="btn" id="importBtn" style="padding:12px; background:#eef1f7; color:var(--ink);">Aus Datei laden</button></div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
     <div class="panel">
       <h2>Neu anfangen</h2>
@@ -2027,8 +2035,23 @@ if(SYNC_URL && S.playerName && ERLAUBT.indexOf(S.playerName)<0){ S=fresh(); save
 if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
+/* ===== Fortschritt als Datei sichern / laden (zusaetzlich zur Online-Sicherung) ===== */
+document.getElementById("exportBtn").onclick=()=>{ try{ const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));
+  a.download=((S.playerName||"lernstand").replace(/[^A-Za-z0-9]+/g,"_"))+"_"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1500); }catch(e){ alert("Sichern hat nicht geklappt."); } };
+document.getElementById("importBtn").onclick=()=>document.getElementById("importFile").click();
+document.getElementById("importFile").onchange=e=>{ const fl=e.target.files&&e.target.files[0]; if(!fl) return; const rd=new FileReader();
+  rd.onload=()=>{ try{ const o=JSON.parse(rd.result); if(!o||!o.cards) throw 0;
+      if(confirm("Lernstand aus der Datei laden?\n"+Object.keys(o.cards).length+" Karten"+(o.playerName?", "+o.playerName:"")+"\nDer jetzige Stand auf diesem Gerät wird ersetzt.")){
+        S=Object.assign(fresh(),o); save(); syncPush(); cloudSave(); show("home"); alert("Geladen."); } }
+    catch(err){ alert("Die Datei ist kein gültiger Lernstand."); } e.target.value=""; };
+  rd.readAsText(fl); };
+/* ===== als App installierbar + offline: Service Worker; Browser bitten, den Speicher nicht zu loeschen ===== */
+(function(){ try{ if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+  if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{}); }catch(e){} })();
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-16";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-17";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
