@@ -181,7 +181,6 @@
     <div class="top">
       <button class="link" id="quitBtn" style="padding:4px 0;">‹ zurück</button>
       <span class="mascot" id="playMascot"></span>
-      <button class="link" id="helpBtn" style="padding:4px 12px; font-size:20px; font-weight:800; text-decoration:none; color:var(--der);" title="Regel zeigen">?</button>
       <div class="badge"><span id="sessN">0/0</span><small>heute</small></div>
     </div>
     <div class="progress"><i id="progBar"></i></div>
@@ -227,11 +226,6 @@
       <h2>Schwere Wörter (dieses Kind)</h2>
       <p>Die Wörter mit den meisten Fehlern. Gute Kandidaten zum gemeinsamen Üben.</p>
       <div class="hardlist" id="hardList">Noch nichts geübt.</div>
-    </div>
-    <div class="panel">
-      <h2>Vorlesen</h2>
-      <p>Nach jeder Antwort wird die richtige Lösung vorgelesen.</p>
-      <button class="btn" id="muteBtn" style="padding:12px; width:100%; background:#eef1f7; color:var(--ink);"></button>
     </div>
     <div class="panel">
       <h2>Fortschritt sichern</h2>
@@ -292,7 +286,8 @@ const GROUP={
  "focusOpts": null,
  "zh": false,
  "topicGroups": [],
- "topicWeights": []
+ "topicWeights": [],
+ "sound": false
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
@@ -507,7 +502,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-26-24"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-26-25"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2361,7 +2356,7 @@ function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unloc
 // ================= Sprachausgabe =================
 let deVoice=null;
 function loadVoices(){ try{ if(!window.speechSynthesis) return; const vs=speechSynthesis.getVoices(); deVoice=vs.find(v=>/de[-_]/i.test(v.lang))||deVoice; }catch(e){} }
-function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) return;
+function say(text){ if(!CFG.sound||S.mute||!text) return;   /* Ton aus (Mike 2026-09-26): Schalter sound im Steckbrief */ try{ if(!window.speechSynthesis) return;
   const u=new SpeechSynthesisUtterance(text); u.lang="de-DE"; u.rate=0.9; if(deVoice)u.voice=deVoice;
   speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
 loadVoices(); try{ if(window.speechSynthesis) speechSynthesis.onvoiceschanged=loadVoices; }catch(e){}
@@ -2808,7 +2803,7 @@ function renderData(){
 }
 // kleiner Ton (Klick-Feedback)
 let actx=null;
-function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended")actx.resume();
+function beep(ok){if(!CFG.sound) return; try{actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended")actx.resume();
   const o=actx.createOscillator(),g=actx.createGain(); o.connect(g); g.connect(actx.destination);
   o.frequency.value=ok?660:200; o.type=ok?"sine":"square"; g.gain.value=0.05;
   o.start(); o.frequency.exponentialRampToValueAtTime(ok?880:160,actx.currentTime+0.12);

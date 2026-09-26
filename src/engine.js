@@ -969,7 +969,7 @@ function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unloc
 // ================= Sprachausgabe =================
 let deVoice=null;
 function loadVoices(){ try{ if(!window.speechSynthesis) return; const vs=speechSynthesis.getVoices(); deVoice=vs.find(v=>/de[-_]/i.test(v.lang))||deVoice; }catch(e){} }
-function say(text){ if(S.mute||!text) return; try{ if(!window.speechSynthesis) return;
+function say(text){ if(!CFG.sound||S.mute||!text) return;   /* Ton aus (Mike 2026-09-26): Schalter sound im Steckbrief */ try{ if(!window.speechSynthesis) return;
   const u=new SpeechSynthesisUtterance(text); u.lang="de-DE"; u.rate=0.9; if(deVoice)u.voice=deVoice;
   speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
 loadVoices(); try{ if(window.speechSynthesis) speechSynthesis.onvoiceschanged=loadVoices; }catch(e){}
@@ -1416,7 +1416,7 @@ function renderData(){
 }
 // kleiner Ton (Klick-Feedback)
 let actx=null;
-function beep(ok){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended")actx.resume();
+function beep(ok){if(!CFG.sound) return; try{actx=actx||new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==="suspended")actx.resume();
   const o=actx.createOscillator(),g=actx.createGain(); o.connect(g); g.connect(actx.destination);
   o.frequency.value=ok?660:200; o.type=ok?"sine":"square"; g.gain.value=0.05;
   o.start(); o.frequency.exponentialRampToValueAtTime(ok?880:160,actx.currentTime+0.12);

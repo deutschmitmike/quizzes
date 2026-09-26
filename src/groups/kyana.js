@@ -42,7 +42,8 @@ const GROUP={
  "focusOpts": null,
  "zh": false,
  "topicGroups": [],
- "topicWeights": []
+ "topicWeights": [],
+ "sound": false
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
