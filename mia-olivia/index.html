@@ -325,6 +325,18 @@ const GROUP={
   [
    20,
    "Komparativ"
+  ],
+  [
+   21,
+   "Satzbau"
+  ],
+  [
+   22,
+   "Pronomen Dativ"
+  ],
+  [
+   23,
+   "Reflexiv/Konjunktiv/Relativ"
   ]
  ],
  "zh": true,
@@ -396,6 +408,23 @@ const GROUP={
    [
     20
    ]
+  ],
+  [
+   [
+    21
+   ]
+  ],
+  [
+   [
+    22
+   ]
+  ],
+  [
+   [
+    23,
+    24,
+    25
+   ]
   ]
  ],
  "topicWeights": [
@@ -405,6 +434,9 @@ const GROUP={
   1,
   2,
   3,
+  2,
+  1,
+  1,
   2,
   1,
   1
@@ -567,7 +599,12 @@ const STAGES=[
  {id:17,name:"Präsens",desc:"ich fahre, du fährst, er fährt"},
  {id:18,name:"Modalverben",desc:"können, müssen, wollen, dürfen ..."},
  {id:19,name:"Nebensätze",desc:"weil, dass, wenn: Verb am Ende"},
- {id:20,name:"Komparativ",desc:"älter, am ältesten"}
+ {id:20,name:"Komparativ",desc:"älter, am ältesten"},
+ {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
+ {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
+ {id:23,name:"Reflexive Verben",desc:"ich freue mich, ich wasche mir die Hände"},
+ {id:24,name:"Konjunktiv II",desc:"hätte, wäre, würde, könnte"},
+ {id:25,name:"Relativsätze",desc:"der, den, dem, die, denen ..."}
 ];
 const INTRO={
  2:"Im Plural ist der Artikel immer die: der Ball → die Bälle, das Buch → die Bücher. Die Endung musst du mit jedem Nomen lernen, oft kommt ein Umlaut dazu.",
@@ -589,7 +626,7 @@ const INTRO={
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-26-22"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-26-23"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1751,11 +1788,367 @@ function presRegular(v,p){ const core=v.sep?v.inf.slice(v.sep.length):v.inf; con
 // Daten: src/data/<name>.txt, von build.py eingesetzt. order: richtig|falsch1|falsch2|Erklaerung ; cloze: Satz mit {_}|Hinweis|richtig|falsch1|falsch2|Erklaerung
 // Karten-ID = Stufe + Pruefsumme des richtigen Satzes: Reihenfolge der Zeilen darf sich aendern, geaenderter Satz = neue Karte.
 const TOPIC_SETS=[
- {stage:21, kind:"order", hint:"Welcher Satz ist richtig?", data:``},
- {stage:22, kind:"cloze", hint:"Welches Pronomen?", data:``},
- {stage:23, kind:"cloze", hint:"Welches Reflexivpronomen?", data:``},
- {stage:24, kind:"cloze", hint:"Konjunktiv II", data:``},
- {stage:25, kind:"cloze", hint:"Welches Relativpronomen?", data:``}];
+ {stage:21, kind:"order", hint:"Welcher Satz ist richtig?", data:`Morgen gehe ich ins Kino.|Morgen ich gehe ins Kino.|Morgen ins Kino ich gehe.|Das Verb steht an Position 2, auch wenn der Satz mit „Morgen“ beginnt.
+Heute spielt Mia Tennis.|Heute Mia spielt Tennis.|Heute Tennis Mia spielt.|„Heute“ ist Position 1, danach kommt sofort das Verb „spielt“ und dann „Mia“.
+Am Wochenende besuchen wir unsere Oma.|Am Wochenende wir besuchen unsere Oma.|Wir am Wochenende besuchen unsere Oma.|„Am Wochenende“ steht auf Position 1, deshalb kommt das Verb vor „wir“.
+Nach der Schule macht Ben seine Hausaufgaben.|Nach der Schule Ben macht seine Hausaufgaben.|Nach der Schule Ben seine Hausaufgaben macht.|„Nach der Schule“ ist ein Satzteil auf Position 1, danach folgt direkt das Verb.
+Jeden Morgen trinkt Olivia einen Tee.|Jeden Morgen Olivia trinkt einen Tee.|Jeden Morgen einen Tee Olivia trinkt.|Die Zeitangabe steht auf Position 1, das Verb „trinkt“ auf Position 2.
+Am Montag haben wir Sport.|Am Montag wir haben Sport.|Wir am Montag haben Sport.|Nach „Am Montag“ steht das Verb „haben“, erst dann kommt „wir“.
+Um sieben Uhr steht Mias Bruder auf.|Um sieben Uhr Mias Bruder steht auf.|Mias Bruder um sieben Uhr steht auf.|Das Verb „steht“ kommt auf Position 2, „auf“ geht ans Satzende.
+Im Sommer fahren wir nach Deutschland.|Im Sommer wir fahren nach Deutschland.|Im Sommer nach Deutschland wir fahren.|Nach der Zeitangabe „Im Sommer“ kommt zuerst das Verb, dann das Subjekt.
+Heute Abend sieht Olivia einen Film.|Heute Abend Olivia sieht einen Film.|Heute Abend einen Film Olivia sieht.|„Heute Abend“ zählt als ein Satzteil, das Verb steht direkt danach.
+Jetzt habe ich keine Zeit.|Jetzt ich habe keine Zeit.|Ich jetzt habe keine Zeit.|Auch nach einem kurzen Wort wie „Jetzt“ steht das Verb auf Position 2.
+In der Pause isst Ben einen Apfel.|In der Pause Ben isst einen Apfel.|In der Pause einen Apfel Ben isst.|„In der Pause“ ist Position 1, das Verb „isst“ folgt sofort.
+Am Freitag schreiben wir einen Mathetest.|Am Freitag wir schreiben einen Mathetest.|Wir am Freitag schreiben einen Mathetest.|Das Verb „schreiben“ steht auf Position 2, das Subjekt „wir“ danach.
+Abends liest meine Mutter gern.|Abends meine Mutter liest gern.|Abends meine Mutter gern liest.|„Abends“ steht vorne, deshalb kommt „liest“ vor dem Subjekt.
+Manchmal spiele ich am Handy.|Manchmal ich spiele am Handy.|Ich manchmal spiele am Handy.|„Manchmal“ ist Position 1, das Verb muss direkt danach kommen.
+Nächste Woche hat Mia Geburtstag.|Nächste Woche Mia hat Geburtstag.|Nächste Woche Mia Geburtstag hat.|Nach „Nächste Woche“ steht das Verb „hat“ auf Position 2.
+Am Nachmittag trifft Olivia ihre Freundinnen.|Am Nachmittag Olivia trifft ihre Freundinnen.|Am Nachmittag ihre Freundinnen Olivia trifft.|Die Zeitangabe ist Position 1, danach kommt sofort „trifft“.
+Vor dem Unterricht lernt Ben Vokabeln.|Vor dem Unterricht Ben lernt Vokabeln.|Vor dem Unterricht Vokabeln Ben lernt.|„Vor dem Unterricht“ ist Position 1, das Verb steht auf Position 2.
+Nach dem Abendessen spülen wir das Geschirr.|Nach dem Abendessen wir spülen das Geschirr.|Nach dem Abendessen wir das Geschirr spülen.|Im Hauptsatz steht das Verb auf Position 2, nicht am Ende.
+Am Sonntag schlafen wir lange.|Am Sonntag wir schlafen lange.|Wir am Sonntag schlafen lange.|„Am Sonntag“ ist Position 1, deshalb steht „schlafen“ vor „wir“.
+Gestern habe ich einen Film gesehen.|Gestern ich habe einen Film gesehen.|Gestern habe gesehen ich einen Film.|Im Perfekt steht „habe“ auf Position 2 und das Partizip „gesehen“ am Ende.
+Letzte Woche ist Olivia nach Taipeh gefahren.|Letzte Woche Olivia ist nach Taipeh gefahren.|Letzte Woche ist gefahren Olivia nach Taipeh.|„ist“ steht auf Position 2, das Partizip „gefahren“ am Satzende.
+Am Samstag muss ich mein Zimmer aufräumen.|Am Samstag ich muss mein Zimmer aufräumen.|Am Samstag muss aufräumen ich mein Zimmer.|Das Modalverb „muss“ steht auf Position 2, der Infinitiv „aufräumen“ am Ende.
+Heute Abend will Ben früh ins Bett gehen.|Heute Abend Ben will früh ins Bett gehen.|Heute Abend will gehen Ben früh ins Bett.|„will“ steht auf Position 2, der Infinitiv „gehen“ ganz am Ende.
+Nach der Schule haben wir Basketball gespielt.|Nach der Schule wir haben Basketball gespielt.|Nach der Schule haben gespielt wir Basketball.|Das Hilfsverb „haben“ steht auf Position 2, „gespielt“ am Satzende.
+Gestern Abend hat Mia ihre Oma angerufen.|Gestern Abend Mia hat ihre Oma angerufen.|Gestern Abend hat angerufen Mia ihre Oma.|„hat“ steht auf Position 2, das Partizip „angerufen“ am Ende.
+Morgen kann ich leider nicht kommen.|Morgen ich kann leider nicht kommen.|Morgen kann kommen ich leider nicht.|Das Modalverb „kann“ steht auf Position 2, „kommen“ am Satzende.
+In den Ferien möchte Olivia nach Japan fliegen.|In den Ferien Olivia möchte nach Japan fliegen.|In den Ferien möchte fliegen Olivia nach Japan.|„möchte“ steht auf Position 2, der Infinitiv „fliegen“ am Ende.
+Letztes Jahr hat Ben Gitarre gelernt.|Letztes Jahr Ben hat Gitarre gelernt.|Letztes Jahr hat gelernt Ben Gitarre.|Im Perfekt steht „hat“ auf Position 2 und „gelernt“ am Ende.
+Heute Morgen habe ich den Bus verpasst.|Heute Morgen ich habe den Bus verpasst.|Heute Morgen habe verpasst ich den Bus.|„habe“ steht auf Position 2, das Partizip „verpasst“ am Satzende.
+Vorhin hat die Lehrerin die Tests zurückgegeben.|Vorhin die Lehrerin hat die Tests zurückgegeben.|Vorhin hat zurückgegeben die Lehrerin die Tests.|„hat“ steht auf Position 2, das Partizip „zurückgegeben“ ganz am Ende.
+In Taiwan ist es im Sommer sehr heiß.|In Taiwan es ist im Sommer sehr heiß.|Es in Taiwan ist im Sommer sehr heiß.|„In Taiwan“ steht auf Position 1, deshalb kommt „ist“ vor „es“.
+Im Park spielen die Kinder Fußball.|Im Park die Kinder spielen Fußball.|Im Park Fußball die Kinder spielen.|Die Ortsangabe „Im Park“ ist Position 1, das Verb „spielen“ folgt direkt.
+In der Schule tragen wir eine Uniform.|In der Schule wir tragen eine Uniform.|In der Schule eine Uniform wir tragen.|Nach der Ortsangabe steht das Verb „tragen“ auf Position 2.
+Zu Hause spricht Mia Chinesisch.|Zu Hause Mia spricht Chinesisch.|Zu Hause Chinesisch Mia spricht.|„Zu Hause“ ist Position 1, danach kommt sofort „spricht“.
+In Deutschland essen viele Leute Brot zum Frühstück.|In Deutschland viele Leute essen Brot zum Frühstück.|In Deutschland viele Leute Brot zum Frühstück essen.|Nach „In Deutschland“ steht das Verb, dann das Subjekt „viele Leute“.
+Im Supermarkt kauft Ben Milch und Brot.|Im Supermarkt Ben kauft Milch und Brot.|Im Supermarkt Milch und Brot Ben kauft.|„Im Supermarkt“ steht vorne, das Verb „kauft“ auf Position 2.
+In der Bibliothek muss man leise sein.|In der Bibliothek man muss leise sein.|In der Bibliothek muss sein man leise.|„muss“ steht auf Position 2, der Infinitiv „sein“ am Ende.
+Auf dem Schulhof wartet Olivia auf ihre Freundin.|Auf dem Schulhof Olivia wartet auf ihre Freundin.|Auf dem Schulhof auf ihre Freundin Olivia wartet.|Die Ortsangabe ist Position 1, danach folgt das Verb „wartet“.
+Im Bus hört Ben immer Musik.|Im Bus Ben hört immer Musik.|Im Bus immer Musik Ben hört.|Nach „Im Bus“ kommt das Verb „hört“, dann das Subjekt.
+Im Kino haben wir Popcorn gegessen.|Im Kino wir haben Popcorn gegessen.|Im Kino haben gegessen wir Popcorn.|„haben“ steht auf Position 2, das Partizip „gegessen“ am Ende.
+Am Strand macht Mia viele Fotos.|Am Strand Mia macht viele Fotos.|Am Strand viele Fotos Mia macht.|„Am Strand“ ist Position 1, das Verb „macht“ steht direkt danach.
+Bei meiner Oma gibt es immer leckeres Essen.|Bei meiner Oma es gibt immer leckeres Essen.|Bei meiner Oma immer leckeres Essen es gibt.|Auch bei „es gibt“ steht das Verb auf Position 2: „gibt es“.
+In meinem Zimmer habe ich einen großen Schreibtisch.|In meinem Zimmer ich habe einen großen Schreibtisch.|In meinem Zimmer ich einen großen Schreibtisch habe.|Nach der Ortsangabe steht das Verb „habe“ auf Position 2, nicht am Ende.
+Den Film finde ich spannend.|Den Film ich finde spannend.|Ich den Film finde spannend.|Auch wenn das Objekt „Den Film“ vorne steht, bleibt das Verb auf Position 2.
+Diese Musik mag Olivia sehr.|Diese Musik Olivia mag sehr.|Olivia diese Musik mag sehr.|Das Objekt steht auf Position 1, das Verb „mag“ trotzdem auf Position 2.
+Das Buch habe ich schon gelesen.|Das Buch ich habe schon gelesen.|Das Buch habe gelesen ich schon.|„habe“ steht auf Position 2, das Partizip „gelesen“ am Ende.
+Pizza isst Ben am liebsten.|Pizza Ben isst am liebsten.|Ben Pizza isst am liebsten.|Das Objekt „Pizza“ ist Position 1, danach kommt direkt das Verb „isst“.
+Meine Katze liebe ich sehr.|Meine Katze ich liebe sehr.|Ich meine Katze liebe sehr.|Auch mit dem Objekt vorne steht das Verb „liebe“ auf Position 2.
+Die Hausaufgaben mache ich nach dem Essen.|Die Hausaufgaben ich mache nach dem Essen.|Ich die Hausaufgaben mache nach dem Essen.|„Die Hausaufgaben“ ist Position 1, das Verb „mache“ folgt direkt.
+Mathe finde ich schwer.|Mathe ich finde schwer.|Ich Mathe finde schwer.|Das Objekt „Mathe“ steht vorne, das Verb „finde“ auf Position 2.
+Dieses Spiel kennt Mias Bruder noch nicht.|Dieses Spiel Mias Bruder kennt noch nicht.|Mias Bruder dieses Spiel kennt noch nicht.|Nach dem Objekt „Dieses Spiel“ kommt sofort das Verb „kennt“.
+Den Kuchen hat Mia selbst gebacken.|Den Kuchen Mia hat selbst gebacken.|Den Kuchen hat gebacken Mia selbst.|„hat“ steht auf Position 2, das Partizip „gebacken“ am Ende.
+Ihr Handy hat Olivia im Bus vergessen.|Ihr Handy Olivia hat im Bus vergessen.|Ihr Handy hat vergessen Olivia im Bus.|„hat“ steht auf Position 2, „vergessen“ ganz am Ende.
+Diese Jacke möchte ich gern kaufen.|Diese Jacke ich möchte gern kaufen.|Diese Jacke möchte kaufen ich gern.|Das Modalverb „möchte“ steht auf Position 2, der Infinitiv „kaufen“ am Ende.
+Deinen Bruder kenne ich nicht.|Deinen Bruder ich kenne nicht.|Ich deinen Bruder kenne nicht.|„Deinen Bruder“ ist Position 1, deshalb kommt „kenne“ vor „ich“.
+Leider ist Ben heute krank.|Leider Ben ist heute krank.|Ben leider ist heute krank.|„Leider“ zählt als Position 1, danach kommt sofort das Verb „ist“.
+Vielleicht regnet es morgen.|Vielleicht es regnet morgen.|Es vielleicht regnet morgen.|„Vielleicht“ steht auf Position 1, das Verb „regnet“ folgt direkt.
+Zum Glück hat Ben sein Handy gefunden.|Zum Glück Ben hat sein Handy gefunden.|Zum Glück hat gefunden Ben sein Handy.|„Zum Glück“ ist Position 1, danach kommt „hat“, und „gefunden“ steht am Ende.
+Plötzlich klingelt mein Handy.|Plötzlich mein Handy klingelt.|Mein Handy plötzlich klingelt.|„Plötzlich“ steht vorne, deshalb kommt das Verb vor „mein Handy“.
+Oft sehen wir abends zusammen fern.|Oft wir sehen abends zusammen fern.|Wir oft sehen abends zusammen fern.|„Oft“ ist Position 1, das Verb „sehen“ steht auf Position 2 und „fern“ am Ende.
+Deshalb bleibe ich heute zu Hause.|Deshalb ich bleibe heute zu Hause.|Ich deshalb bleibe heute zu Hause.|Nach „Deshalb“ steht das Verb auf Position 2, das Subjekt folgt danach.
+Dann gehen wir zusammen nach Hause.|Dann wir gehen zusammen nach Hause.|Dann wir zusammen nach Hause gehen.|„Dann“ ist Position 1, das Verb „gehen“ muss direkt danach kommen.
+Danach spielt Ben am Computer.|Danach Ben spielt am Computer.|Danach am Computer Ben spielt.|Nach „Danach“ steht das Verb „spielt“ auf Position 2.
+Trotzdem geht Mia zur Schule.|Trotzdem Mia geht zur Schule.|Mia trotzdem geht zur Schule.|„Trotzdem“ steht auf Position 1, deshalb kommt „geht“ vor „Mia“.
+Deswegen lernt Olivia jeden Tag Vokabeln.|Deswegen Olivia lernt jeden Tag Vokabeln.|Olivia deswegen lernt jeden Tag Vokabeln.|„Deswegen“ ist Position 1, das Verb „lernt“ steht direkt danach.
+Außerdem habe ich keine Lust.|Außerdem ich habe keine Lust.|Ich außerdem habe keine Lust.|Nach „Außerdem“ folgt sofort das Verb, dann das Subjekt „ich“.
+Leider kann ich heute nicht mitkommen.|Leider ich kann heute nicht mitkommen.|Leider kann mitkommen ich heute nicht.|„kann“ steht auf Position 2, der Infinitiv „mitkommen“ am Ende.
+Darum trinkt Mias Bruder keinen Kaffee.|Darum Mias Bruder trinkt keinen Kaffee.|Mias Bruder darum trinkt keinen Kaffee.|Nach „Darum“ steht das Verb auf Position 2, dann das Subjekt.
+Dann bestellen wir eine Pizza.|Dann wir bestellen eine Pizza.|Wir dann bestellen eine Pizza.|„Dann“ steht auf Position 1, deshalb kommt „bestellen“ vor „wir“.
+Danach müssen wir noch einkaufen.|Danach wir müssen noch einkaufen.|Danach müssen einkaufen wir noch.|Das Modalverb „müssen“ steht auf Position 2, „einkaufen“ am Ende.
+Trotzdem hat Olivia den Test bestanden.|Trotzdem Olivia hat den Test bestanden.|Trotzdem hat bestanden Olivia den Test.|„hat“ steht auf Position 2, das Partizip „bestanden“ am Ende.
+Deshalb muss Ben heute früh aufstehen.|Deshalb Ben muss heute früh aufstehen.|Deshalb muss aufstehen Ben heute früh.|Nach „Deshalb“ kommt „muss“, der Infinitiv „aufstehen“ steht am Ende.
+Sonst kommen wir zu spät.|Sonst wir kommen zu spät.|Wir sonst kommen zu spät.|„Sonst“ ist Position 1, das Verb „kommen“ folgt direkt.
+Wann fährst du nach Hause?|Wann du fährst nach Hause?|Wann nach Hause du fährst?|In W-Fragen steht das Verb direkt nach dem Fragewort auf Position 2.
+Was machst du am Wochenende?|Was du machst am Wochenende?|Was am Wochenende du machst?|Nach dem Fragewort „Was“ kommt sofort das Verb „machst“.
+Wo wohnt Olivia jetzt?|Wo Olivia wohnt jetzt?|Olivia wo wohnt jetzt?|Das Verb „wohnt“ steht direkt nach dem Fragewort „Wo“.
+Warum lernst du Deutsch?|Warum du lernst Deutsch?|Du warum lernst Deutsch?|Nach „Warum“ kommt zuerst das Verb, dann das Subjekt.
+Wie findest du den Film?|Wie du findest den Film?|Wie den Film du findest?|Nach dem Fragewort „Wie“ steht das Verb auf Position 2.
+Wohin fahrt ihr in den Ferien?|Wohin ihr fahrt in den Ferien?|Wohin in den Ferien ihr fahrt?|„Wohin“ ist Position 1, das Verb „fahrt“ steht direkt danach.
+Mit wem spielt Ben Badminton?|Mit wem Ben spielt Badminton?|Ben mit wem spielt Badminton?|„Mit wem“ ist ein Satzteil auf Position 1, danach kommt das Verb.
+Was hast du gestern gemacht?|Was du hast gestern gemacht?|Was hast gemacht du gestern?|„hast“ steht nach dem Fragewort auf Position 2, „gemacht“ am Ende.
+Wann musst du morgen aufstehen?|Wann du musst morgen aufstehen?|Wann musst aufstehen du morgen?|„musst“ steht auf Position 2, der Infinitiv „aufstehen“ am Ende.
+Wo kauft Mia ihre Kleidung?|Wo Mia kauft ihre Kleidung?|Mia wo kauft ihre Kleidung?|Nach dem Fragewort „Wo“ kommt direkt das Verb „kauft“.
+Welche Sprachen sprichst du zu Hause?|Welche Sprachen du sprichst zu Hause?|Welche Sprachen zu Hause du sprichst?|„Welche Sprachen“ ist Position 1, das Verb „sprichst“ folgt direkt.
+Wie lange schläfst du am Wochenende?|Wie lange du schläfst am Wochenende?|Wie lange am Wochenende du schläfst?|„Wie lange“ zählt als Position 1, danach steht das Verb.
+Was möchtest du trinken?|Was du möchtest trinken?|Was möchtest trinken du?|„möchtest“ steht auf Position 2, der Infinitiv „trinken“ am Ende.
+Hast du morgen Zeit?|Du morgen hast Zeit?|Morgen du hast Zeit?|Bei Ja/Nein-Fragen steht das Verb auf Position 1.
+Spielst du gern Fußball?|Du gern spielst Fußball?|Gern du spielst Fußball?|In einer Ja/Nein-Frage steht das Verb ganz vorne.
+Kommt Olivia heute mit?|Olivia heute kommt mit?|Heute Olivia kommt mit?|Die Ja/Nein-Frage beginnt mit dem Verb „Kommt“, „mit“ steht am Ende.
+Kannst du mir helfen?|Du mir kannst helfen?|Mir du kannst helfen?|In der Ja/Nein-Frage steht „Kannst“ auf Position 1, „helfen“ am Ende.
+Hast du die Hausaufgaben gemacht?|Du die Hausaufgaben hast gemacht?|Hast gemacht du die Hausaufgaben?|„Hast“ steht auf Position 1, das Partizip „gemacht“ am Ende.
+Habt ihr heute Sport?|Ihr heute habt Sport?|Heute ihr habt Sport?|Bei Ja/Nein-Fragen steht das Verb „Habt“ auf Position 1.`},
+ {stage:22, kind:"cloze", hint:"Welches Pronomen?", data:`Kannst du {_} bitte helfen?|ich|mir|mich|mein|helfen verlangt den Dativ: mir.
+Das Handy gehört {_}, nicht Ben.|ich|mir|mich|ich|gehören steht immer mit Dativ: mir.
+Die Nudeln schmecken {_} sehr gut.|ich|mir|mich|mein|schmecken verlangt den Dativ: mir.
+Wie geht es {_} heute?|du|dir|dich|du|„Wie geht es ...?“ steht mit Dativ: dir.
+Ich danke {_} für das Geschenk.|du|dir|dich|dein|danken verlangt den Dativ: dir.
+Gefällt {_} mein neues Kleid?|du|dir|dich|dein|gefallen verlangt den Dativ: dir.
+Ben hat Geburtstag, Mia schenkt {_} ein Buch.|er|ihm|ihn|sein|schenken + Person: Die Person steht im Dativ, also ihm.
+Ich gebe {_} morgen das Geld zurück.|er|ihm|ihn|er|zurückgeben + Person: Die Person steht im Dativ, also ihm.
+Mia hat Geburtstag, Olivia übernachtet heute bei {_}.|sie|ihr|sie|ihre|Nach „bei“ steht immer der Dativ: ihr.
+Wir fahren mit {_} ins Kino.|ihr|euch|euer|eure|Nach „mit“ steht immer der Dativ: euch.
+Die Lehrerin erklärt {_} die Aufgabe noch einmal.|wir|uns|wir|unser|erklären + Person: Die Person steht im Dativ, also uns.
+Warum antwortest du {_} nicht?|ich|mir|mich|ich|antworten verlangt den Dativ: mir.
+Die Farbe steht {_} wirklich gut.|du|dir|dich|dein|„Das steht dir gut“ hat den Dativ: dir.
+Die Schuhe passen {_} nicht mehr.|ich|mir|mich|mein|passen verlangt den Dativ: mir.
+Mia zeigt {_} ihre neuen Fotos.|wir|uns|wir|unser|zeigen + Person: Die Person steht im Dativ, also uns.
+Kannst du {_} bitte das Salz geben?|ich|mir|mich|ich|geben + Person: Die Person steht im Dativ, also mir.
+Warte, ich komme gleich zu {_}.|du|dir|dich|du|Nach „zu“ steht immer der Dativ: dir.
+Hast du schon etwas von {_} gehört?|er|ihm|ihn|sein|Nach „von“ steht immer der Dativ: ihm.
+Olivias Eltern sind nett, ich spreche gern mit {_}.|sie (Plural)|ihnen|sie|ihre|Nach „mit“ steht der Dativ, im Plural heißt das ihnen.
+Frau Weber, kann ich {_} helfen?|Sie|Ihnen|Sie|Ihr|helfen verlangt den Dativ, in der Höflichkeitsform: Ihnen.
+Das Spiel gefällt {_} nicht.|er|ihm|ihn|er|gefallen verlangt den Dativ: ihm.
+Ich schicke {_} später eine Nachricht.|du|dir|dich|dein|schicken + Person: Die Person steht im Dativ, also dir.
+Mias Bruder leiht {_} sein Fahrrad.|ich|mir|mich|mein|leihen + Person: Die Person steht im Dativ, also mir.
+Die Lehrerin gibt {_} ein paar Tipps für den Test.|sie (Plural)|ihnen|sie|ihre|geben + Person: Die Person steht im Dativ, im Plural ihnen.
+Der Film hat {_} gut gefallen.|wir|uns|wir|unser|gefallen verlangt den Dativ: uns.
+Gehört das Heft {_}?|du|dir|dich|dein|gehören verlangt den Dativ: dir.
+Ich gratuliere {_} zum Geburtstag!|du|dir|dich|du|gratulieren verlangt den Dativ: dir.
+Olivia hat Durst, ich bringe {_} ein Glas Wasser.|sie|ihr|sie|ihre|bringen + Person: Die Person steht im Dativ, also ihr.
+Ben ist krank, ich schreibe {_} eine Karte.|er|ihm|ihn|sein|schreiben + Person: Die Person steht im Dativ, also ihm.
+Tut {_} der Kopf weh?|du|dir|dich|dein|wehtun verlangt den Dativ: dir.
+Das tut {_} leid.|ich|mir|mich|mein|leidtun verlangt den Dativ: mir.
+Mias neue Frisur steht {_} gut.|sie|ihr|sie|ihre|„stehen“ im Sinn von „gut aussehen“ verlangt den Dativ: ihr.
+Kommst du mit {_} in die Stadt?|wir|uns|wir|unser|Nach „mit“ steht immer der Dativ: uns.
+Das ist nicht mein Buch, es gehört {_}.|er|ihm|ihn|er|gehören verlangt den Dativ: ihm.
+Kinder, ich erkläre {_} jetzt das Spiel.|ihr|euch|euer|eure|erklären + Person: Die Person steht im Dativ, also euch.
+Meine Großeltern sind alt, ich helfe {_} oft im Garten.|sie (Plural)|ihnen|sie|ihre|helfen verlangt den Dativ, im Plural ihnen.
+Das Baby weint, die Mutter gibt {_} die Flasche.|es|ihm|es|sein|geben + Person: Das Baby steht im Dativ, also ihm.
+Nach der Schule komme ich zu {_}.|ihr|euch|euer|eure|Nach „zu“ steht immer der Dativ: euch.
+Glaubst du {_} nicht?|ich|mir|mich|ich|glauben + Person verlangt den Dativ: mir.
+Frau Chen, ich danke {_} für Ihre Hilfe.|Sie|Ihnen|Sie|Ihr|danken verlangt den Dativ, höflich: Ihnen.
+Ben hört {_} nie zu.|ich|mir|mich|mein|zuhören verlangt den Dativ: mir.
+Die Katze folgt {_} überallhin.|er|ihm|ihn|sein|folgen verlangt den Dativ: ihm.
+Olivia hat Geburtstag, wir schenken {_} einen Blumenstrauß.|sie|ihr|sie|ihre|schenken + Person: Die Person steht im Dativ, also ihr.
+Ist {_} kalt? Soll ich das Fenster zumachen?|du|dir|dich|du|„Ist dir kalt?“ steht mit Dativ: dir.
+Wie gefällt {_} die neue Schule?|ihr|euch|euer|eure|gefallen verlangt den Dativ: euch.
+Die Lehrerin hat {_} eine gute Note gegeben.|ich|mir|mich|mein|geben + Person: Die Person steht im Dativ, also mir.
+Unsere Oma erzählt {_} oft Geschichten.|wir|uns|wir|unser|erzählen + Person: Die Person steht im Dativ, also uns.
+Mias Eltern haben {_} ein Handy gekauft.|sie|ihr|sie|ihre|kaufen für eine Person: Die Person steht im Dativ, also ihr.
+Wie schmeckt {_} die Suppe, Herr Wang?|Sie|Ihnen|Sie|Ihr|schmecken verlangt den Dativ, höflich: Ihnen.
+Ich wohne nicht weit von {_}.|ihr|euch|euer|eure|Nach „von“ steht immer der Dativ: euch.
+Das Baby lacht, die Kinder spielen gern mit {_}.|es|ihm|es|sein|Nach „mit“ steht der Dativ, bei „es“ heißt das ihm.
+Meine Freunde haben mir geholfen, ich danke {_}.|sie (Plural)|ihnen|sie|ihre|danken verlangt den Dativ, im Plural ihnen.
+Mias Bruder hat Angst, Mia geht mit {_} zum Arzt.|er|ihm|ihn|sein|Nach „mit“ steht immer der Dativ: ihm.
+Das Wochenende gehört {_}!|wir|uns|wir|unser|gehören verlangt den Dativ: uns.
+Hast du {_} die Wahrheit gesagt?|er|ihm|ihn|er|sagen + Person: Die Person steht im Dativ, also ihm.
+Meine Eltern sind in Deutschland, das Wetter gefällt {_} gar nicht.|sie (Plural)|ihnen|sie|ihre|gefallen verlangt den Dativ, im Plural ihnen.
+Ich zeige {_} mein Zimmer.|ihr|euch|euer|eure|zeigen + Person: Die Person steht im Dativ, also euch.
+Ich sehe {_} morgen in der Schule.|du|dich|dir|dein|sehen verlangt den Akkusativ: dich.
+Meine Großeltern wohnen in Tainan, wir besuchen {_} am Wochenende.|sie (Plural)|sie|ihnen|ihre|besuchen verlangt den Akkusativ: sie.
+Ruf {_} bitte heute Abend an!|ich|mich|mir|mein|anrufen verlangt den Akkusativ: mich.
+Das Geschenk ist für {_}.|du|dich|dir|dein|Nach „für“ steht immer der Akkusativ: dich.
+Ohne {_} gehe ich nicht ins Kino.|du|dich|dir|du|Nach „ohne“ steht immer der Akkusativ: dich.
+Olivia ist sehr nett, ich kenne {_} schon lange.|sie|sie|ihr|ihre|kennen verlangt den Akkusativ: sie.
+Wir holen {_} um acht Uhr ab.|ihr|euch|ihr|euer|abholen verlangt den Akkusativ: euch.
+Die Lehrerin fragt {_} nach den Hausaufgaben.|wir|uns|wir|unser|fragen verlangt den Akkusativ: uns.
+Ich vermisse {_} sehr.|du|dich|dir|dein|vermissen verlangt den Akkusativ: dich.
+Mias Bruder lädt {_} zu seiner Party ein.|ich|mich|mir|ich|einladen verlangt den Akkusativ: mich.
+Entschuldigung, störe ich {_}?|Sie|Sie|Ihnen|Ihr|stören verlangt den Akkusativ, höflich: Sie.
+Ben war nicht in der Schule, hast du {_} gesehen?|er|ihn|ihm|er|sehen verlangt den Akkusativ: ihn.
+Das Baby schläft, bitte weck {_} nicht auf!|es|es|ihm|sein|aufwecken verlangt den Akkusativ: es.
+Sprich bitte langsamer, ich verstehe {_} nicht.|du|dich|dir|dein|verstehen verlangt den Akkusativ: dich.
+Wo ist Olivia? Wir treffen {_} nach der Schule.|sie|sie|ihr|ihre|treffen verlangt den Akkusativ: sie.
+Heute spielen wir gegen {_}.|ihr|euch|ihr|euer|Nach „gegen“ steht immer der Akkusativ: euch.
+Die Blumen sind für {_}, Frau Lin.|Sie|Sie|Ihnen|Ihr|Nach „für“ steht der Akkusativ, höflich: Sie.
+Mama, ich liebe {_}!|du|dich|dir|du|lieben verlangt den Akkusativ: dich.
+Mias Bruder ist krank, Olivia ruft {_} heute an.|er|ihn|ihm|sein|anrufen verlangt den Akkusativ: ihn.
+Ohne {_} ist das Spiel langweilig.|ihr|euch|ihr|euer|Nach „ohne“ steht immer der Akkusativ: euch.
+Die Lehrerin lobt {_} für das tolle Projekt.|wir|uns|wir|unser|loben verlangt den Akkusativ: uns.
+Keine Angst, der Hund beißt {_} nicht.|du|dich|dir|dein|beißen verlangt den Akkusativ: dich.
+Ich warte vor der Schule auf {_}.|du|dich|dir|dein|„warten auf“ verlangt den Akkusativ: dich.
+Mia sieht ihre Freundinnen und umarmt {_}.|sie (Plural)|sie|ihnen|ihre|umarmen verlangt den Akkusativ: sie.
+Kennst du den neuen Schüler? Ich finde {_} sehr nett.|er|ihn|ihm|er|finden verlangt den Akkusativ: ihn.
+Komm bitte schnell, wir brauchen {_}!|du|dich|dir|dein|brauchen verlangt den Akkusativ: dich.
+Das Kätzchen ist so süß, ich möchte {_} streicheln.|es|es|ihm|sein|streicheln verlangt den Akkusativ: es.
+Herr Chen, wir haben {_} gestern im Supermarkt gesehen.|Sie|Sie|Ihnen|Ihr|sehen verlangt den Akkusativ, höflich: Sie.`},
+ {stage:23, kind:"cloze", hint:"Welches Reflexivpronomen?", data:`Ich freue {_} auf die Ferien.|ich|mich|mir|sich|sich freuen: ich freue mich.
+Ich wasche {_} die Hände.|ich|mir|mich|sich|Mit Objekt (die Hände) steht der Dativ: mir.
+Beeil {_}, der Bus kommt gleich!|du|dich|dir|sich|sich beeilen: du beeilst dich.
+Putzt du {_} jeden Abend die Zähne?|du|dir|dich|sich|Mit Objekt (die Zähne) steht der Dativ: dir.
+Ben beeilt {_}, denn der Unterricht beginnt gleich.|er|sich|ihn|ihm|In der 3. Person heißt das Reflexivpronomen immer sich.
+Mia freut {_} auf ihren Geburtstag.|sie|sich|sie|ihr|In der 3. Person Singular heißt es sich: Mia freut sich.
+Wir treffen {_} um drei Uhr im Park.|wir|uns|sich|unser|Bei „wir“ heißt das Reflexivpronomen uns.
+Ihr müsst {_} beeilen!|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch.
+Ich interessiere {_} für Basketball.|ich|mich|mir|sich|sich interessieren für: ich interessiere mich.
+Fühlst du {_} heute besser?|du|dich|dir|sich|sich fühlen: du fühlst dich.
+Ich habe {_} erkältet.|ich|mich|mir|sich|sich erkälten: ich habe mich erkältet.
+Ich kaufe {_} ein neues Handy.|ich|mir|mich|sich|Mit Objekt (ein neues Handy) steht der Dativ: mir.
+Zieh {_} eine Jacke an, es ist kalt!|du|dir|dich|sich|Mit Objekt (eine Jacke) steht der Dativ: dir.
+Ich ziehe {_} schnell an.|ich|mich|mir|sich|Ohne weiteres Objekt steht der Akkusativ: mich.
+Ich kann {_} die Nummer nicht merken.|ich|mir|mich|sich|sich etwas merken: Das Reflexivpronomen steht im Dativ, also mir.
+Was wünschst du {_} zum Geburtstag?|du|dir|dich|sich|sich etwas wünschen: Dativ, also dir.
+Darf ich {_} vorstellen? Ich heiße Olivia.|ich|mich|mir|sich|sich vorstellen im Sinn von „seinen Namen sagen“: Akkusativ, also mich.
+Ich stelle {_} das Leben in Deutschland spannend vor.|ich|mir|mich|sich|sich etwas vorstellen im Sinn von „im Kopf sehen“: Dativ, also mir.
+Mein Vater erholt {_} im Urlaub.|er|sich|ihn|ihm|In der 3. Person heißt das Reflexivpronomen sich.
+Die Kinder freuen {_} auf die Ferien.|sie (Plural)|sich|sie|ihnen|Auch im Plural heißt es in der 3. Person sich.
+Mia und Olivia verabreden {_} für Samstag.|sie (Plural)|sich|sie|ihnen|sich verabreden: Mia und Olivia verabreden sich.
+Das Baby hat {_} erkältet.|es|sich|es|ihm|Auch bei „es“ heißt das Reflexivpronomen sich.
+Die Schüler bedanken {_} bei der Lehrerin.|sie (Plural)|sich|sie|ihnen|sich bedanken: Die Schüler bedanken sich.
+Herr Wang, beeilen Sie {_} bitte!|Sie|sich|Sie|Ihnen|Bei der Höflichkeitsform „Sie“ heißt das Reflexivpronomen sich, klein geschrieben.
+Frau Lin, freuen Sie {_} auf die Reise?|Sie|sich|Sie|Ihnen|Bei „Sie“ steht als Reflexivpronomen sich.
+Ich ärgere {_} über die schlechte Note.|ich|mich|mir|sich|sich ärgern: ich ärgere mich.
+Hast du {_} schon bei Oma bedankt?|du|dich|dir|sich|sich bedanken: du hast dich bedankt.
+Ich dusche {_} jeden Morgen.|ich|mich|mir|sich|sich duschen: ich dusche mich.
+Setz {_} bitte neben mich!|du|dich|dir|sich|sich setzen: setz dich.
+Ich kann {_} heute nicht konzentrieren.|ich|mich|mir|sich|sich konzentrieren: ich konzentriere mich.
+Erinnerst du {_} an unseren ersten Schultag?|du|dich|dir|sich|sich erinnern an: du erinnerst dich.
+Wir haben {_} im Wald verlaufen.|wir|uns|sich|unser|Bei „wir“ heißt das Reflexivpronomen uns.
+Freut ihr {_} auf das Wochenende?|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch.
+Entschuldige {_} bei deiner Schwester!|du|dich|dir|sich|sich entschuldigen: entschuldige dich.
+Ich lege {_} kurz aufs Sofa.|ich|mich|mir|sich|sich legen: ich lege mich.
+Wir unterhalten {_} oft über Filme.|wir|uns|sich|unser|sich unterhalten: wir unterhalten uns.
+Ihr streitet {_} schon wieder!|ihr|euch|sich|euer|sich streiten: ihr streitet euch.
+Ich bereite {_} auf den Test vor.|ich|mich|mir|sich|sich vorbereiten auf: ich bereite mich vor.
+Ich mache {_} Sorgen um meinen Hund.|ich|mir|mich|sich|sich Sorgen machen: Mit Objekt (Sorgen) steht der Dativ, also mir.
+Hast du {_} wehgetan?|du|dir|dich|sich|sich wehtun: Das Reflexivpronomen steht im Dativ, also dir.
+Ich habe {_} das Bein gebrochen.|ich|mir|mich|sich|Mit Objekt (das Bein) steht der Dativ: mir.
+Kämmst du {_} die Haare?|du|dir|dich|sich|Mit Objekt (die Haare) steht der Dativ: dir.
+Überleg {_} das gut!|du|dir|dich|sich|sich etwas überlegen: Dativ, also dir.
+Wascht {_} bitte die Hände!|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch, auch mit Objekt.
+Wir sehen {_} heute Abend einen Film an.|wir|uns|sich|unser|sich etwas ansehen: Bei „wir“ heißt es uns.
+Nimm {_} ruhig noch ein Stück Kuchen!|du|dir|dich|sich|sich etwas nehmen: Dativ, also dir.
+Ich leihe {_} in der Bibliothek ein Buch aus.|ich|mir|mich|sich|sich etwas ausleihen: Dativ, also mir.
+Ben putzt {_} die Zähne.|er|sich|ihn|er|In der 3. Person heißt es sich, auch mit Objekt.
+Mia kämmt {_} die Haare.|sie|sich|sie|ihre|In der 3. Person heißt das Reflexivpronomen immer sich.
+Olivia kauft {_} ein neues Kleid.|sie|sich|sie|ihre|sich etwas kaufen: In der 3. Person heißt es sich.
+Mein Bruder wünscht {_} ein Fahrrad.|er|sich|ihn|sein|sich etwas wünschen: In der 3. Person heißt es sich.
+Ben schämt {_} für seinen Fehler.|er|sich|ihn|ihm|sich schämen: Ben schämt sich.
+Mias Oma kümmert {_} um den Garten.|sie|sich|sie|ihr|sich kümmern um: In der 3. Person heißt es sich.
+Olivia hat {_} verspätet.|sie|sich|sie|ihr|sich verspäten: Olivia hat sich verspätet.
+Meine Eltern ruhen {_} am Sonntag aus.|sie (Plural)|sich|sie|ihnen|sich ausruhen: Meine Eltern ruhen sich aus.
+Nehmen Sie {_} bitte einen Stuhl, Frau Chen.|Sie|sich|Sie|Ihnen|Bei „Sie“ heißt das Reflexivpronomen sich.
+Ich muss {_} noch umziehen.|ich|mich|mir|sich|sich umziehen: ich ziehe mich um.
+Wir langweilen {_} in den Ferien nie.|wir|uns|sich|unser|sich langweilen: wir langweilen uns.
+Hast du {_} für den Kurs angemeldet?|du|dich|dir|sich|sich anmelden: du hast dich angemeldet.
+Ich kümmere {_} um meine kleine Schwester.|ich|mich|mir|sich|sich kümmern um: ich kümmere mich.
+Das Mädchen freut {_} über das Geschenk.|es|sich|es|ihm|Auch bei „es“ (das Mädchen) heißt es sich.
+Mias Bruder hat {_} verliebt.|er|sich|ihn|ihm|sich verlieben: In der 3. Person heißt es sich.`},
+ {stage:24, kind:"cloze", hint:"Konjunktiv II", data:`Ich {_} gern eine Cola.|haben (Wunsch, höflich)|hätte|hättest|hatte|Höflicher Wunsch: ich hätte gern.
+Wir {_} gern zwei Stück Kuchen, bitte.|haben (Wunsch, höflich)|hätten|haben|hatten|Beim Bestellen sagt man höflich: wir hätten gern.
+Was {_} du gern zum Geburtstag?|haben (Wunsch)|hättest|hätte|hattest|Einen Wunsch drückt man mit dem Konjunktiv II aus: du hättest gern.
+Ich {_} jetzt schlafen gehen, ich bin sehr müde.|mögen (Wunsch)|möchte|möchtest|mochte|Einen Wunsch drückt man mit „möchte“ aus.
+Mia {_} später Ärztin werden.|mögen (Wunsch)|möchte|möchten|mochte|Einen Wunsch für die Zukunft drückt man mit „möchte“ aus.
+Ich {_} so gern einen Hund haben.|werden (Wunsch)|würde|werde|wurde|Einen Wunsch drückt man mit „würde gern“ aus.
+Olivia {_} gern einmal nach Deutschland fahren.|werden (Wunsch)|würde|würdest|wurde|Wunsch: würde gern + Infinitiv.
+Wir {_} gern mit euch ins Kino gehen.|werden (Wunsch)|würden|würdet|wurden|Wunsch: wir würden gern + Infinitiv.
+Ich {_} gern, wie spät es ist.|wissen (höflich)|wüsste|weiß|wusste|Höflich fragt man mit „Ich wüsste gern“.
+Entschuldigung, {_} Sie mir bitte helfen?|können (höfliche Bitte)|könnten|könntest|konnten|Eine höfliche Bitte formuliert man mit „könnten“.
+Mama, {_} du mich nach der Schule abholen?|können (höfliche Bitte)|könntest|könnte|konntest|Eine höfliche Bitte an „du“ formuliert man mit „könntest“.
+Herr Chen, {_} ich kurz das Fenster aufmachen?|dürfen (höfliche Bitte)|dürfte|dürftest|durfte|Sehr höflich fragt man mit „dürfte ich“.
+Ben, {_} du bitte das Licht ausmachen?|werden (höfliche Bitte)|würdest|würde|wurdest|Eine höfliche Bitte formuliert man auch mit „würdest“ + Infinitiv.
+Frau Weber, {_} Sie den Satz noch einmal erklären?|können (höfliche Bitte)|könnten|könntest|konnten|Höflich bittet man mit „könnten Sie“.
+Wie {_} es mit einem Eis?|sein (Vorschlag)|wäre|wären|war|„Wie wäre es mit ...“ ist ein typischer Vorschlag im Konjunktiv II.
+Wenn ich Zeit {_}, würde ich mitkommen.|haben (irreal)|hätte|hättest|hatte|Eine irreale Bedingung steht im Konjunktiv II: wenn ich Zeit hätte.
+Wenn ich reich {_}, würde ich eine Weltreise machen.|sein (irreal)|wäre|wärst|war|Irreale Bedingung: wenn ich reich wäre.
+Wenn Ben mehr lernen {_}, hätte er bessere Noten.|werden (irreal)|würde|wird|wurde|Irreale Bedingung mit „würde“: wenn Ben mehr lernen würde.
+Wenn es nicht so heiß {_}, könnten wir Fußball spielen.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn es nicht so heiß wäre.
+Wenn ich ein Fahrrad {_}, würde ich zur Schule fahren.|haben (irreal)|hätte|hättest|hatte|Irreale Bedingung: wenn ich ein Fahrrad hätte.
+Wenn ich du {_}, würde ich mehr schlafen.|sein (Rat)|wäre|bin|war|„Wenn ich du wäre“ ist ein typischer Rat im Konjunktiv II.
+Wenn wir mehr Platz hätten, {_} wir einen Hund haben.|können (irreal)|könnten|können|konnten|Der Satz ist irreal, deshalb: wir könnten.
+Ich {_} dir gern helfen, aber ich habe keine Zeit.|werden (irreal)|würde|werde|wurde|Das ist nicht real, deshalb: ich würde gern helfen.
+Olivia {_} gern mitkommen, aber sie ist krank.|werden (irreal)|würde|wird|wurde|Der Wunsch ist nicht real: Olivia würde gern mitkommen.
+Wenn ich fliegen {_}, wäre ich schnell bei meiner Oma.|können (irreal)|könnte|könntest|konnte|Irreale Bedingung: wenn ich fliegen könnte.
+Wenn Mia hier {_}, wäre alles einfacher.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn Mia hier wäre.
+Es {_} toll, wenn wir zusammen lernen könnten.|sein (irreal)|wäre|wärst|war|Der ganze Satz ist irreal, deshalb: es wäre toll.
+Ich wünschte, ich {_} ein eigenes Zimmer.|haben (irrealer Wunsch)|hätte|habe|hatte|Nach „Ich wünschte“ steht der Konjunktiv II: hätte.
+Ich wünschte, es {_} schon Wochenende.|sein (irrealer Wunsch)|wäre|ist|war|Nach „Ich wünschte“ steht der Konjunktiv II: wäre.
+Wenn ich doch nur mehr Zeit {_}!|haben (irrealer Wunsch)|hätte|habe|hatte|Ein irrealer Wunsch steht im Konjunktiv II: hätte.
+Wenn Ben doch nur pünktlich {_}!|sein (irrealer Wunsch)|wäre|ist|war|Irrealer Wunsch: wenn Ben doch nur pünktlich wäre.
+Du {_} mehr schlafen.|sollen (Rat)|solltest|sollte|solltet|Einen Rat gibt man mit „solltest“.
+Ihr {_} mehr Wasser trinken.|sollen (Rat)|solltet|sollten|solltest|Ein Rat für „ihr“: ihr solltet.
+Du {_} mal mit der Lehrerin sprechen.|können (Vorschlag)|könntest|könnte|konntest|Einen Vorschlag macht man oft mit „könntest“.
+An deiner Stelle {_} ich früher ins Bett gehen.|werden (Rat)|würde|werde|wurde|Nach „An deiner Stelle“ folgt ein Rat mit „würde“.
+Mia {_} weniger am Handy spielen.|sollen (Rat)|sollte|solltest|sollten|Ein Rat für eine Person: Mia sollte.
+Ben {_} beim Radfahren einen Helm tragen.|sollen (Rat)|sollte|sollten|solltest|Rat in der 3. Person: Ben sollte.
+Sie {_} mehr Obst essen, Herr Wang.|sollen (Rat)|sollten|solltest|solltet|Ein höflicher Rat: Sie sollten.
+Ich an deiner Stelle {_} die Lehrerin fragen.|werden (Rat)|würde|werde|wurde|„Ich an deiner Stelle würde ...“ ist ein Rat im Konjunktiv II.
+Du {_} dich wärmer anziehen, es ist kalt.|sollen (Rat)|solltest|sollte|solltet|Rat: du solltest.
+Wenn ich an deiner Stelle {_}, würde ich mich entschuldigen.|sein (Rat)|wäre|bin|war|Ein Rat im Konjunktiv II: wenn ich an deiner Stelle wäre.
+Wenn ich nicht zur Schule gehen {_}, würde ich lange schlafen.|müssen (irreal)|müsste|müsstest|musste|Irreale Bedingung: wenn ich nicht zur Schule gehen müsste.
+Wenn ich das gewusst {_}, wäre ich gekommen.|haben (irreal, Vergangenheit)|hätte|habe|hatte|Irreale Vergangenheit: hätte + Partizip.
+Wenn der Bus pünktlich gekommen {_}, hätten wir den Film nicht verpasst.|sein (irreal, Vergangenheit)|wäre|ist|war|Irreale Vergangenheit: wäre + Partizip.
+Wenn du früher aufgestanden {_}, hättest du den Bus nicht verpasst.|sein (irreal, Vergangenheit)|wärst|bist|warst|Irreale Vergangenheit: wärst + Partizip.
+Ich {_} gern mitgekommen, aber ich war krank.|sein (irreal, Vergangenheit)|wäre|bin|war|Irreale Vergangenheit: ich wäre gern mitgekommen.
+Mias Bruder {_} gern Pilot werden.|werden (Wunsch)|würde|würden|wurde|Wunsch: würde gern + Infinitiv.
+Was {_} ihr am Wochenende gern machen?|werden (Wunsch)|würdet|würden|wurdet|Frage nach einem Wunsch: würdet ihr gern.
+Ich {_} jetzt so gern am Strand!|sein (irrealer Wunsch)|wäre|wärst|war|Irrealer Wunsch: ich wäre so gern am Strand.
+Guten Tag, was {_} Sie bestellen?|mögen (höfliche Frage)|möchten|möchtest|mochten|Im Restaurant fragt man höflich mit „möchten“.
+Wenn Olivia in Taipeh wohnen {_}, könnten wir uns öfter treffen.|werden (irreal)|würde|wird|wurde|Irreale Bedingung mit „würde“ + Infinitiv.
+Wenn ich mehr Zeit hätte, {_} ich jeden Tag Gitarre spielen.|werden (irreal)|würde|werde|wurde|Folge einer irrealen Bedingung: ich würde spielen.
+Wenn wir einen Hund {_}, müssten wir jeden Tag spazieren gehen.|haben (irreal)|hätten|hättet|hatten|Irreale Bedingung: wenn wir einen Hund hätten.
+Wenn du mich fragen würdest, {_} ich dir helfen.|können (irreal)|könnte|kann|konnte|Folge einer irrealen Bedingung: ich könnte helfen.
+Wenn ihr leiser {_}, könnte ich besser lernen.|sein (irreal)|wärt|wäre|wart|Irreale Bedingung: wenn ihr leiser wärt.
+Wenn Ben nicht krank {_}, würde er mit uns Basketball spielen.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn Ben nicht krank wäre.
+Das Wetter ist schlecht, sonst {_} wir an den Strand fahren.|können (irreal)|könnten|könntet|konnten|Nach „sonst“ steht hier eine irreale Möglichkeit: wir könnten.
+Ich habe kein Geld, sonst {_} ich mir das Spiel kaufen.|werden (irreal)|würde|würdest|wurde|Das ist nicht real, deshalb: ich würde kaufen.
+Wenn Mia nicht so viel üben {_}, hätte sie mehr Freizeit.|müssen (irreal)|müsste|müsstest|musste|Irreale Bedingung: wenn Mia nicht so viel üben müsste.
+Es {_} schön, wenn du morgen kommen würdest.|sein (Wunsch)|wäre|wärst|war|Der ganze Satz ist ein Wunsch im Konjunktiv II: es wäre schön.`},
+ {stage:25, kind:"cloze", hint:"Welches Relativpronomen?", data:`Das ist der Junge, {_} neben mir sitzt.|der Junge|der|den|dem|Der Junge sitzt neben mir (Nominativ): der.
+Ben hat einen Hund, {_} sehr laut bellt.|der Hund|der|den|dem|Der Hund bellt (Nominativ): der.
+Kennst du den Mann, {_} dort drüben steht?|der Mann|der|den|dem|Der Mann steht dort (Nominativ): der.
+Mia hat einen Bruder, {_} in Deutschland studiert.|der Bruder|der|den|dem|Der Bruder studiert (Nominativ): der.
+Der Mann, {_} uns geholfen hat, war sehr nett.|der Mann|der|den|dem|Der Mann hat uns geholfen (Nominativ): der.
+Das ist der Film, {_} ich gestern gesehen habe.|der Film|den|der|dem|Ich habe den Film gesehen (Akkusativ): den.
+Wo ist der Stift, {_} du mir geliehen hast?|der Stift|den|der|dem|Du hast mir den Stift geliehen (Akkusativ): den.
+Der Test, {_} wir morgen schreiben, ist schwer.|der Test|den|der|dem|Wir schreiben den Test (Akkusativ): den.
+Wie heißt der Sänger, {_} du so toll findest?|der Sänger|den|der|dem|Du findest den Sänger toll (Akkusativ): den.
+Das ist der Rucksack, {_} ich mir gekauft habe.|der Rucksack|den|der|dem|Ich habe mir den Rucksack gekauft (Akkusativ): den.
+Das ist der Freund, {_} ich bei den Hausaufgaben helfe.|der Freund|dem|den|der|Ich helfe dem Freund (Dativ): dem.
+Der Lehrer, {_} das Buch gehört, sucht es überall.|der Lehrer|dem|den|der|Das Buch gehört dem Lehrer (Dativ): dem.
+Wie heißt der Junge, {_} du eine Nachricht geschickt hast?|der Junge|dem|den|der|Du hast dem Jungen eine Nachricht geschickt (Dativ): dem.
+Das ist mein Onkel, {_} ich zum Geburtstag gratuliere.|der Onkel|dem|den|der|Ich gratuliere dem Onkel (Dativ): dem.
+Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Lehrerin unterrichtet Deutsch (Nominativ): die.
+Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.
+Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.
+Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.
+Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.
+Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.
+Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.
+Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.
+Die Lehrerin, {_} wir Blumen geschenkt haben, hat sich sehr gefreut.|die Lehrerin|der|die|den|Wir haben der Lehrerin Blumen geschenkt (Dativ): der.
+Das ist das Mädchen, {_} neben Mia wohnt.|das Mädchen|das|dass|dem|Das Mädchen wohnt neben Mia (Nominativ): das.
+Das Handy, {_} auf dem Tisch liegt, gehört mir.|das Handy|das|dass|der|Das Handy liegt auf dem Tisch (Nominativ): das.
+Wo ist das Buch, {_} so spannend ist?|das Buch|das|dass|dem|Das Buch ist spannend (Nominativ): das.
+Das ist das Spiel, {_} ich zum Geburtstag bekommen habe.|das Spiel|das|dem|den|Ich habe das Spiel bekommen (Akkusativ): das.
+Das Foto, {_} du geschickt hast, ist lustig.|das Foto|das|dass|dem|Du hast das Foto geschickt (Akkusativ): das.
+Wie heißt das Lied, {_} wir im Unterricht gesungen haben?|das Lied|das|dem|dass|Wir haben das Lied gesungen (Akkusativ): das.
+Das ist das Kind, {_} ich Mathe erkläre.|das Kind|dem|das|den|Ich erkläre dem Kind Mathe (Dativ): dem.
+Das Mädchen, {_} der Hund gehört, heißt Lina.|das Mädchen|dem|das|dessen|Der Hund gehört dem Mädchen (Dativ): dem.
+Das sind die Schüler, {_} in meine Klasse gehen.|die Schüler|die|denen|der|Die Schüler gehen in meine Klasse (Nominativ Plural): die.
+Ich mag Leute, {_} ehrlich sind.|die Leute|die|denen|den|Die Leute sind ehrlich (Nominativ Plural): die.
+Die Kinder, {_} im Park spielen, sind laut.|die Kinder|die|denen|der|Die Kinder spielen im Park (Nominativ Plural): die.
+Die Schuhe, {_} ich gestern gekauft habe, sind zu klein.|die Schuhe|die|denen|den|Ich habe die Schuhe gekauft (Akkusativ Plural): die.
+Das sind die Freunde, {_} ich in den Ferien besucht habe.|die Freunde|die|denen|den|Ich habe die Freunde besucht (Akkusativ Plural): die.
+Die Vokabeln, {_} wir lernen müssen, sind schwer.|die Vokabeln|die|denen|der|Wir müssen die Vokabeln lernen (Akkusativ Plural): die.
+Das sind die Nachbarn, {_} wir oft helfen.|die Nachbarn|denen|die|den|Wir helfen den Nachbarn (Dativ Plural): denen.
+Die Kinder, {_} ich Deutsch beibringe, sind sehr nett.|die Kinder|denen|die|den|Ich bringe den Kindern Deutsch bei (Dativ Plural): denen.
+Wie heißen die Mädchen, {_} du geantwortet hast?|die Mädchen|denen|die|den|Du hast den Mädchen geantwortet (Dativ Plural): denen.
+Das sind meine Großeltern, {_} ich jeden Sonntag schreibe.|die Großeltern|denen|die|den|Ich schreibe den Großeltern (Dativ Plural): denen.
+Das ist die Stadt, {_} ich wohne.|die Stadt|in der|in die|die|wohnen in (wo?) verlangt den Dativ: in der.
+Das ist der Freund, {_} ich ins Kino gehe.|der Freund|mit dem|mit den|mit der|Nach „mit“ steht der Dativ: mit dem.
+Das ist die Lehrerin, {_} ich mich gut erinnere.|die Lehrerin|an die|an der|die|sich erinnern an + Akkusativ: an die.
+Das ist das Geschenk, {_} ich mich sehr gefreut habe.|das Geschenk|über das|über dem|das|sich freuen über + Akkusativ: über das.
+Der Stuhl, {_} du sitzt, ist kaputt.|der Stuhl|auf dem|auf den|dem|sitzen auf (wo?) verlangt den Dativ: auf dem.
+Das ist die Freundin, {_} ich das Geschenk gekauft habe.|die Freundin|für die|für der|die|Nach „für“ steht der Akkusativ: für die.
+Das Zimmer, {_} ich schlafe, ist sehr klein.|das Zimmer|in dem|in das|das|schlafen in (wo?) verlangt den Dativ: in dem.
+Der Bus, {_} ich zur Schule fahre, ist immer voll.|der Bus|mit dem|mit den|dem|Nach „mit“ steht der Dativ: mit dem.
+Das ist der Park, {_} wir oft Fußball spielen.|der Park|in dem|in den|den|spielen in (wo?) verlangt den Dativ: in dem.
+Die Freunde, {_} ich am Wochenende spiele, wohnen in meiner Straße.|die Freunde|mit denen|mit den|mit die|Nach „mit“ steht der Dativ, im Plural: mit denen.
+Das ist ein Thema, {_} ich mich sehr interessiere.|das Thema|für das|für dem|das|sich interessieren für + Akkusativ: für das.
+Die Party, {_} du mich eingeladen hast, war super.|die Party|zu der|zu die|die|Nach „zu“ steht der Dativ: zu der.
+Der Hund, {_} ich Angst habe, wohnt nebenan.|der Hund|vor dem|vor den|den|Angst haben vor + Dativ: vor dem.
+Das ist die Person, {_} ich schon lange warte.|die Person|auf die|auf der|die|warten auf + Akkusativ: auf die.
+Der Freund, {_} ich ein Geschenk kaufe, hat morgen Geburtstag.|der Freund|für den|für dem|den|Nach „für“ steht der Akkusativ: für den.
+Das ist der Junge, {_} Vater Arzt ist.|der Junge|dessen|deren|den|Der Vater von dem Jungen: maskulin, also dessen.
+Lina ist das Mädchen, {_} Hund so süß ist.|das Mädchen|dessen|deren|dem|Der Hund von dem Mädchen: neutral, also dessen.
+Das ist die Frau, {_} Sohn in meiner Klasse ist.|die Frau|deren|dessen|der|Der Sohn von der Frau: feminin, also deren.
+Die Schüler, {_} Handys klingeln, müssen sie ausmachen.|die Schüler|deren|dessen|denen|Die Handys von den Schülern: Plural, also deren.
+Ich habe eine Freundin, {_} Eltern aus Japan kommen.|die Freundin|deren|dessen|der|Die Eltern von der Freundin: feminin, also deren.
+Die Frau, {_} wir im Bus getroffen haben, war unsere Lehrerin.|die Frau|die|der|den|Wir haben die Frau getroffen (Akkusativ): die.`}];
 function hashId(t){ let h=5381; for(let i=0;i<t.length;i++) h=((h<<5)+h+t.charCodeAt(i))>>>0; return h.toString(36); }
 const TSET={}, TITEM={};
 TOPIC_SETS.forEach(ts=>{ TSET[ts.stage]=ts; ts.rows=ts.data.trim()?ts.data.trim().split("\n").map(l=>l.split("|")):[]; });
@@ -1766,12 +2159,16 @@ function topicItems(){ const o=[], has=id=>STAGES.some(x=>x.id===id);
   if(has(19)) NSATZ.forEach((n,i)=>o.push({id:"ns:"+i, stage:19, kind:"nsatz", idx:i}));
   if(has(20)) KOMP.forEach(k=>{ o.push({id:"ko:"+k.adj+":K", stage:20, kind:"komp", word:k.adj, form:"K"}); o.push({id:"ko:"+k.adj+":S", stage:20, kind:"komp", word:k.adj, form:"S"}); });
   return o; }
+function maskAns(t,a){ const L="A-Za-zÄÖÜäöüß";   // Hilfe (?) zeigt die Regel, aber nicht die Lösung: "helfen verlangt den Dativ: …"
+  return !t||!a?(t||""):t.replace(new RegExp("(^|[^"+L+"])"+a+"(?=[^"+L+"]|$)","g"),"$1…").replace(/…\./g,"…"); }
 function topicCard(it){
   if(it.kind==="order"||it.kind==="cloze"){ const f=TITEM[it.id], ts=TSET[it.stage];
-    if(it.kind==="order") return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0],
-      scaffold:"Im Hauptsatz steht das konjugierte Verb an Position 2.", explain:f[3]||"", speak:f[0]};
-    return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">('+f[1]+')</div>',
-      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:f[5]||"", explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
+    if(it.kind==="order"){ const q=/\?$/.test(f[0]), w=q&&/^(\S+ )?(wann|was|wo|wohin|woher|warum|wie|wer|wen|wem|welche[rsnm]?)\b/i.test(f[0]);
+      return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0],
+      scaffold:!q?"Im Hauptsatz steht das konjugierte Verb an Position 2.":w?"In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).":"In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).",
+      explain:f[3]||"", speak:f[0]}; }
+    return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">'+(f[1].indexOf("(")>=0?f[1]:"("+f[1]+")")+'</div>',
+      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:maskAns(f[5],f[2]), explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
   const big='<div class="word" style="font-size:clamp(24px,7vw,34px)">';
   if(it.kind==="pres"||it.kind==="modal"){ const v=PBY[it.kind+":"+it.word], s=rnd(v.sents), corr=v.forms[s.p];
     const other=v.forms[s.p==="3s"?"2s":"3s"], reg=presRegular(v,s.p), opts=[corr];

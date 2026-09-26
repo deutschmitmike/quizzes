@@ -77,6 +77,18 @@ const GROUP={
   [
    20,
    "Komparativ"
+  ],
+  [
+   21,
+   "Satzbau"
+  ],
+  [
+   22,
+   "Pronomen Dativ"
+  ],
+  [
+   23,
+   "Reflexiv/Konjunktiv/Relativ"
   ]
  ],
  "zh": true,
@@ -148,6 +160,23 @@ const GROUP={
    [
     20
    ]
+  ],
+  [
+   [
+    21
+   ]
+  ],
+  [
+   [
+    22
+   ]
+  ],
+  [
+   [
+    23,
+    24,
+    25
+   ]
   ]
  ],
  "topicWeights": [
@@ -157,6 +186,9 @@ const GROUP={
   1,
   2,
   3,
+  2,
+  1,
+  1,
   2,
   1,
   1
@@ -319,7 +351,12 @@ const STAGES=[
  {id:17,name:"Präsens",desc:"ich fahre, du fährst, er fährt"},
  {id:18,name:"Modalverben",desc:"können, müssen, wollen, dürfen ..."},
  {id:19,name:"Nebensätze",desc:"weil, dass, wenn: Verb am Ende"},
- {id:20,name:"Komparativ",desc:"älter, am ältesten"}
+ {id:20,name:"Komparativ",desc:"älter, am ältesten"},
+ {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
+ {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
+ {id:23,name:"Reflexive Verben",desc:"ich freue mich, ich wasche mir die Hände"},
+ {id:24,name:"Konjunktiv II",desc:"hätte, wäre, würde, könnte"},
+ {id:25,name:"Relativsätze",desc:"der, den, dem, die, denen ..."}
 ];
 const INTRO={
  2:"Im Plural ist der Artikel immer die: der Ball → die Bälle, das Buch → die Bücher. Die Endung musst du mit jedem Nomen lernen, oft kommt ein Umlaut dazu.",

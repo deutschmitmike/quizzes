@@ -28,6 +28,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Keine Emojis auf Karten (Frage, Knöpfe, Lösung, Erklärung). Wortbilder nur als echte Fotos (Pexels), nie Emojis oder Illustrationen.
 - Homonyme mit zwei Genera nie aufnehmen (Kiefer, See, Tau, Schild …). Gestrichene Wörter: `~/Desktop/claude cowork/wortliste/streichliste.txt`.
 - Nomen kommen nach Häufigkeit dran (`NRANK`, Untertitel-Häufigkeit), Krimi- und Schimpfwörter spät.
+- Auswahlkarten (Lücke, Satzbau): **nur eine Option darf einen korrekten Satz ergeben**, auch umgangssprachlich nicht zwei. Beispiel: bei Konjunktiv II nie „können“ als Falschantwort in „___ Sie mir helfen?“. Die Hilfe (?) zeigt die Regel, nie die Lösung (`maskAns`).
 - Chinesische Bedeutung (Schalter `zh`) nur für Gruppen, die Chinesisch lesen: **Mia & Olivia ja, Kyana nein.** Traditionelle Zeichen, Taiwan-Wortschatz, Trenner „，“, keine Gedankenstriche.
 - Didaktik: keine Stufen ohne echten Schwierigkeitszuwachs, keine Mini-Spiele, aktive Korrektur (die richtige Lösung selbst antippen), **keine Selbstbewertungs-Knöpfe** (Ankis vier Knöpfe). Die Bewertung ergibt sich automatisch aus richtig/falsch und Antwortzeit.
 - Kyana: Bobby, Sammeltiere, Stufen werden nacheinander freigeschaltet, Einführungsseiten, 35 Karten, Extrarunden erlaubt, freier Name.

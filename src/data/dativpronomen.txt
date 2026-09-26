@@ -1,0 +1,85 @@
+Kannst du {_} bitte helfen?|ich|mir|mich|mein|helfen verlangt den Dativ: mir.
+Das Handy gehört {_}, nicht Ben.|ich|mir|mich|ich|gehören steht immer mit Dativ: mir.
+Die Nudeln schmecken {_} sehr gut.|ich|mir|mich|mein|schmecken verlangt den Dativ: mir.
+Wie geht es {_} heute?|du|dir|dich|du|„Wie geht es ...?“ steht mit Dativ: dir.
+Ich danke {_} für das Geschenk.|du|dir|dich|dein|danken verlangt den Dativ: dir.
+Gefällt {_} mein neues Kleid?|du|dir|dich|dein|gefallen verlangt den Dativ: dir.
+Ben hat Geburtstag, Mia schenkt {_} ein Buch.|er|ihm|ihn|sein|schenken + Person: Die Person steht im Dativ, also ihm.
+Ich gebe {_} morgen das Geld zurück.|er|ihm|ihn|er|zurückgeben + Person: Die Person steht im Dativ, also ihm.
+Mia hat Geburtstag, Olivia übernachtet heute bei {_}.|sie|ihr|sie|ihre|Nach „bei“ steht immer der Dativ: ihr.
+Wir fahren mit {_} ins Kino.|ihr|euch|euer|eure|Nach „mit“ steht immer der Dativ: euch.
+Die Lehrerin erklärt {_} die Aufgabe noch einmal.|wir|uns|wir|unser|erklären + Person: Die Person steht im Dativ, also uns.
+Warum antwortest du {_} nicht?|ich|mir|mich|ich|antworten verlangt den Dativ: mir.
+Die Farbe steht {_} wirklich gut.|du|dir|dich|dein|„Das steht dir gut“ hat den Dativ: dir.
+Die Schuhe passen {_} nicht mehr.|ich|mir|mich|mein|passen verlangt den Dativ: mir.
+Mia zeigt {_} ihre neuen Fotos.|wir|uns|wir|unser|zeigen + Person: Die Person steht im Dativ, also uns.
+Kannst du {_} bitte das Salz geben?|ich|mir|mich|ich|geben + Person: Die Person steht im Dativ, also mir.
+Warte, ich komme gleich zu {_}.|du|dir|dich|du|Nach „zu“ steht immer der Dativ: dir.
+Hast du schon etwas von {_} gehört?|er|ihm|ihn|sein|Nach „von“ steht immer der Dativ: ihm.
+Olivias Eltern sind nett, ich spreche gern mit {_}.|sie (Plural)|ihnen|sie|ihre|Nach „mit“ steht der Dativ, im Plural heißt das ihnen.
+Frau Weber, kann ich {_} helfen?|Sie|Ihnen|Sie|Ihr|helfen verlangt den Dativ, in der Höflichkeitsform: Ihnen.
+Das Spiel gefällt {_} nicht.|er|ihm|ihn|er|gefallen verlangt den Dativ: ihm.
+Ich schicke {_} später eine Nachricht.|du|dir|dich|dein|schicken + Person: Die Person steht im Dativ, also dir.
+Mias Bruder leiht {_} sein Fahrrad.|ich|mir|mich|mein|leihen + Person: Die Person steht im Dativ, also mir.
+Die Lehrerin gibt {_} ein paar Tipps für den Test.|sie (Plural)|ihnen|sie|ihre|geben + Person: Die Person steht im Dativ, im Plural ihnen.
+Der Film hat {_} gut gefallen.|wir|uns|wir|unser|gefallen verlangt den Dativ: uns.
+Gehört das Heft {_}?|du|dir|dich|dein|gehören verlangt den Dativ: dir.
+Ich gratuliere {_} zum Geburtstag!|du|dir|dich|du|gratulieren verlangt den Dativ: dir.
+Olivia hat Durst, ich bringe {_} ein Glas Wasser.|sie|ihr|sie|ihre|bringen + Person: Die Person steht im Dativ, also ihr.
+Ben ist krank, ich schreibe {_} eine Karte.|er|ihm|ihn|sein|schreiben + Person: Die Person steht im Dativ, also ihm.
+Tut {_} der Kopf weh?|du|dir|dich|dein|wehtun verlangt den Dativ: dir.
+Das tut {_} leid.|ich|mir|mich|mein|leidtun verlangt den Dativ: mir.
+Mias neue Frisur steht {_} gut.|sie|ihr|sie|ihre|„stehen“ im Sinn von „gut aussehen“ verlangt den Dativ: ihr.
+Kommst du mit {_} in die Stadt?|wir|uns|wir|unser|Nach „mit“ steht immer der Dativ: uns.
+Das ist nicht mein Buch, es gehört {_}.|er|ihm|ihn|er|gehören verlangt den Dativ: ihm.
+Kinder, ich erkläre {_} jetzt das Spiel.|ihr|euch|euer|eure|erklären + Person: Die Person steht im Dativ, also euch.
+Meine Großeltern sind alt, ich helfe {_} oft im Garten.|sie (Plural)|ihnen|sie|ihre|helfen verlangt den Dativ, im Plural ihnen.
+Das Baby weint, die Mutter gibt {_} die Flasche.|es|ihm|es|sein|geben + Person: Das Baby steht im Dativ, also ihm.
+Nach der Schule komme ich zu {_}.|ihr|euch|euer|eure|Nach „zu“ steht immer der Dativ: euch.
+Glaubst du {_} nicht?|ich|mir|mich|ich|glauben + Person verlangt den Dativ: mir.
+Frau Chen, ich danke {_} für Ihre Hilfe.|Sie|Ihnen|Sie|Ihr|danken verlangt den Dativ, höflich: Ihnen.
+Ben hört {_} nie zu.|ich|mir|mich|mein|zuhören verlangt den Dativ: mir.
+Die Katze folgt {_} überallhin.|er|ihm|ihn|sein|folgen verlangt den Dativ: ihm.
+Olivia hat Geburtstag, wir schenken {_} einen Blumenstrauß.|sie|ihr|sie|ihre|schenken + Person: Die Person steht im Dativ, also ihr.
+Ist {_} kalt? Soll ich das Fenster zumachen?|du|dir|dich|du|„Ist dir kalt?“ steht mit Dativ: dir.
+Wie gefällt {_} die neue Schule?|ihr|euch|euer|eure|gefallen verlangt den Dativ: euch.
+Die Lehrerin hat {_} eine gute Note gegeben.|ich|mir|mich|mein|geben + Person: Die Person steht im Dativ, also mir.
+Unsere Oma erzählt {_} oft Geschichten.|wir|uns|wir|unser|erzählen + Person: Die Person steht im Dativ, also uns.
+Mias Eltern haben {_} ein Handy gekauft.|sie|ihr|sie|ihre|kaufen für eine Person: Die Person steht im Dativ, also ihr.
+Wie schmeckt {_} die Suppe, Herr Wang?|Sie|Ihnen|Sie|Ihr|schmecken verlangt den Dativ, höflich: Ihnen.
+Ich wohne nicht weit von {_}.|ihr|euch|euer|eure|Nach „von“ steht immer der Dativ: euch.
+Das Baby lacht, die Kinder spielen gern mit {_}.|es|ihm|es|sein|Nach „mit“ steht der Dativ, bei „es“ heißt das ihm.
+Meine Freunde haben mir geholfen, ich danke {_}.|sie (Plural)|ihnen|sie|ihre|danken verlangt den Dativ, im Plural ihnen.
+Mias Bruder hat Angst, Mia geht mit {_} zum Arzt.|er|ihm|ihn|sein|Nach „mit“ steht immer der Dativ: ihm.
+Das Wochenende gehört {_}!|wir|uns|wir|unser|gehören verlangt den Dativ: uns.
+Hast du {_} die Wahrheit gesagt?|er|ihm|ihn|er|sagen + Person: Die Person steht im Dativ, also ihm.
+Meine Eltern sind in Deutschland, das Wetter gefällt {_} gar nicht.|sie (Plural)|ihnen|sie|ihre|gefallen verlangt den Dativ, im Plural ihnen.
+Ich zeige {_} mein Zimmer.|ihr|euch|euer|eure|zeigen + Person: Die Person steht im Dativ, also euch.
+Ich sehe {_} morgen in der Schule.|du|dich|dir|dein|sehen verlangt den Akkusativ: dich.
+Meine Großeltern wohnen in Tainan, wir besuchen {_} am Wochenende.|sie (Plural)|sie|ihnen|ihre|besuchen verlangt den Akkusativ: sie.
+Ruf {_} bitte heute Abend an!|ich|mich|mir|mein|anrufen verlangt den Akkusativ: mich.
+Das Geschenk ist für {_}.|du|dich|dir|dein|Nach „für“ steht immer der Akkusativ: dich.
+Ohne {_} gehe ich nicht ins Kino.|du|dich|dir|du|Nach „ohne“ steht immer der Akkusativ: dich.
+Olivia ist sehr nett, ich kenne {_} schon lange.|sie|sie|ihr|ihre|kennen verlangt den Akkusativ: sie.
+Wir holen {_} um acht Uhr ab.|ihr|euch|ihr|euer|abholen verlangt den Akkusativ: euch.
+Die Lehrerin fragt {_} nach den Hausaufgaben.|wir|uns|wir|unser|fragen verlangt den Akkusativ: uns.
+Ich vermisse {_} sehr.|du|dich|dir|dein|vermissen verlangt den Akkusativ: dich.
+Mias Bruder lädt {_} zu seiner Party ein.|ich|mich|mir|ich|einladen verlangt den Akkusativ: mich.
+Entschuldigung, störe ich {_}?|Sie|Sie|Ihnen|Ihr|stören verlangt den Akkusativ, höflich: Sie.
+Ben war nicht in der Schule, hast du {_} gesehen?|er|ihn|ihm|er|sehen verlangt den Akkusativ: ihn.
+Das Baby schläft, bitte weck {_} nicht auf!|es|es|ihm|sein|aufwecken verlangt den Akkusativ: es.
+Sprich bitte langsamer, ich verstehe {_} nicht.|du|dich|dir|dein|verstehen verlangt den Akkusativ: dich.
+Wo ist Olivia? Wir treffen {_} nach der Schule.|sie|sie|ihr|ihre|treffen verlangt den Akkusativ: sie.
+Heute spielen wir gegen {_}.|ihr|euch|ihr|euer|Nach „gegen“ steht immer der Akkusativ: euch.
+Die Blumen sind für {_}, Frau Lin.|Sie|Sie|Ihnen|Ihr|Nach „für“ steht der Akkusativ, höflich: Sie.
+Mama, ich liebe {_}!|du|dich|dir|du|lieben verlangt den Akkusativ: dich.
+Mias Bruder ist krank, Olivia ruft {_} heute an.|er|ihn|ihm|sein|anrufen verlangt den Akkusativ: ihn.
+Ohne {_} ist das Spiel langweilig.|ihr|euch|ihr|euer|Nach „ohne“ steht immer der Akkusativ: euch.
+Die Lehrerin lobt {_} für das tolle Projekt.|wir|uns|wir|unser|loben verlangt den Akkusativ: uns.
+Keine Angst, der Hund beißt {_} nicht.|du|dich|dir|dein|beißen verlangt den Akkusativ: dich.
+Ich warte vor der Schule auf {_}.|du|dich|dir|dein|„warten auf“ verlangt den Akkusativ: dich.
+Mia sieht ihre Freundinnen und umarmt {_}.|sie (Plural)|sie|ihnen|ihre|umarmen verlangt den Akkusativ: sie.
+Kennst du den neuen Schüler? Ich finde {_} sehr nett.|er|ihn|ihm|er|finden verlangt den Akkusativ: ihn.
+Komm bitte schnell, wir brauchen {_}!|du|dich|dir|dein|brauchen verlangt den Akkusativ: dich.
+Das Kätzchen ist so süß, ich möchte {_} streicheln.|es|es|ihm|sein|streicheln verlangt den Akkusativ: es.
+Herr Chen, wir haben {_} gestern im Supermarkt gesehen.|Sie|Sie|Ihnen|Ihr|sehen verlangt den Akkusativ, höflich: Sie.

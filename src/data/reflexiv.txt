@@ -1,0 +1,62 @@
+Ich freue {_} auf die Ferien.|ich|mich|mir|sich|sich freuen: ich freue mich.
+Ich wasche {_} die Hände.|ich|mir|mich|sich|Mit Objekt (die Hände) steht der Dativ: mir.
+Beeil {_}, der Bus kommt gleich!|du|dich|dir|sich|sich beeilen: du beeilst dich.
+Putzt du {_} jeden Abend die Zähne?|du|dir|dich|sich|Mit Objekt (die Zähne) steht der Dativ: dir.
+Ben beeilt {_}, denn der Unterricht beginnt gleich.|er|sich|ihn|ihm|In der 3. Person heißt das Reflexivpronomen immer sich.
+Mia freut {_} auf ihren Geburtstag.|sie|sich|sie|ihr|In der 3. Person Singular heißt es sich: Mia freut sich.
+Wir treffen {_} um drei Uhr im Park.|wir|uns|sich|unser|Bei „wir“ heißt das Reflexivpronomen uns.
+Ihr müsst {_} beeilen!|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch.
+Ich interessiere {_} für Basketball.|ich|mich|mir|sich|sich interessieren für: ich interessiere mich.
+Fühlst du {_} heute besser?|du|dich|dir|sich|sich fühlen: du fühlst dich.
+Ich habe {_} erkältet.|ich|mich|mir|sich|sich erkälten: ich habe mich erkältet.
+Ich kaufe {_} ein neues Handy.|ich|mir|mich|sich|Mit Objekt (ein neues Handy) steht der Dativ: mir.
+Zieh {_} eine Jacke an, es ist kalt!|du|dir|dich|sich|Mit Objekt (eine Jacke) steht der Dativ: dir.
+Ich ziehe {_} schnell an.|ich|mich|mir|sich|Ohne weiteres Objekt steht der Akkusativ: mich.
+Ich kann {_} die Nummer nicht merken.|ich|mir|mich|sich|sich etwas merken: Das Reflexivpronomen steht im Dativ, also mir.
+Was wünschst du {_} zum Geburtstag?|du|dir|dich|sich|sich etwas wünschen: Dativ, also dir.
+Darf ich {_} vorstellen? Ich heiße Olivia.|ich|mich|mir|sich|sich vorstellen im Sinn von „seinen Namen sagen“: Akkusativ, also mich.
+Ich stelle {_} das Leben in Deutschland spannend vor.|ich|mir|mich|sich|sich etwas vorstellen im Sinn von „im Kopf sehen“: Dativ, also mir.
+Mein Vater erholt {_} im Urlaub.|er|sich|ihn|ihm|In der 3. Person heißt das Reflexivpronomen sich.
+Die Kinder freuen {_} auf die Ferien.|sie (Plural)|sich|sie|ihnen|Auch im Plural heißt es in der 3. Person sich.
+Mia und Olivia verabreden {_} für Samstag.|sie (Plural)|sich|sie|ihnen|sich verabreden: Mia und Olivia verabreden sich.
+Das Baby hat {_} erkältet.|es|sich|es|ihm|Auch bei „es“ heißt das Reflexivpronomen sich.
+Die Schüler bedanken {_} bei der Lehrerin.|sie (Plural)|sich|sie|ihnen|sich bedanken: Die Schüler bedanken sich.
+Herr Wang, beeilen Sie {_} bitte!|Sie|sich|Sie|Ihnen|Bei der Höflichkeitsform „Sie“ heißt das Reflexivpronomen sich, klein geschrieben.
+Frau Lin, freuen Sie {_} auf die Reise?|Sie|sich|Sie|Ihnen|Bei „Sie“ steht als Reflexivpronomen sich.
+Ich ärgere {_} über die schlechte Note.|ich|mich|mir|sich|sich ärgern: ich ärgere mich.
+Hast du {_} schon bei Oma bedankt?|du|dich|dir|sich|sich bedanken: du hast dich bedankt.
+Ich dusche {_} jeden Morgen.|ich|mich|mir|sich|sich duschen: ich dusche mich.
+Setz {_} bitte neben mich!|du|dich|dir|sich|sich setzen: setz dich.
+Ich kann {_} heute nicht konzentrieren.|ich|mich|mir|sich|sich konzentrieren: ich konzentriere mich.
+Erinnerst du {_} an unseren ersten Schultag?|du|dich|dir|sich|sich erinnern an: du erinnerst dich.
+Wir haben {_} im Wald verlaufen.|wir|uns|sich|unser|Bei „wir“ heißt das Reflexivpronomen uns.
+Freut ihr {_} auf das Wochenende?|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch.
+Entschuldige {_} bei deiner Schwester!|du|dich|dir|sich|sich entschuldigen: entschuldige dich.
+Ich lege {_} kurz aufs Sofa.|ich|mich|mir|sich|sich legen: ich lege mich.
+Wir unterhalten {_} oft über Filme.|wir|uns|sich|unser|sich unterhalten: wir unterhalten uns.
+Ihr streitet {_} schon wieder!|ihr|euch|sich|euer|sich streiten: ihr streitet euch.
+Ich bereite {_} auf den Test vor.|ich|mich|mir|sich|sich vorbereiten auf: ich bereite mich vor.
+Ich mache {_} Sorgen um meinen Hund.|ich|mir|mich|sich|sich Sorgen machen: Mit Objekt (Sorgen) steht der Dativ, also mir.
+Hast du {_} wehgetan?|du|dir|dich|sich|sich wehtun: Das Reflexivpronomen steht im Dativ, also dir.
+Ich habe {_} das Bein gebrochen.|ich|mir|mich|sich|Mit Objekt (das Bein) steht der Dativ: mir.
+Kämmst du {_} die Haare?|du|dir|dich|sich|Mit Objekt (die Haare) steht der Dativ: dir.
+Überleg {_} das gut!|du|dir|dich|sich|sich etwas überlegen: Dativ, also dir.
+Wascht {_} bitte die Hände!|ihr|euch|sich|euer|Bei „ihr“ heißt das Reflexivpronomen euch, auch mit Objekt.
+Wir sehen {_} heute Abend einen Film an.|wir|uns|sich|unser|sich etwas ansehen: Bei „wir“ heißt es uns.
+Nimm {_} ruhig noch ein Stück Kuchen!|du|dir|dich|sich|sich etwas nehmen: Dativ, also dir.
+Ich leihe {_} in der Bibliothek ein Buch aus.|ich|mir|mich|sich|sich etwas ausleihen: Dativ, also mir.
+Ben putzt {_} die Zähne.|er|sich|ihn|er|In der 3. Person heißt es sich, auch mit Objekt.
+Mia kämmt {_} die Haare.|sie|sich|sie|ihre|In der 3. Person heißt das Reflexivpronomen immer sich.
+Olivia kauft {_} ein neues Kleid.|sie|sich|sie|ihre|sich etwas kaufen: In der 3. Person heißt es sich.
+Mein Bruder wünscht {_} ein Fahrrad.|er|sich|ihn|sein|sich etwas wünschen: In der 3. Person heißt es sich.
+Ben schämt {_} für seinen Fehler.|er|sich|ihn|ihm|sich schämen: Ben schämt sich.
+Mias Oma kümmert {_} um den Garten.|sie|sich|sie|ihr|sich kümmern um: In der 3. Person heißt es sich.
+Olivia hat {_} verspätet.|sie|sich|sie|ihr|sich verspäten: Olivia hat sich verspätet.
+Meine Eltern ruhen {_} am Sonntag aus.|sie (Plural)|sich|sie|ihnen|sich ausruhen: Meine Eltern ruhen sich aus.
+Nehmen Sie {_} bitte einen Stuhl, Frau Chen.|Sie|sich|Sie|Ihnen|Bei „Sie“ heißt das Reflexivpronomen sich.
+Ich muss {_} noch umziehen.|ich|mich|mir|sich|sich umziehen: ich ziehe mich um.
+Wir langweilen {_} in den Ferien nie.|wir|uns|sich|unser|sich langweilen: wir langweilen uns.
+Hast du {_} für den Kurs angemeldet?|du|dich|dir|sich|sich anmelden: du hast dich angemeldet.
+Ich kümmere {_} um meine kleine Schwester.|ich|mich|mir|sich|sich kümmern um: ich kümmere mich.
+Das Mädchen freut {_} über das Geschenk.|es|sich|es|ihm|Auch bei „es“ (das Mädchen) heißt es sich.
+Mias Bruder hat {_} verliebt.|er|sich|ihn|ihm|sich verlieben: In der 3. Person heißt es sich.

@@ -1,0 +1,92 @@
+Morgen gehe ich ins Kino.|Morgen ich gehe ins Kino.|Morgen ins Kino ich gehe.|Das Verb steht an Position 2, auch wenn der Satz mit „Morgen“ beginnt.
+Heute spielt Mia Tennis.|Heute Mia spielt Tennis.|Heute Tennis Mia spielt.|„Heute“ ist Position 1, danach kommt sofort das Verb „spielt“ und dann „Mia“.
+Am Wochenende besuchen wir unsere Oma.|Am Wochenende wir besuchen unsere Oma.|Wir am Wochenende besuchen unsere Oma.|„Am Wochenende“ steht auf Position 1, deshalb kommt das Verb vor „wir“.
+Nach der Schule macht Ben seine Hausaufgaben.|Nach der Schule Ben macht seine Hausaufgaben.|Nach der Schule Ben seine Hausaufgaben macht.|„Nach der Schule“ ist ein Satzteil auf Position 1, danach folgt direkt das Verb.
+Jeden Morgen trinkt Olivia einen Tee.|Jeden Morgen Olivia trinkt einen Tee.|Jeden Morgen einen Tee Olivia trinkt.|Die Zeitangabe steht auf Position 1, das Verb „trinkt“ auf Position 2.
+Am Montag haben wir Sport.|Am Montag wir haben Sport.|Wir am Montag haben Sport.|Nach „Am Montag“ steht das Verb „haben“, erst dann kommt „wir“.
+Um sieben Uhr steht Mias Bruder auf.|Um sieben Uhr Mias Bruder steht auf.|Mias Bruder um sieben Uhr steht auf.|Das Verb „steht“ kommt auf Position 2, „auf“ geht ans Satzende.
+Im Sommer fahren wir nach Deutschland.|Im Sommer wir fahren nach Deutschland.|Im Sommer nach Deutschland wir fahren.|Nach der Zeitangabe „Im Sommer“ kommt zuerst das Verb, dann das Subjekt.
+Heute Abend sieht Olivia einen Film.|Heute Abend Olivia sieht einen Film.|Heute Abend einen Film Olivia sieht.|„Heute Abend“ zählt als ein Satzteil, das Verb steht direkt danach.
+Jetzt habe ich keine Zeit.|Jetzt ich habe keine Zeit.|Ich jetzt habe keine Zeit.|Auch nach einem kurzen Wort wie „Jetzt“ steht das Verb auf Position 2.
+In der Pause isst Ben einen Apfel.|In der Pause Ben isst einen Apfel.|In der Pause einen Apfel Ben isst.|„In der Pause“ ist Position 1, das Verb „isst“ folgt sofort.
+Am Freitag schreiben wir einen Mathetest.|Am Freitag wir schreiben einen Mathetest.|Wir am Freitag schreiben einen Mathetest.|Das Verb „schreiben“ steht auf Position 2, das Subjekt „wir“ danach.
+Abends liest meine Mutter gern.|Abends meine Mutter liest gern.|Abends meine Mutter gern liest.|„Abends“ steht vorne, deshalb kommt „liest“ vor dem Subjekt.
+Manchmal spiele ich am Handy.|Manchmal ich spiele am Handy.|Ich manchmal spiele am Handy.|„Manchmal“ ist Position 1, das Verb muss direkt danach kommen.
+Nächste Woche hat Mia Geburtstag.|Nächste Woche Mia hat Geburtstag.|Nächste Woche Mia Geburtstag hat.|Nach „Nächste Woche“ steht das Verb „hat“ auf Position 2.
+Am Nachmittag trifft Olivia ihre Freundinnen.|Am Nachmittag Olivia trifft ihre Freundinnen.|Am Nachmittag ihre Freundinnen Olivia trifft.|Die Zeitangabe ist Position 1, danach kommt sofort „trifft“.
+Vor dem Unterricht lernt Ben Vokabeln.|Vor dem Unterricht Ben lernt Vokabeln.|Vor dem Unterricht Vokabeln Ben lernt.|„Vor dem Unterricht“ ist Position 1, das Verb steht auf Position 2.
+Nach dem Abendessen spülen wir das Geschirr.|Nach dem Abendessen wir spülen das Geschirr.|Nach dem Abendessen wir das Geschirr spülen.|Im Hauptsatz steht das Verb auf Position 2, nicht am Ende.
+Am Sonntag schlafen wir lange.|Am Sonntag wir schlafen lange.|Wir am Sonntag schlafen lange.|„Am Sonntag“ ist Position 1, deshalb steht „schlafen“ vor „wir“.
+Gestern habe ich einen Film gesehen.|Gestern ich habe einen Film gesehen.|Gestern habe gesehen ich einen Film.|Im Perfekt steht „habe“ auf Position 2 und das Partizip „gesehen“ am Ende.
+Letzte Woche ist Olivia nach Taipeh gefahren.|Letzte Woche Olivia ist nach Taipeh gefahren.|Letzte Woche ist gefahren Olivia nach Taipeh.|„ist“ steht auf Position 2, das Partizip „gefahren“ am Satzende.
+Am Samstag muss ich mein Zimmer aufräumen.|Am Samstag ich muss mein Zimmer aufräumen.|Am Samstag muss aufräumen ich mein Zimmer.|Das Modalverb „muss“ steht auf Position 2, der Infinitiv „aufräumen“ am Ende.
+Heute Abend will Ben früh ins Bett gehen.|Heute Abend Ben will früh ins Bett gehen.|Heute Abend will gehen Ben früh ins Bett.|„will“ steht auf Position 2, der Infinitiv „gehen“ ganz am Ende.
+Nach der Schule haben wir Basketball gespielt.|Nach der Schule wir haben Basketball gespielt.|Nach der Schule haben gespielt wir Basketball.|Das Hilfsverb „haben“ steht auf Position 2, „gespielt“ am Satzende.
+Gestern Abend hat Mia ihre Oma angerufen.|Gestern Abend Mia hat ihre Oma angerufen.|Gestern Abend hat angerufen Mia ihre Oma.|„hat“ steht auf Position 2, das Partizip „angerufen“ am Ende.
+Morgen kann ich leider nicht kommen.|Morgen ich kann leider nicht kommen.|Morgen kann kommen ich leider nicht.|Das Modalverb „kann“ steht auf Position 2, „kommen“ am Satzende.
+In den Ferien möchte Olivia nach Japan fliegen.|In den Ferien Olivia möchte nach Japan fliegen.|In den Ferien möchte fliegen Olivia nach Japan.|„möchte“ steht auf Position 2, der Infinitiv „fliegen“ am Ende.
+Letztes Jahr hat Ben Gitarre gelernt.|Letztes Jahr Ben hat Gitarre gelernt.|Letztes Jahr hat gelernt Ben Gitarre.|Im Perfekt steht „hat“ auf Position 2 und „gelernt“ am Ende.
+Heute Morgen habe ich den Bus verpasst.|Heute Morgen ich habe den Bus verpasst.|Heute Morgen habe verpasst ich den Bus.|„habe“ steht auf Position 2, das Partizip „verpasst“ am Satzende.
+Vorhin hat die Lehrerin die Tests zurückgegeben.|Vorhin die Lehrerin hat die Tests zurückgegeben.|Vorhin hat zurückgegeben die Lehrerin die Tests.|„hat“ steht auf Position 2, das Partizip „zurückgegeben“ ganz am Ende.
+In Taiwan ist es im Sommer sehr heiß.|In Taiwan es ist im Sommer sehr heiß.|Es in Taiwan ist im Sommer sehr heiß.|„In Taiwan“ steht auf Position 1, deshalb kommt „ist“ vor „es“.
+Im Park spielen die Kinder Fußball.|Im Park die Kinder spielen Fußball.|Im Park Fußball die Kinder spielen.|Die Ortsangabe „Im Park“ ist Position 1, das Verb „spielen“ folgt direkt.
+In der Schule tragen wir eine Uniform.|In der Schule wir tragen eine Uniform.|In der Schule eine Uniform wir tragen.|Nach der Ortsangabe steht das Verb „tragen“ auf Position 2.
+Zu Hause spricht Mia Chinesisch.|Zu Hause Mia spricht Chinesisch.|Zu Hause Chinesisch Mia spricht.|„Zu Hause“ ist Position 1, danach kommt sofort „spricht“.
+In Deutschland essen viele Leute Brot zum Frühstück.|In Deutschland viele Leute essen Brot zum Frühstück.|In Deutschland viele Leute Brot zum Frühstück essen.|Nach „In Deutschland“ steht das Verb, dann das Subjekt „viele Leute“.
+Im Supermarkt kauft Ben Milch und Brot.|Im Supermarkt Ben kauft Milch und Brot.|Im Supermarkt Milch und Brot Ben kauft.|„Im Supermarkt“ steht vorne, das Verb „kauft“ auf Position 2.
+In der Bibliothek muss man leise sein.|In der Bibliothek man muss leise sein.|In der Bibliothek muss sein man leise.|„muss“ steht auf Position 2, der Infinitiv „sein“ am Ende.
+Auf dem Schulhof wartet Olivia auf ihre Freundin.|Auf dem Schulhof Olivia wartet auf ihre Freundin.|Auf dem Schulhof auf ihre Freundin Olivia wartet.|Die Ortsangabe ist Position 1, danach folgt das Verb „wartet“.
+Im Bus hört Ben immer Musik.|Im Bus Ben hört immer Musik.|Im Bus immer Musik Ben hört.|Nach „Im Bus“ kommt das Verb „hört“, dann das Subjekt.
+Im Kino haben wir Popcorn gegessen.|Im Kino wir haben Popcorn gegessen.|Im Kino haben gegessen wir Popcorn.|„haben“ steht auf Position 2, das Partizip „gegessen“ am Ende.
+Am Strand macht Mia viele Fotos.|Am Strand Mia macht viele Fotos.|Am Strand viele Fotos Mia macht.|„Am Strand“ ist Position 1, das Verb „macht“ steht direkt danach.
+Bei meiner Oma gibt es immer leckeres Essen.|Bei meiner Oma es gibt immer leckeres Essen.|Bei meiner Oma immer leckeres Essen es gibt.|Auch bei „es gibt“ steht das Verb auf Position 2: „gibt es“.
+In meinem Zimmer habe ich einen großen Schreibtisch.|In meinem Zimmer ich habe einen großen Schreibtisch.|In meinem Zimmer ich einen großen Schreibtisch habe.|Nach der Ortsangabe steht das Verb „habe“ auf Position 2, nicht am Ende.
+Den Film finde ich spannend.|Den Film ich finde spannend.|Ich den Film finde spannend.|Auch wenn das Objekt „Den Film“ vorne steht, bleibt das Verb auf Position 2.
+Diese Musik mag Olivia sehr.|Diese Musik Olivia mag sehr.|Olivia diese Musik mag sehr.|Das Objekt steht auf Position 1, das Verb „mag“ trotzdem auf Position 2.
+Das Buch habe ich schon gelesen.|Das Buch ich habe schon gelesen.|Das Buch habe gelesen ich schon.|„habe“ steht auf Position 2, das Partizip „gelesen“ am Ende.
+Pizza isst Ben am liebsten.|Pizza Ben isst am liebsten.|Ben Pizza isst am liebsten.|Das Objekt „Pizza“ ist Position 1, danach kommt direkt das Verb „isst“.
+Meine Katze liebe ich sehr.|Meine Katze ich liebe sehr.|Ich meine Katze liebe sehr.|Auch mit dem Objekt vorne steht das Verb „liebe“ auf Position 2.
+Die Hausaufgaben mache ich nach dem Essen.|Die Hausaufgaben ich mache nach dem Essen.|Ich die Hausaufgaben mache nach dem Essen.|„Die Hausaufgaben“ ist Position 1, das Verb „mache“ folgt direkt.
+Mathe finde ich schwer.|Mathe ich finde schwer.|Ich Mathe finde schwer.|Das Objekt „Mathe“ steht vorne, das Verb „finde“ auf Position 2.
+Dieses Spiel kennt Mias Bruder noch nicht.|Dieses Spiel Mias Bruder kennt noch nicht.|Mias Bruder dieses Spiel kennt noch nicht.|Nach dem Objekt „Dieses Spiel“ kommt sofort das Verb „kennt“.
+Den Kuchen hat Mia selbst gebacken.|Den Kuchen Mia hat selbst gebacken.|Den Kuchen hat gebacken Mia selbst.|„hat“ steht auf Position 2, das Partizip „gebacken“ am Ende.
+Ihr Handy hat Olivia im Bus vergessen.|Ihr Handy Olivia hat im Bus vergessen.|Ihr Handy hat vergessen Olivia im Bus.|„hat“ steht auf Position 2, „vergessen“ ganz am Ende.
+Diese Jacke möchte ich gern kaufen.|Diese Jacke ich möchte gern kaufen.|Diese Jacke möchte kaufen ich gern.|Das Modalverb „möchte“ steht auf Position 2, der Infinitiv „kaufen“ am Ende.
+Deinen Bruder kenne ich nicht.|Deinen Bruder ich kenne nicht.|Ich deinen Bruder kenne nicht.|„Deinen Bruder“ ist Position 1, deshalb kommt „kenne“ vor „ich“.
+Leider ist Ben heute krank.|Leider Ben ist heute krank.|Ben leider ist heute krank.|„Leider“ zählt als Position 1, danach kommt sofort das Verb „ist“.
+Vielleicht regnet es morgen.|Vielleicht es regnet morgen.|Es vielleicht regnet morgen.|„Vielleicht“ steht auf Position 1, das Verb „regnet“ folgt direkt.
+Zum Glück hat Ben sein Handy gefunden.|Zum Glück Ben hat sein Handy gefunden.|Zum Glück hat gefunden Ben sein Handy.|„Zum Glück“ ist Position 1, danach kommt „hat“, und „gefunden“ steht am Ende.
+Plötzlich klingelt mein Handy.|Plötzlich mein Handy klingelt.|Mein Handy plötzlich klingelt.|„Plötzlich“ steht vorne, deshalb kommt das Verb vor „mein Handy“.
+Oft sehen wir abends zusammen fern.|Oft wir sehen abends zusammen fern.|Wir oft sehen abends zusammen fern.|„Oft“ ist Position 1, das Verb „sehen“ steht auf Position 2 und „fern“ am Ende.
+Deshalb bleibe ich heute zu Hause.|Deshalb ich bleibe heute zu Hause.|Ich deshalb bleibe heute zu Hause.|Nach „Deshalb“ steht das Verb auf Position 2, das Subjekt folgt danach.
+Dann gehen wir zusammen nach Hause.|Dann wir gehen zusammen nach Hause.|Dann wir zusammen nach Hause gehen.|„Dann“ ist Position 1, das Verb „gehen“ muss direkt danach kommen.
+Danach spielt Ben am Computer.|Danach Ben spielt am Computer.|Danach am Computer Ben spielt.|Nach „Danach“ steht das Verb „spielt“ auf Position 2.
+Trotzdem geht Mia zur Schule.|Trotzdem Mia geht zur Schule.|Mia trotzdem geht zur Schule.|„Trotzdem“ steht auf Position 1, deshalb kommt „geht“ vor „Mia“.
+Deswegen lernt Olivia jeden Tag Vokabeln.|Deswegen Olivia lernt jeden Tag Vokabeln.|Olivia deswegen lernt jeden Tag Vokabeln.|„Deswegen“ ist Position 1, das Verb „lernt“ steht direkt danach.
+Außerdem habe ich keine Lust.|Außerdem ich habe keine Lust.|Ich außerdem habe keine Lust.|Nach „Außerdem“ folgt sofort das Verb, dann das Subjekt „ich“.
+Leider kann ich heute nicht mitkommen.|Leider ich kann heute nicht mitkommen.|Leider kann mitkommen ich heute nicht.|„kann“ steht auf Position 2, der Infinitiv „mitkommen“ am Ende.
+Darum trinkt Mias Bruder keinen Kaffee.|Darum Mias Bruder trinkt keinen Kaffee.|Mias Bruder darum trinkt keinen Kaffee.|Nach „Darum“ steht das Verb auf Position 2, dann das Subjekt.
+Dann bestellen wir eine Pizza.|Dann wir bestellen eine Pizza.|Wir dann bestellen eine Pizza.|„Dann“ steht auf Position 1, deshalb kommt „bestellen“ vor „wir“.
+Danach müssen wir noch einkaufen.|Danach wir müssen noch einkaufen.|Danach müssen einkaufen wir noch.|Das Modalverb „müssen“ steht auf Position 2, „einkaufen“ am Ende.
+Trotzdem hat Olivia den Test bestanden.|Trotzdem Olivia hat den Test bestanden.|Trotzdem hat bestanden Olivia den Test.|„hat“ steht auf Position 2, das Partizip „bestanden“ am Ende.
+Deshalb muss Ben heute früh aufstehen.|Deshalb Ben muss heute früh aufstehen.|Deshalb muss aufstehen Ben heute früh.|Nach „Deshalb“ kommt „muss“, der Infinitiv „aufstehen“ steht am Ende.
+Sonst kommen wir zu spät.|Sonst wir kommen zu spät.|Wir sonst kommen zu spät.|„Sonst“ ist Position 1, das Verb „kommen“ folgt direkt.
+Wann fährst du nach Hause?|Wann du fährst nach Hause?|Wann nach Hause du fährst?|In W-Fragen steht das Verb direkt nach dem Fragewort auf Position 2.
+Was machst du am Wochenende?|Was du machst am Wochenende?|Was am Wochenende du machst?|Nach dem Fragewort „Was“ kommt sofort das Verb „machst“.
+Wo wohnt Olivia jetzt?|Wo Olivia wohnt jetzt?|Olivia wo wohnt jetzt?|Das Verb „wohnt“ steht direkt nach dem Fragewort „Wo“.
+Warum lernst du Deutsch?|Warum du lernst Deutsch?|Du warum lernst Deutsch?|Nach „Warum“ kommt zuerst das Verb, dann das Subjekt.
+Wie findest du den Film?|Wie du findest den Film?|Wie den Film du findest?|Nach dem Fragewort „Wie“ steht das Verb auf Position 2.
+Wohin fahrt ihr in den Ferien?|Wohin ihr fahrt in den Ferien?|Wohin in den Ferien ihr fahrt?|„Wohin“ ist Position 1, das Verb „fahrt“ steht direkt danach.
+Mit wem spielt Ben Badminton?|Mit wem Ben spielt Badminton?|Ben mit wem spielt Badminton?|„Mit wem“ ist ein Satzteil auf Position 1, danach kommt das Verb.
+Was hast du gestern gemacht?|Was du hast gestern gemacht?|Was hast gemacht du gestern?|„hast“ steht nach dem Fragewort auf Position 2, „gemacht“ am Ende.
+Wann musst du morgen aufstehen?|Wann du musst morgen aufstehen?|Wann musst aufstehen du morgen?|„musst“ steht auf Position 2, der Infinitiv „aufstehen“ am Ende.
+Wo kauft Mia ihre Kleidung?|Wo Mia kauft ihre Kleidung?|Mia wo kauft ihre Kleidung?|Nach dem Fragewort „Wo“ kommt direkt das Verb „kauft“.
+Welche Sprachen sprichst du zu Hause?|Welche Sprachen du sprichst zu Hause?|Welche Sprachen zu Hause du sprichst?|„Welche Sprachen“ ist Position 1, das Verb „sprichst“ folgt direkt.
+Wie lange schläfst du am Wochenende?|Wie lange du schläfst am Wochenende?|Wie lange am Wochenende du schläfst?|„Wie lange“ zählt als Position 1, danach steht das Verb.
+Was möchtest du trinken?|Was du möchtest trinken?|Was möchtest trinken du?|„möchtest“ steht auf Position 2, der Infinitiv „trinken“ am Ende.
+Hast du morgen Zeit?|Du morgen hast Zeit?|Morgen du hast Zeit?|Bei Ja/Nein-Fragen steht das Verb auf Position 1.
+Spielst du gern Fußball?|Du gern spielst Fußball?|Gern du spielst Fußball?|In einer Ja/Nein-Frage steht das Verb ganz vorne.
+Kommt Olivia heute mit?|Olivia heute kommt mit?|Heute Olivia kommt mit?|Die Ja/Nein-Frage beginnt mit dem Verb „Kommt“, „mit“ steht am Ende.
+Kannst du mir helfen?|Du mir kannst helfen?|Mir du kannst helfen?|In der Ja/Nein-Frage steht „Kannst“ auf Position 1, „helfen“ am Ende.
+Hast du die Hausaufgaben gemacht?|Du die Hausaufgaben hast gemacht?|Hast gemacht du die Hausaufgaben?|„Hast“ steht auf Position 1, das Partizip „gemacht“ am Ende.
+Habt ihr heute Sport?|Ihr heute habt Sport?|Heute ihr habt Sport?|Bei Ja/Nein-Fragen steht das Verb „Habt“ auf Position 1.

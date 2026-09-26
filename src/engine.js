@@ -648,12 +648,16 @@ function topicItems(){ const o=[], has=id=>STAGES.some(x=>x.id===id);
   if(has(19)) NSATZ.forEach((n,i)=>o.push({id:"ns:"+i, stage:19, kind:"nsatz", idx:i}));
   if(has(20)) KOMP.forEach(k=>{ o.push({id:"ko:"+k.adj+":K", stage:20, kind:"komp", word:k.adj, form:"K"}); o.push({id:"ko:"+k.adj+":S", stage:20, kind:"komp", word:k.adj, form:"S"}); });
   return o; }
+function maskAns(t,a){ const L="A-Za-zÄÖÜäöüß";   // Hilfe (?) zeigt die Regel, aber nicht die Lösung: "helfen verlangt den Dativ: …"
+  return !t||!a?(t||""):t.replace(new RegExp("(^|[^"+L+"])"+a+"(?=[^"+L+"]|$)","g"),"$1…").replace(/…\./g,"…"); }
 function topicCard(it){
   if(it.kind==="order"||it.kind==="cloze"){ const f=TITEM[it.id], ts=TSET[it.stage];
-    if(it.kind==="order") return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0],
-      scaffold:"Im Hauptsatz steht das konjugierte Verb an Position 2.", explain:f[3]||"", speak:f[0]};
-    return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">('+f[1]+')</div>',
-      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:f[5]||"", explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
+    if(it.kind==="order"){ const q=/\?$/.test(f[0]), w=q&&/^(\S+ )?(wann|was|wo|wohin|woher|warum|wie|wer|wen|wem|welche[rsnm]?)\b/i.test(f[0]);
+      return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0],
+      scaffold:!q?"Im Hauptsatz steht das konjugierte Verb an Position 2.":w?"In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).":"In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).",
+      explain:f[3]||"", speak:f[0]}; }
+    return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">'+(f[1].indexOf("(")>=0?f[1]:"("+f[1]+")")+'</div>',
+      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:maskAns(f[5],f[2]), explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
   const big='<div class="word" style="font-size:clamp(24px,7vw,34px)">';
   if(it.kind==="pres"||it.kind==="modal"){ const v=PBY[it.kind+":"+it.word], s=rnd(v.sents), corr=v.forms[s.p];
     const other=v.forms[s.p==="3s"?"2s":"3s"], reg=presRegular(v,s.p), opts=[corr];

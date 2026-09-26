@@ -1,0 +1,60 @@
+Ich {_} gern eine Cola.|haben (Wunsch, höflich)|hätte|hättest|hatte|Höflicher Wunsch: ich hätte gern.
+Wir {_} gern zwei Stück Kuchen, bitte.|haben (Wunsch, höflich)|hätten|haben|hatten|Beim Bestellen sagt man höflich: wir hätten gern.
+Was {_} du gern zum Geburtstag?|haben (Wunsch)|hättest|hätte|hattest|Einen Wunsch drückt man mit dem Konjunktiv II aus: du hättest gern.
+Ich {_} jetzt schlafen gehen, ich bin sehr müde.|mögen (Wunsch)|möchte|möchtest|mochte|Einen Wunsch drückt man mit „möchte“ aus.
+Mia {_} später Ärztin werden.|mögen (Wunsch)|möchte|möchten|mochte|Einen Wunsch für die Zukunft drückt man mit „möchte“ aus.
+Ich {_} so gern einen Hund haben.|werden (Wunsch)|würde|werde|wurde|Einen Wunsch drückt man mit „würde gern“ aus.
+Olivia {_} gern einmal nach Deutschland fahren.|werden (Wunsch)|würde|würdest|wurde|Wunsch: würde gern + Infinitiv.
+Wir {_} gern mit euch ins Kino gehen.|werden (Wunsch)|würden|würdet|wurden|Wunsch: wir würden gern + Infinitiv.
+Ich {_} gern, wie spät es ist.|wissen (höflich)|wüsste|weiß|wusste|Höflich fragt man mit „Ich wüsste gern“.
+Entschuldigung, {_} Sie mir bitte helfen?|können (höfliche Bitte)|könnten|könntest|konnten|Eine höfliche Bitte formuliert man mit „könnten“.
+Mama, {_} du mich nach der Schule abholen?|können (höfliche Bitte)|könntest|könnte|konntest|Eine höfliche Bitte an „du“ formuliert man mit „könntest“.
+Herr Chen, {_} ich kurz das Fenster aufmachen?|dürfen (höfliche Bitte)|dürfte|dürftest|durfte|Sehr höflich fragt man mit „dürfte ich“.
+Ben, {_} du bitte das Licht ausmachen?|werden (höfliche Bitte)|würdest|würde|wurdest|Eine höfliche Bitte formuliert man auch mit „würdest“ + Infinitiv.
+Frau Weber, {_} Sie den Satz noch einmal erklären?|können (höfliche Bitte)|könnten|könntest|konnten|Höflich bittet man mit „könnten Sie“.
+Wie {_} es mit einem Eis?|sein (Vorschlag)|wäre|wären|war|„Wie wäre es mit ...“ ist ein typischer Vorschlag im Konjunktiv II.
+Wenn ich Zeit {_}, würde ich mitkommen.|haben (irreal)|hätte|hättest|hatte|Eine irreale Bedingung steht im Konjunktiv II: wenn ich Zeit hätte.
+Wenn ich reich {_}, würde ich eine Weltreise machen.|sein (irreal)|wäre|wärst|war|Irreale Bedingung: wenn ich reich wäre.
+Wenn Ben mehr lernen {_}, hätte er bessere Noten.|werden (irreal)|würde|wird|wurde|Irreale Bedingung mit „würde“: wenn Ben mehr lernen würde.
+Wenn es nicht so heiß {_}, könnten wir Fußball spielen.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn es nicht so heiß wäre.
+Wenn ich ein Fahrrad {_}, würde ich zur Schule fahren.|haben (irreal)|hätte|hättest|hatte|Irreale Bedingung: wenn ich ein Fahrrad hätte.
+Wenn ich du {_}, würde ich mehr schlafen.|sein (Rat)|wäre|bin|war|„Wenn ich du wäre“ ist ein typischer Rat im Konjunktiv II.
+Wenn wir mehr Platz hätten, {_} wir einen Hund haben.|können (irreal)|könnten|können|konnten|Der Satz ist irreal, deshalb: wir könnten.
+Ich {_} dir gern helfen, aber ich habe keine Zeit.|werden (irreal)|würde|werde|wurde|Das ist nicht real, deshalb: ich würde gern helfen.
+Olivia {_} gern mitkommen, aber sie ist krank.|werden (irreal)|würde|wird|wurde|Der Wunsch ist nicht real: Olivia würde gern mitkommen.
+Wenn ich fliegen {_}, wäre ich schnell bei meiner Oma.|können (irreal)|könnte|könntest|konnte|Irreale Bedingung: wenn ich fliegen könnte.
+Wenn Mia hier {_}, wäre alles einfacher.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn Mia hier wäre.
+Es {_} toll, wenn wir zusammen lernen könnten.|sein (irreal)|wäre|wärst|war|Der ganze Satz ist irreal, deshalb: es wäre toll.
+Ich wünschte, ich {_} ein eigenes Zimmer.|haben (irrealer Wunsch)|hätte|habe|hatte|Nach „Ich wünschte“ steht der Konjunktiv II: hätte.
+Ich wünschte, es {_} schon Wochenende.|sein (irrealer Wunsch)|wäre|ist|war|Nach „Ich wünschte“ steht der Konjunktiv II: wäre.
+Wenn ich doch nur mehr Zeit {_}!|haben (irrealer Wunsch)|hätte|habe|hatte|Ein irrealer Wunsch steht im Konjunktiv II: hätte.
+Wenn Ben doch nur pünktlich {_}!|sein (irrealer Wunsch)|wäre|ist|war|Irrealer Wunsch: wenn Ben doch nur pünktlich wäre.
+Du {_} mehr schlafen.|sollen (Rat)|solltest|sollte|solltet|Einen Rat gibt man mit „solltest“.
+Ihr {_} mehr Wasser trinken.|sollen (Rat)|solltet|sollten|solltest|Ein Rat für „ihr“: ihr solltet.
+Du {_} mal mit der Lehrerin sprechen.|können (Vorschlag)|könntest|könnte|konntest|Einen Vorschlag macht man oft mit „könntest“.
+An deiner Stelle {_} ich früher ins Bett gehen.|werden (Rat)|würde|werde|wurde|Nach „An deiner Stelle“ folgt ein Rat mit „würde“.
+Mia {_} weniger am Handy spielen.|sollen (Rat)|sollte|solltest|sollten|Ein Rat für eine Person: Mia sollte.
+Ben {_} beim Radfahren einen Helm tragen.|sollen (Rat)|sollte|sollten|solltest|Rat in der 3. Person: Ben sollte.
+Sie {_} mehr Obst essen, Herr Wang.|sollen (Rat)|sollten|solltest|solltet|Ein höflicher Rat: Sie sollten.
+Ich an deiner Stelle {_} die Lehrerin fragen.|werden (Rat)|würde|werde|wurde|„Ich an deiner Stelle würde ...“ ist ein Rat im Konjunktiv II.
+Du {_} dich wärmer anziehen, es ist kalt.|sollen (Rat)|solltest|sollte|solltet|Rat: du solltest.
+Wenn ich an deiner Stelle {_}, würde ich mich entschuldigen.|sein (Rat)|wäre|bin|war|Ein Rat im Konjunktiv II: wenn ich an deiner Stelle wäre.
+Wenn ich nicht zur Schule gehen {_}, würde ich lange schlafen.|müssen (irreal)|müsste|müsstest|musste|Irreale Bedingung: wenn ich nicht zur Schule gehen müsste.
+Wenn ich das gewusst {_}, wäre ich gekommen.|haben (irreal, Vergangenheit)|hätte|habe|hatte|Irreale Vergangenheit: hätte + Partizip.
+Wenn der Bus pünktlich gekommen {_}, hätten wir den Film nicht verpasst.|sein (irreal, Vergangenheit)|wäre|ist|war|Irreale Vergangenheit: wäre + Partizip.
+Wenn du früher aufgestanden {_}, hättest du den Bus nicht verpasst.|sein (irreal, Vergangenheit)|wärst|bist|warst|Irreale Vergangenheit: wärst + Partizip.
+Ich {_} gern mitgekommen, aber ich war krank.|sein (irreal, Vergangenheit)|wäre|bin|war|Irreale Vergangenheit: ich wäre gern mitgekommen.
+Mias Bruder {_} gern Pilot werden.|werden (Wunsch)|würde|würden|wurde|Wunsch: würde gern + Infinitiv.
+Was {_} ihr am Wochenende gern machen?|werden (Wunsch)|würdet|würden|wurdet|Frage nach einem Wunsch: würdet ihr gern.
+Ich {_} jetzt so gern am Strand!|sein (irrealer Wunsch)|wäre|wärst|war|Irrealer Wunsch: ich wäre so gern am Strand.
+Guten Tag, was {_} Sie bestellen?|mögen (höfliche Frage)|möchten|möchtest|mochten|Im Restaurant fragt man höflich mit „möchten“.
+Wenn Olivia in Taipeh wohnen {_}, könnten wir uns öfter treffen.|werden (irreal)|würde|wird|wurde|Irreale Bedingung mit „würde“ + Infinitiv.
+Wenn ich mehr Zeit hätte, {_} ich jeden Tag Gitarre spielen.|werden (irreal)|würde|werde|wurde|Folge einer irrealen Bedingung: ich würde spielen.
+Wenn wir einen Hund {_}, müssten wir jeden Tag spazieren gehen.|haben (irreal)|hätten|hättet|hatten|Irreale Bedingung: wenn wir einen Hund hätten.
+Wenn du mich fragen würdest, {_} ich dir helfen.|können (irreal)|könnte|kann|konnte|Folge einer irrealen Bedingung: ich könnte helfen.
+Wenn ihr leiser {_}, könnte ich besser lernen.|sein (irreal)|wärt|wäre|wart|Irreale Bedingung: wenn ihr leiser wärt.
+Wenn Ben nicht krank {_}, würde er mit uns Basketball spielen.|sein (irreal)|wäre|wären|war|Irreale Bedingung: wenn Ben nicht krank wäre.
+Das Wetter ist schlecht, sonst {_} wir an den Strand fahren.|können (irreal)|könnten|könntet|konnten|Nach „sonst“ steht hier eine irreale Möglichkeit: wir könnten.
+Ich habe kein Geld, sonst {_} ich mir das Spiel kaufen.|werden (irreal)|würde|würdest|wurde|Das ist nicht real, deshalb: ich würde kaufen.
+Wenn Mia nicht so viel üben {_}, hätte sie mehr Freizeit.|müssen (irreal)|müsste|müsstest|musste|Irreale Bedingung: wenn Mia nicht so viel üben müsste.
+Es {_} schön, wenn du morgen kommen würdest.|sein (Wunsch)|wäre|wärst|war|Der ganze Satz ist ein Wunsch im Konjunktiv II: es wäre schön.
