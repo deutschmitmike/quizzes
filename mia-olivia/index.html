@@ -136,7 +136,6 @@
       <p class="sub">Wie heißt du? Nur Vorname oder Spitzname.</p>
       <input id="welNameInput" maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="width:100%; border:1.5px solid #d7ddec; border-radius:14px; padding:14px; font-family:inherit; font-size:18px; text-align:center;">
       <button class="btn big" id="welJoin" style="margin-top:12px;">Los geht's</button>
-      <button class="link" id="welSkip" style="align-self:center;">ohne Namen üben</button>
     </div>
   </div>
 
@@ -154,6 +153,7 @@
       <div class="badge"><span id="pointsN">1</span><small>Sterne</small></div>
     </div>
     <h1 id="homeTitle"><span id="homeGreet">Hallo!</span></h1>
+    <button class="link" id="switchBtn" style="padding:0 2px 6px; font-size:13px; display:none; align-self:flex-start;">Spielerin wechseln</button>
     <p class="sub" id="homeSub"></p>
     <div id="playerScores" style="display:flex;flex-wrap:wrap;gap:6px;margin:2px 2px 8px;"></div>
     <div id="progWrap" style="margin:6px 2px 12px;">
@@ -1477,7 +1477,9 @@ function adoptIfNewer(o){ if(!o||!o.cards) return false;       // mehr Karten OD
   if(cp>lp || (o.ts||0)>(S.ts||0)){ S=Object.assign(fresh(),o); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} return true; }
   return false; }
 function cloudSync(){ if(!SYNC_URL||!S.playerName) return; cloudLoad(o=>{ if(adoptIfNewer(o)) renderHome(); }); }
-function lbPickName(n){ n=(n||"").trim(); if(!n) return; S.playerName=n;
+function lbPickName(n){ n=(n||"").trim(); if(!n) return;
+  try{ const lp=localStorage.getItem(KEY+"_p_"+nameKey(n)); if(lp){ const o=JSON.parse(lp); if(o&&o.cards) S=Object.assign(fresh(),o); } }catch(e){}   // eigene lokale Kopie auf diesem Geraet
+  S.playerName=n;
   if(SYNC_URL){ cloudLoad(o=>{ if(!adoptIfNewer(o)){ save(); cloudSave(); } renderHome(); }); }  // gleicher Name auf neuem iPad -> alten Stand holen; sonst eigenen hochladen
   else { save(); renderHome(); } }
 function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   // vergebene Namen schuetzen, aber eigenes 2. iPad zulassen
@@ -1749,6 +1751,9 @@ function commitNext(){
   const card=S.cards[it.id]||{box:0,due:today(),miss:0,born:today()};
   const firstAttempt=!missSess[it.id];
   if(firstAttempt){ S.stats=S.stats||{attempts:0,firstRight:0}; S.stats.attempts++; if(right) S.stats.firstRight++; }  // Genauigkeit erster Versuch
+  { S.log=S.log||[]; let L=S.log[S.log.length-1];                // Uebungstagebuch: pro Tag Karten, Treffer im 1. Versuch, falsche Karten, erste/letzte Antwort
+    if(!L||L.d!==today()){ L={d:today(),n:0,ok:0,f:[],a:Date.now(),b:Date.now()}; S.log.push(L); if(S.log.length>120) S.log.shift(); }
+    if(firstAttempt){ L.n++; if(right) L.ok++; } if(!right && L.f.indexOf(it.id)<0) L.f.push(it.id); L.b=Date.now(); }
   if(right){
     if(firstAttempt){                                       // erster Versuch richtig: Box hoch, Stern fürs Können
       firstTry++; S.points++;
@@ -1832,6 +1837,7 @@ function renderHome(){
     else cn.textContent="Alle Tiere gesammelt! 🎉"; }
   setMascot("homeMascot", S.streak>0?"happy":"idle");
   { const gname=(S.playerName||"").trim(); const hg=document.getElementById("homeGreet");
+    const swb=document.getElementById("switchBtn"); if(swb) swb.style.display=(SYNC_URL&&gname)?"block":"none";
     if(hg) hg.textContent = gname ? ("Hallo "+gname+"!") : "Hallo!"; }
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
@@ -1877,12 +1883,14 @@ function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); i
     const kids=all?Object.keys(all).map(k=>all[k]).filter(s=>s&&s.cards&&s.playerName):[];
     kids.sort((a,b)=>(b.streak||0)-(a.streak||0));
     box.innerHTML = kids.length ? kids.map(s=>{
-      let prog=0,sicher=0; for(const id in s.cards){ const b=s.cards[id].box||0; prog+=Math.min(b,3)/3; if(b>=3)sicher++; }
+      let prog=0,sicher=0; for(const id in s.cards){ const b=s.cards[id].box||0; prog+=Math.min(b,3)/3; if(b>=SICHER_BOX)sicher++; }
       const pct=Math.round(100*prog/ITEMS.length);
       const hard=Object.keys(s.cards).filter(id=>byId[id]&&(s.cards[id].miss||0)>0)
         .sort((a,b)=>(s.cards[b].miss||0)-(s.cards[a].miss||0)).slice(0,6).map(id=>esc(label(byId[id]))).join(", ");
       return '<div style="border-top:1px solid #eef0f6;padding:9px 0;"><b style="font-size:16px;">'+esc(s.playerName)+'</b>'
         +'<div style="font-size:13px;color:var(--muted);margin-top:2px;">'+pct+' % · '+(s.streak||0)+' '+tage(s.streak||0)+' Streak · '+sicher+' sichere Wörter</div>'
+        +(function(){ const w=(s.log||[]).filter(L=>L.d>today()-7); const n=w.reduce((a,L)=>a+L.n,0), ok=w.reduce((a,L)=>a+L.ok,0);
+            return '<div style="font-size:13px;color:var(--muted);margin-top:2px;">letzte 7 Tage: an '+w.length+' '+(w.length===1?'Tag':'Tagen')+' geübt, '+n+' Karten'+(n?', '+Math.round(100*ok/n)+' % beim 1. Versuch richtig':'')+'</div>'; })()
         +(hard?'<div style="font-size:13px;color:var(--muted);margin-top:2px;">schwer: '+hard+'</div>':'')+'</div>';
     }).join("") : '<div style="color:var(--muted);font-size:13px;">Noch niemand online. Sobald jemand einen Namen eingibt, erscheint er hier.</div>';
   }).catch(()=>{ box.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline.</div>'; });
@@ -1914,9 +1922,14 @@ function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
 document.getElementById("startBtn").onclick=()=>startDaily();
 document.getElementById("welJoin").onclick=()=>welcomeJoin(document.getElementById("welNameInput").value);
 document.getElementById("welNameInput").addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
-document.getElementById("welSkip").onclick=()=>{ S.noName=1; save(); show("home"); };
 document.getElementById("homeBtn").onclick=()=>show("home");
-document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); show("home"); };
+function switchPlayer(){ if(!S.playerName) return;                    // geteiltes Geraet: Stand sichern (lokal je Name + Cloud), dann neu anmelden
+  save(); syncPush(); cloudSave(); try{ localStorage.setItem(KEY+"_p_"+nameKey(S.playerName), JSON.stringify(S)); }catch(e){}
+  S=fresh(); save(); const i=document.getElementById("welNameInput"); if(i) i.value=""; show("welcome"); }
+document.getElementById("switchBtn").onclick=()=>{ if(confirm("Spielerin wechseln? Dein Stand ist gespeichert.")) switchPlayer(); };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden"){ save(); syncPush(); cloudSave(); }   // Geraet wechseln: beim Verlassen hochladen,
+  else if(!document.getElementById("play").classList.contains("on")) cloudSync(); });                                          // beim Zurueckkommen neuesten Stand holen
+document.getElementById("quitBtn").onclick=()=>{ if(advTimer){clearTimeout(advTimer);advTimer=null;} pending=null; save(); syncPush(); cloudSave(); show("home"); };   // auch abgebrochene Runden gleich hochladen
 let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tippen
 document.getElementById("homeTitle").onclick=()=>{ tapN++; clearTimeout(tapT); tapT=setTimeout(()=>{tapN=0;},1500); if(tapN>=5){ tapN=0; show("data"); } };
 document.getElementById("dataBack").onclick=()=>show("home");
@@ -1929,11 +1942,11 @@ document.getElementById("resetBtn").onclick=()=>{
   if(SYNC_URL && nm){ const k=nameKey(nm); try{ fetch(SYNC_URL+SAVE_PATH+"/"+k+".json",{method:"DELETE"}).catch(()=>{}); fetch(SYNC_URL+LB_PATH+"/"+k+".json",{method:"DELETE"}).catch(()=>{}); }catch(e){} }
   S=fresh(); save(); show("home");
 };
-if(SYNC_URL && !S.playerName && !S.noName){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
+if(SYNC_URL && !S.playerName){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)
 
 /* ===== Auto-Update: beim Oeffnen pruefen, ob eine neuere Version deployed ist ===== */
-const APP_BUILD="2026-09-26-5";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
+const APP_BUILD="2026-09-26-6";   // bei JEDEM Deploy hochzaehlen UND in version.json spiegeln
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
