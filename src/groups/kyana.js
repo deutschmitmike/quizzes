@@ -95,31 +95,32 @@ const GROUP={
   2
  ],
  "sound": false,
+ "ohneKarten": ["po:Sonne","po:Kind","ps:Kind","ps:Sonne"],
  "beispielName": "Marta"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
 const W=[
- {pre:"Marta springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Matte","Bett","Stuhl"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Matte","Bett","Stuhl"]},
+ {pre:"Marta setzt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Matte","Bett","Stuhl"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Matte","Bett","Stuhl"]},
  {pre:"Marta geht",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule","Stadt"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule","Stadt"]},
  {pre:"Marta legt das Buch",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Stuhl","Regal","Bett"]},{pre:"Das Buch liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Stuhl","Regal","Bett"]},
- {pre:"Die Katze springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Stuhl","Tisch","Bett"]},{pre:"Die Katze schläft",prep:"auf",c:"dat",h:"Wo?",pool:["Bett","Stuhl","Matte"]},
+ {pre:"Die Katze legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Stuhl","Tisch","Bett"]},{pre:"Die Katze schläft",prep:"auf",c:"dat",h:"Wo?",pool:["Bett","Stuhl","Matte"]},
  {pre:"Marta hängt die Jacke",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank"]},{pre:"Die Jacke ist",prep:"in",c:"dat",h:"Wo?",pool:["Schrank"]},
  {pre:"Der Vogel fliegt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Tisch","Schrank"]},{pre:"Der Vogel sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Baum","Tisch","Schrank"]},
  {pre:"Marta stellt das Glas",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Das Glas steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
- {pre:"Marta schreibt",prep:"an",c:"akk",h:"Wohin?",pool:["Tafel"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Tafel","Wand"]},
+ {pre:"Marta hängt den Zettel",prep:"an",c:"akk",h:"Wohin?",pool:["Tafel"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Tafel","Wand"]},
  {pre:"Marta geht",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tür"]},{pre:"Marta steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tür"]},
- {pre:"Die Maus läuft",prep:"in",c:"akk",h:"Wohin?",pool:["Haus"]},{pre:"Die Maus ist",prep:"in",c:"dat",h:"Wo?",pool:["Haus"]},
- {pre:"Marta rennt",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Marta spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
- {pre:"Marta klettert",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
+ {pre:"Die Maus kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Haus"]},{pre:"Die Maus ist",prep:"in",c:"dat",h:"Wo?",pool:["Haus"]},
+ {pre:"Marta bringt den Ball",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Marta spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
+ {pre:"Marta steigt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
  {pre:"Marta steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Marta sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]},
- {pre:"Marta springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Bett"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Stuhl","Bett"]},
- {pre:"Marta geht",prep:"in",c:"akk",h:"Wohin?",pool:["Garten","Küche","Zimmer"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Garten","Küche","Zimmer"]},
- {pre:"Marta läuft",prep:"auf",c:"akk",h:"Wohin?",pool:["Brücke","Wiese"]},{pre:"Marta steht",prep:"auf",c:"dat",h:"Wo?",pool:["Brücke","Wiese"]},
- {pre:"Das Boot fährt",prep:"auf",c:"dat",h:"Wo?",pool:["Meer"]},{pre:"Marta klebt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},
- {pre:"Die Katze springt",prep:"auf",c:"akk",h:"Wohin?",pool:["Schreibtisch","Regal","Sofa"]},{pre:"Die Katze sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Schreibtisch","Regal","Sofa"]},
+ {pre:"Marta legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Bett"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Stuhl","Bett"]},
+ {pre:"Marta kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Garten","Küche","Zimmer"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Garten","Küche","Zimmer"]},
+ {pre:"Marta stellt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Brücke","Wiese"]},{pre:"Marta steht",prep:"auf",c:"dat",h:"Wo?",pool:["Brücke","Wiese"]},
+ {pre:"Das Boot ist",prep:"auf",c:"dat",h:"Wo?",pool:["Meer"]},{pre:"Marta klebt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},
+ {pre:"Die Katze legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Schreibtisch","Regal","Sofa"]},{pre:"Die Katze sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Schreibtisch","Regal","Sofa"]},
  {pre:"Marta geht",prep:"in",c:"akk",h:"Wohin?",pool:["Keller","Garage","Kino"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Keller","Garage","Kino"]},
- {pre:"Marta läuft",prep:"in",c:"akk",h:"Wohin?",pool:["Kirche","Halle","Wald"]},{pre:"Marta wartet",prep:"in",c:"dat",h:"Wo?",pool:["Kirche","Halle","Wald"]},
+ {pre:"Marta kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Kirche","Halle","Wald"]},{pre:"Marta wartet",prep:"in",c:"dat",h:"Wo?",pool:["Kirche","Halle","Wald"]},
  {pre:"Der Vogel fliegt",prep:"auf",c:"akk",h:"Wohin?",pool:["Dach","Mauer","Turm"]},{pre:"Der Vogel sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Dach","Mauer","Turm"]},
  {pre:"Marta klettert",prep:"auf",c:"akk",h:"Wohin?",pool:["Hügel","Berg","Leiter"]},{pre:"Marta steht",prep:"auf",c:"dat",h:"Wo?",pool:["Hügel","Berg","Leiter"]},
  {pre:"Marta legt das Foto",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal","Schreibtisch"]},{pre:"Das Foto liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal","Schreibtisch"]},
@@ -153,7 +154,7 @@ const D=[
  {pre:"Das Geschenk ist",prep:"von",pool:["Tante","Oma","Opa"]},
  {pre:"Marta spielt",prep:"mit",pool:["Puppe","Trommel","Geige"]},
  {pre:"Marta schreibt",prep:"mit",pool:["Bleistift","Filzstift"]},
- {pre:"Marta fährt",prep:"mit",pool:["Taxi","Motorrad","Roller"]},
+ {pre:"Opa fährt",prep:"mit",pool:["Taxi","Motorrad","Roller"]},
  {pre:"Marta kommt",prep:"aus",pool:["Kino","Hotel","Museum"]},
  {pre:"Die Maus kommt",prep:"aus",pool:["Höhle","Keller"]},
  {pre:"Marta trinkt",prep:"aus",pool:["Flasche","Kanne","Dose"]},
@@ -186,7 +187,7 @@ const A=[
  {pre:"Marta rennt",prep:"um",pool:["Tisch","Baum"]},
  {pre:"Das Geschenk ist",prep:"für",pool:["Tante","Bruder","Schwester"]},
  {pre:"Marta läuft",prep:"durch",pool:["Garten","Wald","Park"]},
- {pre:"Marta spielt",prep:"ohne",pool:["Puppe","Tasche"]},
+ {pre:"Marta geht",prep:"ohne",pool:["Puppe","Tasche"]},
  {pre:"Der Ball fliegt",prep:"gegen",pool:["Wand","Schrank","Baum"]},
  {pre:"Marta rennt",prep:"um",pool:["Sofa","Tisch","Baum"]},
  {pre:"Das Geschenk ist",prep:"für",pool:["Arzt","Lehrer","Freund"]},
@@ -200,7 +201,7 @@ const A=[
  {pre:"Das Auto fährt",prep:"gegen",pool:["Zaun","Mauer","Baum"]},
  {pre:"Marta läuft",prep:"um",pool:["Haus","Garten","Hügel"]},
  {pre:"Der Hund läuft",prep:"um",pool:["Tisch","Sofa","Stuhl"]},
- {pre:"Marta rennt",prep:"um",pool:["Brücke","Turm","Baum"]},
+ {pre:"Der Vogel fliegt",prep:"um",pool:["Brücke","Turm","Baum"]},
  {pre:"Das ist",prep:"für",pool:["Onkel","Bruder","Schwester"]},
  {pre:"Marta sucht ein Geschenk",prep:"für",pool:["Freundin","Mutter","Oma"]},
  {pre:"Marta geht",prep:"ohne",pool:["Schuh","Brille"]},
@@ -299,13 +300,13 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  6:"Jetzt ist alles gemischt. Schau auf das kleine Wort und auf das Verb.",
  7:"der → er, die → sie, das → es. Der Hund bellt. Er bellt.",
  8:"der- und das-Wörter: mein. die-Wörter: meine. Mein Hund, meine Katze.",
- 9:"Gehört es einem Jungen: sein. Einem Mädchen: ihr. Bei die-Wörtern: seine, ihre.",
+ 9:"Gehört es ihm (Vater, Opa): sein. Gehört es ihr (Mutter, Oma, Marta): ihr. Bei die-Wörtern: seine, ihre.",
  10:"den → ihn, die → sie, das → es. Ich sehe den Hund. Ich sehe ihn.",
- 11:"Nach der, die, das: -e. Nach ein: -er oder -es. Ein großer Hund, ein kleines Kind.",
+ 11:"Nach der, die, das: -e. Nach ein: -er oder -es, nach eine: -e. Ein großer Hund, ein kleines Kind, eine rote Blume.",
  12:"Beim der-Wort: den großen Hund, einen großen Hund. Sonst wie vorher.",
  13:"Nach mit immer -en: mit dem großen Hund, mit einer kleinen Katze.",
  14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?"
 };
-const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
+const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]};   // passt zu jedem Nomen (nicht: mit einem wilden Elch spielen)
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];

@@ -286,7 +286,7 @@ Mia hat richtig geraten.|Mia 猜對了。
 Mia riet richtig.|Mia 猜對了。
 Das Baby hat die ganze Nacht geschrien.|寶寶哭鬧了一整晚。
 Das Baby schrie die ganze Nacht.|寶寶哭鬧了一整晚。
-Die Hose hat nicht gepasst.|那件褲子穿起來不合身。
+Die Hose hat nicht gepasst.|那條褲子穿起來不合身。
 Das Handy hat 300 Euro gekostet.|這支手機花了三百歐元。
 Mia hat Chips mitgebracht.|Mia 帶了洋芋片來。
 Mia brachte Chips mit.|Mia 帶了洋芋片來。
@@ -1222,7 +1222,7 @@ Ben findet, dass Mathe langweilig ist.|Ben 覺得數學很無聊。
 Mia erzählt, dass sie ihre Oma angerufen hat.|Mia 說她打過電話給奶奶了。
 Es ist schön, dass ihr heute mitkommt.|你們今天能一起來真好。
 Ich finde es toll, dass Olivia so gut singt.|我覺得 Olivia 唱歌唱得那麼好，真的很棒。
-Mias Bruder behauptet, dass er schon achtzehn ist.|Mia 的哥哥說他已經十八歲了。
+Mias Bruder behauptet, dass er schon achtzehn ist.|Mia 的哥哥硬說他已經十八歲了。
 Wir wissen, dass der Test sehr schwer war.|我們知道那次小考很難。
 Olivia schreibt, dass sie später kommen kann.|Olivia 傳訊息說她可以晚一點來。
 Ich hoffe, dass es morgen nicht regnet.|我希望明天不要下雨。
@@ -2541,16 +2541,16 @@ Olivia sucht das Kleid. Olivia sucht es.|Olivia 在找那件洋裝。她在找�
 Ich suche das Kleid. Ich suche es.|我在找那件洋裝。我在找它。
 Ich kaufe das Kleid. Ich kaufe es.|我要買那件洋裝。我要買它。
 Olivia nimmt das Kleid. Olivia nimmt es.|Olivia 拿走那件洋裝。她把它拿走。
-Mia nimmt den Schreibtisch. Mia nimmt ihn.|Mia 拿走那張書桌。她把它拿走。
+Mia nimmt den Schreibtisch. Mia nimmt ihn.|Mia 要那張書桌。她要它。
 Mia sucht den Schreibtisch. Mia sucht ihn.|Mia 在找那張書桌。她在找它。
 Wo ist mein Schreibtisch? Ich finde ihn nicht.|我的書桌在哪裡？我找不到它。
 Mia braucht den Schreibtisch. Mia braucht ihn.|Mia 需要那張書桌。她需要它。
-Ich nehme den Schreibtisch. Ich nehme ihn.|我拿走那張書桌。我把它拿走。
+Ich nehme den Schreibtisch. Ich nehme ihn.|我要那張書桌。我要它。
 Ich kaufe den Schreibtisch. Ich kaufe ihn.|我要買那張書桌。我要買它。
 Olivia sucht den Schreibtisch. Olivia sucht ihn.|Olivia 在找那張書桌。她在找它。
 Mia findet den Schreibtisch. Mia findet ihn.|Mia 找到那張書桌了。她找到它了。
 Mia kauft den Schreibtisch. Mia kauft ihn.|Mia 要買那張書桌。她要買它。
-Olivia nimmt den Schreibtisch. Olivia nimmt ihn.|Olivia 拿走那張書桌。她把它拿走。
+Olivia nimmt den Schreibtisch. Olivia nimmt ihn.|Olivia 要那張書桌。她要它。
 Olivia findet den Schreibtisch. Olivia findet ihn.|Olivia 找到那張書桌了。她找到它了。
 Ich finde den Schreibtisch. Ich finde ihn.|我找到那張書桌了。我找到它了。
 Ich suche den Schreibtisch. Ich suche ihn.|我在找那張書桌。我在找它。
@@ -2573,16 +2573,16 @@ Ich suche die Hose. Ich suche sie.|我在找那條褲子。我在找它。
 Mia sucht die Hose. Mia sucht sie.|Mia 在找那條褲子。她在找它。
 Ich nehme die Hose. Ich nehme sie.|我拿走那條褲子。我把它拿走。
 Ich brauche das Auto. Ich brauche es.|我需要那台汽車。我需要它。
-Mia nimmt das Auto. Mia nimmt es.|Mia 拿走那台汽車。她把它拿走。
+Mia nimmt das Auto. Mia nimmt es.|Mia 開走那台汽車。她把它開走。
 Olivia sucht das Auto. Olivia sucht es.|Olivia 在找那台汽車。她在找它。
 Mia sucht das Auto. Mia sucht es.|Mia 在找那台汽車。她在找它。
 Mia findet das Auto. Mia findet es.|Mia 找到那台汽車了。她找到它了。
-Ich nehme das Auto. Ich nehme es.|我拿走那台汽車。我把它拿走。
+Ich nehme das Auto. Ich nehme es.|我開走那台汽車。我把它開走。
 Olivia findet das Auto. Olivia findet es.|Olivia 找到那台汽車了。她找到它了。
 Wo ist mein Auto? Ich finde es nicht.|我的汽車在哪裡？我找不到它。
 Mia kauft das Auto. Mia kauft es.|Mia 要買那台汽車。她要買它。
 Ich suche das Auto. Ich suche es.|我在找那台汽車。我在找它。
-Olivia nimmt das Auto. Olivia nimmt es.|Olivia 拿走那台汽車。她把它拿走。
+Olivia nimmt das Auto. Olivia nimmt es.|Olivia 開走那台汽車。她把它開走。
 Ich kaufe das Auto. Ich kaufe es.|我要買那台汽車。我要買它。
 Mia braucht das Auto. Mia braucht es.|Mia 需要那台汽車。她需要它。
 Olivia braucht das Auto. Olivia braucht es.|Olivia 需要那台汽車。她需要它。
@@ -2765,12 +2765,12 @@ Olivia sucht die Tasse. Olivia sucht sie.|Olivia 在找那個杯子。她在找�
 Olivia nimmt die Tasse. Olivia nimmt sie.|Olivia 拿走那個杯子。她把它拿走。
 Wo ist mein Sofa? Ich finde es nicht.|我的沙發在哪裡？我找不到它。
 Olivia braucht das Sofa. Olivia braucht es.|Olivia 需要那張沙發。她需要它。
-Ich nehme das Sofa. Ich nehme es.|我拿走那張沙發。我把它拿走。
+Ich nehme das Sofa. Ich nehme es.|我要那張沙發。我要它。
 Mia braucht das Sofa. Mia braucht es.|Mia 需要那張沙發。她需要它。
-Mia nimmt das Sofa. Mia nimmt es.|Mia 拿走那張沙發。她把它拿走。
+Mia nimmt das Sofa. Mia nimmt es.|Mia 要那張沙發。她要它。
 Olivia kauft das Sofa. Olivia kauft es.|Olivia 要買那張沙發。她要買它。
 Ich suche das Sofa. Ich suche es.|我在找那張沙發。我在找它。
-Olivia nimmt das Sofa. Olivia nimmt es.|Olivia 拿走那張沙發。她把它拿走。
+Olivia nimmt das Sofa. Olivia nimmt es.|Olivia 要那張沙發。她要它。
 Mia kauft das Sofa. Mia kauft es.|Mia 要買那張沙發。她要買它。
 Ich kaufe das Sofa. Ich kaufe es.|我要買那張沙發。我要買它。
 Ich brauche das Sofa. Ich brauche es.|我需要那張沙發。我需要它。
@@ -4042,12 +4042,12 @@ Da ist eine helle Lampe.|那裡有一盞明亮的燈。
 Hier ist eine moderne Lampe.|這裡有一盞有現代感的燈。
 Da ist eine moderne Lampe.|那裡有一盞有現代感的燈。
 Das ist eine moderne Lampe.|這是一盞有現代感的燈。
-Das ist eine lange Hose.|這是一條長的褲子。
-Da ist eine lange Hose.|那裡有一條長的褲子。
-Hier ist eine lange Hose.|這裡有一條長的褲子。
-Das ist eine kurze Hose.|這是一條短的褲子。
-Hier ist eine kurze Hose.|這裡有一條短的褲子。
-Da ist eine kurze Hose.|那裡有一條短的褲子。
+Das ist eine lange Hose.|這是一條長褲。
+Da ist eine lange Hose.|那裡有一條長褲。
+Hier ist eine lange Hose.|這裡有一條長褲。
+Das ist eine kurze Hose.|這是一條短褲。
+Hier ist eine kurze Hose.|這裡有一條短褲。
+Da ist eine kurze Hose.|那裡有一條短褲。
 Da ist eine volle Flasche.|那裡有一個滿滿的瓶子。
 Das ist eine volle Flasche.|這是一個滿滿的瓶子。
 Hier ist eine volle Flasche.|這裡有一個滿滿的瓶子。
@@ -5451,8 +5451,8 @@ Ich finde das helle Zimmer.|我找到了那間明亮的房間。
 Ich suche das helle Zimmer.|我在找那間明亮的房間。
 Olivia braucht das helle Zimmer.|Olivia 需要那間明亮的房間。
 Ich sehe das helle Zimmer.|我看到那間明亮的房間。
-Mia hat das helle Zimmer.|那間明亮的房間在 Mia 那裡。
-Mia hat das große Zimmer.|那間大的房間在 Mia 那裡。
+Mia hat das helle Zimmer.|Mia 有那間明亮的房間。
+Mia hat das große Zimmer.|Mia 有那間大的房間。
 Olivia braucht das große Zimmer.|Olivia 需要那間大的房間。
 Ich suche das große Zimmer.|我在找那間大的房間。
 Ich finde das große Zimmer.|我找到了那間大的房間。
@@ -5567,16 +5567,16 @@ Ich suche die moderne Lampe.|我在找那盞有現代感的燈。
 Mia hat die moderne Lampe.|那盞有現代感的燈在 Mia 那裡。
 Ich sehe die moderne Lampe.|我看到那盞有現代感的燈。
 Olivia braucht die moderne Lampe.|Olivia 需要那盞有現代感的燈。
-Ich suche die lange Hose.|我在找那條長的褲子。
-Mia hat die lange Hose.|那條長的褲子在 Mia 那裡。
-Ich finde die lange Hose.|我找到了那條長的褲子。
-Ich sehe die lange Hose.|我看到那條長的褲子。
-Olivia braucht die lange Hose.|Olivia 需要那條長的褲子。
-Ich sehe die kurze Hose.|我看到那條短的褲子。
-Mia hat die kurze Hose.|那條短的褲子在 Mia 那裡。
-Ich finde die kurze Hose.|我找到了那條短的褲子。
-Olivia braucht die kurze Hose.|Olivia 需要那條短的褲子。
-Ich suche die kurze Hose.|我在找那條短的褲子。
+Ich suche die lange Hose.|我在找那條長褲。
+Mia hat die lange Hose.|那條長褲在 Mia 那裡。
+Ich finde die lange Hose.|我找到了那條長褲。
+Ich sehe die lange Hose.|我看到那條長褲。
+Olivia braucht die lange Hose.|Olivia 需要那條長褲。
+Ich sehe die kurze Hose.|我看到那條短褲。
+Mia hat die kurze Hose.|那條短褲在 Mia 那裡。
+Ich finde die kurze Hose.|我找到了那條短褲。
+Olivia braucht die kurze Hose.|Olivia 需要那條短褲。
+Ich suche die kurze Hose.|我在找那條短褲。
 Ich suche die volle Flasche.|我在找那個滿滿的瓶子。
 Olivia braucht die volle Flasche.|Olivia 需要那個滿滿的瓶子。
 Ich finde die volle Flasche.|我找到了那個滿滿的瓶子。
@@ -5680,11 +5680,11 @@ Ich suche die heiße Pizza.|我在找那個熱的披薩。
 Ich suche die große Wohnung.|我在找那間大的公寓。
 Ich sehe die große Wohnung.|我看到那間大的公寓。
 Ich finde die große Wohnung.|我找到了那間大的公寓。
-Mia hat die große Wohnung.|那間大的公寓在 Mia 那裡。
+Mia hat die große Wohnung.|Mia 有那間大的公寓。
 Olivia braucht die große Wohnung.|Olivia 需要那間大的公寓。
 Olivia braucht die helle Wohnung.|Olivia 需要那間明亮的公寓。
 Ich suche die helle Wohnung.|我在找那間明亮的公寓。
-Mia hat die helle Wohnung.|那間明亮的公寓在 Mia 那裡。
+Mia hat die helle Wohnung.|Mia 有那間明亮的公寓。
 Ich finde die helle Wohnung.|我找到了那間明亮的公寓。
 Ich sehe die helle Wohnung.|我看到那間明亮的公寓。
 Olivia braucht die weiße Bluse.|Olivia 需要那件白色的女襯衫。
@@ -5767,16 +5767,16 @@ Ich sehe eine moderne Lampe.|我看到一盞有現代感的燈。
 Ich finde eine moderne Lampe.|我找到了一盞有現代感的燈。
 Mia hat eine moderne Lampe.|Mia 有一盞有現代感的燈。
 Ich suche eine moderne Lampe.|我在找一盞有現代感的燈。
-Ich sehe eine lange Hose.|我看到一條長的褲子。
-Olivia braucht eine lange Hose.|Olivia 需要一條長的褲子。
-Ich suche eine lange Hose.|我在找一條長的褲子。
-Ich finde eine lange Hose.|我找到了一條長的褲子。
-Mia hat eine lange Hose.|Mia 有一條長的褲子。
-Ich finde eine kurze Hose.|我找到了一條短的褲子。
-Ich sehe eine kurze Hose.|我看到一條短的褲子。
-Mia hat eine kurze Hose.|Mia 有一條短的褲子。
-Ich suche eine kurze Hose.|我在找一條短的褲子。
-Olivia braucht eine kurze Hose.|Olivia 需要一條短的褲子。
+Ich sehe eine lange Hose.|我看到一條長褲。
+Olivia braucht eine lange Hose.|Olivia 需要一條長褲。
+Ich suche eine lange Hose.|我在找一條長褲。
+Ich finde eine lange Hose.|我找到了一條長褲。
+Mia hat eine lange Hose.|Mia 有一條長褲。
+Ich finde eine kurze Hose.|我找到了一條短褲。
+Ich sehe eine kurze Hose.|我看到一條短褲。
+Mia hat eine kurze Hose.|Mia 有一條短褲。
+Ich suche eine kurze Hose.|我在找一條短褲。
+Olivia braucht eine kurze Hose.|Olivia 需要一條短褲。
 Olivia braucht eine volle Flasche.|Olivia 需要一個滿滿的瓶子。
 Ich suche eine volle Flasche.|我在找一個滿滿的瓶子。
 Mia hat eine volle Flasche.|Mia 有一個滿滿的瓶子。
@@ -5992,9 +5992,9 @@ Ich erzähle von einer kleinen Brille.|我講到一副小的眼鏡。
 Ich erzähle von der neuen Lampe.|我講到那盞新的燈。
 Mia träumt von der neuen Lampe.|Mia 夢想擁有那盞新的燈。
 Olivia spricht von der neuen Lampe.|Olivia 談到那盞新的燈。
-Olivia spricht von einer kurzen Hose.|Olivia 談到一條短的褲子。
-Mia träumt von einer kurzen Hose.|Mia 夢想擁有一條短的褲子。
-Ich erzähle von einer kurzen Hose.|我講到一條短的褲子。
+Olivia spricht von einer kurzen Hose.|Olivia 談到一條短褲。
+Mia träumt von einer kurzen Hose.|Mia 夢想擁有一條短褲。
+Ich erzähle von einer kurzen Hose.|我講到一條短褲。
 Ich erzähle von der kalten Flasche.|我講到那個冰涼的瓶子。
 Mia träumt von der kalten Flasche.|Mia 夢想擁有那個冰涼的瓶子。
 Olivia spricht von der kalten Flasche.|Olivia 談到那個冰涼的瓶子。
@@ -6169,9 +6169,9 @@ Mia träumt von einer runden Brille.|Mia 夢想擁有一副圓形的眼鏡。
 Ich erzähle von der hellen Lampe.|我講到那盞明亮的燈。
 Olivia spricht von der hellen Lampe.|Olivia 談到那盞明亮的燈。
 Mia träumt von der hellen Lampe.|Mia 夢想擁有那盞明亮的燈。
-Olivia spricht von einer langen Hose.|Olivia 談到一條長的褲子。
-Ich erzähle von einer langen Hose.|我講到一條長的褲子。
-Mia träumt von einer langen Hose.|Mia 夢想擁有一條長的褲子。
+Olivia spricht von einer langen Hose.|Olivia 談到一條長褲。
+Ich erzähle von einer langen Hose.|我講到一條長褲。
+Mia träumt von einer langen Hose.|Mia 夢想擁有一條長褲。
 Ich erzähle von der vollen Flasche.|我講到那個滿滿的瓶子。
 Olivia spricht von der vollen Flasche.|Olivia 談到那個滿滿的瓶子。
 Mia träumt von der vollen Flasche.|Mia 夢想擁有那個滿滿的瓶子。
@@ -6274,9 +6274,9 @@ Hier ist die runde Brille.|那副圓形的眼鏡在這裡。
 Das ist die helle Lampe.|這就是那盞明亮的燈。
 Da ist die helle Lampe.|那盞明亮的燈在那裡。
 Hier ist die helle Lampe.|那盞明亮的燈在這裡。
-Das ist die lange Hose.|這就是那條長的褲子。
-Hier ist die lange Hose.|那條長的褲子在這裡。
-Da ist die lange Hose.|那條長的褲子在那裡。
+Das ist die lange Hose.|這就是那條長褲。
+Hier ist die lange Hose.|那條長褲在這裡。
+Da ist die lange Hose.|那條長褲在那裡。
 Da ist die volle Flasche.|那個滿滿的瓶子在那裡。
 Das ist die volle Flasche.|這就是那個滿滿的瓶子。
 Hier ist die volle Flasche.|那個滿滿的瓶子在這裡。
@@ -6335,6 +6335,6 @@ Das ist Ben. Seine Uhr ist neu.|這是 Ben。他的手錶是新的。
 Das ist Ben. Wo ist seine Uhr?|這是 Ben。他的手錶在哪裡？
 Das ist Ben. Das ist seine Uhr.|這是 Ben。這是他的手錶。
 Das ist Ben. Seine Uhr ist weg.|這是 Ben。他的手錶不見了。
-Mia kauft den Laptop. Mia kauft ihn.|Mia 要買那台筆電。她要買它。
-Olivia braucht den Schreibtisch. Olivia braucht ihn.|Olivia 需要那張書桌。她需要它。
+Mia kauft den Laptop. Mia kauft ihn.|Mia 要買那台筆電。Mia 要買它。
+Olivia braucht den Schreibtisch. Olivia braucht ihn.|Olivia 需要那張書桌。Olivia 需要它。
 Ich finde das Tablet. Ich finde es.|我找到那台平板了。我找到它了。

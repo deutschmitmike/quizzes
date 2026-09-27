@@ -42,3 +42,15 @@ p:Glut$
 p:Grippe$
 p:Freude$
 p:Not$
+# 2026-09-27: unpassende Kyana/Marta-Karten (meine Sonne, sein Kind; ohneKarten im Steckbrief)
+po:Sonne$
+po:Kind$
+ps:Kind$
+ps:Sonne$
+# 2026-09-27: weitere Woerter ohne passende Mehrzahl-Karte (OHNE_PL)
+p:Brust$
+p:Mops$
+p:Fett$
+p:Unkraut$
+p:Moos$
+p:Schoß$

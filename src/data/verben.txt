@@ -234,7 +234,7 @@ diskutieren|-|diskutiert|h||1p:Wir {A} lange über das Thema {P}.
 duschen|-|geduscht|h||1s:Nach dem Sport {A} ich {P}.
 empfehlen|empfahl|empfohlen|h||3s:Olivia {A} mir den Film {P}.
 zurückgeben|gab|zurückgegeben|h|zurück|1s:Ich {A} das Buch {P}.
-erschrecken|erschrak|erschrocken|s||1s:Ich {A} total {P}, als das Telefon klingelte.
+erschrecken|erschrak|erschrocken|s||1s:Ich {A} total {P}, als das Telefon klingelte.|wk=erschrickte
 putzen|-|geputzt|h||1s:Ich {A} mein Zimmer {P}.
 vergleichen|verglich|verglichen|h||1p:Wir {A} unsere Ergebnisse {P}.
 verbessern|-|verbessert|h||3s:Mia {A} ihre Note {P}.
