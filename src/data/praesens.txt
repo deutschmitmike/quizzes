@@ -69,7 +69,7 @@ bezahlen|bezahle|bezahlst|bezahlt|bezahlen|bezahlt|bezahlen||2s:Heute {V} du das
 lachen|lache|lachst|lacht|lachen|lacht|lachen||2s:Warum {V} du?;3s:Olivia {V} über den Witz.;3p:Alle {V} über Mias Bruder.
 glauben|glaube|glaubst|glaubt|glauben|glaubt|glauben||1s:Ich {V} dir nicht.;2s:Du {V} alles aus dem Internet.;3s:Mia {V} an ihre Mannschaft.
 chatten|chatte|chattest|chattet|chatten|chattet|chatten||3s:Olivia {V} jeden Abend mit ihren Freundinnen.;2s:Mit wem {V} du gerade?;2p:Ihr {V} die ganze Zeit.
-sammeln|sammle|sammelst|sammelt|sammeln|sammelt|sammeln||3s:Ben {V} Fußballkarten.;1s:Ich {V} Sticker.;2s:Was {V} du?
+sammeln|sammle|sammelst|sammelt|sammeln|sammelt|sammeln||3s:Ben {V} Fußballkarten.;1p:Wir {V} Sticker.;2s:Was {V} du?
 putzen|putze|putzt|putzt|putzen|putzt|putzen||3s:Mia {V} zweimal am Tag ihre Zähne.;2s:Heute {V} du das Bad.;1p:Wir {V} am Samstag die Wohnung.
 kosten|koste|kostest|kostet|kosten|kostet|kosten||3s:Das Handy {V} fünfhundert Euro.;3p:Die Schuhe {V} achtzig Euro.
 üben|übe|übst|übt|üben|übt|üben||3s:Olivia {V} jeden Tag Klavier.;2s:Wie lange {V} du jeden Tag Gitarre?;1p:Wir {V} für das Konzert.

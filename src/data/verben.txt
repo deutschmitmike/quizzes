@@ -12,7 +12,7 @@ wissen|wusste|gewusst|h||3s:Mia {A} die Antwort sofort {P}.;1s:Das {A} ich nicht
 kommen|kam|gekommen|s||3s:Olivia {A} heute zu spät zur Schule {P}.;2s:Wann {A} du gestern nach Hause {P}?
 müssen|musste||||3s:Am Samstag {V} Mia ihr Zimmer aufräumen.;1p:Wir {V} lange auf den Bus warten.|nf|p3=muss/müssen
 leben|-|gelebt|h||3s:Mias Oma {A} lange in Taiwan {P}.
-denken|dachte|gedacht|h||1s:Ich {A} lange über die Frage {P}.;2s:Was {A} du dir dabei {P}?|p3=denkt/denken
+denken|dachte|gedacht|h||1s:Ich {A} oft an dich {P}.;2s:Was {A} du dir dabei {P}?|p3=denkt/denken
 hören|-|gehört|h||1s:Ich {A} das neue Lied {P}.|xw=gehöret
 finden|fand|gefunden|h||3s:Mia {A} ihren Schlüssel endlich {P}.;1s:Ich {A} das Handy unter dem Sofa {P}.
 lassen|ließ|gelassen|h||1s:Ich {A} mein Handy zu Hause {P}.
@@ -37,14 +37,14 @@ treffen|traf|getroffen|h||1s:Ich {A} Olivia in der Stadt {P}.;3p:Mia und Olivia 
 erzählen|-|erzählt|h||3s:Mia {A} mir alles {P}.
 verlieren|verlor|verloren|h||3s:Olivia {A} ihr Handy im Bus {P}.;1p:Wir {A} das Spiel knapp {P}.
 fahren|fuhr|gefahren|s||1p:Letzten Sommer {A} wir nach Italien {P}.;3s:Mia {A} mit dem Fahrrad zur Schule {P}.
-kennen|kannte|gekannt|h||3s:Olivia {A} den Weg nicht {P}.|p3=kennt/kennen
+kennen|kannte|gekannt|h||3s:Olivia {A} den Weg nicht {P}.|wk=kennete|p3=kennt/kennen
 bekommen|bekam|bekommen|h||3s:Olivia {A} eine gute Note {P}.;1s:Zum Geburtstag {A} ich ein Fahrrad {P}.
 fallen|fiel|gefallen|s||3s:Mias Handy {A} auf den Boden {P}.;1s:Ich {A} vom Fahrrad {P}.
 vergessen|vergaß|vergessen|h||1s:Ich {A} meine Hausaufgaben {P}.;2s:{A} du deinen Schlüssel schon wieder {P}?
 arbeiten|-|gearbeitet|h||3s:Mias Mutter {A} bis sechs Uhr {P}.
 suchen|-|gesucht|h||3s:Mia {A} überall ihren Schlüssel {P}.
 spielen|-|gespielt|h||3p:Mia und Olivia {A} Volleyball {P}.
-schaffen|-|geschafft|h||1s:Ich {A} die Prüfung {P}.;3s:Mia {A} es gerade noch {P}.
+schaffen|-|geschafft|h||1s:Ich {A} die Prüfung {P}.;3s:Mia {A} es gerade noch {P}.|xw=geschaffet
 schlafen|schlief|geschlafen|h||1s:Am Samstag {A} ich bis elf Uhr {P}.;2s:{A} du gut {P}?
 zeigen|-|gezeigt|h||3s:Olivia {A} mir ihre Fotos {P}.
 holen|-|geholt|h||3s:Olivia {A} Brötchen {P}.
@@ -59,7 +59,7 @@ stellen|-|gestellt|h||1s:Ich {A} die Flasche in den Kühlschrank {P}.
 gefallen|gefiel|gefallen|h||3s:Der Film {A} mir gut {P}.|xw=gefällt
 anrufen|rief|angerufen|h|an|1s:Ich {A} dich dreimal {P}.;3s:Mias Oma {A} gestern {P}.
 lernen|-|gelernt|h||1s:Ich {A} den ganzen Abend {P}.
-nennen|nannte|genannt|h||3p:Die Eltern {A} das Baby Lea {P}.|p3=nennt/nennen
+nennen|nannte|genannt|h||3p:Die Eltern {A} das Baby Lea {P}.|wk=nennete|p3=nennt/nennen
 kriegen|-|gekriegt|h||3s:Mia {A} eine Eins {P}.
 rufen|rief|gerufen|h||3s:Mias Mutter {A} sie zum Essen {P}.
 lesen|las|gelesen|h||3s:Mia {A} das Buch in zwei Tagen {P}.;2p:{A} ihr den Text schon {P}?
@@ -112,7 +112,7 @@ vermissen|-|vermisst|h||1s:Ich {A} dich sehr {P}.
 verändern|-|verändert|h||3s:Die Stadt {A} sich sehr {P}.
 werfen|warf|geworfen|h||3s:Olivia {A} den Ball ins Tor {P}.
 bauen|-|gebaut|h||1p:Im Winter {A} wir einen Schneemann {P}.
-erkennen|erkannte|erkannt|h||1s:Ich {A} dich nicht {P}.|p3=erkennt/erkennen
+erkennen|erkannte|erkannt|h||1s:Ich {A} dich nicht {P}.|wk=erkennete|p3=erkennt/erkennen
 erwischen|-|erwischt|h||3s:Die Lehrerin {A} Ben beim Abschreiben {P}.
 nachdenken|dachte|nachgedacht|h|nach|1s:Ich {A} lange {P}.|p3=denkt/denken
 tanzen|-|getanzt|h||3p:Mia und Olivia {A} die ganze Nacht {P}.
@@ -133,7 +133,7 @@ erlauben|-|erlaubt|h||3s:Mias Mutter {A} es {P}.
 antworten|-|geantwortet|h||3s:Olivia {A} nicht {P}.
 verraten|verriet|verraten|h||3s:Mia {A} das Geheimnis {P}.
 einladen|lud|eingeladen|h|ein|3s:Olivia {A} die ganze Klasse {P}.
-rennen|rannte|gerannt|s||3s:Der Hund {A} über die Straße {P}.;1s:Ich {A} schnell nach Hause {P}.|p3=rennt/rennen
+rennen|rannte|gerannt|s||3s:Der Hund {A} über die Straße {P}.;1s:Ich {A} schnell nach Hause {P}.|wk=rennete|p3=rennt/rennen
 verzeihen|verzieh|verziehen|h||3s:Olivia {A} ihrer Freundin {P}.
 teilen|-|geteilt|h||1p:Wir {A} die Pizza {P}.
 feiern|-|gefeiert|h||1p:Am Samstag {A} wir Mias Geburtstag {P}.
@@ -219,7 +219,7 @@ abgeben|gab|abgegeben|h|ab|1p:Wir {A} den Test {P}.
 anschauen|-|angeschaut|h|an|3s:Mia {A} sich das Video dreimal {P}.
 malen|-|gemalt|h||3s:Mia {A} ein Bild {P}.
 einschlafen|schlief|eingeschlafen|s|ein|3s:Mia {A} vor dem Fernseher {P}.
-brennen|brannte|gebrannt|h||3s:Im Wohnzimmer {A} eine Kerze {P}.|p3=brennt/brennen
+brennen|brannte|gebrannt|h||3s:Im Wohnzimmer {A} eine Kerze {P}.|wk=brennete|p3=brennt/brennen
 aussteigen|stieg|ausgestiegen|s|aus|1s:Ich {A} an der falschen Haltestelle {P}.
 ausgeben|gab|ausgegeben|h|aus|1s:Ich {A} mein ganzes Geld {P}.
 aufwachsen|wuchs|aufgewachsen|s|auf|1s:Ich {A} in Taiwan {P}.

@@ -37,7 +37,8 @@ function label(id){ const p=id.split(":"), k=p[0], t=KIND[k]||k;
   if(/^t\d+$/.test(k)) return t+"-Satz";   // Satzkarten: ID ist eine Pruefsumme
   if(k==="adj") return p[4]+" "+p[5]+" ("+t+")"; if(k==="ns") return t+" "+(+p[1]+1); if(k==="ko") return p[1]+" ("+(p[2]==="S"?"Superlativ":"Komparativ")+")";
   return p[p.length-1]+" ("+t+")"; }
-function kidHtml(S){ const t=today(), cards=Object.entries(S.cards||{}), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
+const WEG=[...new Set(META.flatMap(g=>g.weg||[]))];   // entfernte Themen (src/tests/entfernt.txt) nicht mitzaehlen
+function kidHtml(S){ const t=today(), cards=Object.entries(S.cards||{}).filter(([id])=>!WEG.some(w=>id.startsWith(w))), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
   const st=S.stats||{}, acc=st.attempts?Math.round(100*st.firstRight/st.attempts)+" %":"–";
   const log=(S.log||[]).filter(L=>L.d>t-7), n7=log.reduce((a,L)=>a+L.n,0), ok7=log.reduce((a,L)=>a+L.ok,0);
   const ago=S.lastDay!=null?t-S.lastDay:null, agoTxt=ago==null?"noch nie":ago===0?"heute":ago===1?"gestern":"vor "+ago+" Tagen";

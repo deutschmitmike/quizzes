@@ -375,7 +375,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  13:"Im Dativ immer -en: mit dem neuen Laptop, mit einer warmen Jacke.",
  14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?",
  15:"Perfekt: haben oder sein an Position 2, das Partizip am Ende. Bewegung und Veränderung meist mit sein: Ich bin gegangen.",
- 16:"Präteritum unregelmäßig: neuer Vokal, kein -te. gehen → ging. ich und er ohne Endung, wir gingen.",
+ 16:"Präteritum: gehen → ging (neuer Vokal), haben → hatte, können → konnte (-te). ich und er ohne Endung, wir gingen.",
  17:"Präsens: ich -e, du -st, er -t. Starke Verben ändern bei du und er den Vokal: du fährst.",
  18:"Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.",
  19:"Nach weil, dass, wenn, obwohl, ob steht das Verb am Ende: …, weil ich krank bin.",

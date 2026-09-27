@@ -16,7 +16,7 @@ Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Leh
 Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.|dem
 Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.|den
 Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.|dem
-Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.|das
+Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.|dem
 Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.|das
 Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.|dem
 Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.|den

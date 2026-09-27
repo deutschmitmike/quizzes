@@ -38,9 +38,9 @@ Olivia kam heute zu spät zur Schule.|Olivia 今天上學遲到了。
 Am Samstag musste Mia ihr Zimmer aufräumen.|星期六那天，Mia 得整理她的房間。
 Wir mussten lange auf den Bus warten.|我們等公車等了很久。
 Mias Oma hat lange in Taiwan gelebt.|Mia 的奶奶在台灣住了很久。
-Ich habe lange über die Frage gedacht.|我想這個問題想了很久。
+Ich habe oft an dich gedacht.|我常常想到你。
 Was hast du dir dabei gedacht?|你當時到底在想什麼？
-Ich dachte lange über die Frage.|我想這個問題想了很久。
+Ich dachte oft an dich.|我以前常常想到你。
 Ich habe das neue Lied gehört.|我聽過那首新歌了。
 Mia hat ihren Schlüssel endlich gefunden.|Mia 終於找到她的鑰匙了。
 Ich habe das Handy unter dem Sofa gefunden.|我在沙發底下找到了手機。
@@ -1024,7 +1024,7 @@ Olivia lernt für den Test.|Olivia 在準備小考。
 Was lernt ihr in Mathe?|你們數學課在學什麼？
 Mia wohnt in einem kleinen Dorf.|Mia 住在一個小村莊。
 Wo wohnst du?|你住在哪裡？
-Wir wohnen im dritten Stock.|我們住在三樓。
+Wir wohnen im dritten Stock.|我們住在四樓。
 Mias Vater arbeitet in einem Krankenhaus.|Mia 的爸爸在醫院工作。
 Du arbeitest zu viel am Computer.|你在電腦前工作太久了。
 Ihr arbeitet heute in Gruppen.|你們今天要分組合作。
@@ -1086,7 +1086,7 @@ Olivia chattet jeden Abend mit ihren Freundinnen.|Olivia 每天晚上都跟她�
 Mit wem chattest du gerade?|你現在在跟誰聊天？
 Ihr chattet die ganze Zeit.|你們一直在傳訊息聊天。
 Ben sammelt Fußballkarten.|Ben 在收集足球球員卡。
-Ich sammle Sticker.|我在收集貼紙。
+Wir sammeln Sticker.|我們在收集貼紙。
 Was sammelst du?|你在收集什麼？
 Mia putzt zweimal am Tag ihre Zähne.|Mia 一天刷兩次牙。
 Heute putzt du das Bad.|今天換你打掃浴室。
@@ -3232,9 +3232,9 @@ Das ist ein schwarzer Kopfhörer.|這是一副黑色的耳機。
 Hier ist ein guter Kopfhörer.|這裡有一副很好的耳機。
 Das ist ein guter Kopfhörer.|這是一副很好的耳機。
 Da ist ein guter Kopfhörer.|那裡有一副很好的耳機。
-Hier ist ein lauter Kopfhörer.|這裡有一副很吵的耳機。
-Das ist ein lauter Kopfhörer.|這是一副很吵的耳機。
-Da ist ein lauter Kopfhörer.|那裡有一副很吵的耳機。
+Hier ist ein lauter Kopfhörer.|這裡有一副很大聲的耳機。
+Das ist ein lauter Kopfhörer.|這是一副很大聲的耳機。
+Da ist ein lauter Kopfhörer.|那裡有一副很大聲的耳機。
 Da ist ein billiger Kopfhörer.|那裡有一副便宜的耳機。
 Hier ist ein billiger Kopfhörer.|這裡有一副便宜的耳機。
 Das ist ein billiger Kopfhörer.|這是一副便宜的耳機。
@@ -4081,9 +4081,9 @@ Hier ist eine schöne Kette.|這裡有一條漂亮的項鍊。
 Hier ist eine neue Gitarre.|這裡有一把新的吉他。
 Das ist eine neue Gitarre.|這是一把新的吉他。
 Da ist eine neue Gitarre.|那裡有一把新的吉他。
-Hier ist eine laute Gitarre.|這裡有一把很吵的吉他。
-Da ist eine laute Gitarre.|那裡有一把很吵的吉他。
-Das ist eine laute Gitarre.|這是一把很吵的吉他。
+Hier ist eine laute Gitarre.|這裡有一把很大聲的吉他。
+Da ist eine laute Gitarre.|那裡有一把很大聲的吉他。
+Das ist eine laute Gitarre.|這是一把很大聲的吉他。
 Hier ist eine warme Decke.|這裡有一條保暖的毯子。
 Da ist eine warme Decke.|那裡有一條保暖的毯子。
 Das ist eine warme Decke.|這是一條保暖的毯子。
@@ -4093,9 +4093,9 @@ Das ist eine weiche Decke.|這是一條柔軟的毯子。
 Das ist eine neue Tastatur.|這是一個新的鍵盤。
 Da ist eine neue Tastatur.|那裡有一個新的鍵盤。
 Hier ist eine neue Tastatur.|這裡有一個新的鍵盤。
-Hier ist eine laute Tastatur.|這裡有一個很吵的鍵盤。
-Das ist eine laute Tastatur.|這是一個很吵的鍵盤。
-Da ist eine laute Tastatur.|那裡有一個很吵的鍵盤。
+Hier ist eine laute Tastatur.|這裡有一個很大聲的鍵盤。
+Das ist eine laute Tastatur.|這是一個很大聲的鍵盤。
+Da ist eine laute Tastatur.|那裡有一個很大聲的鍵盤。
 Hier ist eine leckere Torte.|這裡有一個好吃的蛋糕。
 Das ist eine leckere Torte.|這是一個好吃的蛋糕。
 Da ist eine leckere Torte.|那裡有一個好吃的蛋糕。
@@ -4327,11 +4327,11 @@ Olivia braucht den guten Kopfhörer.|Olivia 需要那副很好的耳機。
 Ich finde den guten Kopfhörer.|我找到了那副很好的耳機。
 Ich sehe den guten Kopfhörer.|我看到那副很好的耳機。
 Ich suche den guten Kopfhörer.|我在找那副很好的耳機。
-Mia hat den lauten Kopfhörer.|那副很吵的耳機在 Mia 那裡。
-Ich sehe den lauten Kopfhörer.|我看到那副很吵的耳機。
-Ich finde den lauten Kopfhörer.|我找到了那副很吵的耳機。
-Ich suche den lauten Kopfhörer.|我在找那副很吵的耳機。
-Olivia braucht den lauten Kopfhörer.|Olivia 需要那副很吵的耳機。
+Mia hat den lauten Kopfhörer.|那副很大聲的耳機在 Mia 那裡。
+Ich sehe den lauten Kopfhörer.|我看到那副很大聲的耳機。
+Ich finde den lauten Kopfhörer.|我找到了那副很大聲的耳機。
+Ich suche den lauten Kopfhörer.|我在找那副很大聲的耳機。
+Olivia braucht den lauten Kopfhörer.|Olivia 需要那副很大聲的耳機。
 Olivia braucht den warmen Mantel.|Olivia 需要那件保暖的大衣。
 Ich sehe den warmen Mantel.|我看到那件保暖的大衣。
 Ich finde den warmen Mantel.|我找到了那件保暖的大衣。
@@ -5632,11 +5632,11 @@ Olivia braucht die neue Gitarre.|Olivia 需要那把新的吉他。
 Ich sehe die neue Gitarre.|我看到那把新的吉他。
 Ich suche die neue Gitarre.|我在找那把新的吉他。
 Ich finde die neue Gitarre.|我找到了那把新的吉他。
-Olivia braucht die laute Gitarre.|Olivia 需要那把很吵的吉他。
-Ich suche die laute Gitarre.|我在找那把很吵的吉他。
-Ich sehe die laute Gitarre.|我看到那把很吵的吉他。
-Ich finde die laute Gitarre.|我找到了那把很吵的吉他。
-Mia hat die laute Gitarre.|那把很吵的吉他在 Mia 那裡。
+Olivia braucht die laute Gitarre.|Olivia 需要那把很大聲的吉他。
+Ich suche die laute Gitarre.|我在找那把很大聲的吉他。
+Ich sehe die laute Gitarre.|我看到那把很大聲的吉他。
+Ich finde die laute Gitarre.|我找到了那把很大聲的吉他。
+Mia hat die laute Gitarre.|那把很大聲的吉他在 Mia 那裡。
 Ich suche die warme Decke.|我在找那條保暖的毯子。
 Ich finde die warme Decke.|我找到了那條保暖的毯子。
 Mia hat die warme Decke.|那條保暖的毯子在 Mia 那裡。
@@ -5652,11 +5652,11 @@ Ich sehe die neue Tastatur.|我看到那個新的鍵盤。
 Mia hat die neue Tastatur.|那個新的鍵盤在 Mia 那裡。
 Olivia braucht die neue Tastatur.|Olivia 需要那個新的鍵盤。
 Ich finde die neue Tastatur.|我找到了那個新的鍵盤。
-Ich suche die laute Tastatur.|我在找那個很吵的鍵盤。
-Mia hat die laute Tastatur.|那個很吵的鍵盤在 Mia 那裡。
-Olivia braucht die laute Tastatur.|Olivia 需要那個很吵的鍵盤。
-Ich sehe die laute Tastatur.|我看到那個很吵的鍵盤。
-Ich finde die laute Tastatur.|我找到了那個很吵的鍵盤。
+Ich suche die laute Tastatur.|我在找那個很大聲的鍵盤。
+Mia hat die laute Tastatur.|那個很大聲的鍵盤在 Mia 那裡。
+Olivia braucht die laute Tastatur.|Olivia 需要那個很大聲的鍵盤。
+Ich sehe die laute Tastatur.|我看到那個很大聲的鍵盤。
+Ich finde die laute Tastatur.|我找到了那個很大聲的鍵盤。
 Ich suche die leckere Torte.|我在找那個好吃的蛋糕。
 Olivia braucht die leckere Torte.|Olivia 需要那個好吃的蛋糕。
 Ich finde die leckere Torte.|我找到了那個好吃的蛋糕。
@@ -5832,11 +5832,11 @@ Mia hat eine neue Gitarre.|Mia 有一把新的吉他。
 Ich sehe eine neue Gitarre.|我看到一把新的吉他。
 Ich suche eine neue Gitarre.|我在找一把新的吉他。
 Olivia braucht eine neue Gitarre.|Olivia 需要一把新的吉他。
-Ich sehe eine laute Gitarre.|我看到一把很吵的吉他。
-Olivia braucht eine laute Gitarre.|Olivia 需要一把很吵的吉他。
-Ich finde eine laute Gitarre.|我找到了一把很吵的吉他。
-Ich suche eine laute Gitarre.|我在找一把很吵的吉他。
-Mia hat eine laute Gitarre.|Mia 有一把很吵的吉他。
+Ich sehe eine laute Gitarre.|我看到一把很大聲的吉他。
+Olivia braucht eine laute Gitarre.|Olivia 需要一把很大聲的吉他。
+Ich finde eine laute Gitarre.|我找到了一把很大聲的吉他。
+Ich suche eine laute Gitarre.|我在找一把很大聲的吉他。
+Mia hat eine laute Gitarre.|Mia 有一把很大聲的吉他。
 Ich finde eine warme Decke.|我找到了一條保暖的毯子。
 Ich suche eine warme Decke.|我在找一條保暖的毯子。
 Ich sehe eine warme Decke.|我看到一條保暖的毯子。
@@ -5852,11 +5852,11 @@ Ich suche eine neue Tastatur.|我在找一個新的鍵盤。
 Ich finde eine neue Tastatur.|我找到了一個新的鍵盤。
 Mia hat eine neue Tastatur.|Mia 有一個新的鍵盤。
 Ich sehe eine neue Tastatur.|我看到一個新的鍵盤。
-Mia hat eine laute Tastatur.|Mia 有一個很吵的鍵盤。
-Ich sehe eine laute Tastatur.|我看到一個很吵的鍵盤。
-Ich suche eine laute Tastatur.|我在找一個很吵的鍵盤。
-Olivia braucht eine laute Tastatur.|Olivia 需要一個很吵的鍵盤。
-Ich finde eine laute Tastatur.|我找到了一個很吵的鍵盤。
+Mia hat eine laute Tastatur.|Mia 有一個很大聲的鍵盤。
+Ich sehe eine laute Tastatur.|我看到一個很大聲的鍵盤。
+Ich suche eine laute Tastatur.|我在找一個很大聲的鍵盤。
+Olivia braucht eine laute Tastatur.|Olivia 需要一個很大聲的鍵盤。
+Ich finde eine laute Tastatur.|我找到了一個很大聲的鍵盤。
 Mia hat eine leckere Torte.|Mia 有一個好吃的蛋糕。
 Olivia braucht eine leckere Torte.|Olivia 需要一個好吃的蛋糕。
 Ich suche eine leckere Torte.|我在找一個好吃的蛋糕。
@@ -5918,345 +5918,345 @@ Ich sehe eine lange Kerze.|我看到一根長的蠟燭。
 Ich suche eine lange Kerze.|我在找一根長的蠟燭。
 Olivia braucht eine lange Kerze.|Olivia 需要一根長的蠟燭。
 Olivia spricht von dem neuen Laptop.|Olivia 談到那台新的筆電。
-Mia träumt von dem neuen Laptop.|Mia 夢到那台新的筆電。
+Mia träumt von dem neuen Laptop.|Mia 夢想擁有那台新的筆電。
 Ich erzähle von dem neuen Laptop.|我講到那台新的筆電。
 Olivia spricht von einem großen Rucksack.|Olivia 談到一個大的背包。
-Mia träumt von einem großen Rucksack.|Mia 夢到一個大的背包。
+Mia träumt von einem großen Rucksack.|Mia 夢想擁有一個大的背包。
 Ich erzähle von einem großen Rucksack.|我講到一個大的背包。
-Mia träumt von dem grauen Pullover.|Mia 夢到那件灰色的毛衣。
+Mia träumt von dem grauen Pullover.|Mia 夢想擁有那件灰色的毛衣。
 Ich erzähle von dem grauen Pullover.|我講到那件灰色的毛衣。
 Olivia spricht von dem grauen Pullover.|Olivia 談到那件灰色的毛衣。
-Mia träumt von einem weichen Schal.|Mia 夢到一條柔軟的圍巾。
+Mia träumt von einem weichen Schal.|Mia 夢想擁有一條柔軟的圍巾。
 Olivia spricht von einem weichen Schal.|Olivia 談到一條柔軟的圍巾。
 Ich erzähle von einem weichen Schal.|我講到一條柔軟的圍巾。
 Ich erzähle von dem alten Koffer.|我講到那個舊的行李箱。
 Olivia spricht von dem alten Koffer.|Olivia 談到那個舊的行李箱。
-Mia träumt von dem alten Koffer.|Mia 夢到那個舊的行李箱。
-Mia träumt von einem kleinen Schreibtisch.|Mia 夢到一張小的書桌。
+Mia träumt von dem alten Koffer.|Mia 夢想擁有那個舊的行李箱。
+Mia träumt von einem kleinen Schreibtisch.|Mia 夢想擁有一張小的書桌。
 Ich erzähle von einem kleinen Schreibtisch.|我講到一張小的書桌。
 Olivia spricht von einem kleinen Schreibtisch.|Olivia 談到一張小的書桌。
 Ich erzähle von dem weißen Stuhl.|我講到那張白色的椅子。
 Olivia spricht von dem weißen Stuhl.|Olivia 談到那張白色的椅子。
-Mia träumt von dem weißen Stuhl.|Mia 夢到那張白色的椅子。
-Mia träumt von einem neuen Schlüssel.|Mia 夢到一把新的鑰匙。
+Mia träumt von dem weißen Stuhl.|Mia 夢想擁有那張白色的椅子。
+Mia träumt von einem neuen Schlüssel.|Mia 夢想擁有一把新的鑰匙。
 Ich erzähle von einem neuen Schlüssel.|我講到一把新的鑰匙。
 Olivia spricht von einem neuen Schlüssel.|Olivia 談到一把新的鑰匙。
 Olivia spricht von dem alten Kalender.|Olivia 談到那本舊的月曆。
 Ich erzähle von dem alten Kalender.|我講到那本舊的月曆。
-Mia träumt von dem alten Kalender.|Mia 夢到那本舊的月曆。
+Mia träumt von dem alten Kalender.|Mia 夢想擁有那本舊的月曆。
 Olivia spricht von einem guten Kopfhörer.|Olivia 談到一副很好的耳機。
-Mia träumt von einem guten Kopfhörer.|Mia 夢到一副很好的耳機。
+Mia träumt von einem guten Kopfhörer.|Mia 夢想擁有一副很好的耳機。
 Ich erzähle von einem guten Kopfhörer.|我講到一副很好的耳機。
 Ich erzähle von dem neuen Mantel.|我講到那件新的大衣。
 Olivia spricht von dem neuen Mantel.|Olivia 談到那件新的大衣。
-Mia träumt von dem neuen Mantel.|Mia 夢到那件新的大衣。
-Mia träumt von einem kleinen Kuchen.|Mia 夢到一個小的蛋糕。
+Mia träumt von dem neuen Mantel.|Mia 夢想擁有那件新的大衣。
+Mia träumt von einem kleinen Kuchen.|Mia 夢想擁有一個小的蛋糕。
 Olivia spricht von einem kleinen Kuchen.|Olivia 談到一個小的蛋糕。
 Ich erzähle von einem kleinen Kuchen.|我講到一個小的蛋糕。
 Ich erzähle von dem kaputten Fernseher.|我講到那台壞掉的電視。
 Olivia spricht von dem kaputten Fernseher.|Olivia 談到那台壞掉的電視。
-Mia träumt von dem kaputten Fernseher.|Mia 夢到那台壞掉的電視。
+Mia träumt von dem kaputten Fernseher.|Mia 夢想擁有那台壞掉的電視。
 Ich erzähle von einem neuen Teppich.|我講到一張新的地毯。
 Olivia spricht von einem neuen Teppich.|Olivia 談到一張新的地毯。
-Mia träumt von einem neuen Teppich.|Mia 夢到一張新的地毯。
-Mia träumt von dem kleinen Spiegel.|Mia 夢到那面小的鏡子。
+Mia träumt von einem neuen Teppich.|Mia 夢想擁有一張新的地毯。
+Mia träumt von dem kleinen Spiegel.|Mia 夢想擁有那面小的鏡子。
 Olivia spricht von dem kleinen Spiegel.|Olivia 談到那面小的鏡子。
 Ich erzähle von dem kleinen Spiegel.|我講到那面小的鏡子。
-Mia träumt von einem heißen Becher.|Mia 夢到一個熱的杯子。
+Mia träumt von einem heißen Becher.|Mia 夢想擁有一個熱的杯子。
 Ich erzähle von einem heißen Becher.|我講到一個熱的杯子。
 Olivia spricht von einem heißen Becher.|Olivia 談到一個熱的杯子。
 Olivia spricht von dem kleinen Hut.|Olivia 談到那頂小的帽子。
-Mia träumt von dem kleinen Hut.|Mia 夢到那頂小的帽子。
+Mia träumt von dem kleinen Hut.|Mia 夢想擁有那頂小的帽子。
 Ich erzähle von dem kleinen Hut.|我講到那頂小的帽子。
-Mia träumt von einem großen Ball.|Mia 夢到一顆大的球。
+Mia träumt von einem großen Ball.|Mia 夢想擁有一顆大的球。
 Ich erzähle von einem großen Ball.|我講到一顆大的球。
 Olivia spricht von einem großen Ball.|Olivia 談到一顆大的球。
-Mia träumt von dem neuen Tisch.|Mia 夢到那張新的桌子。
+Mia träumt von dem neuen Tisch.|Mia 夢想擁有那張新的桌子。
 Ich erzähle von dem neuen Tisch.|我講到那張新的桌子。
 Olivia spricht von dem neuen Tisch.|Olivia 談到那張新的桌子。
 Olivia spricht von einem blauen Füller.|Olivia 談到一支藍色的鋼筆。
-Mia träumt von einem blauen Füller.|Mia 夢到一支藍色的鋼筆。
+Mia träumt von einem blauen Füller.|Mia 夢想擁有一支藍色的鋼筆。
 Ich erzähle von einem blauen Füller.|我講到一支藍色的鋼筆。
 Ich erzähle von der dünnen Jacke.|我講到那件薄的外套。
 Olivia spricht von der dünnen Jacke.|Olivia 談到那件薄的外套。
-Mia träumt von der dünnen Jacke.|Mia 夢到那件薄的外套。
-Mia träumt von einer vollen Tasche.|Mia 夢到一個滿滿的包包。
+Mia träumt von der dünnen Jacke.|Mia 夢想擁有那件薄的外套。
+Mia träumt von einer vollen Tasche.|Mia 夢想擁有一個滿滿的包包。
 Ich erzähle von einer vollen Tasche.|我講到一個滿滿的包包。
 Olivia spricht von einer vollen Tasche.|Olivia 談到一個滿滿的包包。
 Olivia spricht von der schönen Uhr.|Olivia 談到那支漂亮的手錶。
 Ich erzähle von der schönen Uhr.|我講到那支漂亮的手錶。
-Mia träumt von der schönen Uhr.|Mia 夢到那支漂亮的手錶。
+Mia träumt von der schönen Uhr.|Mia 夢想擁有那支漂亮的手錶。
 Olivia spricht von einer kleinen Brille.|Olivia 談到一副小的眼鏡。
-Mia träumt von einer kleinen Brille.|Mia 夢到一副小的眼鏡。
+Mia träumt von einer kleinen Brille.|Mia 夢想擁有一副小的眼鏡。
 Ich erzähle von einer kleinen Brille.|我講到一副小的眼鏡。
 Ich erzähle von der neuen Lampe.|我講到那盞新的燈。
-Mia träumt von der neuen Lampe.|Mia 夢到那盞新的燈。
+Mia träumt von der neuen Lampe.|Mia 夢想擁有那盞新的燈。
 Olivia spricht von der neuen Lampe.|Olivia 談到那盞新的燈。
 Olivia spricht von einer kurzen Hose.|Olivia 談到一條短的褲子。
-Mia träumt von einer kurzen Hose.|Mia 夢到一條短的褲子。
+Mia träumt von einer kurzen Hose.|Mia 夢想擁有一條短的褲子。
 Ich erzähle von einer kurzen Hose.|我講到一條短的褲子。
 Ich erzähle von der kalten Flasche.|我講到那個冰涼的瓶子。
-Mia träumt von der kalten Flasche.|Mia 夢到那個冰涼的瓶子。
+Mia träumt von der kalten Flasche.|Mia 夢想擁有那個冰涼的瓶子。
 Olivia spricht von der kalten Flasche.|Olivia 談到那個冰涼的瓶子。
-Mia träumt von einer modernen Kamera.|Mia 夢到一台有現代感的相機。
+Mia träumt von einer modernen Kamera.|Mia 夢想擁有一台有現代感的相機。
 Olivia spricht von einer modernen Kamera.|Olivia 談到一台有現代感的相機。
 Ich erzähle von einer modernen Kamera.|我講到一台有現代感的相機。
 Ich erzähle von der neuen Mütze.|我講到那頂新的毛帽。
-Mia träumt von der neuen Mütze.|Mia 夢到那頂新的毛帽。
+Mia träumt von der neuen Mütze.|Mia 夢想擁有那頂新的毛帽。
 Olivia spricht von der neuen Mütze.|Olivia 談到那頂新的毛帽。
-Mia träumt von einer vollen Tasse.|Mia 夢到一個滿滿的杯子。
+Mia träumt von einer vollen Tasse.|Mia 夢想擁有一個滿滿的杯子。
 Olivia spricht von einer vollen Tasse.|Olivia 談到一個滿滿的杯子。
 Ich erzähle von einer vollen Tasse.|我講到一個滿滿的杯子。
 Olivia spricht von der langen Kette.|Olivia 談到那條長的項鍊。
 Ich erzähle von der langen Kette.|我講到那條長的項鍊。
-Mia träumt von der langen Kette.|Mia 夢到那條長的項鍊。
-Mia träumt von einer lauten Gitarre.|Mia 夢到一把很吵的吉他。
-Ich erzähle von einer lauten Gitarre.|我講到一把很吵的吉他。
-Olivia spricht von einer lauten Gitarre.|Olivia 談到一把很吵的吉他。
-Mia träumt von der dicken Decke.|Mia 夢到那條厚的毯子。
+Mia träumt von der langen Kette.|Mia 夢想擁有那條長的項鍊。
+Mia träumt von einer lauten Gitarre.|Mia 夢想擁有一把很大聲的吉他。
+Ich erzähle von einer lauten Gitarre.|我講到一把很大聲的吉他。
+Olivia spricht von einer lauten Gitarre.|Olivia 談到一把很大聲的吉他。
+Mia träumt von der dicken Decke.|Mia 夢想擁有那條厚的毯子。
 Olivia spricht von der dicken Decke.|Olivia 談到那條厚的毯子。
 Ich erzähle von der dicken Decke.|我講到那條厚的毯子。
 Ich erzähle von einer kaputten Tastatur.|我講到一個壞掉的鍵盤。
-Mia träumt von einer kaputten Tastatur.|Mia 夢到一個壞掉的鍵盤。
+Mia träumt von einer kaputten Tastatur.|Mia 夢想擁有一個壞掉的鍵盤。
 Olivia spricht von einer kaputten Tastatur.|Olivia 談到一個壞掉的鍵盤。
 Olivia spricht von der schönen Torte.|Olivia 談到那個漂亮的蛋糕。
 Ich erzähle von der schönen Torte.|我講到那個漂亮的蛋糕。
-Mia träumt von der schönen Torte.|Mia 夢到那個漂亮的蛋糕。
-Mia träumt von einer frischen Pizza.|Mia 夢到一個新鮮的披薩。
+Mia träumt von der schönen Torte.|Mia 夢想擁有那個漂亮的蛋糕。
+Mia träumt von einer frischen Pizza.|Mia 夢想擁有一個新鮮的披薩。
 Olivia spricht von einer frischen Pizza.|Olivia 談到一個新鮮的披薩。
 Ich erzähle von einer frischen Pizza.|我講到一個新鮮的披薩。
 Olivia spricht von der hellen Wohnung.|Olivia 談到那間明亮的公寓。
 Ich erzähle von der hellen Wohnung.|我講到那間明亮的公寓。
-Mia träumt von der hellen Wohnung.|Mia 夢到那間明亮的公寓。
-Mia träumt von einer neuen Bluse.|Mia 夢到一件新的女襯衫。
+Mia träumt von der hellen Wohnung.|Mia 夢想擁有那間明亮的公寓。
+Mia träumt von einer neuen Bluse.|Mia 夢想擁有一件新的女襯衫。
 Ich erzähle von einer neuen Bluse.|我講到一件新的女襯衫。
 Olivia spricht von einer neuen Bluse.|Olivia 談到一件新的女襯衫。
 Olivia spricht von der bunten Schultasche.|Olivia 談到那個彩色的書包。
 Ich erzähle von der bunten Schultasche.|我講到那個彩色的書包。
-Mia träumt von der bunten Schultasche.|Mia 夢到那個彩色的書包。
+Mia träumt von der bunten Schultasche.|Mia 夢想擁有那個彩色的書包。
 Olivia spricht von einer dünnen Kerze.|Olivia 談到一根細的蠟燭。
 Ich erzähle von einer dünnen Kerze.|我講到一根細的蠟燭。
-Mia träumt von einer dünnen Kerze.|Mia 夢到一根細的蠟燭。
-Mia träumt von dem neuen Handy.|Mia 夢到那支新的手機。
+Mia träumt von einer dünnen Kerze.|Mia 夢想擁有一根細的蠟燭。
+Mia träumt von dem neuen Handy.|Mia 夢想擁有那支新的手機。
 Olivia spricht von dem neuen Handy.|Olivia 談到那支新的手機。
 Ich erzähle von dem neuen Handy.|我講到那支新的手機。
-Mia träumt von einem leichten Fahrrad.|Mia 夢到一台輕的腳踏車。
+Mia träumt von einem leichten Fahrrad.|Mia 夢想擁有一台輕的腳踏車。
 Olivia spricht von einem leichten Fahrrad.|Olivia 談到一台輕的腳踏車。
 Ich erzähle von einem leichten Fahrrad.|我講到一台輕的腳踏車。
 Ich erzähle von dem dünnen Buch.|我講到那本薄的書。
 Olivia spricht von dem dünnen Buch.|Olivia 談到那本薄的書。
-Mia träumt von dem dünnen Buch.|Mia 夢到那本薄的書。
+Mia träumt von dem dünnen Buch.|Mia 夢想擁有那本薄的書。
 Olivia spricht von einem dünnen Heft.|Olivia 談到一本薄的筆記本。
 Ich erzähle von einem dünnen Heft.|我講到一本薄的筆記本。
-Mia träumt von einem dünnen Heft.|Mia 夢到一本薄的筆記本。
+Mia träumt von einem dünnen Heft.|Mia 夢想擁有一本薄的筆記本。
 Ich erzähle von dem roten Kleid.|我講到那件紅色的洋裝。
 Olivia spricht von dem roten Kleid.|Olivia 談到那件紅色的洋裝。
-Mia träumt von dem roten Kleid.|Mia 夢到那件紅色的洋裝。
-Mia träumt von einem roten Auto.|Mia 夢到一台紅色的汽車。
+Mia träumt von dem roten Kleid.|Mia 夢想擁有那件紅色的洋裝。
+Mia träumt von einem roten Auto.|Mia 夢想擁有一台紅色的汽車。
 Olivia spricht von einem roten Auto.|Olivia 談到一台紅色的汽車。
 Ich erzähle von einem roten Auto.|我講到一台紅色的汽車。
-Mia träumt von dem großen Tablet.|Mia 夢到那台大的平板。
+Mia träumt von dem großen Tablet.|Mia 夢想擁有那台大的平板。
 Ich erzähle von dem großen Tablet.|我講到那台大的平板。
 Olivia spricht von dem großen Tablet.|Olivia 談到那台大的平板。
-Mia träumt von einem bunten Hemd.|Mia 夢到一件彩色的襯衫。
+Mia träumt von einem bunten Hemd.|Mia 夢想擁有一件彩色的襯衫。
 Olivia spricht von einem bunten Hemd.|Olivia 談到一件彩色的襯衫。
 Ich erzähle von einem bunten Hemd.|我講到一件彩色的襯衫。
 Ich erzähle von dem schönen Bild.|我講到那張漂亮的圖畫。
-Mia träumt von dem schönen Bild.|Mia 夢到那張漂亮的圖畫。
+Mia träumt von dem schönen Bild.|Mia 夢想擁有那張漂亮的圖畫。
 Olivia spricht von dem schönen Bild.|Olivia 談到那張漂亮的圖畫。
 Ich erzähle von einem großen Sofa.|我講到一張大的沙發。
-Mia träumt von einem großen Sofa.|Mia 夢到一張大的沙發。
+Mia träumt von einem großen Sofa.|Mia 夢想擁有一張大的沙發。
 Olivia spricht von einem großen Sofa.|Olivia 談到一張大的沙發。
-Mia träumt von dem großen Bett.|Mia 夢到那張大的床。
+Mia träumt von dem großen Bett.|Mia 夢想擁有那張大的床。
 Ich erzähle von dem großen Bett.|我講到那張大的床。
 Olivia spricht von dem großen Bett.|Olivia 談到那張大的床。
 Olivia spricht von einem bunten T-Shirt.|Olivia 談到一件彩色的T恤。
 Ich erzähle von einem bunten T-Shirt.|我講到一件彩色的T恤。
-Mia träumt von einem bunten T-Shirt.|Mia 夢到一件彩色的T恤。
+Mia träumt von einem bunten T-Shirt.|Mia 夢想擁有一件彩色的T恤。
 Ich erzähle von dem schönen Geschenk.|我講到那份漂亮的禮物。
 Olivia spricht von dem schönen Geschenk.|Olivia 談到那份漂亮的禮物。
-Mia träumt von dem schönen Geschenk.|Mia 夢到那份漂亮的禮物。
+Mia träumt von dem schönen Geschenk.|Mia 夢想擁有那份漂亮的禮物。
 Olivia spricht von einem neuen Zimmer.|Olivia 談到一間新的房間。
 Ich erzähle von einem neuen Zimmer.|我講到一間新的房間。
-Mia träumt von einem neuen Zimmer.|Mia 夢到一間新的房間。
-Mia träumt von dem schönen Foto.|Mia 夢到那張漂亮的照片。
+Mia träumt von einem neuen Zimmer.|Mia 夢想擁有一間新的房間。
+Mia träumt von dem schönen Foto.|Mia 夢想擁有那張漂亮的照片。
 Olivia spricht von dem schönen Foto.|Olivia 談到那張漂亮的照片。
 Ich erzähle von dem schönen Foto.|我講到那張漂亮的照片。
 Ich erzähle von einem leeren Glas.|我講到一個空的玻璃杯。
 Olivia spricht von einem leeren Glas.|Olivia 談到一個空的玻璃杯。
-Mia träumt von einem leeren Glas.|Mia 夢到一個空的玻璃杯。
+Mia träumt von einem leeren Glas.|Mia 夢想擁有一個空的玻璃杯。
 Olivia spricht von dem großen Regal.|Olivia 談到那個大的架子。
-Mia träumt von dem großen Regal.|Mia 夢到那個大的架子。
+Mia träumt von dem großen Regal.|Mia 夢想擁有那個大的架子。
 Ich erzähle von dem großen Regal.|我講到那個大的架子。
-Mia träumt von einem runden Kissen.|Mia 夢到一個圓形的枕頭。
+Mia träumt von einem runden Kissen.|Mia 夢想擁有一個圓形的枕頭。
 Olivia spricht von einem runden Kissen.|Olivia 談到一個圓形的枕頭。
 Ich erzähle von einem runden Kissen.|我講到一個圓形的枕頭。
-Mia träumt von dem langweiligen Spiel.|Mia 夢到那個無聊的遊戲。
+Mia träumt von dem langweiligen Spiel.|Mia 夢想擁有那個無聊的遊戲。
 Ich erzähle von dem langweiligen Spiel.|我講到那個無聊的遊戲。
 Olivia spricht von dem langweiligen Spiel.|Olivia 談到那個無聊的遊戲。
-Mia träumt von einem gültigen Ticket.|Mia 夢到一張有效的票。
+Mia träumt von einem gültigen Ticket.|Mia 夢想擁有一張有效的票。
 Ich erzähle von einem gültigen Ticket.|我講到一張有效的票。
 Olivia spricht von einem gültigen Ticket.|Olivia 談到一張有效的票。
 Ich erzähle von einem schweren Rucksack.|我講到一個重的背包。
 Olivia spricht von einem schweren Rucksack.|Olivia 談到一個重的背包。
-Mia träumt von einem schweren Rucksack.|Mia 夢到一個重的背包。
+Mia träumt von einem schweren Rucksack.|Mia 夢想擁有一個重的背包。
 Ich erzähle von dem warmen Pullover.|我講到那件保暖的毛衣。
-Mia träumt von dem warmen Pullover.|Mia 夢到那件保暖的毛衣。
+Mia träumt von dem warmen Pullover.|Mia 夢想擁有那件保暖的毛衣。
 Olivia spricht von dem warmen Pullover.|Olivia 談到那件保暖的毛衣。
-Mia träumt von einem langen Schal.|Mia 夢到一條長的圍巾。
+Mia träumt von einem langen Schal.|Mia 夢想擁有一條長的圍巾。
 Ich erzähle von einem langen Schal.|我講到一條長的圍巾。
 Olivia spricht von einem langen Schal.|Olivia 談到一條長的圍巾。
 Ich erzähle von dem großen Koffer.|我講到那個大的行李箱。
 Olivia spricht von dem großen Koffer.|Olivia 談到那個大的行李箱。
-Mia träumt von dem großen Koffer.|Mia 夢到那個大的行李箱。
+Mia träumt von dem großen Koffer.|Mia 夢想擁有那個大的行李箱。
 Olivia spricht von einem großen Schreibtisch.|Olivia 談到一張大的書桌。
 Ich erzähle von einem großen Schreibtisch.|我講到一張大的書桌。
-Mia träumt von einem großen Schreibtisch.|Mia 夢到一張大的書桌。
+Mia träumt von einem großen Schreibtisch.|Mia 夢想擁有一張大的書桌。
 Olivia spricht von dem bequemen Stuhl.|Olivia 談到那張舒服的椅子。
 Ich erzähle von dem bequemen Stuhl.|我講到那張舒服的椅子。
-Mia träumt von dem bequemen Stuhl.|Mia 夢到那張舒服的椅子。
+Mia träumt von dem bequemen Stuhl.|Mia 夢想擁有那張舒服的椅子。
 Ich erzähle von einem kleinen Schlüssel.|我講到一把小的鑰匙。
-Mia träumt von einem kleinen Schlüssel.|Mia 夢到一把小的鑰匙。
+Mia träumt von einem kleinen Schlüssel.|Mia 夢想擁有一把小的鑰匙。
 Olivia spricht von einem kleinen Schlüssel.|Olivia 談到一把小的鑰匙。
-Mia träumt von dem neuen Kalender.|Mia 夢到那本新的月曆。
+Mia träumt von dem neuen Kalender.|Mia 夢想擁有那本新的月曆。
 Olivia spricht von dem neuen Kalender.|Olivia 談到那本新的月曆。
 Ich erzähle von dem neuen Kalender.|我講到那本新的月曆。
 Ich erzähle von einem neuen Kopfhörer.|我講到一副新的耳機。
-Mia träumt von einem neuen Kopfhörer.|Mia 夢到一副新的耳機。
+Mia träumt von einem neuen Kopfhörer.|Mia 夢想擁有一副新的耳機。
 Olivia spricht von einem neuen Kopfhörer.|Olivia 談到一副新的耳機。
 Ich erzähle von dem warmen Mantel.|我講到那件保暖的大衣。
-Mia träumt von dem warmen Mantel.|Mia 夢到那件保暖的大衣。
+Mia träumt von dem warmen Mantel.|Mia 夢想擁有那件保暖的大衣。
 Olivia spricht von dem warmen Mantel.|Olivia 談到那件保暖的大衣。
 Olivia spricht von einem leckeren Kuchen.|Olivia 談到一個好吃的蛋糕。
-Mia träumt von einem leckeren Kuchen.|Mia 夢到一個好吃的蛋糕。
+Mia träumt von einem leckeren Kuchen.|Mia 夢想擁有一個好吃的蛋糕。
 Ich erzähle von einem leckeren Kuchen.|我講到一個好吃的蛋糕。
 Olivia spricht von dem großen Fernseher.|Olivia 談到那台大的電視。
 Ich erzähle von dem großen Fernseher.|我講到那台大的電視。
-Mia träumt von dem großen Fernseher.|Mia 夢到那台大的電視。
+Mia träumt von dem großen Fernseher.|Mia 夢想擁有那台大的電視。
 Ich erzähle von einem weichen Teppich.|我講到一張柔軟的地毯。
-Mia träumt von einem weichen Teppich.|Mia 夢到一張柔軟的地毯。
+Mia träumt von einem weichen Teppich.|Mia 夢想擁有一張柔軟的地毯。
 Olivia spricht von einem weichen Teppich.|Olivia 談到一張柔軟的地毯。
 Olivia spricht von dem runden Spiegel.|Olivia 談到那面圓形的鏡子。
-Mia träumt von dem runden Spiegel.|Mia 夢到那面圓形的鏡子。
+Mia träumt von dem runden Spiegel.|Mia 夢想擁有那面圓形的鏡子。
 Ich erzähle von dem runden Spiegel.|我講到那面圓形的鏡子。
 Olivia spricht von einem vollen Becher.|Olivia 談到一個滿滿的杯子。
-Mia träumt von einem vollen Becher.|Mia 夢到一個滿滿的杯子。
+Mia träumt von einem vollen Becher.|Mia 夢想擁有一個滿滿的杯子。
 Ich erzähle von einem vollen Becher.|我講到一個滿滿的杯子。
 Ich erzähle von dem schwarzen Hut.|我講到那頂黑色的帽子。
 Olivia spricht von dem schwarzen Hut.|Olivia 談到那頂黑色的帽子。
-Mia träumt von dem schwarzen Hut.|Mia 夢到那頂黑色的帽子。
-Mia träumt von einem runden Ball.|Mia 夢到一顆圓形的球。
+Mia träumt von dem schwarzen Hut.|Mia 夢想擁有那頂黑色的帽子。
+Mia träumt von einem runden Ball.|Mia 夢想擁有一顆圓形的球。
 Olivia spricht von einem runden Ball.|Olivia 談到一顆圓形的球。
 Ich erzähle von einem runden Ball.|我講到一顆圓形的球。
-Mia träumt von dem runden Tisch.|Mia 夢到那張圓形的桌子。
+Mia träumt von dem runden Tisch.|Mia 夢想擁有那張圓形的桌子。
 Ich erzähle von dem runden Tisch.|我講到那張圓形的桌子。
 Olivia spricht von dem runden Tisch.|Olivia 談到那張圓形的桌子。
 Olivia spricht von einem neuen Füller.|Olivia 談到一支新的鋼筆。
 Ich erzähle von einem neuen Füller.|我講到一支新的鋼筆。
-Mia träumt von einem neuen Füller.|Mia 夢到一支新的鋼筆。
+Mia träumt von einem neuen Füller.|Mia 夢想擁有一支新的鋼筆。
 Olivia spricht von der warmen Jacke.|Olivia 談到那件保暖的外套。
 Ich erzähle von der warmen Jacke.|我講到那件保暖的外套。
-Mia träumt von der warmen Jacke.|Mia 夢到那件保暖的外套。
-Mia träumt von einer schweren Tasche.|Mia 夢到一個重的包包。
+Mia träumt von der warmen Jacke.|Mia 夢想擁有那件保暖的外套。
+Mia träumt von einer schweren Tasche.|Mia 夢想擁有一個重的包包。
 Ich erzähle von einer schweren Tasche.|我講到一個重的包包。
 Olivia spricht von einer schweren Tasche.|Olivia 談到一個重的包包。
 Olivia spricht von der neuen Uhr.|Olivia 談到那支新的手錶。
-Mia träumt von der neuen Uhr.|Mia 夢到那支新的手錶。
+Mia träumt von der neuen Uhr.|Mia 夢想擁有那支新的手錶。
 Ich erzähle von der neuen Uhr.|我講到那支新的手錶。
 Ich erzähle von einer runden Brille.|我講到一副圓形的眼鏡。
 Olivia spricht von einer runden Brille.|Olivia 談到一副圓形的眼鏡。
-Mia träumt von einer runden Brille.|Mia 夢到一副圓形的眼鏡。
+Mia träumt von einer runden Brille.|Mia 夢想擁有一副圓形的眼鏡。
 Ich erzähle von der hellen Lampe.|我講到那盞明亮的燈。
 Olivia spricht von der hellen Lampe.|Olivia 談到那盞明亮的燈。
-Mia träumt von der hellen Lampe.|Mia 夢到那盞明亮的燈。
+Mia träumt von der hellen Lampe.|Mia 夢想擁有那盞明亮的燈。
 Olivia spricht von einer langen Hose.|Olivia 談到一條長的褲子。
 Ich erzähle von einer langen Hose.|我講到一條長的褲子。
-Mia träumt von einer langen Hose.|Mia 夢到一條長的褲子。
+Mia träumt von einer langen Hose.|Mia 夢想擁有一條長的褲子。
 Ich erzähle von der vollen Flasche.|我講到那個滿滿的瓶子。
 Olivia spricht von der vollen Flasche.|Olivia 談到那個滿滿的瓶子。
-Mia träumt von der vollen Flasche.|Mia 夢到那個滿滿的瓶子。
-Mia träumt von einer neuen Kamera.|Mia 夢到一台新的相機。
+Mia träumt von der vollen Flasche.|Mia 夢想擁有那個滿滿的瓶子。
+Mia träumt von einer neuen Kamera.|Mia 夢想擁有一台新的相機。
 Ich erzähle von einer neuen Kamera.|我講到一台新的相機。
 Olivia spricht von einer neuen Kamera.|Olivia 談到一台新的相機。
 Ich erzähle von der warmen Mütze.|我講到那頂保暖的毛帽。
 Olivia spricht von der warmen Mütze.|Olivia 談到那頂保暖的毛帽。
-Mia träumt von der warmen Mütze.|Mia 夢到那頂保暖的毛帽。
+Mia träumt von der warmen Mütze.|Mia 夢想擁有那頂保暖的毛帽。
 Olivia spricht von einer heißen Tasse.|Olivia 談到一個熱的杯子。
 Ich erzähle von einer heißen Tasse.|我講到一個熱的杯子。
-Mia träumt von einer heißen Tasse.|Mia 夢到一個熱的杯子。
-Mia träumt von einer neuen Gitarre.|Mia 夢到一把新的吉他。
+Mia träumt von einer heißen Tasse.|Mia 夢想擁有一個熱的杯子。
+Mia träumt von einer neuen Gitarre.|Mia 夢想擁有一把新的吉他。
 Olivia spricht von einer neuen Gitarre.|Olivia 談到一把新的吉他。
 Ich erzähle von einer neuen Gitarre.|我講到一把新的吉他。
 Olivia spricht von der warmen Decke.|Olivia 談到那條保暖的毯子。
 Ich erzähle von der warmen Decke.|我講到那條保暖的毯子。
-Mia träumt von der warmen Decke.|Mia 夢到那條保暖的毯子。
+Mia träumt von der warmen Decke.|Mia 夢想擁有那條保暖的毯子。
 Olivia spricht von einer neuen Tastatur.|Olivia 談到一個新的鍵盤。
 Ich erzähle von einer neuen Tastatur.|我講到一個新的鍵盤。
-Mia träumt von einer neuen Tastatur.|Mia 夢到一個新的鍵盤。
+Mia träumt von einer neuen Tastatur.|Mia 夢想擁有一個新的鍵盤。
 Olivia spricht von der leckeren Torte.|Olivia 談到那個好吃的蛋糕。
 Ich erzähle von der leckeren Torte.|我講到那個好吃的蛋糕。
-Mia träumt von der leckeren Torte.|Mia 夢到那個好吃的蛋糕。
+Mia träumt von der leckeren Torte.|Mia 夢想擁有那個好吃的蛋糕。
 Ich erzähle von einer leckeren Pizza.|我講到一個好吃的披薩。
-Mia träumt von einer leckeren Pizza.|Mia 夢到一個好吃的披薩。
+Mia träumt von einer leckeren Pizza.|Mia 夢想擁有一個好吃的披薩。
 Olivia spricht von einer leckeren Pizza.|Olivia 談到一個好吃的披薩。
 Ich erzähle von der großen Wohnung.|我講到那間大的公寓。
-Mia träumt von der großen Wohnung.|Mia 夢到那間大的公寓。
+Mia träumt von der großen Wohnung.|Mia 夢想擁有那間大的公寓。
 Olivia spricht von der großen Wohnung.|Olivia 談到那間大的公寓。
-Mia träumt von einer weißen Bluse.|Mia 夢到一件白色的女襯衫。
+Mia träumt von einer weißen Bluse.|Mia 夢想擁有一件白色的女襯衫。
 Ich erzähle von einer weißen Bluse.|我講到一件白色的女襯衫。
 Olivia spricht von einer weißen Bluse.|Olivia 談到一件白色的女襯衫。
 Olivia spricht von der schweren Schultasche.|Olivia 談到那個重的書包。
 Ich erzähle von der schweren Schultasche.|我講到那個重的書包。
-Mia träumt von der schweren Schultasche.|Mia 夢到那個重的書包。
-Mia träumt von einer roten Kerze.|Mia 夢到一根紅色的蠟燭。
+Mia träumt von der schweren Schultasche.|Mia 夢想擁有那個重的書包。
+Mia träumt von einer roten Kerze.|Mia 夢想擁有一根紅色的蠟燭。
 Ich erzähle von einer roten Kerze.|我講到一根紅色的蠟燭。
 Olivia spricht von einer roten Kerze.|Olivia 談到一根紅色的蠟燭。
 Olivia spricht von einem neuen Fahrrad.|Olivia 談到一台新的腳踏車。
-Mia träumt von einem neuen Fahrrad.|Mia 夢到一台新的腳踏車。
+Mia träumt von einem neuen Fahrrad.|Mia 夢想擁有一台新的腳踏車。
 Ich erzähle von einem neuen Fahrrad.|我講到一台新的腳踏車。
 Olivia spricht von dem spannenden Buch.|Olivia 談到那本精彩的書。
 Ich erzähle von dem spannenden Buch.|我講到那本精彩的書。
-Mia träumt von dem spannenden Buch.|Mia 夢到那本精彩的書。
+Mia träumt von dem spannenden Buch.|Mia 夢想擁有那本精彩的書。
 Olivia spricht von einem neuen Heft.|Olivia 談到一本新的筆記本。
-Mia träumt von einem neuen Heft.|Mia 夢到一本新的筆記本。
+Mia träumt von einem neuen Heft.|Mia 夢想擁有一本新的筆記本。
 Ich erzähle von einem neuen Heft.|我講到一本新的筆記本。
-Mia träumt von dem schönen Kleid.|Mia 夢到那件漂亮的洋裝。
+Mia träumt von dem schönen Kleid.|Mia 夢想擁有那件漂亮的洋裝。
 Olivia spricht von dem schönen Kleid.|Olivia 談到那件漂亮的洋裝。
 Ich erzähle von dem schönen Kleid.|我講到那件漂亮的洋裝。
-Mia träumt von einem schnellen Auto.|Mia 夢到一台很快的汽車。
+Mia träumt von einem schnellen Auto.|Mia 夢想擁有一台很快的汽車。
 Olivia spricht von einem schnellen Auto.|Olivia 談到一台很快的汽車。
 Ich erzähle von einem schnellen Auto.|我講到一台很快的汽車。
 Ich erzähle von dem neuen Tablet.|我講到那台新的平板。
 Olivia spricht von dem neuen Tablet.|Olivia 談到那台新的平板。
-Mia träumt von dem neuen Tablet.|Mia 夢到那台新的平板。
+Mia träumt von dem neuen Tablet.|Mia 夢想擁有那台新的平板。
 Ich erzähle von einem weißen Hemd.|我講到一件白色的襯衫。
-Mia träumt von einem weißen Hemd.|Mia 夢到一件白色的襯衫。
+Mia träumt von einem weißen Hemd.|Mia 夢想擁有一件白色的襯衫。
 Olivia spricht von einem weißen Hemd.|Olivia 談到一件白色的襯衫。
 Ich erzähle von einem bequemen Sofa.|我講到一張舒服的沙發。
-Mia träumt von einem bequemen Sofa.|Mia 夢到一張舒服的沙發。
+Mia träumt von einem bequemen Sofa.|Mia 夢想擁有一張舒服的沙發。
 Olivia spricht von einem bequemen Sofa.|Olivia 談到一張舒服的沙發。
 Ich erzähle von dem bequemen Bett.|我講到那張舒服的床。
-Mia träumt von dem bequemen Bett.|Mia 夢到那張舒服的床。
+Mia träumt von dem bequemen Bett.|Mia 夢想擁有那張舒服的床。
 Olivia spricht von dem bequemen Bett.|Olivia 談到那張舒服的床。
 Ich erzähle von einem weißen T-Shirt.|我講到一件白色的T恤。
 Olivia spricht von einem weißen T-Shirt.|Olivia 談到一件白色的T恤。
-Mia träumt von einem weißen T-Shirt.|Mia 夢到一件白色的T恤。
+Mia träumt von einem weißen T-Shirt.|Mia 夢想擁有一件白色的T恤。
 Ich erzähle von dem tollen Geschenk.|我講到那份很棒的禮物。
 Olivia spricht von dem tollen Geschenk.|Olivia 談到那份很棒的禮物。
-Mia träumt von dem tollen Geschenk.|Mia 夢到那份很棒的禮物。
+Mia träumt von dem tollen Geschenk.|Mia 夢想擁有那份很棒的禮物。
 Olivia spricht von einem hellen Zimmer.|Olivia 談到一間明亮的房間。
 Ich erzähle von einem hellen Zimmer.|我講到一間明亮的房間。
-Mia träumt von einem hellen Zimmer.|Mia 夢到一間明亮的房間。
+Mia träumt von einem hellen Zimmer.|Mia 夢想擁有一間明亮的房間。
 Olivia spricht von einem vollen Glas.|Olivia 談到一個滿滿的玻璃杯。
 Ich erzähle von einem vollen Glas.|我講到一個滿滿的玻璃杯。
-Mia träumt von einem vollen Glas.|Mia 夢到一個滿滿的玻璃杯。
+Mia träumt von einem vollen Glas.|Mia 夢想擁有一個滿滿的玻璃杯。
 Olivia spricht von einem weichen Kissen.|Olivia 談到一個柔軟的枕頭。
-Mia träumt von einem weichen Kissen.|Mia 夢到一個柔軟的枕頭。
+Mia träumt von einem weichen Kissen.|Mia 夢想擁有一個柔軟的枕頭。
 Ich erzähle von einem weichen Kissen.|我講到一個柔軟的枕頭。
-Mia träumt von dem spannenden Spiel.|Mia 夢到那個精彩的遊戲。
+Mia träumt von dem spannenden Spiel.|Mia 夢想擁有那個精彩的遊戲。
 Olivia spricht von dem spannenden Spiel.|Olivia 談到那個精彩的遊戲。
 Ich erzähle von dem spannenden Spiel.|我講到那個精彩的遊戲。
-Mia träumt von einem neuen Ticket.|Mia 夢到一張新的票。
+Mia träumt von einem neuen Ticket.|Mia 夢想擁有一張新的票。
 Olivia spricht von einem neuen Ticket.|Olivia 談到一張新的票。
 Ich erzähle von einem neuen Ticket.|我講到一張新的票。
 Das ist die warme Jacke.|這就是那件保暖的外套。

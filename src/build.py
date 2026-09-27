@@ -17,6 +17,8 @@ def _data(m, zh=True):
 engine = re.sub(r"%%DATA:((?!zh_)\w+)%%", _data, engine)   # zh_* erst je Gruppe (unten)
 meta = []
 built = []
+WEG = [l.split("#")[0].strip() for l in open(os.path.join(SRC, "tests", "entfernt.txt"), encoding="utf-8").read().split("\n")] if os.path.exists(os.path.join(SRC, "tests", "entfernt.txt")) else []
+WEG = [w for w in WEG if w]   # entfernte Themen: Lehrer-Uebersicht zaehlt sie nicht
 # Speicher-Schluessel, Firebase-Pfade und Ordner: je Gruppe eindeutig und nie geaendert (sonst geht Lernstand verloren)
 FEST = ["key", "teacherKey", "lbPath", "savePath", "folder"]
 cfgs = {g: json.loads(open(os.path.join(SRC, "groups", g + ".js"), encoding="utf-8").read().split("const GROUP=", 1)[1].split(";\n", 1)[0]) for g in GROUPS}
@@ -47,7 +49,7 @@ for g in GROUPS:
     open(os.path.join(out, "version.json"), "w").write('{"build":"%s"}\n' % build)
     stages = [[int(i), n] for i, n in re.findall(r'\{id:(\d+),name:"([^"]+)"', gjs)]
     meta.append({"id": g, "name": cfg["name"], "folder": cfg["folder"], "lbPath": cfg["lbPath"], "savePath": cfg["savePath"],
-                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1]})
+                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1], "weg": WEG})
     print("%-12s -> %s/ (Build %s)" % (g, cfg["folder"], build))
 # gemeinsame Lehrer-Uebersicht fuer alle Gruppen
 os.makedirs(os.path.join(REPO, "lehrer"), exist_ok=True)

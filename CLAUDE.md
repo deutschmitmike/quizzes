@@ -47,6 +47,8 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 ## Lernverfahren (Stand 2026-09-26)
 - Pro Karte eigener Abstand und eigene Leichtigkeit (SM-2-artig), Boxen 1–9, „sicher“ = Box ≥ 4. Eine vergessene sichere Karte fällt 2 Boxen zurück. Problemwörter (ab 5 Fehlern) bleiben in Box 2. Neue Karten werden nach Rückstau dosiert.
 - FSRS ist getestet (`src/experimente/`). Mit Standardwerten ist es 1 bis 6 % schlechter, sinnvoll erst mit echten Daten und trainierten Parametern.
+- Noch nicht fällige Karten (Extrarunden, Auffüllen) zählen nicht als Wiederholung (nur Stern). Abgebrochene Runden werden in allen Gruppen fortgesetzt (mit Fehlern und Zähler); falsch getippte Antworten warten auf „Weiter“.
+- Cloud: ein Stand mit weniger Karten ersetzt nie einen mit mehr; „Alles zurücksetzen“ setzt `resetAt`, das gilt dann auf allen Geräten.
 - `node src/tests/sim_effekt.js <seite>` misst die Effektivität mit einem Lerner, der vergisst. Der größte Hebel ist die Übungszeit (Rundengröße).
 
 ## Außerhalb des Repos
