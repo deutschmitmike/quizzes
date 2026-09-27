@@ -80,12 +80,15 @@ for (const rel of process.argv.slice(2)) {
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;
   } catch (e) { fail(name, "Spielerwechsel: " + e.message); }
-  // 8) Tippfehler-Toleranz: ein Buchstabe im Wortstamm ja, Endung/Umlaut/kurze Woerter/falsche Auswahl nie
-  if (X.nearMiss) { const T = [["großen", ["großen", "en"], ["großen", "große", "großer"], "gorßen", true], ["großen", ["großen", "en"], ["große"], "großem", false],
-      ["die Mütter", ["die Mütter", "Mütter"], ["die Mutter"], "die Mutter", false], ["die Mütter", ["die Mütter", "Mütter"], [], "Mutter", false],
-      ["auf den", ["auf den", "den"], ["auf dem"], "auf dem", false], ["habe … gemacht", ["habe gemacht"], [], "haben gemacht", false],
-      ["habe … gemacht", ["habe gemacht"], [], "habe gemcaht", true], ["fährst", ["fährst"], ["fahrst"], "fahrst", false], ["mir", ["mir"], ["mich"], "mri", false]];
-    for (const [c, t, o, inp, exp] of T) { checks++; if (!!X.nearMiss(inp, { correct: c, typed: t, options: o }) !== exp) fail(name, "Tippfehler-Regel: " + inp + " fuer " + c + " sollte " + (exp ? "toleriert" : "falsch") + " sein"); } }
+  // 8) Tippfehler-Toleranz (Mike: Endungen muessen absolut stimmen): nur Adjektive/Mehrzahl, nur Wortstamm; Endung, Umlaut, kurze Woerter, Verben nie
+  if (X.nearMiss) { const T = [["adj", "großen", ["großen", "en"], ["großen", "große", "großer"], "gorßen", true], ["adj", "großen", ["großen", "en"], ["große"], "großem", false],
+      ["adj", "große", ["große", "e"], ["großen"], "großem", false], ["adj", "großes", ["großes", "es"], ["großer"], "großer", false], ["adj", "großes", ["großes", "es"], [], "gorßes", true],
+      ["plural", "die Mütter", ["die Mütter", "Mütter"], ["die Mutter"], "die Mutter", false], ["plural", "die Mütter", ["die Mütter", "Mütter"], [], "Mutter", false],
+      ["plural", "die Kartoffeln", ["die Kartoffeln", "Kartoffeln"], [], "die Katroffeln", true], ["plural", "die Kartoffeln", ["die Kartoffeln"], [], "die Kartoffels", false],
+      ["case", "auf den", ["auf den", "den"], ["auf dem"], "auf dem", false], ["case", "auf den", ["auf den", "den"], [], "auf dne", false],
+      ["perf", "habe … gemacht", ["habe gemacht"], [], "haben gemacht", false], ["perf", "habe … gemacht", ["habe gemacht"], [], "habe gmacht", false],
+      ["pres", "siehst", ["siehst"], [], "sehst", false], ["komp", "am schnellsten", ["am schnellsten"], [], "am schnellesten", false], ["cloze", "mir", ["mir"], ["mich"], "mri", false]];
+    for (const [k, c, t, o, inp, exp] of T) { checks++; if (!!X.nearMiss(inp, { correct: c, typed: t, options: o }, k) !== exp) fail(name, "Tippfehler-Regel: " + inp + " fuer " + c + " sollte " + (exp ? "toleriert" : "falsch") + " sein"); } }
   // 7) Saetze auf Chinesisch (nur Gruppen mit zh): jeder feste Satz uebersetzt, Typografie Taiwan (，。？！ statt , . ? !, keine Striche)
   if (X.CFG.zh) try {
     const Z = X.ZH_S, all = allSentences(X), miss = all.filter(t => !Z[t]);

@@ -628,7 +628,7 @@ const INTRO={
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-7"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-8"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2913,12 +2913,12 @@ function pronCard(it){ const w=it.word, g=G[w], fills=[];
 function oneEdit(a,b){ if(a===b||Math.abs(a.length-b.length)>1) return -1; let i=0; while(i<a.length&&i<b.length&&a[i]===b[i]) i++;
   if(a.length===b.length){ if(a.slice(i+1)===b.slice(i+1)) return i; if(a[i]===b[i+1]&&a[i+1]===b[i]&&a.slice(i+2)===b.slice(i+2)) return i; return -1; }
   return (a.length>b.length ? a.slice(i+1)===b.slice(i) : a.slice(i)===b.slice(i+1)) ? i : -1; }
-function nearMiss(inp,d){ const a=normAns(inp); if(a.length<6||!d.typed) return null;
+function nearMiss(inp,d,kind){ const a=normAns(inp); if(!/^(adj|plural)$/.test(kind||"")||a.length<6||!d.typed) return null;   // nur Adjektive/Mehrzahl (Stamm vorgegeben); Verben, Artikel, Pronomen, Komparativ immer exakt
   if((d.options||[]).some(o=>normAns(o)===a)) return null;
   const noUml=x=>x.replace(/ae/g,"a").replace(/oe/g,"o").replace(/ue/g,"u");
   for(const t of d.typed){ const b=normAns(t); if(b.length<6) continue; const pos=oneEdit(a,b);
     if(pos<0) continue; let we=b.indexOf(" ",pos); if(we<0) we=b.length; const ws=b.lastIndexOf(" ",pos)+1;   // Wort, in dem der Fehler liegt
-    if(we-ws<5||pos>=we-3) continue; if(noUml(a)===noUml(b)) continue; return t; }   // kurze Woerter und Wortendungen: keine Toleranz
+    if(we-ws<5||pos>=we-4) continue; if(noUml(a)===noUml(b)) continue; return t; }   // kurze Woerter und Wortendungen: keine Toleranz
   return null; }
 function normAns(s){ return (s||"").toLowerCase().replace(/…|\.\.\./g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(); }
 // ===== Vergleich mit der eigenen Vorwoche (statt Rangliste) =====
@@ -4098,7 +4098,7 @@ function renderCurrent(){
     const inp=document.createElement("input"); inp.type="text"; inp.placeholder=d.typedHint||"Antwort"; ["autocapitalize","autocomplete","autocorrect"].forEach(a=>inp.setAttribute(a,"off")); inp.setAttribute("spellcheck","false");
     inp.style.cssText="border:2px solid var(--der); border-radius:14px; padding:12px; font-family:inherit; font-size:20px; text-align:center; width:min(100%,300px);";
     const b=document.createElement("button"); b.className="ctlbtn weiter"; b.style.padding="12px 18px"; b.textContent="Prüfen";
-    const go=()=>{ if(!inp.value.trim()) return; const ok=d.typed.some(x=>normAns(x)===normAns(inp.value)), nm=ok?null:nearMiss(inp.value,d); if(nm) helpUsed=true; finishRecall(ok||!!nm, d, it, !!nm); };
+    const go=()=>{ if(!inp.value.trim()) return; const ok=d.typed.some(x=>normAns(x)===normAns(inp.value)), nm=ok?null:nearMiss(inp.value,d,it.kind); if(nm) helpUsed=true; finishRecall(ok||!!nm, d, it, !!nm); };
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     const um=document.createElement("div"); um.style.cssText="display:flex; gap:6px; justify-content:center; width:100%; margin-top:8px;";
     ["ä","ö","ü","ß"].forEach(ch=>{ const k=document.createElement("button"); k.className="ctlbtn"; k.textContent=ch;
