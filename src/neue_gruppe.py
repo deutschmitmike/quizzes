@@ -28,6 +28,10 @@ rest = t[j:]
 alt = alt0   # Beispielsaetze: bei neuen Schuelern immer der eigene Name (Mike)
 if alt: rest = rest.replace(alt, namen[0])
 cfg["beispielName"] = namen[0] if alt else None
+if a.vorlage == "mia-olivia":   # Beispielsaetze mit den eigenen Namen (Mike): Mia -> 1. Name, Olivia -> 2. Name (sonst bleibt Olivia als andere Person)
+    rest = re.sub(r"\bMia(?=s?\b)", namen[0], rest)
+    if len(namen) > 1: rest = re.sub(r"\bOlivia(?=s?\b)", namen[1], rest)
+    cfg.pop("nameSwap", None)   # neue Schueler sehen ihren eigenen Namen (Tausch gilt nur fuer Mia & Olivia)
 kopf = "// ===== Steckbrief: %s (angelegt mit neue_gruppe.py, Vorlage %s) =====\n" % (a.name, a.vorlage)
 t = kopf + t[t.index("\n") + 1:i] + json.dumps(cfg, ensure_ascii=False, indent=1) + rest
 open(os.path.join(G, ordner + ".js"), "w", encoding="utf-8").write(t)

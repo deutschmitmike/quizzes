@@ -11,7 +11,7 @@ const warn = (f, m) => { warns++; console.log("  Hinweis " + f + ": " + m); };
 const EXP = "{ITEMS,byId,cardData,label,STAGES,S:()=>S,setS:x=>{S=x},fresh,KEY,EXTRA_ROUNDS,CFG,MAX:()=>MAX_SESSION,startDaily,startSession,commitNext,today," +
   "queue:()=>queue,current:()=>current,missSess:()=>missSess,setPending:p=>{pending=p},show,switchPlayer:(typeof switchPlayer==='function'?switchPlayer:null)," +
   "lbPickName:(typeof lbPickName==='function'?lbPickName:null),VERBS:(typeof VERBS!=='undefined'?VERBS:[]),wrongPart:(typeof wrongPart==='function'?wrongPart:null)," +
-  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,fullSent}";
+  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,fullSent,nameSwap:(typeof nameSwap==='function'?nameSwap:null)}";
 // alle festen Saetze, so wie die App sie als d.speak bildet (Schluessel fuer die chinesische Satzuebersetzung)
 function allSentences(X) { const out = new Set();
   for (const it of X.ITEMS) {
@@ -81,6 +81,14 @@ for (const rel of process.argv.slice(2)) {
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;
   } catch (e) { fail(name, "Spielerwechsel: " + e.message); }
+  // 9) Namenstausch je Spielerin (Mia sieht Olivia und umgekehrt): Loesung bleibt in den Antworten, Kaertchen ergeben die Loesung, Name wirklich getauscht
+  if (X.CFG.nameSwap && X.nameSwap) try { for (const [p, q] of Object.entries(X.CFG.nameSwap)) { sb.run("S.playerName=" + JSON.stringify(p)); let n = 0;
+      for (const it of X.ITEMS) { const d = X.nameSwap(X.cardData(it)); checks++; if (!d._sw) continue; n++;
+        if (d.options && !d.options.includes(d.correct)) fail(name, it.id + " (" + p + "): Loesung nach Namenstausch nicht in den Antworten");
+        if (d.tiles && [d.tiles.fixed].concat(d.tiles.tiles).join(" ") + d.tiles.punct !== d.correct) fail(name, it.id + " (" + p + "): Kaertchen passen nach Namenstausch nicht");
+        if (new RegExp("\\b" + p + "(?=s?\\b)").test(d.prompt + d.correct)) fail(name, it.id + " (" + p + "): eigener Name noch sichtbar"); }
+      if (!n) fail(name, "Namenstausch fuer " + p + " greift bei keiner Karte"); } sb.run("S.playerName='Test'"); }
+  catch (e) { fail(name, "Namenstausch: " + e.message); }
   // 7) Saetze auf Chinesisch (nur Gruppen mit zh): jeder feste Satz uebersetzt, Typografie Taiwan (，。？！ statt , . ? !, keine Striche)
   if (X.CFG.zh) try {
     const Z = X.ZH_S, all = allSentences(X), miss = all.filter(t => !Z[t]);

@@ -191,7 +191,11 @@ const GROUP={
   1,
   1
  ],
- "sound": false
+ "sound": false,
+ "nameSwap": {
+  "Mia": "Olivia",
+  "Olivia": "Mia"
+ }
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
