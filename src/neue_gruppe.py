@@ -1,7 +1,7 @@
 # Legt eine neue Gruppe (Schueler) an: eigener Link, eigener Speicher, Anmeldung per Knopf "Ich bin ...".
 # Aufruf (im Repo):  python3 src/neue_gruppe.py --name Marta --vorlage kyana [--ordner marta] [--zh] [--namen "Marta,Lena"]
 #   --vorlage kyana       = wie Kyana (Bobby, Sammeltiere, 14 Themen, 35 Karten, Extrarunden)
-#   --vorlage mia-olivia  = sachlich, 20 bis 30 Karten, alle Themen bis Relativsaetze
+#   --vorlage mia-olivia  = sachlich, 25 bis 30 Karten, alle Themen bis Relativsaetze
 #   --zh                  = chinesische Bedeutungen und Saetze anzeigen (nur wenn die Schueler Chinesisch lesen)
 #   --namen               = Namen fuer die Knoepfe (Standard: --name)
 # Danach: src/BUILD hochzaehlen, python3 src/build.py, committen, pushen. Link: https://deutschmitmike.github.io/quizzes/<ordner>/

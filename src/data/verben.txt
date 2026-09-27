@@ -1,5 +1,5 @@
-sein|war|gewesen|s||2s:{A} du schon mal in Deutschland {P}?;1s:Letzte Woche {A} ich krank {P}.;3s:Die Party {A} super {P}.|wk=wart|p3=ist/sind
-haben|hatte|gehabt|h||1s:Gestern {A} ich keine Zeit {P}.;1p:Auf der Party {A} wir viel Spaß {P}.|xw=gehatt|p3=hat/haben
+sein|war|gewesen|s||2s:{A} du schon mal in Deutschland {P}?;1s:Letzte Woche {A} ich krank {P}.;3s:Die Party {A} super {P}.|wk=wart|p3=ist/sind/bin
+haben|hatte|gehabt|h||1s:Gestern {A} ich keine Zeit {P}.;1p:Auf der Party {A} wir viel Spaß {P}.|xw=gehatt|p3=hat/haben/habe
 werden|wurde|geworden|s||3s:Mias Bruder {A} gestern achtzehn {P}.;3s:Das Wetter {A} plötzlich schlecht {P}.|p3=wird/werden
 sagen|-|gesagt|h||2s:Was {A} du {P}?
 sehen|sah|gesehen|h||1p:Wir {A} gestern einen guten Film {P}.;2s:{A} du meine Nachricht {P}?
@@ -140,7 +140,7 @@ feiern|-|gefeiert|h||1p:Am Samstag {A} wir Mias Geburtstag {P}.
 dauern|-|gedauert|h||3s:Der Film {A} drei Stunden {P}.
 scheinen|schien|geschienen|h||3s:Den ganzen Tag {A} die Sonne {P}.
 freuen|-|gefreut|h||3s:Mia {A} sich sehr über das Geschenk {P}.
-raten|riet|geraten|h||3s:Mia {A} richtig {P}.
+raten|riet|geraten|h||3s:Mia {A} die Antwort richtig {P}.
 schreien|schrie|geschrien|h||3s:Das Baby {A} die ganze Nacht {P}.|wk=schreiete
 passen|-|gepasst|h||3s:Die Hose {A} nicht {P}.
 kosten|-|gekostet|h||3s:Das Handy {A} 300 Euro {P}.

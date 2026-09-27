@@ -1,5 +1,6 @@
 # Absichtlich entfernte Karten (Praefix der Karten-ID je Zeile). Die Tests melden diese nicht als verschwunden.
 # Nur eintragen, wenn Mike ein Thema/Wort ausdruecklich raushaben will; der Lernstand dieser Karten geht verloren.
+# Zeilen mit [ordner] gelten nur fuer diese App (z. B. [mia-olivia] d:1:Mutter$), sonst fuer alle.
 t23:   # 2026-09-27 Mike: reflexive Verben raus (Mia & Olivia)
 t24:   # 2026-09-27 Mike: Konjunktiv II raus (Mia & Olivia)
 # 2026-09-27 Mike: Mehrzahl-Karten fuer Woerter ohne echten Plural raus ($ = genau diese Karte, nicht p:Geldbeutel usw.)
@@ -43,10 +44,14 @@ p:Grippe$
 p:Freude$
 p:Not$
 # 2026-09-27: unpassende Kyana/Marta-Karten (meine Sonne, sein Kind; ohneKarten im Steckbrief)
-po:Sonne$
-po:Kind$
-ps:Kind$
-ps:Sonne$
+[der-die-das] po:Sonne$
+[marta] po:Sonne$
+[der-die-das] po:Kind$
+[marta] po:Kind$
+[der-die-das] ps:Kind$
+[marta] ps:Kind$
+[der-die-das] ps:Sonne$
+[marta] ps:Sonne$
 # 2026-09-27: weitere Woerter ohne passende Mehrzahl-Karte (OHNE_PL)
 p:Brust$
 p:Mops$
@@ -54,3 +59,39 @@ p:Fett$
 p:Unkraut$
 p:Moos$
 p:Schoß$
+# 2026-09-27: Mia & Olivia Familienwoerter mit Artikel (ohne den Bruder, bei der Mutter) durch Tante/Onkel/Nachbarin/Arzt ersetzt
+[mia-olivia] d:1:Freundin$
+[mia-olivia] d:1:Mutter$
+[mia-olivia] d:6:Freundin$
+[mia-olivia] d:12:Freund$
+[mia-olivia] d:12:Freundin$
+[mia-olivia] d:12:Schwester$
+[mia-olivia] d:14:Freund$
+[mia-olivia] d:15:Bruder$
+[mia-olivia] d:18:Mutter$
+[mia-olivia] d:18:Vater$
+[mia-olivia] d:20:Bruder$
+[mia-olivia] d:20:Schwester$
+[mia-olivia] d:23:Freundin$
+[mia-olivia] d:26:Schwester$
+[mia-olivia] d:26:Freundin$
+[mia-olivia] a:0:Mutter$
+[mia-olivia] a:0:Vater$
+[mia-olivia] a:0:Freundin$
+[mia-olivia] a:5:Bruder$
+[mia-olivia] a:5:Schwester$
+[mia-olivia] a:5:Freundin$
+[mia-olivia] a:16:Freund$
+[mia-olivia] a:16:Mutter$
+[mia-olivia] a:19:Freundin$
+[mia-olivia] a:21:Bruder$
+[mia-olivia] a:21:Schwester$
+[mia-olivia] m:d1:Freundin$
+[mia-olivia] m:d1:Mutter$
+[mia-olivia] m:d6:Freundin$
+[mia-olivia] m:a0:Mutter$
+[mia-olivia] m:a0:Vater$
+[mia-olivia] m:a0:Freundin$
+[mia-olivia] m:a5:Bruder$
+[mia-olivia] m:a5:Schwester$
+[mia-olivia] m:a5:Freundin$

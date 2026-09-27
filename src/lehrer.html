@@ -37,11 +37,11 @@ function label(id){ const p=id.split(":"), k=p[0], t=KIND[k]||k;
   if(/^t\d+$/.test(k)) return t+"-Satz";   // Satzkarten: ID ist eine Pruefsumme
   if(k==="adj") return p[4]+" "+p[5]+" ("+t+")"; if(k==="ns") return t+" "+(+p[1]+1); if(k==="ko") return p[1]+" ("+(p[2]==="S"?"Superlativ":"Komparativ")+")";
   return p[p.length-1]+" ("+t+")"; }
-const WEG=[...new Set(META.flatMap(g=>g.weg||[]))];   // entfernte Themen (src/tests/entfernt.txt) nicht mitzaehlen
-function kidHtml(S){ const t=today(), cards=Object.entries(S.cards||{}).filter(([id])=>!WEG.some(w=>w.endsWith("$")?id===w.slice(0,-1):id.startsWith(w))), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
+function kidHtml(S,g){ const WEG=(g&&g.weg)||[];   // entfernte Themen dieser Gruppe (src/tests/entfernt.txt) nicht mitzaehlen
+  const t=today(), cards=Object.entries(S.cards||{}).filter(([id])=>!WEG.some(w=>w.endsWith("$")?id===w.slice(0,-1):id.startsWith(w))), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
   const st=S.stats||{}, acc=st.attempts?Math.round(100*st.firstRight/st.attempts)+" %":"–";
-  const log=(S.log||[]).filter(L=>L.d>t-7), n7=log.reduce((a,L)=>a+L.n,0), ok7=log.reduce((a,L)=>a+L.ok,0);
-  const ago=S.lastDay!=null?t-S.lastDay:null, agoTxt=ago==null?"noch nie":ago===0?"heute":ago===1?"gestern":"vor "+ago+" Tagen";
+  const log=(Array.isArray(S.log)?S.log:Object.values(S.log||{})).filter(L=>L&&L.d>t-7), n7=log.reduce((a,L)=>a+L.n,0), ok7=log.reduce((a,L)=>a+L.ok,0);
+  const lastD=Math.max(S.lastDay!=null?S.lastDay:-1,...(Array.isArray(S.log)?S.log:Object.values(S.log||{})).filter(Boolean).map(L=>L.d||-1)), ago=lastD>=0?t-lastD:null,   /* auch abgebrochene Runden zaehlen */ agoTxt=ago==null?"noch nie":ago===0?"heute":ago===1?"gestern":"vor "+ago+" Tagen";
   const prob=cards.filter(([,c])=>(c.miss||0)>=2).sort((a,b)=>b[1].miss-a[1].miss).slice(0,6).map(([id,c])=>esc(label(id))+" ("+c.miss+")");
   const row=(k,v,w)=>'<div class="row"><span>'+k+'</span><span'+(w?' class="warn"':'')+'>'+v+'</span></div>';
   return '<div class="kid"><div class="n">'+esc(S.playerName)+'</div>'
@@ -58,7 +58,7 @@ async function load(){ const root=document.getElementById("root"); let html="";
     try{ saves=await (await fetch(DB+g.savePath+".json?t="+Date.now())).json()||{}; fo=await (await fetch(DB+g.lbPath+"/_focus.json?t="+Date.now())).json(); }catch(e){ html+='<div class="group"><h2>'+esc(g.name)+'</h2><p class="empty">gerade offline</p></div>'; continue; }
     const kids=Object.values(saves).filter(S=>S&&S.cards&&S.playerName).sort((a,b)=>(b.lastDay||0)-(a.lastDay||0));
     html+='<div class="group"><h2>'+esc(g.name)+'</h2><div class="links"><a href="../'+g.folder+'/">Schüler-Link</a><a href="../'+g.folder+'/index_lehrer.html">Lehrerversion (Stufen testen)</a></div>'
-      +focusHtml(g,fo)+(kids.length?'<div class="kids">'+kids.map(kidHtml).join("")+'</div>':'<p class="empty">Noch niemand hat hier gespielt.</p>')+'</div>'; }
+      +focusHtml(g,fo)+(kids.length?'<div class="kids">'+kids.map(k=>kidHtml(k,g)).join("")+'</div>':'<p class="empty">Noch niemand hat hier gespielt.</p>')+'</div>'; }
   root.innerHTML=html;
   root.querySelectorAll("button[data-g]").forEach(b=>b.onclick=async()=>{ const g=META.find(x=>x.id===b.dataset.g), s=+b.dataset.s, url=DB+g.lbPath+"/_focus.json";
     try{ if(s) await fetch(url,{method:"PUT",body:JSON.stringify({stage:s,name:b.dataset.n,until:today()+14})}); else await fetch(url,{method:"DELETE"}); load(); }

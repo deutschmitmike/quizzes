@@ -44,7 +44,7 @@ for (const rel of process.argv.slice(2)) {
   try {
     const old = execSync("git show HEAD:" + name.split(path.sep).join("/"), { cwd: REPO, stdio: ["ignore", "pipe", "ignore"], maxBuffer: 64e6 }).toString();
     const O = load(old, "{ITEMS,cardData}").__X; const now = {}; X.ITEMS.forEach(it => now[it.id] = it);
-    const ENT = fs.existsSync(path.join(__dirname, "entfernt.txt")) ? fs.readFileSync(path.join(__dirname, "entfernt.txt"), "utf8").split("\n").map(l => l.split("#")[0].trim()).filter(Boolean) : [];
+    const ENT = fs.existsSync(path.join(__dirname, "entfernt.txt")) ? fs.readFileSync(path.join(__dirname, "entfernt.txt"), "utf8").split("\n").map(l => l.split("#")[0].trim()).filter(Boolean).map(l => { const m = l.match(/^\[([^\]]+)\]\s*(.+)$/); return m ? (name.startsWith(m[1] + "/") ? m[2] : null) : l; }).filter(Boolean) : [];   // [ordner] = nur diese App
     const weg = O.ITEMS.filter(it => !now[it.id]).map(it => it.id), missing = weg.filter(id => !ENT.some(pr => pr.endsWith("$") ? id === pr.slice(0, -1) : id.startsWith(pr)));   // "p:Geld$" = genau diese Karte   // entfernt.txt: absichtlich entfernte Karten (Praefix je Zeile)
     if (weg.length > missing.length) console.log("  " + name + ": " + (weg.length - missing.length) + " Karten absichtlich entfernt (entfernt.txt)");
     if (missing.length) fail(name, missing.length + " Karten verschwunden (Lernstand ginge verloren): " + missing.slice(0, 8).join(", "));
@@ -75,7 +75,7 @@ for (const rel of process.argv.slice(2)) {
       if (!spaet.some(id => !X.CFG.startNur.includes(byId[id].stage))) fail(name, "sanfter Start: nach " + T + " Tagen kommt kein Mix"); checks++; }
   } catch (e) { fail(name, "30-Tage-Simulation: " + e.message); }
   // 5) abgebrochene Runde wird fortgesetzt (nur ohne Extrarunden)
-  if (!X.EXTRA_ROUNDS && !X.CFG.teacher) try {
+  if (!X.CFG.teacher) try {   // Fortsetzen gilt in allen Gruppen (auch mit Extrarunden)
     sb.run("S=fresh(); S.playerName='Test';"); sb.setDay(40); X.startDaily();
     for (let i = 0; i < 3; i++) { const c = X.current(); X.setPending({ d: X.cardData(c), it: c, right: true }); X.commitNext(); }
     const rest = X.queue().map(q => q.id).join(); sb.run("queue=[]; show('home');"); X.startDaily();

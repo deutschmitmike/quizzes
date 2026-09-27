@@ -299,7 +299,7 @@ Der Lärm hat mich gestört.|噪音吵到我了。
 Olivia hat ihr Referat gut vorbereitet.|Olivia 把報告準備得很好。
 Am Wochenende sind wir auf einen Berg gestiegen.|我們週末去爬了山。
 Am Wochenende stiegen wir auf einen Berg.|我們週末去爬了山。
-Die Klasse hat Olivia zur Klassensprecherin gewählt.|全班選了 Olivia 當班長。
+Die Klasse hat Olivia zur Klassensprecherin gewählt.|全班選了 Olivia 當班代。
 Das Baby hat geweint.|寶寶哭了。
 Olivia hat die Aufgabe gelöst.|Olivia 把這一題解出來了。
 Ich habe Olivia im Sportverein kennengelernt.|我是在運動社團認識 Olivia 的。
@@ -824,7 +824,7 @@ Wo ist der Stift, den du mir geliehen hast?|你借我的那支筆在哪裡？
 Der Test, den wir morgen schreiben, ist schwer.|我們明天要考的小考很難。
 Wie heißt der Sänger, den du so toll findest?|你覺得很棒的那個歌手叫什麼名字？
 Das ist der Rucksack, den ich mir gekauft habe.|這就是我買給自己的背包。
-Das ist der Freund, dem ich bei den Hausaufgaben helfe.|這就是我教他寫作業的那個朋友。
+Das ist der Freund, dem ich bei den Hausaufgaben helfe.|這就是我幫他解決作業問題的那個朋友。
 Der Lehrer, dem das Buch gehört, sucht es überall.|這本書是那位老師的，他正在到處找。
 Wie heißt der Junge, dem du eine Nachricht geschickt hast?|你傳訊息給他的那個男生叫什麼名字？
 Das ist mein Onkel, dem ich zum Geburtstag gratuliere.|這是我叔叔，我要祝他生日快樂。
@@ -1256,7 +1256,7 @@ Ich bin müde, obwohl ich zehn Stunden geschlafen habe.|雖然我睡了十個小
 Wir gehen spazieren, obwohl es sehr kalt ist.|雖然天氣很冷，我們還是去散步。
 Ben spielt am Handy, obwohl er lernen soll.|雖然 Ben 應該要讀書，他還是在玩手機。
 Mias Bruder fährt ohne Helm, obwohl das gefährlich ist.|雖然很危險，Mia 的哥哥還是不戴安全帽騎車。
-Du bekommst eine gute Note, obwohl du nicht gelernt hast.|雖然你沒讀書，還是拿到了好成績。
+Du bekommst eine gute Note, obwohl du nicht gelernt hast.|雖然你沒讀書，還是會拿到好成績。
 Olivia kommt zur Party, obwohl sie morgen früh aufstehen muss.|雖然 Olivia 明天得早起，她還是來參加派對。
 Ich kaufe die Schuhe, obwohl sie sehr teuer sind.|雖然那雙鞋很貴，我還是要買。
 Mia lacht, obwohl der Witz nicht lustig ist.|雖然那個笑話不好笑，Mia 還是笑了。
@@ -1315,7 +1315,7 @@ Das Wetter ist heute schöner als gestern.|今天的天氣比昨天好。
 Im Frühling ist der Park am schönsten.|公園在春天的時候最美。
 Mias Zimmer ist kleiner als das Zimmer von ihrem Bruder.|Mia 的房間比她哥哥的房間小。
 Von allen Hunden im Park ist Olivias Hund am kleinsten.|公園裡所有的狗當中，Olivia 的狗最小。
-Das T-Shirt ist billiger als die Jacke.|這件 T恤比外套便宜。
+Das T-Shirt ist billiger als die Jacke.|這件T恤比外套便宜。
 Im Supermarkt ist das Wasser am billigsten.|超市的水最便宜。
 Das neue Handy ist teurer als das alte.|新手機比舊的貴。
 Im Zentrum sind die Wohnungen am teuersten.|市中心的房子最貴。
@@ -6338,3 +6338,40 @@ Das ist Ben. Seine Uhr ist weg.|這是 Ben。他的手錶不見了。
 Mia kauft den Laptop. Mia kauft ihn.|Mia 要買那台筆電。Mia 要買它。
 Olivia braucht den Schreibtisch. Olivia braucht ihn.|Olivia 需要那張書桌。Olivia 需要它。
 Ich finde das Tablet. Ich finde es.|我找到那台平板了。我找到它了。
+Mia hat die Antwort richtig geraten.|Mia 猜對了答案。
+Mia riet die Antwort richtig.|Mia 猜對了答案。
+Wir ziehen in die Stadt.|我們搬到城市裡。
+Wir ziehen ins Dorf.|我們搬到村子裡。
+Die Katze legt sich auf den Schreibtisch.|貓躺到書桌上。
+Die Katze legt sich auf das Regal.|貓躺到架子上。
+Die Katze legt sich auf das Sofa.|貓躺到沙發上。
+Olivia stellt sich auf die Brücke.|Olivia 站到橋上。
+Olivia stellt sich auf den Platz.|Olivia 站到廣場上。
+Olivia telefoniert mit der Nachbarin.|Olivia 在跟鄰居阿姨講電話。
+Olivia telefoniert mit der Tante.|Olivia 在跟阿姨講電話。
+Mia übernachtet bei der Nachbarin.|Mia 在鄰居阿姨家過夜。
+Die Nachricht ist vom Arzt.|這則訊息是醫生傳的。
+Die Nachricht ist von der Nachbarin.|這則訊息是鄰居阿姨傳的。
+Die Nachricht ist von der Ärztin.|這則訊息是女醫生傳的。
+Mia hat ein Geschenk vom Onkel.|Mia 收到叔叔送的禮物。
+Olivia spricht mit dem Arzt.|Olivia 在跟醫生說話。
+Olivia wohnt bei der Tante.|Olivia 住在阿姨家。
+Olivia wohnt beim Onkel.|Olivia 住在叔叔家。
+Die Idee ist vom Onkel.|這個點子是叔叔想的。
+Die Idee ist von der Tante.|這個點子是阿姨想的。
+Mia geht heute zur Nachbarin.|Mia 今天去鄰居阿姨家。
+Olivia kommt mit der Tante.|Olivia 跟阿姨一起來。
+Olivia kommt mit der Oma.|Olivia 跟奶奶一起來。
+Das Geschenk ist für die Tante.|這份禮物是給阿姨的。
+Das Geschenk ist für den Onkel.|這份禮物是給叔叔的。
+Das Geschenk ist für die Nachbarin.|這份禮物是給鄰居阿姨的。
+Olivia fährt ohne den Onkel.|Olivia 沒有跟叔叔一起去。
+Olivia fährt ohne die Tante.|Olivia 沒有跟阿姨一起去。
+Olivia fährt ohne die Oma.|Olivia 沒有跟奶奶一起去。
+Olivia schreibt eine Nachricht für den Arzt.|Olivia 寫一則訊息給醫生。
+Olivia schreibt eine Nachricht für die Tante.|Olivia 寫一則訊息給阿姨。
+Mia geht ohne die Oma.|Mia 沒有跟奶奶一起去。
+Das ist für den Onkel.|這是給叔叔的。
+Das ist für die Tante.|這是給阿姨的。
+Das ist die Mutter. Das ist ihr Auto.|這是媽媽。這是她的車。
+Das ist die Mutter. Ihr Auto ist neu.|這是媽媽。她的車是新的。

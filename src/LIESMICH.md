@@ -12,11 +12,10 @@ Das schreibt `der-die-das/`, `mia-olivia/` (index.html, index_lehrer.html, versi
 **Nie** direkt in den erzeugten `index.html` ändern, das wird beim nächsten Bauen überschrieben.
 
 ## Neue Gruppe
-1. `groups/kyana.js` bzw. `groups/mia-olivia.js` kopieren und anpassen: `folder`, `key`, `teacherKey`, `lbPath`/`savePath` (eigener Firebase-Unterordner, z. B. `lb/__name`), Schalter, Inhalte.
-2. Seitenhüllen `.html` und `_lehrer.html` kopieren (Titel anpassen).
-3. In `build.py` bei `GROUPS` eintragen, bauen. Dazu Manifest, Icons und sw.js in den neuen Ordner kopieren.
+Nicht von Hand kopieren, sondern: `python3 src/neue_gruppe.py --name Lena --vorlage kyana` (oder `--vorlage mia-olivia`, `--zh`, `--namen "A,B"`). Das legt Steckbrief, Seitenhüllen, App-Ordner und eindeutige Schlüssel/Pfade an und entfernt, was nur zu Mia & Olivia gehört (`nameSwap`, `roundFullAb`). `build.py` findet die Gruppe von selbst. Siehe `CLAUDE.md`.
 
 ## Schalter im Steckbrief (GROUP)
+Weitere: zh (Chinesisch) · startNur/startTage (sanfter Start) · roundStart/roundFull/roundFullAb (Rundengröße) · nameSwap/nameMap/beispielName (Namen in Sätzen) · ohneKarten (einzelne Karten aus) · sound · topicGroups/topicWeights (Themenmischung) ·
 mascot, critters (Bobby/Sammeltiere) · allOpen (alles gleichzeitig statt Stufen freischalten) · intros (Einführungsseiten) ·
 typedRecall (sichere Karten tippen) · teenPron (Stufe 7–10 mit Alltagssätzen) · weekView (Wochenvergleich statt Rangliste) ·
 names (feste Namensknöpfe) / allowSkip ("ohne Namen üben") · extraRounds (freiwillige Extrarunden) · roundStart/roundFull/roundStartDays ·
@@ -29,5 +28,5 @@ Laufen automatisch bei `python3 src/build.py` (`src/tests/run_all.js`): jede Kar
 ## Übungsdaten
 `src/data/*.txt` (Verben, Präsens, Modalverben, Nebensätze, Komparativ, Satzbau, Pronomen, Reflexiv, Konjunktiv II, Relativsätze).
 Format steht im Kopf der jeweiligen Stelle in `engine.js`. Zeilen ergänzen ist unkritisch; keine ` oder ${ verwenden.
-Lückensätze (`cloze`: Pronomen, Relativsätze …): `Satz mit {_}|Hinweis|richtig|falsch|falsch|Erklärung` und optional `|4. Antwort` (7. Feld). Die 4. Antwort darf nie einen richtigen Satz ergeben.
+Lückensätze (7. Feld = 4. Antwort, 8. Feld = weitere richtige Tipp-Antworten a;b) (`cloze`: Pronomen, Relativsätze …): `Satz mit {_}|Hinweis|richtig|falsch|falsch|Erklärung` und optional `|4. Antwort` (7. Feld). Die 4. Antwort darf nie einen richtigen Satz ergeben.
 `src/data/zh_saetze.txt`: jeder feste Satz auf Chinesisch (`Deutscher Satz|中文`), wird nur in Gruppen mit `zh` eingebaut (build.py setzt `zh_*`-Daten je Gruppe ein). Neue oder geänderte Sätze brauchen eine neue Zeile; `node src/tests/run_all.js mia-olivia/index.html` zeigt fehlende.

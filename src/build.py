@@ -18,7 +18,8 @@ engine = re.sub(r"%%DATA:((?!zh_)\w+)%%", _data, engine)   # zh_* erst je Gruppe
 meta = []
 built = []
 WEG = [l.split("#")[0].strip() for l in open(os.path.join(SRC, "tests", "entfernt.txt"), encoding="utf-8").read().split("\n")] if os.path.exists(os.path.join(SRC, "tests", "entfernt.txt")) else []
-WEG = [w for w in WEG if w]   # entfernte Themen: Lehrer-Uebersicht zaehlt sie nicht
+WEG = [w for w in WEG if w]   # entfernte Themen: Lehrer-Uebersicht zaehlt sie nicht ("[ordner] id" = nur diese App)
+def weg_fuer(ordner): return [re.sub(r"^\[[^\]]+\]\s*", "", w) for w in WEG if not w.startswith("[") or w.startswith("[" + ordner + "]")]
 # Speicher-Schluessel, Firebase-Pfade und Ordner: je Gruppe eindeutig und nie geaendert (sonst geht Lernstand verloren)
 FEST = ["key", "teacherKey", "lbPath", "savePath", "folder"]
 cfgs = {g: json.loads(open(os.path.join(SRC, "groups", g + ".js"), encoding="utf-8").read().split("const GROUP=", 1)[1].split(";\n", 1)[0]) for g in GROUPS}
@@ -49,7 +50,7 @@ for g in GROUPS:
     open(os.path.join(out, "version.json"), "w").write('{"build":"%s"}\n' % build)
     stages = [[int(i), n] for i, n in re.findall(r'\{id:(\d+),name:"([^"]+)"', gjs)]
     meta.append({"id": g, "name": cfg["name"], "folder": cfg["folder"], "lbPath": cfg["lbPath"], "savePath": cfg["savePath"],
-                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1], "weg": WEG})
+                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1], "weg": weg_fuer(cfg["folder"])})
     print("%-12s -> %s/ (Build %s)" % (g, cfg["folder"], build))
 # gemeinsame Lehrer-Uebersicht fuer alle Gruppen
 os.makedirs(os.path.join(REPO, "lehrer"), exist_ok=True)
@@ -59,7 +60,7 @@ print("Lehrer-Uebersicht -> lehrer/ (%d Gruppen)" % len(meta))
 
 # automatische Tests (src/tests/run_all.js): bricht bei Fehlern ab -> dann NICHT committen/veroeffentlichen
 if "--no-tests" not in sys.argv:
-    print("Tests laufen ...")
+    print("Tests laufen ...", flush=True)
     r = subprocess.run(["node", os.path.join(SRC, "tests", "run_all.js")] + built, cwd=REPO)
     if r.returncode != 0:
         sys.exit("\nBUILD NICHT VEROEFFENTLICHEN: Tests fehlgeschlagen (Details oben).")
