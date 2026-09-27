@@ -655,10 +655,20 @@ function topicItems(){ const o=[], has=id=>STAGES.some(x=>x.id===id);
   return o; }
 function maskAns(t,a){ const L="A-Za-zÄÖÜäöüß";   // Hilfe (?) zeigt die Regel, aber nicht die Lösung: "helfen verlangt den Dativ: …"
   return !t||!a?(t||""):t.replace(new RegExp("(^|[^"+L+"])"+a+"(?=[^"+L+"]|$)","g"),"$1…").replace(/…\./g,"…"); }
+// Satzbausteine fuer sichere Satzbau-/Nebensatz-Karten: Woerter, die in allen Varianten zusammenbleiben, bilden ein Kaertchen.
+// Der erste Baustein steht fest (sonst waeren andere richtige Reihenfolgen moeglich). null = keine Kaertchen (dann Auswahl wie bisher).
+function tileBlocks(target, variants){ const P=/[.?!]$/.exec(target), punct=P?P[0]:"", t=target.replace(/[.?!]$/,"").split(" "), lc=x=>x.toLowerCase().replace(/[.?!,]$/,"");
+  if(new Set(t.map(lc)).size!==t.length) return null;
+  const vs=variants.map(v=>v.replace(/[.?!]$/,"").split(" ").map(lc));
+  const blocks=[[t[0]]]; for(let i=1;i<t.length;i++){ const a=lc(t[i-1]), b=lc(t[i]); if(vs.every(v=>{ const j=v.indexOf(a); return j>=0&&v[j+1]===b; })) blocks[blocks.length-1].push(t[i]); else blocks.push([t[i]]); }
+  const B=blocks.map(x=>x.join(" ")); if(B.length<3) return null;
+  if(B.length>=5) B.splice(2,2,B[2]+" "+B[3]);   // Subjekt + naechster Teil zusammen, sonst waeren Umstellungen wie "hat selbst Mia" moeglich
+  return {fixed:B[0], tiles:B.slice(1), punct}; }
 function topicCard(it){
   if(it.kind==="order"||it.kind==="cloze"){ const f=TITEM[it.id], ts=TSET[it.stage];
     if(it.kind==="order"){ const q=/\?$/.test(f[0]), w=q&&/^(\S+ )?(wann|was|wo|wohin|woher|warum|wie|wer|wen|wem|welche[rsnm]?)\b/i.test(f[0]);
-      return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0],
+      const yn=q&&!w, tb=yn?null:tileBlocks(f[0],[f[1],f[2]]);
+      return {prompt:'<div class="hint">'+ts.hint+'</div>', options:shuffle([f[0],f[1],f[2]]), correct:f[0], tiles:tb,
       scaffold:!q?"Im Hauptsatz steht das konjugierte Verb an Position 2.":w?"In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).":"In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).",
       explain:f[3]||"", speak:f[0]}; }
     return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">'+(f[1].indexOf("(")>=0?f[1]:"("+f[1]+")")+'</div>',
@@ -673,7 +683,7 @@ function topicCard(it){
       typed:[corr], typedHint:"z. B. fährst"}; }
   if(it.kind==="nsatz"){ const n=NSATZ[it.idx];
     return {prompt:'<div class="hint">Welche Wortstellung ist richtig?</div><div class="sentence">'+n[0]+' <span class="blank">?</span></div>',
-      options:shuffle([n[1],n[2],n[3]]), correct:n[1], scaffold:"Nach weil, dass, wenn, obwohl, ob steht das konjugierte Verb am Ende.",
+      options:shuffle([n[1],n[2],n[3]]), correct:n[1], tiles:tileBlocks(n[1],[n[2],n[3]]), tilesLead:n[0], scaffold:"Nach weil, dass, wenn, obwohl, ob steht das konjugierte Verb am Ende.",
       explain:"Im Nebensatz steht das Verb am Ende: "+n[1], speak:n[0]+" "+n[1], blankFill:true, fills:[n[1]]}; }
   const k=KBY[it.word], isK=it.form==="K", corr=isK?k.k:k.s, t=isK?k.tk:k.ts;
   return {prompt:'<div class="hint">'+(isK?"Komparativ":"Superlativ")+'</div>'+big+k.adj+'</div><div class="sentence" style="margin-top:10px">'+t.replace(/\{[KS]\}/,'<span class="blank">?</span>')+'</div>',
@@ -826,7 +836,7 @@ const MAX_BOX=9;
 // Bewertung automatisch: falsch = nochmal, richtig aber langsam = schwer, richtig = gut, sichere Karte sofort richtig = einfach
 let shownAt=0, answeredAt=0, curD=null, helpUsed=false;   // helpUsed: Regel angesehen -> hoechstens "schwer"
 function gradeFor(it,card){ const rt=(answeredAt||Date.now())-shownAt, box=card.box||0;
-  const typed=box>=3&&(it.kind==="genus"||(CFG.typedRecall&&!!(curD&&curD.typed)));                       // sichere Karten werden getippt -> mehr Zeit
+  const typed=box>=3&&(it.kind==="genus"||(CFG.typedRecall&&!!(curD&&(curD.typed||curD.tiles))));                       // sichere Karten werden getippt -> mehr Zeit
   const fast=typed?6000:(/^(genus|plural)$/.test(it.kind)?2500:4000), slow=fast*2.5;
   if(helpUsed||rt>slow) return 1; if(rt<fast && box>=SICHER_BOX) return 3; return 2; }
 function planCard(card,grade,t){ card.ease=card.ease||2.5;
@@ -1162,7 +1172,8 @@ function startSession(mode){
 function nextCard(){
   if(queue.length===0){ finishSession(); return; }
   current=queue[0];
-  if(CFG.intros && INTRO[current.stage] && !(S.seenIntro&&S.seenIntro[current.stage])){ showIntro(current.stage); return; }
+  if(CFG.intros && INTRO[current.stage] && !(S.seenIntro&&S.seenIntro[current.stage])
+     && !Object.keys(S.cards).some(id=>byId[id]&&byId[id].stage===current.stage)){ showIntro(current.stage); return; }   // nur bei einem Thema, das noch nie geuebt wurde
   renderCurrent();
 }
 function showIntro(stage){
@@ -1192,6 +1203,20 @@ function renderCurrent(){
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     row.appendChild(inp); row.appendChild(b); opts.appendChild(row);
     setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
+  } else if(recall && d.tiles && CFG.typedRecall){                          // sichere Satzbau-Karte: Satz aus Kaertchen bauen
+    if(it.kind==="order") box.innerHTML='<div class="hint">Bau den Satz: tippe die Teile in der richtigen Reihenfolge.</div>';
+    const T=d.tiles.tiles, built=[], pool=shuffle(T.map((x,i)=>i)); if(pool.every((x,i)=>x===i)) pool.reverse();
+    const line=document.createElement("div"); line.style.cssText="font-size:clamp(18px,5vw,24px); font-weight:700; text-align:center; min-height:44px; margin:0 0 10px;";
+    const chips=document.createElement("div"); chips.style.cssText="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:10px;";
+    const b=document.createElement("button"); b.className="ctlbtn weiter"; b.textContent="Prüfen"; b.style.display="none";
+    const draw=()=>{ line.textContent=[d.tiles.fixed].concat(built.map(i=>T[i])).join(" ")+(built.length===T.length?d.tiles.punct:" …");
+      chips.innerHTML=""; pool.forEach(i=>{ const c=document.createElement("button"); c.className="ctlbtn"; c.textContent=T[i]; c.style.fontSize="18px"; c.disabled=built.includes(i); c.style.opacity=c.disabled?"0.3":"1";
+        c.onclick=()=>{ if(!built.includes(i)){ built.push(i); draw(); } }; chips.appendChild(c); });
+      b.style.display=built.length===T.length?"":"none"; };
+    const back=document.createElement("button"); back.className="ctlbtn"; back.textContent="⌫"; back.onclick=()=>{ built.pop(); draw(); };
+    b.onclick=()=>finishRecall(built.every((x,k)=>x===k), d, it);
+    const row=document.createElement("div"); row.style.cssText="display:flex; gap:8px; justify-content:center;"; row.appendChild(back); row.appendChild(b);
+    opts.appendChild(line); opts.appendChild(chips); opts.appendChild(row); draw();
   } else if(recall && d.typed && CFG.typedRecall){                             // sichere Karte: selbst schreiben (Plural, Perfekt, Praeteritum)
     const row=document.createElement("div"); row.style.cssText="display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap;";
     const inp=document.createElement("input"); inp.type="text"; inp.placeholder=d.typedHint||"Antwort"; ["autocapitalize","autocomplete","autocorrect"].forEach(a=>inp.setAttribute(a,"off")); inp.setAttribute("spellcheck","false");

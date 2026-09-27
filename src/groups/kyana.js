@@ -288,20 +288,20 @@ const STAGES=[
  {id:13,name:"Adjektive im Dativ",desc:"mit dem, mit einem: immer -en"},
  {id:14,name:"Adjektive gemischt",desc:"alle Artikel, alle Fälle"}
 ];
-const INTRO={
- 2:"Mehrzahl heißt: mehr als eins. Aus einem Ball werden viele Bälle. Bei vielen Dingen ist der Artikel immer die.",
- 3:"Bleibt etwas an einem Ort (wo?) oder geht es irgendwohin (wohin?)? Lies das Verb, dann weißt du, welcher Artikel kommt.",
- 4:"Nach den kleinen Wörtern mit, aus, bei, zu, von ändert sich der Artikel: der und das werden zu dem, die wird zu der.",
- 5:"Nach den kleinen Wörtern für, ohne, durch, um, gegen ändert sich nur das der-Wort: der wird zu den. die und das bleiben gleich.",
- 6:"Jetzt ist alles gemischt. Schau auf das kleine Wort (mit, für, in ...) und auf das Verb und entscheide selbst, wie sich der Artikel ändert.",
- 7:"Statt das Nomen immer zu wiederholen, sagt man ein kurzes Wort: der Hund → er, die Katze → sie, das Kind → es. Der Artikel verrät es.",
- 8:"Was gehört dir? Bei der- und das-Wörtern heißt es mein: mein Hund, mein Buch. Bei die-Wörtern heißt es meine: meine Katze. Du musst also wissen: der, die oder das?",
- 9:"Wem gehört es? Einem Mann oder Jungen (er): sein. Einer Frau oder einem Mädchen (sie): ihr. Bei die-Wörtern kommt ein e dran: seine, ihre.",
- 10:"Wieder ein kurzes Wort statt dem Nomen: den Hund → ihn, die Katze → sie, das Kind → es. Schau auf den Artikel: den → ihn, die → sie, das → es.",
- 11:"Ein Adjektiv sagt, wie etwas ist: groß, klein, schön. Nach der, die, das endet es auf -e: der große Hund, die schöne Blume, das kleine Kind. Nach ein muss das Adjektiv zeigen, ob es ein der- oder ein das-Wort ist: ein großer Hund (-er), ein kleines Kind (-es). Bei eine bleibt es -e. Also -e, -er oder -es?",
- 12:"Jetzt der Akkusativ. Beim der-Wort wird der zu den und ein zu einen, dann endet das Adjektiv auf -en: den großen Hund, einen großen Hund. die und das bleiben gleich (-e), nur nach ein bekommt das das-Wort ein -es: ein kleines Kind. Also -e, -es oder -en?",
- 13:"Nach mit heißt es dem, der oder einem, einer. Das Adjektiv endet dann immer auf -en: mit dem großen Hund, mit einer kleinen Katze. Immer -en.",
- 14:"Jetzt alles zusammen: der, die, das und ein, eine in allen Fällen. Schau genau auf den Artikel und entscheide: -e, -er, -es oder -en?"
+const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze mit Beispiel
+ 2:"Mehrzahl heißt: mehr als eins. Der Artikel ist dann immer die: der Ball → die Bälle.",
+ 3:"Wo? Das Buch liegt auf dem Tisch. Wohin? Ich lege das Buch auf den Tisch. Das Verb verrät es.",
+ 4:"Nach mit, aus, bei, zu, von: der und das werden zu dem, die wird zu der.",
+ 5:"Nach für, ohne, durch, um, gegen: nur der wird zu den. die und das bleiben.",
+ 6:"Jetzt ist alles gemischt. Schau auf das kleine Wort und auf das Verb.",
+ 7:"der → er, die → sie, das → es. Der Hund bellt. Er bellt.",
+ 8:"der- und das-Wörter: mein. die-Wörter: meine. Mein Hund, meine Katze.",
+ 9:"Gehört es einem Jungen: sein. Einem Mädchen: ihr. Bei die-Wörtern: seine, ihre.",
+ 10:"den → ihn, die → sie, das → es. Ich sehe den Hund. Ich sehe ihn.",
+ 11:"Nach der, die, das: -e. Nach ein: -er oder -es. Ein großer Hund, ein kleines Kind.",
+ 12:"Beim der-Wort: den großen Hund, einen großen Hund. Sonst wie vorher.",
+ 13:"Nach mit immer -en: mit dem großen Hund, mit einer kleinen Katze.",
+ 14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?"
 };
 const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 

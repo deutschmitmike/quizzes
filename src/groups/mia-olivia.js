@@ -10,7 +10,7 @@ const GROUP={
  "mascot": false,
  "critters": false,
  "allOpen": true,
- "intros": false,
+ "intros": true,
  "typedRecall": true,
  "teenPron": true,
  "weekView": true,
@@ -355,22 +355,29 @@ const STAGES=[
  {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
  {id:25,name:"Relativsätze",desc:"der, den, dem, die, denen ..."}
 ];
-const INTRO={
- 2:"Im Plural ist der Artikel immer die: der Ball → die Bälle, das Buch → die Bücher. Die Endung musst du mit jedem Nomen lernen, oft kommt ein Umlaut dazu.",
- 3:"Nach in, auf, an gibt es zwei Möglichkeiten. Wo? (Ort, keine Bewegung): Dativ, zum Beispiel Das Handy liegt auf dem Tisch. Wohin? (Bewegung zu einem Ziel): Akkusativ, zum Beispiel Ich lege das Handy auf den Tisch. Das Verb verrät es.",
- 4:"Nach mit, aus, bei, zu, von steht immer der Dativ: der und das werden zu dem, die wird zu der. Oft verschmelzen sie: zu dem → zum, zu der → zur, von dem → vom, bei dem → beim.",
- 5:"Nach für, ohne, durch, um, gegen steht immer der Akkusativ. Nur der ändert sich (der → den), die und das bleiben gleich.",
- 6:"Jetzt ist alles gemischt. Schau auf die Präposition und bei in, auf, an auch auf das Verb: Dativ oder Akkusativ?",
- 7:"Statt das Nomen zu wiederholen, benutzt man ein Pronomen: der Laptop → er, die Jacke → sie, das Handy → es. Der Artikel sagt dir, welches.",
- 8:"Bei der- und das-Wörtern heißt es mein: mein Laptop, mein Handy. Bei die-Wörtern heißt es meine: meine Jacke. Du musst also den Artikel kennen.",
- 9:"Wem gehört es? Gehört es einem Mann oder Jungen (er): sein. Gehört es einer Frau oder einem Mädchen (sie): ihr. Bei die-Wörtern kommt ein e dazu: seine, ihre.",
- 10:"Auch im Akkusativ ersetzt man das Nomen: Ich suche den Laptop → Ich suche ihn. die Jacke → sie, das Handy → es. Schau auf den Artikel: den → ihn, die → sie, das → es.",
- 11:"Nach der, die, das endet das Adjektiv auf -e: der neue Laptop, die schöne Jacke, das kleine Handy. Nach ein zeigt das Adjektiv den Artikel: ein neuer Laptop (-er), ein kleines Handy (-es). Nach eine bleibt es -e. Also -e, -er oder -es?",
- 12:"Im Akkusativ wird der zu den und ein zu einen, das Adjektiv endet dann auf -en: Ich suche den neuen Laptop, einen neuen Laptop. die und das bleiben gleich (-e), nur nach ein bekommt das das-Wort -es: ein kleines Handy. Also -e, -es oder -en?",
- 13:"Im Dativ (zum Beispiel nach von oder mit) heißt es dem, der, einem, einer. Das Adjektiv endet dann immer auf -en: von dem neuen Laptop, von einer warmen Jacke.",
- 14:"Jetzt alles zusammen: der, die, das und ein, eine in allen Fällen. Schau genau auf den Artikel und entscheide: -e, -er, -es oder -en?",
- 15:"Das Perfekt hat zwei Teile: haben oder sein an Position 2 und das Partizip II am Ende. Ich bin ins Kino gegangen. Ich habe eine Pizza gegessen. Mit sein: Bewegung zu einem Ziel (gehen, fahren, fliegen), Veränderung (werden, einschlafen, sterben) sowie sein, bleiben und passieren. Fast alle anderen Verben: haben. Kein ge- bei be-, ver-, er- usw. und bei -ieren (besucht, studiert). Bei trennbaren Verben steht ge in der Mitte (aufgestanden). Die häufigsten Verben kommen zuerst. Sitzt ein Verb sicher, schreibst du die Form selbst.",
- 16:"Das Präteritum hört und liest man vor allem in Geschichten, Büchern und Nachrichten. Unregelmäßige Verben ändern den Vokal und bekommen kein -te: gehen → ging, sehen → sah. ich und er/sie/es haben keine Endung (ich ging, sie ging), wir und sie (Plural) bekommen -en (wir gingen). Modalverben: konnte, musste, wollte, durfte, mochte."
+const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze mit Beispiel
+ 2:"Im Plural ist der Artikel immer die. Die Endung lernst du mit jedem Wort: der Ball → die Bälle.",
+ 3:"Wo? (Ort) → Dativ: auf dem Tisch. Wohin? (Bewegung) → Akkusativ: auf den Tisch. Das Verb verrät es.",
+ 4:"Nach mit, aus, bei, zu, von immer Dativ: dem, der, dem. Oft verschmolzen: zum, zur, vom, beim.",
+ 5:"Nach für, ohne, durch, um, gegen immer Akkusativ. Nur der ändert sich: der → den.",
+ 6:"Jetzt ist alles gemischt: Präposition und Verb entscheiden, Dativ oder Akkusativ.",
+ 7:"Pronomen statt Nomen: der → er, die → sie, das → es.",
+ 8:"der- und das-Wörter: mein. die-Wörter: meine. Mein Handy, meine Jacke.",
+ 9:"Gehört es ihm: sein. Gehört es ihr: ihr. Bei die-Wörtern kommt -e dazu: seine, ihre.",
+ 10:"Im Akkusativ: den → ihn, die → sie, das → es. Ich suche den Laptop. Ich suche ihn.",
+ 11:"Nach der, die, das: -e. Nach ein: -er (der-Wort) oder -es (das-Wort). Nach eine: -e.",
+ 12:"Im Akkusativ bekommt das der-Wort -en: den neuen Laptop, einen neuen Laptop. Sonst wie im Nominativ.",
+ 13:"Im Dativ immer -en: mit dem neuen Laptop, mit einer warmen Jacke.",
+ 14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?",
+ 15:"Perfekt: haben oder sein an Position 2, das Partizip am Ende. Bewegung und Veränderung meist mit sein: Ich bin gegangen.",
+ 16:"Präteritum unregelmäßig: neuer Vokal, kein -te. gehen → ging. ich und er ohne Endung, wir gingen.",
+ 17:"Präsens: ich -e, du -st, er -t. Starke Verben ändern bei du und er den Vokal: du fährst.",
+ 18:"Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.",
+ 19:"Nach weil, dass, wenn, obwohl, ob steht das Verb am Ende: …, weil ich krank bin.",
+ 20:"Komparativ: -er, oft mit Umlaut: alt → älter als. Superlativ: am ältesten.",
+ 21:"Im Hauptsatz steht das Verb immer an Position 2: Morgen gehe ich ins Kino.",
+ 22:"helfen, danken, gefallen, mit, bei … → Dativ: mir, dir. sehen, fragen, für, ohne … → Akkusativ: mich, dich.",
+ 25:"Das Relativpronomen richtet sich nach dem Nomen und nach seiner Rolle im Nebensatz: der Film, den ich sehe. Dativ Plural: denen."
 };
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
