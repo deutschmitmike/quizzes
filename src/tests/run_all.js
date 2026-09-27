@@ -11,7 +11,7 @@ const warn = (f, m) => { warns++; console.log("  Hinweis " + f + ": " + m); };
 const EXP = "{ITEMS,byId,cardData,label,STAGES,S:()=>S,setS:x=>{S=x},fresh,KEY,EXTRA_ROUNDS,CFG,MAX:()=>MAX_SESSION,startDaily,startSession,commitNext,today," +
   "queue:()=>queue,current:()=>current,missSess:()=>missSess,setPending:p=>{pending=p},show,switchPlayer:(typeof switchPlayer==='function'?switchPlayer:null)," +
   "lbPickName:(typeof lbPickName==='function'?lbPickName:null),VERBS:(typeof VERBS!=='undefined'?VERBS:[]),wrongPart:(typeof wrongPart==='function'?wrongPart:null)," +
-  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY}";
+  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,nearMiss:(typeof nearMiss==='function'?nearMiss:null)}";
 // alle festen Saetze, so wie die App sie als d.speak bildet (Schluessel fuer die chinesische Satzuebersetzung)
 function allSentences(X) { const out = new Set();
   for (const it of X.ITEMS) {
@@ -80,6 +80,12 @@ for (const rel of process.argv.slice(2)) {
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;
   } catch (e) { fail(name, "Spielerwechsel: " + e.message); }
+  // 8) Tippfehler-Toleranz: ein Buchstabe im Wortstamm ja, Endung/Umlaut/kurze Woerter/falsche Auswahl nie
+  if (X.nearMiss) { const T = [["großen", ["großen", "en"], ["großen", "große", "großer"], "gorßen", true], ["großen", ["großen", "en"], ["große"], "großem", false],
+      ["die Mütter", ["die Mütter", "Mütter"], ["die Mutter"], "die Mutter", false], ["die Mütter", ["die Mütter", "Mütter"], [], "Mutter", false],
+      ["auf den", ["auf den", "den"], ["auf dem"], "auf dem", false], ["habe … gemacht", ["habe gemacht"], [], "haben gemacht", false],
+      ["habe … gemacht", ["habe gemacht"], [], "habe gemcaht", true], ["fährst", ["fährst"], ["fahrst"], "fahrst", false], ["mir", ["mir"], ["mich"], "mri", false]];
+    for (const [c, t, o, inp, exp] of T) { checks++; if (!!X.nearMiss(inp, { correct: c, typed: t, options: o }) !== exp) fail(name, "Tippfehler-Regel: " + inp + " fuer " + c + " sollte " + (exp ? "toleriert" : "falsch") + " sein"); } }
   // 7) Saetze auf Chinesisch (nur Gruppen mit zh): jeder feste Satz uebersetzt, Typografie Taiwan (，。？！ statt , . ? !, keine Striche)
   if (X.CFG.zh) try {
     const Z = X.ZH_S, all = allSentences(X), miss = all.filter(t => !Z[t]);

@@ -608,6 +608,18 @@ function pronCard(it){ const w=it.word, g=G[w], fills=[];
   return {prompt:'<div class="hint">ihn, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["ihn","sie","es"], correct:corr,
     scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"ihn, sie oder es"}; }
 // ===== selbst schreiben (sichere Karten): Plural, Perfekt, Präteritum =====
+// Tippfehler-Toleranz: genau ein falscher/fehlender/zusaetzlicher/vertauschter Buchstabe im Wortstamm. Nie in den letzten 3 Buchstaben eines Wortes (Endung), nie in Woertern unter 5 Buchstaben,
+// nie bei fehlendem/falschem Umlaut, nie bei Woertern unter 6 Zeichen, nie wenn die Eingabe eine der falschen Auswahlmoeglichkeiten ist.
+function oneEdit(a,b){ if(a===b||Math.abs(a.length-b.length)>1) return -1; let i=0; while(i<a.length&&i<b.length&&a[i]===b[i]) i++;
+  if(a.length===b.length){ if(a.slice(i+1)===b.slice(i+1)) return i; if(a[i]===b[i+1]&&a[i+1]===b[i]&&a.slice(i+2)===b.slice(i+2)) return i; return -1; }
+  return (a.length>b.length ? a.slice(i+1)===b.slice(i) : a.slice(i)===b.slice(i+1)) ? i : -1; }
+function nearMiss(inp,d){ const a=normAns(inp); if(a.length<6||!d.typed) return null;
+  if((d.options||[]).some(o=>normAns(o)===a)) return null;
+  const noUml=x=>x.replace(/ae/g,"a").replace(/oe/g,"o").replace(/ue/g,"u");
+  for(const t of d.typed){ const b=normAns(t); if(b.length<6) continue; const pos=oneEdit(a,b);
+    if(pos<0) continue; let we=b.indexOf(" ",pos); if(we<0) we=b.length; const ws=b.lastIndexOf(" ",pos)+1;   // Wort, in dem der Fehler liegt
+    if(we-ws<5||pos>=we-3) continue; if(noUml(a)===noUml(b)) continue; return t; }   // kurze Woerter und Wortendungen: keine Toleranz
+  return null; }
 function normAns(s){ return (s||"").toLowerCase().replace(/…|\.\.\./g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(); }
 // ===== Vergleich mit der eigenen Vorwoche (statt Rangliste) =====
 function weekHtml(){ const wk=Math.floor((today()+3)/7), sich=Object.values(S.cards).filter(c=>c.box>=SICHER_BOX).length;
@@ -824,7 +836,7 @@ const MAX_BOX=9;
 // Bewertung automatisch: falsch = nochmal, richtig aber langsam = schwer, richtig = gut, sichere Karte sofort richtig = einfach
 let shownAt=0, answeredAt=0, curD=null, helpUsed=false;   // helpUsed: Regel angesehen -> hoechstens "schwer"
 function gradeFor(it,card){ const rt=(answeredAt||Date.now())-shownAt, box=card.box||0;
-  const typed=box>=3&&/^(genus|plural|perf|prat|pres|modal|komp|cloze)$/.test(it.kind);                       // sichere Karten werden getippt -> mehr Zeit
+  const typed=box>=3&&(it.kind==="genus"||(CFG.typedRecall&&!!(curD&&curD.typed)));                       // sichere Karten werden getippt -> mehr Zeit
   const fast=typed?6000:(/^(genus|plural)$/.test(it.kind)?2500:4000), slow=fast*2.5;
   if(helpUsed||rt>slow) return 1; if(rt<fast && box>=SICHER_BOX) return 3; return 2; }
 function planCard(card,grade,t){ card.ease=card.ease||2.5;
@@ -962,7 +974,7 @@ if(CFG.allOpen) S.unlocked=MAX_STAGE;   // alles gleichzeitig: alle Stufen offen
 for(const id in S.cards){ if(!byId[id]) delete S.cards[id]; }   // Karten zu gestrichenen Woertern entfernen
 S.crittersSeen=crittersGot(S.points||0);   // Basislinie: bereits verdiente Tiere nicht nachtraeglich als "neu" melden
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
-function save(){try{S.ts=Date.now(); localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
+function save(){try{S.ts=Date.now(); S.build=CFG.build; localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
 function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[id].stage===st&&S.cards[id].box>=SICHER_BOX)n++;} return n;}
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
 const SEEN_OPEN=15, MAX_ACTIVE=3;   // naechste Stufe schon nach 15 gesehenen Karten - aber hoechstens 3 unfertige Stufen neben den Artikeln gleichzeitig
@@ -1195,7 +1207,7 @@ function renderCurrent(){
     const inp=document.createElement("input"); inp.type="text"; inp.placeholder=d.typedHint||"Antwort"; ["autocapitalize","autocomplete","autocorrect"].forEach(a=>inp.setAttribute(a,"off")); inp.setAttribute("spellcheck","false");
     inp.style.cssText="border:2px solid var(--der); border-radius:14px; padding:12px; font-family:inherit; font-size:20px; text-align:center; width:min(100%,300px);";
     const b=document.createElement("button"); b.className="ctlbtn weiter"; b.style.padding="12px 18px"; b.textContent="Prüfen";
-    const go=()=>{ if(!inp.value.trim()) return; finishRecall(d.typed.some(x=>normAns(x)===normAns(inp.value)), d, it); };
+    const go=()=>{ if(!inp.value.trim()) return; const ok=d.typed.some(x=>normAns(x)===normAns(inp.value)), nm=ok?null:nearMiss(inp.value,d); if(nm) helpUsed=true; finishRecall(ok||!!nm, d, it, !!nm); };
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     const um=document.createElement("div"); um.style.cssText="display:flex; gap:6px; justify-content:center; width:100%; margin-top:8px;";
     ["ä","ö","ü","ß"].forEach(ch=>{ const k=document.createElement("button"); k.className="ctlbtn"; k.textContent=ch;
@@ -1237,9 +1249,10 @@ function answer(btn,chosen,d,it){
     });
   }
 }
-function finishRecall(right,d,it){ if(!answeredAt) answeredAt=Date.now();                          // Tipp-Modus: Ergebnis + Weiter (wie answer, aber ohne Knopf-Markierung)
+function finishRecall(right,d,it,typo){ if(!answeredAt) answeredAt=Date.now();                          // Tipp-Modus: Ergebnis + Weiter (wie answer, aber ohne Knopf-Markierung)
   const fb=document.getElementById("fb"); document.getElementById("opts").innerHTML=""; if(d.blankFill) fillBlanks(d);
-  if(right){ fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
+  if(right&&typo){ fb.innerHTML="Fast! Achte auf die Schreibung: <b>"+d.correct+"</b>"; fb.className="feedback ok"; setMascot("playMascot","happy",true); }   // ein Tippfehler im Wortstamm: zaehlt, aber hoechstens als "schwer"
+  else if(right){ fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
   else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
   pending={d,it,right}; say(d.speak); fb.insertAdjacentHTML("beforeend", zhHtml(it,d));
   const ctl=document.createElement("div"); ctl.className="ctl";
