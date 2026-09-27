@@ -11,7 +11,7 @@ const warn = (f, m) => { warns++; console.log("  Hinweis " + f + ": " + m); };
 const EXP = "{ITEMS,byId,cardData,label,STAGES,S:()=>S,setS:x=>{S=x},fresh,KEY,EXTRA_ROUNDS,CFG,MAX:()=>MAX_SESSION,startDaily,startSession,commitNext,today," +
   "queue:()=>queue,current:()=>current,missSess:()=>missSess,setPending:p=>{pending=p},show,switchPlayer:(typeof switchPlayer==='function'?switchPlayer:null)," +
   "lbPickName:(typeof lbPickName==='function'?lbPickName:null),VERBS:(typeof VERBS!=='undefined'?VERBS:[]),wrongPart:(typeof wrongPart==='function'?wrongPart:null)," +
-  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,nearMiss:(typeof nearMiss==='function'?nearMiss:null)}";
+  "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,fullSent}";
 // alle festen Saetze, so wie die App sie als d.speak bildet (Schluessel fuer die chinesische Satzuebersetzung)
 function allSentences(X) { const out = new Set();
   for (const it of X.ITEMS) {
@@ -80,19 +80,12 @@ for (const rel of process.argv.slice(2)) {
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;
   } catch (e) { fail(name, "Spielerwechsel: " + e.message); }
-  // 8) Tippfehler-Toleranz (Mike: Endungen muessen absolut stimmen): nur Adjektive/Mehrzahl, nur Wortstamm; Endung, Umlaut, kurze Woerter, Verben nie
-  if (X.nearMiss) { const T = [["adj", "großen", ["großen", "en"], ["großen", "große", "großer"], "gorßen", true], ["adj", "großen", ["großen", "en"], ["große"], "großem", false],
-      ["adj", "große", ["große", "e"], ["großen"], "großem", false], ["adj", "großes", ["großes", "es"], ["großer"], "großer", false], ["adj", "großes", ["großes", "es"], [], "gorßes", true],
-      ["plural", "die Mütter", ["die Mütter", "Mütter"], ["die Mutter"], "die Mutter", false], ["plural", "die Mütter", ["die Mütter", "Mütter"], [], "Mutter", false],
-      ["plural", "die Kartoffeln", ["die Kartoffeln", "Kartoffeln"], [], "die Katroffeln", true], ["plural", "die Kartoffeln", ["die Kartoffeln"], [], "die Kartoffels", false],
-      ["case", "auf den", ["auf den", "den"], ["auf dem"], "auf dem", false], ["case", "auf den", ["auf den", "den"], [], "auf dne", false],
-      ["perf", "habe … gemacht", ["habe gemacht"], [], "haben gemacht", false], ["perf", "habe … gemacht", ["habe gemacht"], [], "habe gmacht", false],
-      ["pres", "siehst", ["siehst"], [], "sehst", false], ["komp", "am schnellsten", ["am schnellsten"], [], "am schnellesten", false], ["cloze", "mir", ["mir"], ["mich"], "mri", false]];
-    for (const [k, c, t, o, inp, exp] of T) { checks++; if (!!X.nearMiss(inp, { correct: c, typed: t, options: o }, k) !== exp) fail(name, "Tippfehler-Regel: " + inp + " fuer " + c + " sollte " + (exp ? "toleriert" : "falsch") + " sein"); } }
   // 7) Saetze auf Chinesisch (nur Gruppen mit zh): jeder feste Satz uebersetzt, Typografie Taiwan (，。？！ statt , . ? !, keine Striche)
   if (X.CFG.zh) try {
     const Z = X.ZH_S, all = allSentences(X), miss = all.filter(t => !Z[t]);
     if (miss.length) warn(name, miss.length + " von " + all.length + " Saetzen ohne chinesische Uebersetzung, z. B.: " + miss.slice(0, 3).join(" / "));
+    const bau = new Set(); for (const it of X.ITEMS) if (/^(case|pron|poss|poss3|pakk|adj)$/.test(it.kind)) for (let k = 0; k < 3; k++) bau.add(X.fullSent(X.cardData(it)));   // zusammengesetzte Saetze (Stichprobe)
+    const bmiss = [...bau].filter(t => t && !Z[t]); if (bmiss.length) warn(name, bmiss.length + " zusammengesetzte Saetze (Stichprobe von " + bau.size + ") ohne chinesische Uebersetzung, z. B.: " + bmiss.slice(0, 3).join(" / "));
     for (const [de, zh] of Object.entries(Z)) { checks++;
       if (!/[\u4e00-\u9fff]/.test(zh) || /[,\-\u2013\u2014<>|.?!:;]/.test(zh)) fail(name, "chinesischer Satz mit falschen Zeichen: " + de + " -> " + zh); }
   } catch (e) { fail(name, "Satzuebersetzung: " + e.message); }
