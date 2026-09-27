@@ -39,7 +39,6 @@ for (const rel of process.argv.slice(2)) {
     if (d.tiles) { const r = [d.tiles.fixed].concat(d.tiles.tiles).join(" ") + d.tiles.punct; if (r !== d.correct) fail(name, it.id + ": Satzbausteine ergeben nicht den richtigen Satz: " + r); }   // Kaertchen in richtiger Reihenfolge = Loesung
     if (d.typed) { const n = t => (t || "").toLowerCase().replace(/…|\.\.\./g, " ").replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[.,!?]/g, " ").replace(/\s+/g, " ").trim();
       if (!d.typed.some(x => n(x) === n(d.correct))) fail(name, it.id + ": beim Tippen wird die richtige Loesung nicht akzeptiert (" + d.correct + " / " + d.typed.join(", ") + ")"); }   // sichere Karten: Eingabe der richtigen Loesung muss zaehlen
-    if (!DET.test(it.kind)) break;
   }
   // 2) keine bisherige Karte darf verschwinden (Vergleich mit dem letzten Commit)
   try {
@@ -61,8 +60,11 @@ for (const rel of process.argv.slice(2)) {
   try {
     sb.run("S=fresh(); S.playerName='Test'; S.unlocked=CFG.allOpen||CFG.teacher?Math.max(...STAGES.map(x=>x.id)):1;");
     for (let d = 0; d < 30; d++) {
-      sb.setDay(d); X.startDaily(); const n = X.queue().length, max = X.MAX(); let g = 0;
-      if (n > max + 5) fail(name, "Tag " + (d + 1) + ": Runde " + n + " > max " + max);
+      sb.setDay(d); const C = X.CFG, st = sb.run("S.streak||0"), ab = C.roundFullAb ? Math.floor(Date.UTC(+C.roundFullAb.slice(0, 4), +C.roundFullAb.slice(5, 7) - 1, +C.roundFullAb.slice(8, 10)) / 864e5) : null;
+      const soll = ((ab != null ? X.today() >= ab : st >= C.roundStartDays) ? C.roundFull : C.roundStart)[0];   // Rundengroesse unabhaengig vom Kern aus dem Steckbrief berechnet
+      X.startDaily(); const n = X.queue().length, max = X.MAX(); let g = 0;
+      if (max !== soll) fail(name, "Tag " + (d + 1) + ": Rundengroesse " + max + " statt " + soll);
+      if (n > max) fail(name, "Tag " + (d + 1) + ": Runde " + n + " > max " + max);
       while (X.queue().length && X.current() && g++ < 900) { const c = X.current(); X.setPending({ d: X.cardData(c), it: c, right: Math.random() < 0.75 || !!X.missSess()[c.id] }); X.commitNext(); }
       if (!X.EXTRA_ROUNDS) { X.startDaily(); if (X.queue().length) fail(name, "Tag " + (d + 1) + ": Extrarunde moeglich, obwohl verboten"); }
       checks++;
@@ -85,6 +87,13 @@ for (const rel of process.argv.slice(2)) {
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;
   } catch (e) { fail(name, "Spielerwechsel: " + e.message); }
+  // 10) feste Namen (nameMap, neue Gruppen mit Vorlage Mia & Olivia): alte Namen tauchen nirgends mehr auf, Loesung und Kaertchen stimmen
+  if (X.CFG.nameMap && Object.keys(X.CFG.nameMap).length) try { const M = X.CFG.nameMap, alt = Object.keys(M).filter(k => !Object.values(M).includes(k));
+    for (const it of X.ITEMS) for (let k = 0; k < 2; k++) { const d = X.nameSwap(X.cardData(it)), txt = JSON.stringify(Object.assign({}, d, { _orig: 0, _sw: 0 })); checks++;
+      for (const a of alt) if (new RegExp("\\b" + a + "(?=s?\\b)").test(txt)) { fail(name, it.id + ": alter Name " + a + " noch sichtbar"); break; }
+      if (d.options && !d.options.includes(d.correct)) fail(name, it.id + ": Loesung nach Namensersetzung nicht in den Antworten");
+      if (d.tiles && [d.tiles.fixed].concat(d.tiles.tiles).join(" ") + d.tiles.punct !== d.correct) fail(name, it.id + ": Kaertchen passen nach Namensersetzung nicht"); }
+  } catch (e) { fail(name, "Namensersetzung: " + e.message); }
   // 9) Namenstausch je Spielerin (Mia sieht Olivia und umgekehrt): Loesung bleibt in den Antworten, Kaertchen ergeben die Loesung, Name wirklich getauscht
   if (X.CFG.nameSwap && X.nameSwap) try { for (const [p, q] of Object.entries(X.CFG.nameSwap)) { sb.run("S.playerName=" + JSON.stringify(p)); let n = 0;
       for (const it of X.ITEMS) { const d = X.nameSwap(X.cardData(it)); checks++; if (!d._sw) continue; n++;

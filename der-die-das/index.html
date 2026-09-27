@@ -554,7 +554,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-19"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-20"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1079,16 +1079,22 @@ function fullSent(d){ const m=/<div class="sentence"[^>]*>([\s\S]*?)<\/div>/.exe
 // Namen in Beispielsaetzen je Spielerin tauschen (CFG.nameSwap, z. B. Olivia sieht "Mia" statt "Olivia").
 // Steht der Name der anderen schon irgendwo auf der Karte, bleibt die Karte unveraendert (sonst "Mia und Mia").
 function nameRe(n,g){ return new RegExp("\\b"+n+"(?=s?\\b)",g?"g":""); }
-function nameSwap(d){ const m=CFG.nameSwap, p=S&&S.playerName, b=m&&p&&m[p]; if(!b||!d) return d;
-  const txt=JSON.stringify(d); if(!nameRe(p).test(txt)||nameRe(b).test(txt)) return d;
-  const f=x=>typeof x==="string"?x.replace(nameRe(p,true),b):x, o={};
+// CFG.nameMap (neue Gruppen mit Vorlage Mia & Olivia): Beispielnamen fest ersetzen, z. B. {"Mia":"Ana","Olivia":"Bo"}, alle Namen gleichzeitig.
+const nameAlt=m=>new RegExp("\\b("+Object.keys(m).map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?=s?\\b)","g");
+function nameSwap(d){ if(!d) return d; let m=null; const p=S&&S.playerName;
+  if(CFG.nameMap&&Object.keys(CFG.nameMap).length) m=CFG.nameMap;
+  else if(CFG.nameSwap&&p&&CFG.nameSwap[p]) m={[p]:CFG.nameSwap[p]};
+  if(!m) return d; const txt=JSON.stringify(d), ks=Object.keys(m);
+  if(!ks.some(n=>nameRe(n).test(txt))) return d;
+  if(!CFG.nameMap&&ks.some(n=>nameRe(m[n]).test(txt))) return d;   // Mia & Olivia: Karten mit beiden Namen bleiben (Mike)
+  const re=nameAlt(m), f=x=>typeof x==="string"?x.replace(re,n=>m[n]):x, o={};
   for(const k in d){ const v=d[k]; o[k]=Array.isArray(v)?v.map(f):(k==="tiles"&&v)?Object.assign({},v,{fixed:f(v.fixed),tiles:v.tiles.map(f)}):f(v); }
-  o._orig=d; o._sw=[p,b]; return o; }
+  o._orig=d; o._sw=m; return o; }
 function zhHtml(it,d){ if(!CFG.zh) return ""; let w=null, zh="";   // CFG.zh: liest diese Gruppe Chinesisch?
   if(/^(perf|prat|pres|modal)$/.test(it.kind)){ w=it.word; zh=(typeof ZH_V!=="undefined"&&ZH_V[w])||""; }
   else { w=it.kind==="adj"?it.w:(it.kind==="case"?d.w:it.word); zh=(w&&ZH_N[w])||""; }
   const D=(d&&d._orig)||d; let zs=(D&&((D.speak&&ZH_S[String(D.speak).trim()])||ZH_S[fullSent(D)]))||"";
-  if(zs&&d&&d._sw) zs=zs.replace(nameRe(d._sw[0],true),d._sw[1]);   // gleicher Namenstausch im Chinesischen   // fester Satz (d.speak) oder zusammengesetzter Satz (Praepositionen, Pronomen, Adjektive)   // der ganze Satz auf Chinesisch (Saetze der Themen Perfekt bis Relativsaetze)
+  if(zs&&d&&d._sw) zs=zs.replace(nameAlt(d._sw),n=>d._sw[n]);   // gleicher Namenstausch im Chinesischen   // fester Satz (d.speak) oder zusammengesetzter Satz (Praepositionen, Pronomen, Adjektive)   // der ganze Satz auf Chinesisch (Saetze der Themen Perfekt bis Relativsaetze)
   return (zh ? '<span class="why" lang="zh-Hant" style="margin-top:4px;">'+w+"："+zh+"</span>" : "")+(zs ? '<span class="why" lang="zh-Hant" style="margin-top:4px;">'+zs+"</span>" : ""); }
 // ===== Stufe 15 (Perfekt) + 16 (Präteritum) =====
 // Zeile: Infinitiv|Präteritum ("-" = regelmäßig)|Partizip II|Hilfsverb (s/h)|trennbarer Teil|Sätze (Person:Satz; ...)|Extras
@@ -2297,7 +2303,7 @@ function planCard(card,grade,t){ card.ease=card.ease||2.5;
     else iv=base*card.ease;
     iv=Math.max(iv,prev+1); }
   iv=Math.min(365,Math.max(1,Math.round(iv)));
-  if(iv>=4){ const fz=Math.max(1,Math.round(iv*0.05)); iv=Math.min(365,iv+Math.floor(Math.random()*(2*fz+1))-fz); }   // leicht streuen: keine Klumpen an einzelnen Tagen
+  if(iv>=4&&(card.box||0)>3){ const fz=Math.max(1,Math.round(iv*0.05)); iv=Math.min(365,iv+Math.floor(Math.random()*(2*fz+1))-fz); }   // leicht streuen: keine Klumpen an einzelnen Tagen
   if(isLeech(card)) iv=Math.min(iv,2);
   card.iv=iv; card.due=t+iv; card.last=t; }
 function lapseCard(card,t){ card.ease=Math.max(1.3,(card.ease||2.5)-0.2); card.iv=Math.max(1,Math.round((card.iv||INTERVAL[card.box]||1)*0.3)); card.last=t; }
@@ -2325,7 +2331,7 @@ function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedal
 // ===== Rangliste: hier deine Firebase Realtime Database URL eintragen (mit Schrägstrich am Ende), sonst bleibt die Rangliste aus =====
 const SYNC_URL=CFG.teacher?"":"https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";  // Firebase (Lehrerversion: keine Cloud)
 const LB_PATH=CFG.lbPath, SAVE_PATH=CFG.savePath;  // Firebase-Pfade je Gruppe (Kyana: lb/save, Mia & Olivia: Unterordner)
-const FOCUS_PATH=CFG.lbPath+"/_focus", DB_BASE="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";   // Lehrer-Schwerpunkt (liegt in lb/, Rangliste ignoriert Eintraege ohne Namen)
+const FOCUS_PATH=CFG.lbPath+"/_focus", DB_BASE="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";   // Lehrer-Schwerpunkt (liegt in lb/, Rangliste ignoriert Schluessel mit _)
 let FOCUS=null;
 const RESET_PW="loeschen123";  // Eltern-Passwort fuer "Alles zuruecksetzen" (hier aenderbar)
 const MILESTONES=[3,7,14,30,60,100];
@@ -2375,15 +2381,18 @@ function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
-function cloudSave(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+SAVE_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(S)}).catch(()=>{}); }catch(e){} }
+const nKarten=o=>Object.keys((o&&o.cards)||{}).filter(id=>byId[id]).length;   // nur Karten, die es noch gibt
+function cloudSave(){ if(!SYNC_URL||!S.playerName) return; const u=SYNC_URL+SAVE_PATH+"/"+nameKey(S.playerName)+".json", body=JSON.stringify(S), n=nKarten(S);
+  try{ fetch(u+"?t="+Date.now()).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(o=>{ if(nKarten(o)>n) return;   // Cloud hat mehr Karten (anderes Geraet weiter): nicht ueberschreiben
+    return fetch(u,{method:"PUT",body}); }).catch(()=>{}); }catch(e){} }
 function cloudLoad(cb){ if(!SYNC_URL||!S.playerName){ cb(null); return; } try{ fetch(SYNC_URL+SAVE_PATH+"/"+nameKey(S.playerName)+".json").then(r=>r.json()).then(o=>cb(o)).catch(()=>cb(null)); }catch(e){ cb(null); } }
-function adoptIfNewer(o){ if(!o||!o.cards) return false;       // mehr Karten ODER neuerer Zeitstempel gewinnt -> ein leeres iPad ueberschreibt nie den vollen Cloud-Stand
-  const lp=Object.keys(S.cards).length, cp=Object.keys(o.cards).length;
-  if(cp>lp || (o.ts||0)>(S.ts||0)){ S=Object.assign(fresh(),o); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} return true; }
+function adoptIfNewer(o){ if(!o||!o.cards) return false;       // mehr Karten, oder gleich viele und neuer -> ein leeres/altes Geraet ersetzt nie den volleren Stand
+  const lp=nKarten(S), cp=nKarten(o);
+  if(cp>lp || (cp===lp && (o.ts||0)>(S.ts||0))){ const nm=S.playerName; S=Object.assign(fresh(),o); if(!S.playerName) S.playerName=nm; fixS(); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} return true; }
   return false; }
 function cloudSync(){ if(!SYNC_URL||!S.playerName) return; cloudLoad(o=>{ if(adoptIfNewer(o)) renderHome(); }); }
 function lbPickName(n){ n=(n||"").trim(); if(!n) return;
-  try{ const lp=localStorage.getItem(KEY+"_p_"+nameKey(n)); if(lp){ const o=JSON.parse(lp); if(o&&o.cards) S=Object.assign(fresh(),o); } }catch(e){}   // eigene lokale Kopie auf diesem Geraet
+  try{ const lp=localStorage.getItem(KEY+"_p_"+nameKey(n)); if(lp){ const o=JSON.parse(lp); if(o&&o.cards){ S=Object.assign(fresh(),o); fixS(); } } }catch(e){}   // eigene lokale Kopie auf diesem Geraet
   S.playerName=n;
   if(SYNC_URL){ cloudLoad(o=>{ if(!adoptIfNewer(o)){ save(); cloudSave(); } renderHome(); }); }  // gleicher Name auf neuem iPad -> alten Stand holen; sonst eigenen hochladen
   else { save(); renderHome(); } }
@@ -2402,7 +2411,7 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
-    const arr=Object.keys(o).map(k=>o[k]).filter(e=>e&&e.name);
+    const arr=Object.keys(o).filter(k=>k[0]!=="_").map(k=>o[k]).filter(e=>e&&e.name);   // _focus (Lehrer-Schwerpunkt) ist kein Spieler
     { const ps=document.getElementById("playerScores");
       if(ps) ps.innerHTML=CFG.weekView?weekHtml():arr.slice().sort((a,b)=>(b.sterne||0)-(a.sterne||0)).map(e=>'<span style="background:'+(e.name===S.playerName?'#eef3fc':'#f0f3fa')+';border-radius:8px;padding:4px 10px;font-size:14px;font-weight:700;">'+esc(e.name)+': '+(e.sterne||0)+' ⭐</span>').join(""); }
     const total=arr.reduce((s,e)=>s+(e.sicher||0),0);
@@ -2420,9 +2429,10 @@ function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60
 const MAX_STAGE=Math.max(...STAGES.map(x=>x.id));   // hoechste Stufennummer (Nummern duerfen Luecken haben, z. B. entfernte Themen)
 function stageName(id){ return (STAGES.find(x=>x.id===id)||{name:""}).name; }
 let S=load(), saveOk=true;
-if(CFG.teacher){ S.unlocked=MAX_STAGE; save(); }   // Lehrerversion: alle Stufen frei
-if(CFG.allOpen) S.unlocked=MAX_STAGE;   // alles gleichzeitig: alle Stufen offen
-for(const id in S.cards){ if(!byId[id]) delete S.cards[id]; }   // Karten zu gestrichenen Woertern entfernen
+function fixS(){ if(CFG.teacher||CFG.allOpen) S.unlocked=MAX_STAGE;   // Lehrerversion / alles gleichzeitig: alle Stufen offen (auch nach Spielerwechsel, Reset, Cloud-Uebernahme)
+  for(const id in S.cards){ if(!byId[id]) delete S.cards[id]; }   // Karten zu gestrichenen Woertern entfernen
+  (S.log||[]).forEach(L=>{ if(L&&!L.f) L.f=[]; }); }   // Firebase speichert leere Listen nicht
+fixS(); if(CFG.teacher) save();
 S.crittersSeen=crittersGot(S.points||0);   // Basislinie: bereits verdiente Tiere nicht nachtraeglich als "neu" melden
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
 function save(){try{S.ts=Date.now(); S.build=CFG.build; localStorage.setItem(KEY,JSON.stringify(S)); saveOk=true;}catch(e){saveOk=false;}}
@@ -2430,9 +2440,9 @@ function stageMastered(st){let n=0; for(const id in S.cards){if(byId[id]&&byId[i
 function unlockNeed(st){const tot=ITEMS.filter(it=>it.stage===st).length; return Math.max(6,Math.min(12,Math.ceil(tot*0.6)));}
 const SEEN_OPEN=15, MAX_ACTIVE=3;   // naechste Stufe schon nach 15 gesehenen Karten - aber hoechstens 3 unfertige Stufen neben den Artikeln gleichzeitig
 function stageSeen(st){ let n=0; for(const id in S.cards){ if(byId[id]&&byId[id].stage===st) n++; } return n; }
-function checkUnlock(){let ch=null; for(let s=1;s<STAGES.length;s++){ if(S.unlocked!==s) continue;
-  let active=0; for(let t=2;t<=S.unlocked;t++){ if(stageMastered(t)<unlockNeed(t)) active++; }
-  if(stageMastered(s)>=unlockNeed(s) || (s>1 && stageSeen(s)>=SEEN_OPEN && active<MAX_ACTIVE)){S.unlocked=s+1; ch=s+1;} } return ch;}
+function checkUnlock(){let ch=null; for(let i=0;i<STAGES.length-1;i++){ const s=STAGES[i].id; if(S.unlocked!==s) continue;   // Stufennummern duerfen Luecken haben
+  let active=0; for(const x of STAGES){ if(x.id>=2&&x.id<=S.unlocked&&stageMastered(x.id)<unlockNeed(x.id)) active++; }
+  if(stageMastered(s)>=unlockNeed(s) || (s>1 && stageSeen(s)>=SEEN_OPEN && active<MAX_ACTIVE)){S.unlocked=STAGES[i+1].id; ch=S.unlocked;} } return ch;}
 
 // ================= Sprachausgabe =================
 let deVoice=null;
@@ -2536,7 +2546,7 @@ function startSession(mode){
   const R=S.resume;
   if(!EXTRA_ROUNDS && mode!=="hard" && R && R.day===t && R.ids && R.ids.length){   // abgebrochene Tagesrunde fortsetzen
     queue=R.ids.map(id=>byId[id]).filter(Boolean);
-    if(queue.length){ sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null; show("play"); nextCard(); return; }
+    if(queue.length){ sessionTotal=queue.length; cleared=new Set(); missSess=Object.assign({},R.miss||{}); firstTry=0; current=null; sessionDay=t; show("play"); nextCard(); return; }
   }
   if(mode==="hard"){
     queue=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].miss>0).sort((a,b)=>S.cards[b.id].miss-S.cards[a.id].miss).slice(0,15);
@@ -2618,7 +2628,7 @@ function startSession(mode){
   }
   shuffle(queue);
   sessionTotal=queue.length; cleared=new Set(); missSess={}; firstTry=0; current=null;
-  if(mode!=="hard"){ S.resume={day:t, ids:queue.map(q=>q.id)}; save(); }   // Rest der Tagesrunde merken
+  sessionDay=t; if(mode!=="hard"){ S.resume={day:t, ids:queue.map(q=>q.id)}; save(); }   // Rest der Tagesrunde merken
   show("play"); nextCard();
 }
 function nextCard(){
@@ -2734,15 +2744,17 @@ function commitNext(){
   if(firstAttempt){ S.stats=S.stats||{attempts:0,firstRight:0}; S.stats.attempts++; if(right) S.stats.firstRight++; }  // Genauigkeit erster Versuch
   { S.log=S.log||[]; let L=S.log[S.log.length-1];                // Uebungstagebuch: pro Tag Karten, Treffer im 1. Versuch, falsche Karten, erste/letzte Antwort
     if(!L||L.d!==today()){ L={d:today(),n:0,ok:0,f:[],a:Date.now(),b:Date.now()}; S.log.push(L); if(S.log.length>120) S.log.shift(); }
-    if(firstAttempt){ L.n++; if(right) L.ok++; } if(!right && L.f.indexOf(it.id)<0) L.f.push(it.id); L.b=Date.now();
+    if(firstAttempt){ L.n++; if(right) L.ok++; } L.f=L.f||[]; if(!right && L.f.indexOf(it.id)<0) L.f.push(it.id); L.b=Date.now();
     if(firstAttempt){ L.rt=(L.rt||0)+Math.min(60000,Math.max(0,(answeredAt||Date.now())-shownAt)); L.rn=(L.rn||0)+1; } }   // Antwortzeiten zum Kalibrieren
+  const early=!!S.cards[it.id] && card.due>today() && !((card.box||0)>=SICHER_BOX && today()-(card.last!=null?card.last:today())>=Math.ceil((card.iv||1)/2));   // noch nicht faellig (Extrarunde, Auffuellen): zaehlt nicht als Wiederholung, sonst waere heute Gelerntes nach ein paar Extrarunden "sicher"
   if(right){
-    if(firstAttempt){                                       // erster Versuch richtig: Box hoch, Stern fürs Können
+    if(firstAttempt && early){ firstTry++; S.points++; }   // Stern ja, Box und Abstand bleiben
+    else if(firstAttempt){                                  // erster Versuch richtig: Box hoch, Stern fürs Können
       firstTry++; S.points++;
       card.ok=(card.ok||0)+1;                               // Treffer in Folge (fuer Problemwoerter)
       const grade=gradeFor(it,card), cap=isLeech(card)?2:MAX_BOX;                          // Problemwort bleibt in Box 2, bis es LEECH_OK-mal in Folge sitzt
       card.box=Math.min((card.box||0)+1,cap);
-      card.miss=Math.max(0,(card.miss||0)-1);               // Fehler altern
+      if(!isLeech(card)) card.miss=Math.max(0,(card.miss||0)-1);   // Fehler altern (Problemwort erst, wenn es LEECH_OK-mal in Folge sitzt)
       planCard(card,grade,today());                          // eigener Abstand je Karte, Bewertung aus Antwort + Zeit
     } else {
       card.due=today()+1;                                   // war diese Runde mal falsch: morgen kurz bestätigen, Box bleibt
@@ -2757,14 +2769,15 @@ function commitNext(){
     queue.shift();
     queue.splice(Math.min(3,queue.length),0,it);   // ~3 Positionen später wieder einschieben (bei wenig Rest ans Ende), IMMER – die Karte muss in dieser Session noch 1x richtig sein, sonst endet die Session nicht
   }
-  playedHere=true; if(S.resume && S.resume.day===today()) S.resume.ids=queue.map(q=>q.id);
+  playedHere=true; if(S.resume && S.resume.day===sessionDay){ S.resume.ids=queue.map(q=>q.id); S.resume.miss=Object.assign({},missSess); }
   S.cards[it.id]=card; save();
   document.getElementById("pointsN").textContent=S.points;
   nextCard();
 }
 function undoPending(){ if(!pending) return; pending=null; if(advTimer){clearTimeout(advTimer);advTimer=null;} renderCurrent(); } // nichts verbucht, gleiche Karte nochmal
+let sessionDay=null;   // Tag, an dem die Runde begann (Runde ueber Mitternacht nimmt dem naechsten Tag nicht die Runde weg)
 function finishSession(){
-  const t=today(); const prevStreak=S.streak||0;
+  const t=sessionDay!=null&&sessionDay<=today()?sessionDay:today(); sessionDay=null; const prevStreak=S.streak||0;
   if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
   S.lastDay=t; S.best=S.streak; S.resume=null;
   S.medals=S.medals||[]; let medalNew=null;
@@ -2851,7 +2864,7 @@ function renderHome(){
     sb.style.display=""; sb.textContent=(S.resume&&S.resume.day===t&&S.resume.ids&&S.resume.ids.length)?"Runde fortsetzen":"Heute üben";
   }
   const lastSt=MAX_STAGE;
-  const allMast = S.unlocked>=lastSt && stageMastered(lastSt)>=unlockNeed(lastSt);
+  const allMast = S.unlocked>=lastSt && STAGES.every(st=>stageMastered(st.id)>=unlockNeed(st.id));
   const lb=document.getElementById("levelBox"); lb.style.color="var(--gold)"; lb.style.fontWeight="800";
   lb.textContent = allMast ? "Geschafft! Alle "+STAGES.length+" Stufen gemeistert." : "";
   const list=document.getElementById("stageList"); list.innerHTML="";
@@ -2927,7 +2940,7 @@ if(ERLAUBT){ const wc=document.querySelector&&document.querySelector("#welcome .
     if(b) b.onclick=()=>{ lbPickName(n); show("home"); }; }); }
 function switchPlayer(){ if(!S.playerName) return;                    // geteiltes Geraet: Stand sichern (lokal je Name + Cloud), dann neu anmelden
   save(); syncPush(); cloudSave(); try{ localStorage.setItem(KEY+"_p_"+nameKey(S.playerName), JSON.stringify(S)); }catch(e){}
-  S=fresh(); save(); const i=document.getElementById("welNameInput"); if(i) i.value=""; show("welcome"); }
+  S=fresh(); fixS(); save(); const i=document.getElementById("welNameInput"); if(i) i.value=""; show("welcome"); }
 (document.getElementById("switchBtn")||{}).onclick=()=>{ if(confirm("Spielerin wechseln? Dein Stand ist gespeichert.")) switchPlayer(); };
 let playedHere=false;   // nur hochladen, wenn auf DIESEM Geraet seit dem Oeffnen gespielt wurde - sonst koennte ein altes/leeres Geraet den echten Stand ueberschreiben
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden"){ if(playedHere){ save(); syncPush(); cloudSave(); } }   // Geraet wechseln: beim Verlassen hochladen,
@@ -2947,9 +2960,10 @@ let tapN=0, tapT=null;   // Eltern-Bereich versteckt: 5x auf die Begrüßung tip
   if(!confirm("Wirklich allen Fortschritt löschen?")) return;
   const nm=S.playerName;
   if(SYNC_URL && nm){ const k=nameKey(nm); try{ fetch(SYNC_URL+SAVE_PATH+"/"+k+".json",{method:"DELETE"}).catch(()=>{}); fetch(SYNC_URL+LB_PATH+"/"+k+".json",{method:"DELETE"}).catch(()=>{}); }catch(e){} }
-  S=fresh(); save(); show("home");
+  if(nm){ try{ localStorage.removeItem(KEY+"_p_"+nameKey(nm)); }catch(e){} }   // sonst kaeme der alte Stand ueber "Ich bin ..." zurueck
+  S=fresh(); fixS(); save(); show("home");
 };
-if(ERLAUBT && SYNC_URL && S.playerName && ERLAUBT.indexOf(S.playerName)<0){ S=fresh(); save(); }   // alte Testnamen auf diesem Geraet vergessen
+if(ERLAUBT && SYNC_URL && S.playerName && ERLAUBT.indexOf(S.playerName)<0){ S=fresh(); fixS(); save(); }   // alte Testnamen auf diesem Geraet vergessen
 if(SYNC_URL && !S.playerName && !(CFG.allowSkip && S.noName)){ show("welcome"); } else { show("home"); }  // Name zuerst (Willkommensseite), sonst direkt zur Startseite
 if(SYNC_URL){ try{ fetch(SYNC_URL+FOCUS_PATH+".json?t="+Date.now()).then(r=>r.json()).then(fo=>{ FOCUS=(fo&&fo.stage&&fo.until>=today())?fo:null; }).catch(()=>{}); }catch(e){} }   // Lehrer-Schwerpunkt holen
 cloudSync();   // beim Oeffnen neueren Online-Stand holen (falls SYNC_URL gesetzt)

@@ -17,6 +17,22 @@ def _data(m, zh=True):
 engine = re.sub(r"%%DATA:((?!zh_)\w+)%%", _data, engine)   # zh_* erst je Gruppe (unten)
 meta = []
 built = []
+# Speicher-Schluessel, Firebase-Pfade und Ordner: je Gruppe eindeutig und nie geaendert (sonst geht Lernstand verloren)
+FEST = ["key", "teacherKey", "lbPath", "savePath", "folder"]
+cfgs = {g: json.loads(open(os.path.join(SRC, "groups", g + ".js"), encoding="utf-8").read().split("const GROUP=", 1)[1].split(";\n", 1)[0]) for g in GROUPS}
+seen = {}
+for g, c in cfgs.items():
+    for k in FEST:
+        v = ("key", c[k]) if k in ("key", "teacherKey") else (k, c[k])
+        if v in seen: sys.exit("FEHLER: %s '%s' in %s und %s doppelt. BUILD NICHT VEROEFFENTLICHEN." % (k, c[k], seen[v], g))
+        seen[v] = g
+    try:
+        alt = subprocess.run(["git", "show", "HEAD:src/groups/%s.js" % g], cwd=REPO, capture_output=True, text=True)
+        if alt.returncode == 0:
+            a = json.loads(alt.stdout.split("const GROUP=", 1)[1].split(";\n", 1)[0])
+            for k in FEST:
+                if a.get(k) != c.get(k): sys.exit("FEHLER: %s der Gruppe %s geaendert (%s -> %s). Lernstaende gingen verloren. BUILD NICHT VEROEFFENTLICHEN." % (k, g, a.get(k), c.get(k)))
+    except (IndexError, ValueError): pass
 for g in GROUPS:
     gjs = open(os.path.join(SRC, "groups", g + ".js"), encoding="utf-8").read()
     cfg = json.loads(gjs.split("const GROUP=", 1)[1].split(";\n", 1)[0])

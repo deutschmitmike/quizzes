@@ -32,8 +32,9 @@ const META=%%META%%;
 const DB="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";
 const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
 const esc=s=>String(s==null?"":s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
-const KIND={g:"Artikel",p:"Plural",w:"Wo/Wohin",d:"Dativ",a:"Akkusativ",m:"Fall gemischt",pr:"er/sie/es",po:"mein/meine",ps:"sein/ihr",pa:"ihn/sie/es",adj:"Adjektiv",pf:"Perfekt",pt:"Präteritum",vp:"Präsens",vm:"Modalverb",ns:"Nebensatz",ko:"Komparativ"};
+const KIND={g:"Artikel",p:"Plural",w:"Wo/Wohin",d:"Dativ",a:"Akkusativ",m:"Fall gemischt",pr:"er/sie/es",po:"mein/meine",ps:"sein/ihr",pa:"ihn/sie/es",adj:"Adjektiv",pf:"Perfekt",pt:"Präteritum",vp:"Präsens",vm:"Modalverb",ns:"Nebensatz",ko:"Komparativ",t21:"Satzbau",t22:"mir/mich",t23:"reflexiv",t24:"Konjunktiv II",t25:"Relativsatz"};
 function label(id){ const p=id.split(":"), k=p[0], t=KIND[k]||k;
+  if(/^t\d+$/.test(k)) return t+"-Satz";   // Satzkarten: ID ist eine Pruefsumme
   if(k==="adj") return p[4]+" "+p[5]+" ("+t+")"; if(k==="ns") return t+" "+(+p[1]+1); if(k==="ko") return p[1]+" ("+(p[2]==="S"?"Superlativ":"Komparativ")+")";
   return p[p.length-1]+" ("+t+")"; }
 function kidHtml(S){ const t=today(), cards=Object.entries(S.cards||{}), sicher=cards.filter(([,c])=>(c.box||0)>=4).length;
