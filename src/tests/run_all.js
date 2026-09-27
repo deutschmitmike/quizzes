@@ -95,6 +95,8 @@ for (const rel of process.argv.slice(2)) {
     if (miss.length) warn(name, miss.length + " von " + all.length + " Saetzen ohne chinesische Uebersetzung, z. B.: " + miss.slice(0, 3).join(" / "));
     const bau = new Set(); for (const it of X.ITEMS) if (/^(case|pron|poss|poss3|pakk|adj)$/.test(it.kind)) for (let k = 0; k < 3; k++) bau.add(X.fullSent(X.cardData(it)));   // zusammengesetzte Saetze (Stichprobe)
     const bmiss = [...bau].filter(t => t && !Z[t]); if (bmiss.length) warn(name, bmiss.length + " zusammengesetzte Saetze (Stichprobe von " + bau.size + ") ohne chinesische Uebersetzung, z. B.: " + bmiss.slice(0, 3).join(" / "));
+    const NAMEN = ["Mia", "Olivia", "Ben", "Lina", "Lea", "Leon", "Kyana", "Marta", "Chen", "Wang", "Lin", "Weber", "Wagner"];   // Namen nie uebersetzen (Mike)
+    for (const [de, zh] of Object.entries(Z)) for (const n of NAMEN) if (new RegExp("\\b" + n + "(?=s?\\b)").test(de) && !new RegExp("\\b" + n + "\\b").test(zh)) fail(name, "Name uebersetzt statt lateinisch: " + de + " -> " + zh);
     for (const [de, zh] of Object.entries(Z)) { checks++;
       if (!/[\u4e00-\u9fff]/.test(zh) || /[,\-\u2013\u2014<>|.?!:;]/.test(zh)) fail(name, "chinesischer Satz mit falschen Zeichen: " + de + " -> " + zh); }
   } catch (e) { fail(name, "Satzuebersetzung: " + e.message); }

@@ -646,7 +646,7 @@ Meine Großeltern sind alt, ich helfe ihnen oft im Garten.|我的爺爺奶奶年
 Das Baby weint, die Mutter gibt ihm die Flasche.|寶寶在哭，媽媽拿奶瓶給他喝。
 Nach der Schule komme ich zu euch.|放學後我去你們家。
 Glaubst du mir nicht?|你不相信我嗎？
-Frau Chen, ich danke Ihnen für Ihre Hilfe.|陳女士，謝謝您的幫忙。
+Frau Chen, ich danke Ihnen für Ihre Hilfe.|Chen 女士，謝謝您的幫忙。
 Ben hört mir nie zu.|Ben 從來都不聽我說話。
 Die Katze folgt ihm überallhin.|那隻貓到哪裡都跟著他。
 Olivia hat Geburtstag, wir schenken ihr einen Blumenstrauß.|Olivia 過生日，我們送她一束花。
@@ -655,7 +655,7 @@ Wie gefällt euch die neue Schule?|你們覺得新學校怎麼樣？
 Die Lehrerin hat mir eine gute Note gegeben.|老師給了我一個好成績。
 Unsere Oma erzählt uns oft Geschichten.|我們的奶奶常常講故事給我們聽。
 Mias Eltern haben ihr ein Handy gekauft.|Mia 的爸媽買了一支手機給她。
-Wie schmeckt Ihnen die Suppe, Herr Wang?|王先生，您覺得這湯味道怎麼樣？
+Wie schmeckt Ihnen die Suppe, Herr Wang?|Wang 先生，您覺得這湯味道怎麼樣？
 Ich wohne nicht weit von euch.|我住得離你們不遠。
 Das Baby lacht, die Kinder spielen gern mit ihm.|寶寶在笑，孩子們很喜歡跟他玩。
 Meine Freunde haben mir geholfen, ich danke ihnen.|我的朋友們幫了我，我很感謝他們。
@@ -680,7 +680,7 @@ Das Baby schläft, bitte weck es nicht auf!|寶寶在睡覺，請不要把他吵
 Sprich bitte langsamer, ich verstehe dich nicht.|請說慢一點，我聽不懂你在說什麼。
 Wo ist Olivia? Wir treffen sie nach der Schule.|Olivia 在哪裡？我們放學後要跟她見面。
 Heute spielen wir gegen euch.|今天我們要跟你們比賽。
-Die Blumen sind für Sie, Frau Lin.|林女士，這些花是送給您的。
+Die Blumen sind für Sie, Frau Lin.|Lin 女士，這些花是送給您的。
 Mama, ich liebe dich!|媽媽，我愛妳！
 Mias Bruder ist krank, Olivia ruft ihn heute an.|Mia 的哥哥生病了，Olivia 今天會打電話給他。
 Ohne euch ist das Spiel langweilig.|沒有你們，這個遊戲就很無聊。
@@ -691,7 +691,7 @@ Mia sieht ihre Freundinnen und umarmt sie.|Mia 看到她的朋友們，就上前
 Kennst du den neuen Schüler? Ich finde ihn sehr nett.|你認識那個新同學嗎？我覺得他人很好。
 Komm bitte schnell, wir brauchen dich!|快點過來，我們需要你！
 Das Kätzchen ist so süß, ich möchte es streicheln.|這隻小貓好可愛，我好想摸摸牠。
-Herr Chen, wir haben Sie gestern im Supermarkt gesehen.|陳先生，我們昨天在超市看到您了。
+Herr Chen, wir haben Sie gestern im Supermarkt gesehen.|Chen 先生，我們昨天在超市看到您了。
 Ich freue mich auf die Ferien.|我很期待放假。
 Ich wasche mir die Hände.|我去洗手。
 Beeil dich, der Bus kommt gleich!|快一點，公車馬上就來了！
@@ -715,8 +715,8 @@ Die Kinder freuen sich auf die Ferien.|孩子們很期待放假。
 Mia und Olivia verabreden sich für Samstag.|Mia 和 Olivia 約好星期六見面。
 Das Baby hat sich erkältet.|寶寶感冒了。
 Die Schüler bedanken sich bei der Lehrerin.|學生們向老師道謝。
-Herr Wang, beeilen Sie sich bitte!|王先生，請您快一點！
-Frau Lin, freuen Sie sich auf die Reise?|林女士，您期待這趟旅行嗎？
+Herr Wang, beeilen Sie sich bitte!|Wang 先生，請您快一點！
+Frau Lin, freuen Sie sich auf die Reise?|Lin 女士，您期待這趟旅行嗎？
 Ich ärgere mich über die schlechte Note.|這個爛成績讓我很生氣。
 Hast du dich schon bei Oma bedankt?|你跟奶奶道謝了嗎？
 Ich dusche mich jeden Morgen.|我每天早上都會洗澡。
@@ -747,7 +747,7 @@ Ben schämt sich für seinen Fehler.|Ben 為自己犯的錯感到很丟臉。
 Mias Oma kümmert sich um den Garten.|Mia 的奶奶負責照顧花園。
 Olivia hat sich verspätet.|Olivia 遲到了。
 Meine Eltern ruhen sich am Sonntag aus.|我爸媽星期天會好好休息。
-Nehmen Sie sich bitte einen Stuhl, Frau Chen.|陳女士，請您拿張椅子坐。
+Nehmen Sie sich bitte einen Stuhl, Frau Chen.|Chen 女士，請您拿張椅子坐。
 Ich muss mich noch umziehen.|我還得換個衣服。
 Wir langweilen uns in den Ferien nie.|我們放假的時候從來不會無聊。
 Hast du dich für den Kurs angemeldet?|你報名那門課了嗎？
@@ -765,7 +765,7 @@ Wir würden gern mit euch ins Kino gehen.|我們很想跟你們一起去看電�
 Ich wüsste gern, wie spät es ist.|我想請問一下現在幾點了。
 Entschuldigung, könnten Sie mir bitte helfen?|不好意思，可以請您幫我一下嗎？
 Mama, könntest du mich nach der Schule abholen?|媽媽，妳可以在我放學後來接我嗎？
-Herr Chen, dürfte ich kurz das Fenster aufmachen?|陳先生，我可以開一下窗戶嗎？
+Herr Chen, dürfte ich kurz das Fenster aufmachen?|Chen 先生，我可以開一下窗戶嗎？
 Ben, würdest du bitte das Licht ausmachen?|Ben，可以麻煩你把燈關掉嗎？
 Frau Weber, könnten Sie den Satz noch einmal erklären?|Weber 老師，可以請您再解釋一次這個句子嗎？
 Wie wäre es mit einem Eis?|要不要來個冰淇淋？
@@ -791,7 +791,7 @@ Du könntest mal mit der Lehrerin sprechen.|你可以去跟老師談談看。
 An deiner Stelle würde ich früher ins Bett gehen.|如果我是你，我會早點上床睡覺。
 Mia sollte weniger am Handy spielen.|Mia 應該少玩一點手機。
 Ben sollte beim Radfahren einen Helm tragen.|Ben 騎腳踏車的時候應該戴安全帽。
-Sie sollten mehr Obst essen, Herr Wang.|王先生，您應該多吃點水果。
+Sie sollten mehr Obst essen, Herr Wang.|Wang 先生，您應該多吃點水果。
 Ich an deiner Stelle würde die Lehrerin fragen.|如果我是你，我會去問老師。
 Du solltest dich wärmer anziehen, es ist kalt.|你應該穿暖一點，天氣很冷。
 Wenn ich an deiner Stelle wäre, würde ich mich entschuldigen.|如果我是你，我會去道歉。
