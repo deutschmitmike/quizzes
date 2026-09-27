@@ -5,7 +5,7 @@
 const { load } = require("./harness");
 const file = process.argv[2] || "mia-olivia/index.html", DAYS = +(process.argv[3] || 365);
 const sb = load(file, "{startDaily,commitNext,cardData,today,queue:()=>queue,current:()=>current,missSess:()=>missSess,setPending:p=>{pending=p},setAnswer:(a,b)=>{shownAt=a;answeredAt=b}}");
-const X = sb.__X; sb.run("S=fresh(); S.playerName='Sim'; S.unlocked=(CFG.allOpen?STAGES.length:1);");
+const X = sb.__X; sb.run("S=fresh(); S.playerName='Sim'; S.unlocked=(CFG.allOpen?Math.max(...STAGES.map(x=>x.id)):1);");
 let q = 12345; const R = () => { q = (q * 16807) % 2147483647; return q / 2147483647; };
 const M = {}, model = id => M[id] || (M[id] = { h: 3 * Math.exp((R() - 0.5) * 1.4), last: null, df: Math.exp((R() - 0.5) * 1.0) });
 const P = (c, t) => c.last == null ? 0.45 : Math.pow(2, -(t - c.last) / c.h);

@@ -1,0 +1,4 @@
+# Absichtlich entfernte Karten (Praefix der Karten-ID je Zeile). Die Tests melden diese nicht als verschwunden.
+# Nur eintragen, wenn Mike ein Thema/Wort ausdruecklich raushaben will; der Lernstand dieser Karten geht verloren.
+t23:   # 2026-09-27 Mike: reflexive Verben raus (Mia & Olivia)
+t24:   # 2026-09-27 Mike: Konjunktiv II raus (Mia & Olivia)

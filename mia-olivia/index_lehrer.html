@@ -340,8 +340,8 @@ const GROUP={
    "Pronomen Dativ"
   ],
   [
-   23,
-   "Reflexiv/Konjunktiv/Relativ"
+   25,
+   "Relativsätze"
   ]
  ],
  "zh": true,
@@ -426,8 +426,6 @@ const GROUP={
   ],
   [
    [
-    23,
-    24,
     25
    ]
   ]
@@ -608,8 +606,6 @@ const STAGES=[
  {id:20,name:"Komparativ",desc:"älter, am ältesten"},
  {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
  {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
- {id:23,name:"Reflexive Verben",desc:"ich freue mich, ich wasche mir die Hände"},
- {id:24,name:"Konjunktiv II",desc:"hätte, wäre, würde, könnte"},
  {id:25,name:"Relativsätze",desc:"der, den, dem, die, denen ..."}
 ];
 const INTRO={
@@ -632,7 +628,7 @@ const INTRO={
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-3"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-4"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1151,10 +1147,1390 @@ function crittersGot(pts){ let n=0; for(let i=0;i<STAR_GOALS.length;i++){ if((pt
 // Chinesische Bedeutung (Traditionell, Taiwan) - nach der Antwort angezeigt, nie als Hinweis vorher
 const ZH_N={"Aal":"鰻魚","Abend":"晚上","Abendessen":"晚餐","Abfall":"垃圾","Achsel":"腋下","Acker":"田地","Ader":"血管","Adler":"老鷹","Adresse":"地址","Affe":"猴子","Ahorn":"楓樹","Akku":"電池","Album":"相簿，專輯","Ameise":"螞蟻","Ampel":"紅綠燈","Amsel":"烏鶇","Ananas":"鳳梨","Anfang":"開始","Angel":"釣竿","Angst":"害怕","Anker":"錨","Anorak":"防風外套","Antenne":"天線","Antwort":"答案","Anzug":"西裝","Apfel":"蘋果","Apfelsine":"柳橙","Apotheke":"藥局","Aprikose":"杏桃","April":"四月","Aquarium":"水族箱，水族館","Arbeit":"工作","Arm":"手臂","Ärmel":"袖子","Arzt":"醫生","Ärztin":"女醫生","Asche":"灰燼","Ast":"樹枝","Astronaut":"太空人","Aufgabe":"作業，任務","Aufzug":"電梯","Auge":"眼睛","Augenbraue":"眉毛","August":"八月","Ausflug":"郊遊","Ausgang":"出口","Ausweis":"證件","Auto":"汽車","Automat":"販賣機","Axt":"斧頭","Baby":"嬰兒","Bach":"小溪","Backe":"臉頰","Bäcker":"麵包師傅","Bäckerei":"麵包店","Bad":"浴室","Badezimmer":"浴室","Bagger":"挖土機","Baguette":"法國麵包","Bahn":"火車，軌道","Bahnhof":"火車站","Balkon":"陽台","Ball":"球","Banane":"香蕉","Band":"緞帶","Bank":"長椅，銀行","Bär":"熊","Bart":"鬍子","Batterie":"電池","Bauch":"肚子","Bauer":"農夫","Bauklotz":"積木","Baum":"樹","Becher":"杯子","Beere":"莓果","Beet":"花圃","Beil":"小斧頭","Bein":"腿","Berg":"山","Besen":"掃把","Besteck":"餐具","Bett":"床","Beule":"腫包","Beutel":"袋子","Biber":"河狸","Bibliothek":"圖書館","Biene":"蜜蜂","Bild":"圖畫","Bilderrahmen":"相框","Birke":"白樺樹","Birne":"梨子，燈泡","Blase":"水泡，膀胱","Blatt":"葉子，紙張","Blech":"鐵皮，烤盤","Bleistift":"鉛筆","Blitz":"閃電","Blume":"花","Bluse":"女襯衫","Blut":"血","Blüte":"花朵","Bock":"公羊","Boden":"地板","Bohne":"豆子","Bonbon":"糖果","Boot":"小船","Brei":"粥，糊","Brennnessel":"蕁麻","Brett":"木板","Brezel":"蝴蝶餅","Brief":"信","Briefkasten":"信箱","Brieftasche":"皮夾","Brille":"眼鏡","Brokkoli":"綠花椰菜","Brombeere":"黑莓","Brosche":"胸針","Brot":"麵包","Brötchen":"小麵包","Browser":"瀏覽器","Brücke":"橋","Bruder":"哥哥，弟弟","Brühe":"高湯","Brunnen":"噴泉，水井","Brust":"胸部","Buch":"書","Buche":"山毛櫸","Bücherei":"圖書館","Buchstabe":"字母","Bucht":"海灣","Buckel":"駝背","Bude":"小攤","Bügel":"衣架","Bügeleisen":"熨斗","Bühne":"舞台","Bulle":"公牛","Bumerang":"迴力鏢","Bungalow":"平房","Bunker":"碉堡","Buntstift":"色鉛筆","Burg":"城堡","Burger":"漢堡","Büro":"辦公室","Bürste":"刷子","Bus":"公車","Busch":"灌木","Butter":"奶油","Buttermilch":"白脫牛奶","Button":"按鈕，徽章","Café":"咖啡廳","Cafeteria":"自助餐廳","Cent":"歐分","Champignon":"蘑菇","Chef":"老闆","Chip":"洋芋片，晶片","Chor":"合唱團","Christbaum":"聖誕樹","Clown":"小丑","Comic":"漫畫","Computer":"電腦","Container":"貨櫃","Cousin":"表兄弟，堂兄弟","Cousine":"表姊妹，堂姊妹","Cowboy":"牛仔","Creme":"乳霜","Dach":"屋頂","Dachs":"獾","Dackel":"臘腸狗","Dame":"女士","Damm":"堤壩","Dämmerung":"黃昏","Dampf":"蒸氣","Dampfer":"汽船","Darm":"腸子","Daumen":"大拇指","Decke":"毯子，天花板","Deckel":"蓋子","Deich":"堤防","Delfin":"海豚","Denkmal":"紀念碑","Deodorant":"體香劑","Dessert":"甜點","Detektiv":"偵探","Dezember":"十二月","Diamant":"鑽石","Dieb":"小偷","Dienstag":"星期二","Diktat":"聽寫","Ding":"東西","Dinosaurier":"恐龍","Direktor":"校長，主任","Display":"螢幕","Distel":"薊","Doktor":"醫生，博士","Dolch":"匕首","Dollar":"美元","Dom":"大教堂","Domino":"骨牌","Donner":"雷聲","Donnerstag":"星期四","Dorf":"村莊","Dorn":"刺","Dose":"罐子","Drache":"龍","Drachen":"風箏，龍","Draht":"鐵絲","Dreck":"髒東西","Dreieck":"三角形","Drogerie":"藥妝店","Drucker":"印表機","Dschungel":"叢林","Duft":"香味","Düne":"沙丘","Durst":"口渴","Dusche":"淋浴","E-Mail":"電子郵件","Ebbe":"退潮","Eber":"公豬","Echo":"回音","Ecke":"角落","Edelstein":"寶石","Efeu":"常春藤","Ei":"蛋","Eiche":"橡樹","Eichel":"橡實","Eichhörnchen":"松鼠","Eidechse":"蜥蜴","Eimer":"水桶","Eingang":"入口","Eis":"冰淇淋，冰","Eisen":"鐵","Eisenbahn":"火車，鐵路","Eiweiß":"蛋白","Elch":"駝鹿","Elefant":"大象","Elfmeter":"十二碼罰球","Ellbogen":"手肘","Elster":"喜鵲","Ende":"結束","Ente":"鴨子","Erbse":"豌豆","Erdbeben":"地震","Erdbeere":"草莓","Erde":"地球，泥土","Erkältung":"感冒","Esel":"驢子","Essen":"食物","Essig":"醋","Etage":"樓層","Eule":"貓頭鷹","Euro":"歐元","Euter":"乳房","Fabrik":"工廠","Fach":"科目，格子","Fächer":"扇子","Fackel":"火把","Faden":"線","Fahne":"旗子","Fähre":"渡輪","Fahrer":"司機","Fahrrad":"腳踏車","Fahrzeug":"車輛","Falle":"陷阱","Falte":"皺紋，摺痕","Falter":"蝴蝶","Familie":"家庭","Fan":"粉絲","Farbe":"顏色","Farm":"農場","Farn":"蕨類","Fasan":"雉雞","Fasching":"狂歡節","Fass":"木桶","Faultier":"樹懶","Faust":"拳頭","Februar":"二月","Feder":"羽毛","Fee":"仙女","Fehler":"錯誤","Feier":"慶祝會","Feige":"無花果","Feind":"敵人","Feld":"田野","Fell":"毛皮","Fels":"岩石","Felsen":"岩石","Fenster":"窗戶","Ferkel":"小豬","Fernbedienung":"遙控器","Fernseher":"電視","Ferse":"腳跟","Fest":"節日，派對","Festung":"要塞","Fett":"脂肪","Feuer":"火","Feuerwehr":"消防隊","Feuerwehrmann":"消防員","Fichte":"雲杉","Fieber":"發燒","Figur":"人物，身材","Film":"電影","Filter":"濾網","Filzstift":"彩色筆","Finger":"手指","Fink":"雀","Fisch":"魚","Flagge":"旗子","Flamme":"火焰","Flasche":"瓶子","Fleck":"污漬","Fledermaus":"蝙蝠","Fleisch":"肉","Fleischer":"肉販","Flieder":"紫丁香","Fliege":"蒼蠅，領結","Flieger":"飛機","Fliese":"磁磚","Flocke":"雪花","Floh":"跳蚤","Floß":"木筏","Flosse":"鰭","Flöte":"笛子","Flug":"飛行，航班","Flügel":"翅膀","Flughafen":"機場","Flugzeug":"飛機","Flur":"走廊","Fluss":"河","Flut":"漲潮，洪水","Fohlen":"小馬","Föhn":"吹風機","Folie":"保鮮膜，投影片","Forelle":"鱒魚","Form":"形狀","Fossil":"化石","Foto":"照片","Frage":"問題","Frau":"女人，太太","Freitag":"星期五","Fremde":"陌生人","Freude":"快樂","Freund":"朋友，男朋友","Freundin":"女性朋友，女朋友","Frikadelle":"肉餅","Friseur":"理髮師","Frisur":"髮型","Frosch":"青蛙","Frost":"霜凍","Frucht":"水果","Frühjahr":"春天","Frühling":"春天","Frühstück":"早餐","Fuchs":"狐狸","Füller":"鋼筆","Funke":"火花","Fürst":"親王，諸侯","Fuß":"腳","Fußball":"足球","Fußgänger":"行人","Futter":"飼料","Gabel":"叉子","Gabelstapler":"堆高機","Gang":"走廊","Gangster":"歹徒","Gans":"鵝","Garage":"車庫","Garderobe":"衣帽間","Gardine":"窗簾","Garn":"紗線","Garten":"花園","Gärtner":"園丁","Gas":"氣體，瓦斯","Gasse":"小巷","Gast":"客人","Gauner":"騙子","Gebäck":"餅乾","Gebäude":"建築物","Gebirge":"山脈","Gebiss":"牙齒，假牙","Geburt":"出生","Geburtstag":"生日","Gebüsch":"灌木叢","Gedicht":"詩","Gefahr":"危險","Gefängnis":"監獄","Gefäß":"容器","Geflügel":"家禽","Gegenstand":"物品","Gegner":"對手","Gehege":"圍欄","Gehirn":"大腦","Geier":"禿鷹","Geige":"小提琴","Geist":"鬼，精神","Geländer":"欄杆","Geld":"錢","Gelenk":"關節","Gemälde":"畫作","Gemüse":"蔬菜","Gepäck":"行李","Gerät":"器具","Geräusch":"聲音","Gerste":"大麥","Geruch":"氣味","Gerüst":"鷹架","Geschäft":"商店","Geschenk":"禮物","Geschichte":"故事，歷史","Geschirr":"碗盤","Geschmack":"味道","Gesicht":"臉","Gespenst":"鬼","Getränk":"飲料","Getreide":"穀物","Gewächshaus":"溫室","Geweih":"鹿角","Gewicht":"重量","Gewitter":"雷雨","Gewürz":"香料","Gift":"毒藥","Gipfel":"山頂","Gips":"石膏","Giraffe":"長頸鹿","Girlande":"彩帶","Gitarre":"吉他","Gitter":"柵欄","Glas":"玻璃杯，玻璃","Glatze":"禿頭","Gleis":"月台，鐵軌","Gletscher":"冰河","Glocke":"鐘","Glück":"幸運，幸福","Glühbirne":"燈泡","Glut":"餘火","Gold":"黃金","Goldhamster":"倉鼠","Golf":"高爾夫球","Gong":"鑼","Gorilla":"大猩猩","Gott":"神","Grab":"墳墓","Graben":"水溝","Grad":"度","Graf":"伯爵","Gramm":"公克","Gras":"草","Gräte":"魚刺","Griff":"把手","Grill":"烤肉架","Grille":"蟋蟀","Grimasse":"鬼臉","Grippe":"流感","Grube":"坑","Grundschule":"小學","Gurke":"小黃瓜","Gurt":"安全帶","Gürtel":"皮帶","Gymnasium":"文理中學","Haar":"頭髮","Hacke":"鋤頭，腳跟","Hafen":"港口","Hafer":"燕麥","Hagel":"冰雹","Hahn":"公雞，水龍頭","Hähnchen":"雞肉","Hai":"鯊魚","Haken":"鉤子","Halle":"大廳","Hals":"脖子，喉嚨","Haltestelle":"站牌","Hammer":"鐵鎚","Hamster":"倉鼠","Hand":"手","Handschuh":"手套","Handtuch":"毛巾","Handwerker":"工匠","Handy":"手機","Hang":"山坡","Hängematte":"吊床","Harfe":"豎琴","Harke":"耙子","Hase":"兔子","Haselnuss":"榛果","Haufen":"一堆","Häuptling":"酋長","Hauptstadt":"首都","Haus":"房子","Hausschuh":"室內拖鞋","Haustier":"寵物","Haut":"皮膚","Hebamme":"助產士","Hebel":"槓桿","Hecke":"樹籬","Hefe":"酵母","Heft":"筆記本","Heidelbeere":"藍莓","Heizung":"暖氣","Held":"英雄","Helm":"安全帽","Hemd":"襯衫","Hengst":"公馬","Henkel":"把手","Henne":"母雞","Herbst":"秋天","Herd":"爐子","Herde":"獸群","Hering":"鯡魚","Herr":"先生","Herz":"心","Herzog":"公爵","Heu":"乾草","Heuschrecke":"蚱蜢","Hexe":"女巫","Hilfe":"幫助","Himbeere":"覆盆子","Himmel":"天空","Hintern":"屁股","Hirn":"大腦","Hirsch":"鹿","Hitze":"炎熱","Hobby":"嗜好","Hochzeit":"婚禮","Hocker":"板凳","Hockey":"曲棍球","Hof":"院子","Höhle":"洞穴","Holz":"木頭","Honig":"蜂蜜","Horn":"角，號角","Hornisse":"虎頭蜂","Hose":"褲子","Hotel":"飯店","Hubschrauber":"直升機","Huf":"馬蹄","Hüfte":"臀部","Hügel":"山丘","Huhn":"雞","Hülle":"套子","Hummel":"熊蜂","Hund":"狗","Hupe":"喇叭","Hürde":"跨欄，障礙","Hut":"帽子","Hütte":"小屋","Idee":"點子","Igel":"刺蝟","Imbiss":"小吃攤","Imker":"養蜂人","Ingenieur":"工程師","Insekt":"昆蟲","Insel":"島","Instrument":"樂器","Jacke":"外套","Jaguar":"美洲豹","Jahr":"年","Januar":"一月","Jeans":"牛仔褲","Jet":"噴射機","Journalist":"記者","Judo":"柔道","Jugendherberge":"青年旅館","Juli":"七月","Junge":"男孩","Juni":"六月","Juwel":"珠寶","Kabel":"電線","Kabine":"船艙，更衣室","Käfer":"甲蟲","Kaffee":"咖啡","Käfig":"籠子","Kahn":"小船","Kaiser":"皇帝","Kakao":"可可","Kaktus":"仙人掌","Kalb":"小牛","Kalender":"月曆","Kälte":"寒冷","Kamel":"駱駝","Kamera":"相機","Kamerad":"夥伴","Kamin":"壁爐","Kamm":"梳子","Kammer":"小房間","Kampf":"戰鬥","Kanal":"運河，頻道","Kaninchen":"兔子","Kanister":"油桶","Kanne":"壺","Kanone":"大砲","Kante":"邊緣","Kanu":"獨木舟","Kapelle":"小教堂，樂隊","Kapitän":"船長","Kapitel":"章節","Kappe":"鴨舌帽","Kapsel":"膠囊","Kapuze":"帽兜","Karneval":"嘉年華","Karo":"格子，方塊","Karotte":"胡蘿蔔","Karpfen":"鯉魚","Karte":"卡片，地圖","Kartoffel":"馬鈴薯","Karton":"紙箱","Karussell":"旋轉木馬","Käse":"起司","Kasse":"收銀台","Kassette":"錄音帶","Kastanie":"栗子","Kasten":"箱子","Katalog":"目錄","Kater":"公貓","Katze":"貓","Kaulquappe":"蝌蚪","Kegel":"圓錐，保齡球瓶","Kehle":"喉嚨","Keim":"細菌，芽","Keks":"餅乾","Kelch":"高腳杯","Kelle":"湯勺","Keller":"地下室","Kellner":"服務生","Kerl":"傢伙","Kern":"果核","Kerze":"蠟燭","Kessel":"水壺","Kette":"項鍊，鏈子","Keule":"棍棒，雞腿","Keyboard":"電子琴，鍵盤","Kieme":"鰓","Kies":"碎石","Kilogramm":"公斤","Kilometer":"公里","Kind":"小孩","Kinn":"下巴","Kino":"電影院","Kiosk":"書報攤","Kirche":"教堂","Kirmes":"園遊會","Kirsche":"櫻桃","Kissen":"枕頭，抱枕","Kiste":"箱子","Klammer":"夾子，括號","Klappe":"蓋板","Klasse":"班級，年級","Klassenzimmer":"教室","Klavier":"鋼琴","Klee":"三葉草","Kleid":"洋裝","Klempner":"水電工","Klinge":"刀刃","Klingel":"門鈴","Klinik":"醫院，診所","Klinke":"門把","Klippe":"懸崖","Klo":"廁所","Kloß":"丸子","Kloster":"修道院","Klotz":"木塊","Klub":"社團","Klumpen":"塊","Knabe":"男孩","Knäckebrot":"脆餅","Knie":"膝蓋","Knoblauch":"大蒜","Knöchel":"腳踝","Knochen":"骨頭","Knödel":"丸子","Knopf":"鈕扣，按鈕","Knospe":"花苞","Knoten":"結","Koch":"廚師","Koffer":"行李箱","Kohl":"高麗菜","Kohle":"煤炭","Kokosnuss":"椰子","Kollege":"同事","Komet":"彗星","Komma":"逗號","Kommissar":"警探","Kommode":"五斗櫃","Kompass":"指南針","Kompost":"堆肥","König":"國王","Königin":"女王","Konzert":"音樂會","Kopf":"頭","Kopfhörer":"耳機","Kopie":"影本","Korb":"籃子","Kork":"軟木","Korken":"軟木塞","Korn":"穀粒","Körper":"身體","Korridor":"走廊","Kostüm":"戲服","Kotelett":"豬排","Krabbe":"螃蟹","Krach":"噪音","Kragen":"衣領","Kralle":"爪子","Kran":"起重機","Krankenhaus":"醫院","Krankenschwester":"護士","Krankenwagen":"救護車","Kranz":"花環","Krater":"火山口","Kraut":"香草植物，藥草","Krawatte":"領帶","Krebs":"螃蟹，癌症","Kreide":"粉筆","Kreis":"圓圈","Kreisel":"陀螺","Kreuz":"十字","Krippe":"托嬰中心，馬槽","Krokodil":"鱷魚","Krone":"王冠","Kröte":"蟾蜍","Krücke":"拐杖","Krug":"水壺","Kruste":"外皮","Küche":"廚房","Kuchen":"蛋糕","Kuckuck":"布穀鳥","Kugel":"球","Kuh":"母牛","Kühlschrank":"冰箱","Küken":"小雞","Kumpel":"好朋友","Kunde":"客人","Kupfer":"銅","Kuppel":"圓頂","Kurbel":"曲柄","Kürbis":"南瓜","Kurve":"彎道","Kuscheltier":"絨毛玩具","Kuss":"親吻","Küste":"海岸","Kutsche":"馬車","Labor":"實驗室","Labyrinth":"迷宮","Lache":"水坑","Lachs":"鮭魚","Lack":"油漆","Ladegerät":"充電器","Laden":"商店","Lager":"倉庫，營地","Laken":"床單","Lama":"駱馬","Lamm":"小羊","Lampe":"燈","Land":"國家，鄉下","Landkarte":"地圖","Landstraße":"鄉間道路","Lappen":"抹布","Laptop":"筆電","Lärm":"噪音","Larve":"幼蟲","Laser":"雷射","Lasso":"套索","Laster":"卡車","Lastwagen":"卡車","Laterne":"燈籠，路燈","Latte":"木條","Laub":"落葉","Laubbaum":"闊葉樹","Laus":"蝨子","Lautsprecher":"喇叭","Lava":"岩漿","Lawine":"雪崩","Leben":"生命，生活","Leber":"肝臟","Lebkuchen":"薑餅","Leck":"漏洞","Leder":"皮革","Lehm":"黏土","Lehrer":"老師","Lehrerin":"女老師","Lehrling":"學徒","Leim":"膠水","Leine":"牽繩，繩子","Leiter":"梯子","Lenkrad":"方向盤","Leopard":"豹","Lerche":"雲雀","Leser":"讀者","Lexikon":"百科全書","Libelle":"蜻蜓","Licht":"光，燈","Lid":"眼皮","Lied":"歌","Lift":"電梯","Lilie":"百合","Limonade":"汽水","Linde":"椴樹","Lineal":"尺","Linie":"線","Link":"連結","Linse":"扁豆，鏡片","Lippe":"嘴唇","Liste":"清單","Loch":"洞","Locke":"捲髮","Löffel":"湯匙","Lokal":"餐廳","Lokomotive":"火車頭","Lorbeer":"月桂","Los":"彩券","Löwe":"獅子","Löwenzahn":"蒲公英","Luchs":"山貓","Lücke":"空隙","Luft":"空氣","Luftballon":"氣球","Luke":"艙口","Lunge":"肺","Mädchen":"女孩","Made":"蛆","Magen":"胃","Magier":"魔術師","Magnet":"磁鐵","Mahlzeit":"一餐","Mähne":"鬃毛","Mai":"五月","Mais":"玉米","Mama":"媽媽","Mami":"媽咪","Mammut":"長毛象","Mandarine":"橘子","Mandel":"杏仁，扁桃腺","Mann":"男人，丈夫","Mantel":"大衣","Mäppchen":"鉛筆盒","Mappe":"資料夾","Märchen":"童話","Marder":"貂","Margarine":"人造奶油","Marienkäfer":"瓢蟲","Marke":"品牌，郵票","Markt":"市場","Marmelade":"果醬","Marmor":"大理石","März":"三月","Marzipan":"杏仁糖","Maschine":"機器","Maske":"面具，口罩","Maskottchen":"吉祥物","Mast":"桅杆","Material":"材料","Matratze":"床墊","Matrose":"水手","Matsch":"爛泥","Matte":"墊子","Mauer":"牆","Maul":"嘴巴","Maulwurf":"鼴鼠","Maurer":"泥水匠","Maus":"老鼠，滑鼠","Mayonnaise":"美乃滋","Medaille":"獎牌","Medikament":"藥","Meer":"海","Meerschweinchen":"天竺鼠","Mehl":"麵粉","Meile":"英里","Meise":"山雀","Meister":"師傅，冠軍","Melodie":"旋律","Melone":"哈密瓜，西瓜","Mensch":"人","Menü":"套餐，選單","Messer":"刀子","Metall":"金屬","Metzger":"肉販","Mikrofon":"麥克風","Mikroskop":"顯微鏡","Mikrowelle":"微波爐","Milch":"牛奶","Mine":"礦坑，筆芯","Mineral":"礦物","Mineralwasser":"礦泉水","Minigolf":"迷你高爾夫","Minute":"分鐘","Mist":"糞肥","Mittag":"中午","Mitte":"中間","Mitternacht":"半夜","Mittwoch":"星期三","Möbel":"家具","Modell":"模型","Mofa":"輕型機車","Mohn":"罌粟","Monat":"月","Mönch":"和尚，修士","Mond":"月亮","Monitor":"螢幕","Monster":"怪物","Montag":"星期一","Moor":"沼澤","Moos":"青苔","Moped":"機車","Mops":"巴哥犬","Morgen":"早上","Mosaik":"馬賽克","Moschee":"清真寺","Motor":"引擎","Motorrad":"摩托車","Motte":"蛾","Möwe":"海鷗","Mozzarella":"莫札瑞拉起司","Mücke":"蚊子","Mühle":"磨坊","Müll":"垃圾","Mülleimer":"垃圾桶","Müller":"磨坊主人","Mumie":"木乃伊","Mund":"嘴巴","Münze":"硬幣","Murmel":"彈珠","Muschel":"貝殼","Museum":"博物館","Musical":"音樂劇","Musik":"音樂","Muskel":"肌肉","Müsli":"穀片","Muster":"圖案","Mutter":"媽媽，螺帽","Mütze":"毛帽","Nabel":"肚臍","Nachbar":"鄰居","Nachbarin":"女鄰居","Nachmittag":"下午","Nachricht":"訊息，新聞","Nacht":"夜晚","Nachtisch":"甜點","Nachttisch":"床頭櫃","Nacken":"後頸","Nadel":"針","Nadelbaum":"針葉樹","Nagel":"釘子，指甲","Nähe":"附近","Nahrung":"食物","Naht":"縫線","Name":"名字","Narbe":"疤痕","Narr":"小丑","Nase":"鼻子","Nashorn":"犀牛","Navi":"導航","Nebel":"霧","Neffe":"姪子，外甥","Nelke":"康乃馨","Nest":"鳥巢","Netz":"網子","Nichte":"姪女，外甥女","Nilpferd":"河馬","Not":"困境","Note":"成績，音符","November":"十一月","Nudel":"麵條","Null":"零","Nummer":"號碼","Nuss":"堅果","Ober":"服務生","Obst":"水果","Ochse":"公牛","Ofen":"烤箱，爐子","Ohr":"耳朵","Oktober":"十月","Öl":"油","Olive":"橄欖","Oma":"奶奶，外婆","Onkel":"叔叔，舅舅","Opa":"爺爺，外公","Orange":"柳橙","Ordner":"資料夾","Ordnung":"秩序","Orgel":"管風琴","Ort":"地方","Ozean":"海洋","Paar":"一對，情侶","Päckchen":"小包裹","Paddel":"槳","Paket":"包裹","Palast":"宮殿","Palette":"調色盤，棧板","Palme":"棕櫚樹","Pantoffel":"拖鞋","Panzer":"坦克，甲殼","Papa":"爸爸","Papagei":"鸚鵡","Papier":"紙","Pappe":"紙板","Paprika":"甜椒","Parfüm":"香水","Park":"公園","Parkplatz":"停車場","Partner":"夥伴","Party":"派對","Pass":"護照","Passagier":"乘客","Patient":"病人","Patrone":"墨水管，子彈","Pauke":"定音鼓","Pause":"休息，下課","Pedal":"踏板","Peitsche":"鞭子","Pelle":"皮","Pelz":"毛皮","Perle":"珍珠","Person":"人","Perücke":"假髮","Petersilie":"香芹","Pfad":"小路","Pfanne":"平底鍋","Pfannkuchen":"鬆餅","Pfau":"孔雀","Pfeffer":"胡椒","Pfefferminze":"薄荷","Pfeife":"哨子，菸斗","Pfeil":"箭","Pferd":"馬","Pfirsich":"桃子","Pflanze":"植物","Pflaster":"OK繃","Pflaume":"李子","Pflug":"犁","Pfosten":"柱子","Pfote":"腳掌","Pfütze":"水坑","Pickel":"青春痘","Picknick":"野餐","Pille":"藥丸","Pilot":"飛行員","Pilz":"菇類","Pinguin":"企鵝","Pinsel":"畫筆","Pinzette":"鑷子","Pirat":"海盜","Pistole":"手槍","Pizza":"披薩","Plakat":"海報","Planet":"行星","Plastik":"塑膠","Platte":"盤子，板子","Platz":"廣場，位子","Plätzchen":"小餅乾","Plural":"複數","Pokal":"獎盃","Polizei":"警察局","Polizist":"警察","Polster":"坐墊","Pony":"小馬","Portemonnaie":"錢包","Post":"郵局，郵件","Postbote":"郵差","Poster":"海報","Praline":"巧克力","Praxis":"診所","Preis":"價格，獎品","Prinz":"王子","Prinzessin":"公主","Propeller":"螺旋槳","Pudding":"布丁","Pudel":"貴賓狗","Puder":"蜜粉，爽身粉","Pulli":"毛衣","Pullover":"毛衣","Pult":"講台","Pulver":"粉末","Pumpe":"打氣筒","Punkt":"點，句號","Pupille":"瞳孔","Puppe":"娃娃","Püree":"馬鈴薯泥，果泥","Puzzle":"拼圖","Pyjama":"睡衣","Pyramide":"金字塔","Quadrat":"正方形","Qualle":"水母","Qualm":"濃煙","Quark":"凝乳","Quatsch":"胡說八道","Quelle":"泉水，來源","Quittung":"收據","Quiz":"問答","Rabe":"烏鴉","Rad":"輪子，腳踏車","Radfahrer":"騎腳踏車的人","Radiergummi":"橡皮擦","Radieschen":"櫻桃蘿蔔","Radio":"收音機","Rahmen":"框","Rakete":"火箭","Rampe":"斜坡","Rand":"邊緣","Rasen":"草坪","Rassel":"搖鈴","Rathaus":"市政府","Rätsel":"謎語","Ratte":"老鼠","Räuber":"強盜","Rauch":"煙","Raum":"房間，空間","Raupe":"毛毛蟲","Rechnung":"帳單","Rechteck":"長方形","Regal":"架子","Regel":"規則","Regen":"雨","Regenbogen":"彩虹","Regenschirm":"雨傘","Regenwurm":"蚯蚓","Reh":"小鹿","Reifen":"輪胎","Reihe":"排","Reis":"米飯","Reise":"旅行","Reißverschluss":"拉鍊","Reptil":"爬蟲類","Restaurant":"餐廳","Rettich":"白蘿蔔","Revolver":"左輪手槍","Rezept":"食譜，處方","Rhabarber":"大黃","Riegel":"門閂，巧克力棒","Riese":"巨人","Rind":"牛","Rinde":"樹皮","Ring":"戒指","Rippe":"肋骨","Ritter":"騎士","Robbe":"海豹","Roboter":"機器人","Rock":"裙子","Rohr":"管子","Rolle":"捲，角色","Roller":"滑板車","Rollladen":"鐵捲門","Roman":"小說","Rose":"玫瑰","Rosine":"葡萄乾","Rotkohl":"紫高麗菜","Rübe":"蘿蔔","Rücken":"背","Rucksack":"背包","Rüde":"公狗","Rudel":"狼群","Ruder":"槳，舵","Ruine":"廢墟","Rüssel":"象鼻","Rutsche":"溜滑梯","S-Bahn":"城市快鐵","Saal":"大廳","Sache":"東西","Sack":"麻袋","Saft":"果汁","Säge":"鋸子","Sahne":"鮮奶油","Saite":"弦","Salamander":"蠑螈","Salami":"義式臘腸","Salat":"沙拉，生菜","Salbe":"藥膏","Salto":"空翻","Salz":"鹽","Samen":"種子","Samstag":"星期六","Sand":"沙子","Sandale":"涼鞋","Sandwich":"三明治","Sänger":"歌手","Sanitäter":"救護員","Sarg":"棺材","Satellit":"衛星","Sattel":"馬鞍，坐墊","Satz":"句子","Sau":"母豬","Sauce":"醬汁","Sauerkraut":"酸菜","Säugetier":"哺乳類","Säugling":"嬰兒","Säule":"柱子","Sauna":"三溫暖","Saurier":"恐龍","Scanner":"掃描器","Schachspiel":"西洋棋","Schachtel":"盒子","Schädel":"頭骨","Schaf":"綿羊","Schäfer":"牧羊人","Schaffner":"車掌","Schal":"圍巾","Schale":"碗，果皮","Schalter":"開關，櫃檯","Schatten":"影子","Schatz":"寶藏，寶貝","Schaufel":"鏟子","Schaufenster":"櫥窗","Schaukel":"鞦韆","Schaukelpferd":"搖搖馬","Schaum":"泡沫","Scheibe":"片，玻璃窗","Scheitel":"髮線","Schemel":"小凳子","Schenkel":"大腿","Scherbe":"碎片","Schere":"剪刀","Scheune":"穀倉","Schiedsrichter":"裁判","Schienbein":"小腿","Schiene":"鐵軌","Schiff":"船","Schild":"牌子","Schildkröte":"烏龜","Schimmel":"白馬，黴菌","Schimpanse":"黑猩猩","Schinken":"火腿","Schirm":"雨傘","Schlafanzug":"睡衣","Schläfe":"太陽穴","Schlafzimmer":"臥室","Schläger":"球拍","Schlamm":"泥巴","Schlange":"蛇，隊伍","Schlauch":"水管","Schlaufe":"環","Schleier":"面紗","Schleife":"蝴蝶結","Schleim":"黏液","Schlinge":"套索","Schlitten":"雪橇","Schlittschuh":"溜冰鞋","Schlitz":"縫","Schloss":"城堡，鎖","Schlucht":"峽谷","Schluckauf":"打嗝","Schluss":"結尾","Schlüssel":"鑰匙","Schlüsselbein":"鎖骨","Schmerz":"疼痛","Schmetterling":"蝴蝶","Schmied":"鐵匠","Schminke":"化妝品","Schmutz":"髒污","Schnabel":"鳥嘴","Schnalle":"扣環","Schnauze":"口鼻","Schnecke":"蝸牛","Schnee":"雪","Schneeglöckchen":"雪花蓮","Schneider":"裁縫師","Schnipsel":"碎片","Schnitt":"切口","Schnitte":"一片麵包","Schnittlauch":"細香蔥","Schnitzel":"炸肉排","Schnorchel":"呼吸管","Schnuller":"奶嘴","Schnupfen":"流鼻水，鼻塞","Schnur":"繩子","Schnurrbart":"八字鬍","Schnürsenkel":"鞋帶","Schokolade":"巧克力","Schornstein":"煙囪","Schoß":"大腿上","Schramme":"擦傷","Schrank":"櫃子","Schranke":"柵欄","Schraube":"螺絲","Schraubenzieher":"螺絲起子","Schrei":"尖叫","Schreibtisch":"書桌","Schreiner":"木匠","Schrift":"字跡，字體","Schritt":"腳步","Schrott":"廢鐵","Schubkarre":"手推車","Schublade":"抽屜","Schuh":"鞋子","Schule":"學校","Schüler":"學生","Schulranzen":"書包","Schultasche":"書包","Schulter":"肩膀","Schuppen":"倉庫，棚子","Schürze":"圍裙","Schuss":"射擊","Schüssel":"碗","Schutz":"保護","Schwager":"姊夫，妹夫","Schwalbe":"燕子","Schwamm":"海綿","Schwan":"天鵝","Schwanz":"尾巴","Schwarm":"蜂群，魚群，暗戀對象","Schwein":"豬","Schweiß":"汗","Schwert":"劍","Schwester":"姊姊，妹妹","Seehund":"海豹","Segel":"帆","Segelschiff":"帆船","Sehne":"肌腱","Seide":"絲綢","Seife":"肥皂","Seil":"繩子","Seite":"頁，旁邊","Sekunde":"秒","Senf":"黃芥末醬","September":"九月","Serviette":"餐巾紙","Sessel":"單人沙發","Shampoo":"洗髮精","Shirt":"T恤","Shop":"商店","Sieb":"篩子","Siedlung":"社區","Siegel":"印章","Signal":"信號","Silber":"銀","Sirene":"警笛","Sirup":"糖漿","Skateboard":"滑板","Skelett":"骨骼","Ski":"滑雪板","Skizze":"草圖","Socke":"襪子","Sofa":"沙發","Sohle":"鞋底","Sohn":"兒子","Soldat":"士兵","Sommer":"夏天","Song":"歌曲","Sonnabend":"星期六","Sonne":"太陽","Sonntag":"星期日","Soße":"醬汁","Spagat":"劈腿","Spange":"髮夾，牙套","Spargel":"蘆筍","Spaß":"樂趣","Spaten":"鏟子","Spatz":"麻雀","Spaziergang":"散步","Specht":"啄木鳥","Speck":"培根","Speer":"長矛","Speichel":"口水","Speicher":"閣樓，記憶體","Speise":"菜餚","Spiegel":"鏡子","Spiel":"遊戲，比賽","Spielzeug":"玩具","Spieß":"烤肉串","Spinat":"菠菜","Spinne":"蜘蛛","Spion":"間諜","Spirale":"螺旋","Spitzer":"削鉛筆機","Splitter":"碎片","Sport":"運動","Sprache":"語言","Springseil":"跳繩","Spritze":"針筒","Sprudel":"氣泡水","Sprung":"跳躍","Spucke":"口水","Spüle":"水槽","Spur":"足跡，車道","Stab":"棒子","Stachel":"刺","Stadion":"體育場","Stadt":"城市","Stahl":"鋼","Stall":"畜舍","Stamm":"樹幹","Stange":"竿子","Stängel":"莖","Stapel":"一疊","Star":"明星，椋鳥","Station":"車站","Statue":"雕像","Stau":"塞車","Staub":"灰塵","Stausee":"水庫","Steak":"牛排","Steckdose":"插座","Stecker":"插頭","Steg":"小橋，碼頭","Stein":"石頭","Stempel":"印章","Stern":"星星","Steuer":"方向盤","Stich":"叮咬","Sticker":"貼紙","Stiefel":"靴子","Stiel":"柄","Stier":"公牛","Stift":"筆","Stimme":"聲音","Stirn":"額頭","Stirnband":"頭帶","Stock":"棍子，樓層","Stockwerk":"樓層","Stoff":"布料","Stopfen":"塞子","Stöpsel":"塞子","Storch":"白鸛","Strahl":"光線","Strähne":"一縷頭髮","Strand":"海灘","Straße":"街道","Straßenbahn":"路面電車","Strauch":"灌木","Strauß":"花束，鴕鳥","Strecke":"路段","Streich":"惡作劇","Streichholz":"火柴","Streifen":"條紋","Streit":"吵架","Strich":"線條","Strick":"繩子","Stroh":"稻草","Strohhalm":"吸管","Strom":"電，河流","Strudel":"漩渦，蘋果捲","Strumpf":"長襪","Strumpfhose":"褲襪","Stück":"塊","Student":"大學生","Stufe":"台階","Stuhl":"椅子","Stunde":"小時，一堂課","Sturm":"暴風雨","Stute":"母馬","Süden":"南方","Sumpf":"沼澤","Supermarkt":"超市","Suppe":"湯","Sweatshirt":"運動衫","T-Shirt":"T恤","Tablet":"平板","Tablett":"托盤","Tablette":"藥片","Tacho":"時速表","Tafel":"黑板","Tag":"天，白天","Taifun":"颱風","Taille":"腰","Tal":"山谷","Tank":"油箱","Tankstelle":"加油站","Tanne":"冷杉","Tante":"阿姨，姑姑","Tanz":"舞蹈","Tapete":"壁紙","Tasche":"包包，口袋","Taschenlampe":"手電筒","Tasse":"杯子","Tastatur":"鍵盤","Taste":"按鍵","Taube":"鴿子","Taxi":"計程車","Team":"團隊","Teddy":"泰迪熊","Tee":"茶","Teenager":"青少年","Teich":"池塘","Teig":"麵團","Telefon":"電話","Teller":"盤子","Tempel":"廟","Temperatur":"溫度","Tennis":"網球","Teppich":"地毯","Terrasse":"露台","Teufel":"魔鬼","Text":"課文","Theater":"劇院","Theke":"吧台","Thermometer":"溫度計","Thermosflasche":"保溫瓶","Thron":"王座","Ticket":"票","Tier":"動物","Tiger":"老虎","Tinte":"墨水","Tisch":"桌子","Tischler":"木匠","Tochter":"女兒","Toilette":"廁所","Tomate":"番茄","Ton":"聲音，黏土","Tonne":"垃圾桶，公噸","Top":"背心","Topf":"鍋子","Tor":"大門，球門","Tornado":"龍捲風","Torte":"蛋糕","Torwart":"守門員","Tracht":"傳統服裝","Traktor":"曳引機","Trampolin":"彈跳床","Träne":"眼淚","Traube":"葡萄","Traum":"夢","Treppe":"樓梯","Trichter":"漏斗","Trikot":"球衣","Trommel":"鼓","Trompete":"小號","Tropfen":"水滴","Truhe":"箱子","Tube":"軟管","Tuch":"布","Tümpel":"水塘","Tunnel":"隧道","Tür":"門","Turban":"頭巾","Turm":"塔","Tüte":"塑膠袋","U-Bahn":"捷運","U-Boot":"潛水艇","Übung":"練習","Ufer":"岸邊","Uhr":"時鐘，手錶","Uhu":"鵰鴞","Umhang":"斗篷","Umschlag":"信封","Unfall":"意外","Ungeheuer":"怪物","Uniform":"制服","Unkraut":"雜草","Unterhose":"內褲","Unwetter":"暴風雨","Urkunde":"證書","Urlaub":"假期","Urwald":"原始森林","Vampir":"吸血鬼","Vanille":"香草","Vase":"花瓶","Vater":"爸爸","Vegetarier":"素食者","Veilchen":"紫羅蘭","Ventilator":"電風扇","Veranda":"陽台","Verkäuferin":"女店員","Verkehr":"交通","Vetter":"表兄弟，堂兄弟","Video":"影片","Vieh":"牲畜","Viereck":"四邊形","Villa":"別墅","Vogel":"鳥","Vogelscheuche":"稻草人","Volleyball":"排球","Vollkornbrot":"全麥麵包","Vorhang":"窗簾","Vormittag":"上午","Vulkan":"火山","Waage":"秤","Wachs":"蠟","Wade":"小腿肚","Waffe":"武器","Waffel":"鬆餅","Wagen":"車子","Waggon":"車廂","Waise":"孤兒","Wal":"鯨魚","Wald":"森林","Walnuss":"核桃","Walross":"海象","Wand":"牆壁","Wange":"臉頰","Wanne":"浴缸","Wanze":"臭蟲","Wappen":"徽章","Wärme":"溫暖","Warze":"疣","Waschbecken":"洗手台","Waschmaschine":"洗衣機","Wasser":"水","Wasserhahn":"水龍頭","Watte":"棉花","Wecker":"鬧鐘","Weg":"路","Weide":"牧場，柳樹","Wein":"葡萄酒","Weißbrot":"白麵包","Weißkohl":"高麗菜","Weizen":"小麥","Welle":"波浪","Wellensittich":"虎皮鸚鵡","Welpe":"小狗","Welt":"世界","Weltall":"宇宙","Weltraum":"太空","Werkstatt":"工作室，修車廠","Werkzeug":"工具","Wespe":"黃蜂","Weste":"背心","Westen":"西方","Wetter":"天氣","Wiege":"搖籃","Wiese":"草地","Wiesel":"黃鼠狼","Wild":"野生動物","Wimper":"睫毛","Wind":"風","Windel":"尿布","Winter":"冬天","Wippe":"翹翹板","Woche":"星期","Wohnung":"公寓","Wohnzimmer":"客廳","Wolf":"狼","Wolke":"雲","Wolle":"毛線","Wort":"單字","Wörterbuch":"字典","Wrack":"殘骸","Wunde":"傷口","Würfel":"骰子，立方體","Wurm":"蟲","Wurst":"香腸","Würstchen":"小香腸","Wurzel":"根","Wüste":"沙漠","Yacht":"遊艇","Zahl":"數字","Zahn":"牙齒","Zahnbürste":"牙刷","Zange":"鉗子","Zapfen":"松果","Zaun":"圍籬","Zebra":"斑馬","Zecke":"壁蝨","Zeh":"腳趾","Zehe":"腳趾","Zeile":"一行字","Zeit":"時間","Zeitschrift":"雜誌","Zeitung":"報紙","Zelt":"帳篷","Zement":"水泥","Zeppelin":"飛艇","Zettel":"紙條","Zeug":"東西","Zeugnis":"成績單","Ziege":"山羊","Ziegel":"磚塊","Ziffer":"數字","Zimmer":"房間","Zimt":"肉桂","Zipfelmütze":"尖頂帽","Zirkel":"圓規","Zirkus":"馬戲團","Zitrone":"檸檬","Zoo":"動物園","Zopf":"辮子","Zucchini":"櫛瓜","Zucker":"糖","Zug":"火車","Zugvogel":"候鳥","Zunge":"舌頭","Zweig":"樹枝","Zwerg":"小矮人","Zwieback":"烤麵包乾","Zwiebel":"洋蔥","Zwilling":"雙胞胎","Zwinger":"狗籠","Zylinder":"圓柱，高禮帽"};
 const ZH_V={"sein":"是","haben":"有","werden":"變成，成為","sagen":"說","sehen":"看，看見","machen":"做","tun":"做","wollen":"想要","können":"能，會","gehen":"走，去","wissen":"知道","kommen":"來","müssen":"必須","leben":"生活，活","denken":"想，認為","hören":"聽，聽到","finden":"找到，覺得","lassen":"讓","geben":"給","reden":"說話，談","passieren":"發生","helfen":"幫助","nehmen":"拿，取","bringen":"帶來，送","verstehen":"了解，懂","sprechen":"說，講","essen":"吃","bleiben":"留下，待","fragen":"問","sterben":"死","glauben":"相信，認為","versuchen":"嘗試","brauchen":"需要","halten":"握住，停下","warten":"等","treffen":"遇見，見面","erzählen":"講述","verlieren":"弄丟，失去，輸","fahren":"開車，搭車，騎車","kennen":"認識","bekommen":"得到，收到","fallen":"掉落，跌倒","vergessen":"忘記","arbeiten":"工作","suchen":"找，尋找","spielen":"玩，演奏","schaffen":"完成，做到","schlafen":"睡覺","zeigen":"展示，指出","holen":"拿來，去拿","retten":"救","laufen":"跑，走","entschuldigen":"道歉，原諒","trinken":"喝","verlassen":"離開","verschwinden":"消失","schreiben":"寫","stellen":"放，擺","gefallen":"喜歡","anrufen":"打電話","lernen":"學習","nennen":"稱呼，叫做","kriegen":"得到，收到","rufen":"叫，喊","lesen":"讀，閱讀","schicken":"寄，送","kaufen":"買","bitten":"請求","erinnern":"記得，提醒","setzen":"放，坐下","bezahlen":"付錢","funktionieren":"運作","gewinnen":"贏，獲得","dürfen":"可以","erwarten":"期待，預期","fangen":"抓，接住","erklären":"解釋","benutzen":"使用","verkaufen":"賣","versprechen":"答應，承諾","heiraten":"結婚","ändern":"改變，修改","aufhören":"停止","tragen":"穿，戴，搬","anfangen":"開始","verdienen":"賺錢","schlagen":"打","schließen":"關，關閉","verletzen":"受傷，傷害","geschehen":"發生","kümmern":"照顧","vorstellen":"介紹，想像","verstecken":"藏，躲","mögen":"喜歡","stehlen":"偷","fliegen":"飛，搭飛機","fühlen":"感覺","entscheiden":"決定","schießen":"射擊","zerstören":"破壞，摧毀","erfahren":"得知","folgen":"跟隨","lügen":"說謊","lachen":"笑","beginnen":"開始","erreichen":"達到，趕上","brechen":"打破，斷","legen":"放","schauen":"看","vermissen":"想念","öffnen":"打開","verändern":"改變","werfen":"丟，扔","bauen":"建造，蓋","erkennen":"認出","erwischen":"抓到，趕上","nachdenken":"思考","tanzen":"跳舞","mitnehmen":"帶走，帶去","besuchen":"拜訪，參觀","herausfinden":"查出，發現","wohnen":"住","singen":"唱歌","beenden":"結束","verlieben":"愛上","verbringen":"度過","überraschen":"給驚喜","verpassen":"錯過","hoffen":"希望","erhalten":"收到，得到","erlauben":"允許","überlegen":"考慮","antworten":"回答","verraten":"洩漏，背叛","einladen":"邀請","rennen":"跑","verzeihen":"原諒","teilen":"分享，分","feiern":"慶祝","dauern":"持續","scheinen":"照耀，似乎","freuen":"高興","raten":"猜，建議","schreien":"大叫，尖叫","passen":"適合，合身","kosten":"花費，值","mitbringen":"帶來","aufgeben":"放棄","aufpassen":"注意，小心","erleben":"經歷","wünschen":"希望，祝","stören":"打擾","vorbereiten":"準備","steigen":"爬上，上升","wählen":"選擇，投票","weinen":"哭","lösen":"解決","kennenlernen":"認識","merken":"發覺，記住","schneiden":"切，剪","fernsehen":"看電視","entdecken":"發現","landen":"降落","träumen":"做夢，夢想","besprechen":"討論","abholen":"接人，領取","unterhalten":"聊天","bestellen":"訂購，點餐","anziehen":"穿","zurückkommen":"回來","mitkommen":"一起來","genießen":"享受","lächeln":"微笑","fliehen":"逃走","reparieren":"修理","bemerken":"注意到","kochen":"煮，做飯","ausgehen":"出門，出去玩","schenken":"送","unterschreiben":"簽名","springen":"跳","streiten":"吵架","bestehen":"通過","reisen":"旅行","wachsen":"長大，成長","probieren":"試，嚐","verbieten":"禁止","aufstehen":"起床，站起來","ankommen":"抵達","zuhören":"聽","packen":"打包","anbieten":"提供","fressen":"吃","zählen":"數，算","beantworten":"回答","erscheinen":"出現","übersetzen":"翻譯","aufwachen":"醒來","begegnen":"遇見","schweigen":"沉默","aufmachen":"打開","studieren":"讀大學","erfinden":"發明","waschen":"洗","beißen":"咬","telefonieren":"講電話","riechen":"聞","wiederholen":"重複","verabschieden":"道別","weglaufen":"逃跑","leihen":"借","trainieren":"訓練，練習","üben":"練習","streichen":"粉刷，塗","beschreiben":"描述","präsentieren":"報告，展示","wecken":"叫醒","abgeben":"交出，繳交","anschauen":"看","malen":"畫","einschlafen":"睡著","brennen":"燃燒","aussteigen":"下車","ausgeben":"花錢","aufwachsen":"長大","mitmachen":"參加，一起做","gelingen":"成功","einkaufen":"購物，買東西","ausmachen":"關掉","organisieren":"安排，籌辦","vorbeikommen":"順道過來","schmecken":"嚐起來，好吃","diskutieren":"討論","duschen":"淋浴，洗澡","empfehlen":"推薦","zurückgeben":"歸還","erschrecken":"嚇到，嚇一跳","putzen":"打掃，擦","vergleichen":"比較","verbessern":"改善，改正","einsteigen":"上車","korrigieren":"改正，批改","klingeln":"按鈴，響","losgehen":"出發","wegwerfen":"丟掉","aufräumen":"整理，收拾","stechen":"刺，叮","zurückrufen":"回電","ausprobieren":"試試看","zeichnen":"畫","fotografieren":"拍照","backen":"烤","stattfinden":"舉行","sinken":"下沉，下降","abfahren":"出發，開走","verreisen":"去旅行","frühstücken":"吃早餐","vorlesen":"朗讀","wegfahren":"離開，出遠門","aufschreiben":"寫下","teilnehmen":"參加","klettern":"爬，攀登","kriechen":"爬行","schleichen":"潛行，偷溜","wandern":"健行，登山","einpacken":"打包，包裝","anmachen":"打開","anmelden":"報名，登入","regnen":"下雨","zumachen":"關上","auspacken":"拆開，打開行李","ausfüllen":"填寫","stolpern":"絆倒","schmelzen":"融化","losfahren":"出發","aufladen":"充電","abbiegen":"轉彎","gießen":"澆水，倒","aufessen":"吃完","hereinkommen":"進來","hinfallen":"跌倒","ausrutschen":"滑倒","abschreiben":"抄寫，抄襲","ausschlafen":"睡飽","austrinken":"喝完","abwaschen":"洗碗","hochladen":"上傳","schneien":"下雪","umsteigen":"轉車，轉乘","herunterladen":"下載","auswandern":"移民","chatten":"線上聊天"};
+const ZH_S={}; `Bist du schon mal in Deutschland gewesen?|你去過德國嗎？
+Letzte Woche bin ich krank gewesen.|我上個禮拜生病了。
+Die Party ist super gewesen.|那次的派對超棒的。
+Letzte Woche war ich krank.|我上個禮拜生病了。
+Die Party war super.|那次的派對超棒的。
+Gestern habe ich keine Zeit gehabt.|我昨天沒有時間。
+Auf der Party haben wir viel Spaß gehabt.|那次派對我們玩得很開心。
+Gestern hatte ich keine Zeit.|我昨天沒有時間。
+Auf der Party hatten wir viel Spaß.|那次派對我們玩得很開心。
+Mias Bruder ist gestern achtzehn geworden.|Mia 的哥哥昨天滿十八歲了。
+Das Wetter ist plötzlich schlecht geworden.|天氣突然變差了。
+Mias Bruder wurde gestern achtzehn.|Mia 的哥哥昨天滿十八歲了。
+Das Wetter wurde plötzlich schlecht.|天氣突然變差了。
+Was hast du gesagt?|你剛剛說什麼？
+Wir haben gestern einen guten Film gesehen.|我們昨天看了一部很好看的電影。
+Hast du meine Nachricht gesehen?|你有看到我的訊息嗎？
+Wir sahen gestern einen guten Film.|我們昨天看了一部很好看的電影。
+Am Wochenende haben wir einen Ausflug gemacht.|我們週末去郊遊了。
+Was hast du gestern gemacht?|你昨天做了什麼？
+Was hast du am Wochenende getan?|你週末做了什麼？
+Ich habe alles für die Prüfung getan.|為了這次考試，我能做的都做了。
+Ich tat alles für die Prüfung.|為了這次考試，我能做的都做了。
+Olivia wollte eigentlich ins Kino gehen.|Olivia 本來想去看電影。
+Wir wollten nur kurz bleiben.|我們本來只想待一下而已。
+Gestern konnte ich nicht zum Training kommen.|我昨天沒辦法去練習。
+Olivia konnte die Aufgabe nicht lösen.|Olivia 沒辦法解出這一題。
+Gestern bin ich mit Olivia ins Kino gegangen.|我昨天和 Olivia 去看電影了。
+Mia und Olivia sind nach der Schule nach Hause gegangen.|Mia 和 Olivia 放學後回家了。
+Gestern ging ich mit Olivia ins Kino.|我昨天和 Olivia 去看電影了。
+Mia und Olivia gingen nach der Schule nach Hause.|Mia 和 Olivia 放學後回家了。
+Mia hat die Antwort sofort gewusst.|Mia 馬上就知道答案了。
+Das habe ich nicht gewusst.|這件事我之前不知道。
+Mia wusste die Antwort sofort.|Mia 馬上就知道答案了。
+Das wusste ich nicht.|這件事我之前不知道。
+Olivia ist heute zu spät zur Schule gekommen.|Olivia 今天上學遲到了。
+Wann bist du gestern nach Hause gekommen?|你昨天幾點回到家的？
+Olivia kam heute zu spät zur Schule.|Olivia 今天上學遲到了。
+Am Samstag musste Mia ihr Zimmer aufräumen.|星期六那天，Mia 得整理她的房間。
+Wir mussten lange auf den Bus warten.|我們等公車等了很久。
+Mias Oma hat lange in Taiwan gelebt.|Mia 的奶奶在台灣住了很久。
+Ich habe lange über die Frage gedacht.|我想這個問題想了很久。
+Was hast du dir dabei gedacht?|你當時到底在想什麼？
+Ich dachte lange über die Frage.|我想這個問題想了很久。
+Ich habe das neue Lied gehört.|我聽過那首新歌了。
+Mia hat ihren Schlüssel endlich gefunden.|Mia 終於找到她的鑰匙了。
+Ich habe das Handy unter dem Sofa gefunden.|我在沙發底下找到了手機。
+Mia fand ihren Schlüssel endlich.|Mia 終於找到她的鑰匙了。
+Ich fand das Handy unter dem Sofa.|我在沙發底下找到了手機。
+Ich habe mein Handy zu Hause gelassen.|我把手機留在家裡了。
+Ich ließ mein Handy zu Hause.|我把手機留在家裡了。
+Die Lehrerin hat uns viele Hausaufgaben gegeben.|老師給了我們很多作業。
+Hast du Mia das Buch schon gegeben?|你已經把書給 Mia 了嗎？
+Die Lehrerin gab uns viele Hausaufgaben.|老師給了我們很多作業。
+Wir haben die ganze Nacht geredet.|我們聊了一整晚。
+Was ist passiert?|發生什麼事了？
+Zum Glück ist nichts passiert.|還好什麼事都沒發生。
+Olivia hat ihrer Schwester bei den Hausaufgaben geholfen.|妹妹寫作業的時候，Olivia 幫了她的忙。
+Wir haben unserer Oma im Garten geholfen.|我們在花園裡幫了奶奶的忙。
+Olivia half ihrer Schwester bei den Hausaufgaben.|妹妹寫作業的時候，Olivia 幫了她的忙。
+Wir halfen unserer Oma im Garten.|我們在花園裡幫了奶奶的忙。
+Ich habe den Bus um acht genommen.|我搭了八點的公車。
+Olivia hat das letzte Stück Kuchen genommen.|Olivia 拿走了最後一塊蛋糕。
+Ich nahm den Bus um acht.|我搭了八點的公車。
+Olivia nahm das letzte Stück Kuchen.|Olivia 拿走了最後一塊蛋糕。
+Mia hat Kuchen für die ganze Klasse gebracht.|Mia 帶了蛋糕給全班吃。
+Mia brachte Kuchen für die ganze Klasse.|Mia 帶了蛋糕給全班吃。
+Ich habe die Aufgabe nicht verstanden.|我沒搞懂這一題。
+Habt ihr alles verstanden?|你們都聽懂了嗎？
+Ich verstand die Aufgabe nicht.|我沒搞懂這一題。
+Ich habe gestern mit meiner Lehrerin gesprochen.|我昨天跟我的老師談過了。
+Mia und Olivia haben lange am Telefon gesprochen.|Mia 和 Olivia 講了很久的電話。
+Ich sprach gestern mit meiner Lehrerin.|我昨天跟我的老師談過了。
+Mia und Olivia sprachen lange am Telefon.|Mia 和 Olivia 講了很久的電話。
+Heute Mittag habe ich eine Pizza gegessen.|我今天中午吃了披薩。
+Hast du schon gegessen?|你吃過飯了嗎？
+Heute Mittag aß ich eine Pizza.|我今天中午吃了披薩。
+Am Sonntag bin ich zu Hause geblieben.|星期天我一直待在家裡。
+Wie lange seid ihr in Berlin geblieben?|你們在柏林待了多久？
+Am Sonntag blieb ich zu Hause.|星期天我一直待在家裡。
+Mia hat die Lehrerin gefragt.|Mia 去問了老師。
+Der alte Hund von Mias Oma ist letztes Jahr gestorben.|Mia 奶奶的那隻老狗去年死了。
+Der alte Hund von Mias Oma starb letztes Jahr.|Mia 奶奶的那隻老狗去年死了。
+Das habe ich nicht geglaubt.|這件事我當時不相信。
+Ich habe es noch einmal versucht.|我又試了一次。
+Für das Projekt haben wir drei Tage gebraucht.|做這個專題花了我們三天。
+Olivia hat ein Referat über Taiwan gehalten.|Olivia 做了一個關於台灣的口頭報告。
+Der Bus hat nicht gehalten.|公車沒有停下來。
+Olivia hielt ein Referat über Taiwan.|Olivia 做了一個關於台灣的口頭報告。
+Der Bus hielt nicht.|公車沒有停下來。
+Ich habe eine halbe Stunde gewartet.|我等了半個小時。
+Ich habe Olivia in der Stadt getroffen.|我在市區遇到了 Olivia。
+Mia und Olivia haben sich im Park getroffen.|Mia 和 Olivia 在公園見了面。
+Ich traf Olivia in der Stadt.|我在市區遇到了 Olivia。
+Mia und Olivia trafen sich im Park.|Mia 和 Olivia 在公園見了面。
+Mia hat mir alles erzählt.|Mia 全部都跟我說了。
+Olivia hat ihr Handy im Bus verloren.|Olivia 在公車上把手機弄丟了。
+Wir haben das Spiel knapp verloren.|那場比賽我們只輸了一點點。
+Olivia verlor ihr Handy im Bus.|Olivia 在公車上把手機弄丟了。
+Wir verloren das Spiel knapp.|那場比賽我們只輸了一點點。
+Letzten Sommer sind wir nach Italien gefahren.|我們去年夏天去了義大利。
+Mia ist mit dem Fahrrad zur Schule gefahren.|Mia 騎腳踏車去學校了。
+Letzten Sommer fuhren wir nach Italien.|我們去年夏天去了義大利。
+Mia fuhr mit dem Fahrrad zur Schule.|Mia 騎腳踏車去學校了。
+Olivia hat den Weg nicht gekannt.|Olivia 那時候不認得路。
+Olivia kannte den Weg nicht.|Olivia 那時候不認得路。
+Olivia hat eine gute Note bekommen.|Olivia 拿到了好成績。
+Zum Geburtstag habe ich ein Fahrrad bekommen.|我生日的時候收到了一台腳踏車。
+Olivia bekam eine gute Note.|Olivia 拿到了好成績。
+Zum Geburtstag bekam ich ein Fahrrad.|我生日的時候收到了一台腳踏車。
+Mias Handy ist auf den Boden gefallen.|Mia 的手機掉到地上了。
+Ich bin vom Fahrrad gefallen.|我從腳踏車上摔了下來。
+Mias Handy fiel auf den Boden.|Mia 的手機掉到地上了。
+Ich fiel vom Fahrrad.|我從腳踏車上摔了下來。
+Ich habe meine Hausaufgaben vergessen.|我把作業忘了。
+Hast du deinen Schlüssel schon wieder vergessen?|你是不是又忘了帶鑰匙？
+Ich vergaß meine Hausaufgaben.|我把作業忘了。
+Mias Mutter hat bis sechs Uhr gearbeitet.|Mia 的媽媽一直工作到六點。
+Mia hat überall ihren Schlüssel gesucht.|Mia 到處都找過她的鑰匙了。
+Mia und Olivia haben Volleyball gespielt.|Mia 和 Olivia 打了排球。
+Ich habe die Prüfung geschafft.|我通過考試了。
+Mia hat es gerade noch geschafft.|Mia 最後驚險過關了。
+Am Samstag habe ich bis elf Uhr geschlafen.|星期六我睡到了十一點。
+Hast du gut geschlafen?|你昨晚睡得好嗎？
+Am Samstag schlief ich bis elf Uhr.|星期六我睡到了十一點。
+Olivia hat mir ihre Fotos gezeigt.|Olivia 給我看了她的照片。
+Olivia hat Brötchen geholt.|Olivia 去買了小麵包回來。
+Olivia hat die Katze vom Baum gerettet.|Olivia 把貓從樹上救了下來。
+Heute Morgen bin ich zum Bus gelaufen.|今天早上我是跑去搭公車的。
+Mia ist beim Sportfest am schnellsten gelaufen.|運動會那天，Mia 跑得最快。
+Heute Morgen lief ich zum Bus.|今天早上我是跑去搭公車的。
+Mia lief beim Sportfest am schnellsten.|運動會那天，Mia 跑得最快。
+Olivia hat sich bei ihrer Freundin entschuldigt.|Olivia 跟她的朋友道歉了。
+Olivia hat nach dem Sport viel Wasser getrunken.|Olivia 運動完喝了很多水。
+Wir haben im Café einen Kakao getrunken.|我們在咖啡廳喝了一杯可可。
+Olivia trank nach dem Sport viel Wasser.|Olivia 運動完喝了很多水。
+Wir tranken im Café einen Kakao.|我們在咖啡廳喝了一杯可可。
+Mia hat das Haus um sieben Uhr verlassen.|Mia 七點出門了。
+Mia verließ das Haus um sieben Uhr.|Mia 七點出門了。
+Mein Schlüssel ist einfach verschwunden.|我的鑰匙就這樣不見了。
+Die Sonne ist hinter den Wolken verschwunden.|太陽躲到雲後面去了。
+Mein Schlüssel verschwand einfach.|我的鑰匙就這樣不見了。
+Die Sonne verschwand hinter den Wolken.|太陽躲到雲後面去了。
+Olivia hat mir eine lange Nachricht geschrieben.|Olivia 傳了一則很長的訊息給我。
+Wir haben heute einen Test geschrieben.|我們今天考了小考。
+Olivia schrieb mir eine lange Nachricht.|Olivia 傳了一則很長的訊息給我。
+Wir schrieben heute einen Test.|我們今天考了小考。
+Ich habe die Flasche in den Kühlschrank gestellt.|我把瓶子放進冰箱了。
+Der Film hat mir gut gefallen.|我覺得那部電影很好看。
+Der Film gefiel mir gut.|我覺得那部電影很好看。
+Ich habe dich dreimal angerufen.|我打了三次電話給你。
+Mias Oma hat gestern angerufen.|Mia 的奶奶昨天打電話來了。
+Ich rief dich dreimal an.|我打了三次電話給你。
+Mias Oma rief gestern an.|Mia 的奶奶昨天打電話來了。
+Ich habe den ganzen Abend gelernt.|我讀了一整晚的書。
+Die Eltern haben das Baby Lea genannt.|寶寶的爸媽幫她取了 Lea 這個名字。
+Die Eltern nannten das Baby Lea.|寶寶的爸媽幫她取了 Lea 這個名字。
+Mia hat eine Eins gekriegt.|Mia 拿到了最好的成績。
+Mias Mutter hat sie zum Essen gerufen.|Mia 的媽媽叫她來吃飯了。
+Mias Mutter rief sie zum Essen.|Mia 的媽媽叫她來吃飯了。
+Mia hat das Buch in zwei Tagen gelesen.|Mia 兩天就把這本書看完了。
+Habt ihr den Text schon gelesen?|你們已經讀過這篇文章了嗎？
+Mia las das Buch in zwei Tagen.|Mia 兩天就把這本書看完了。
+Mia hat mir ein Foto geschickt.|Mia 傳了一張照片給我。
+Olivia hat neue Schuhe gekauft.|Olivia 買了新鞋子。
+Ich habe meinen Bruder um Hilfe gebeten.|我請哥哥幫忙了。
+Ich bat meinen Bruder um Hilfe.|我請哥哥幫忙了。
+Mia hat mich an den Termin erinnert.|Mia 提醒我別忘了那個預約。
+Mia hat sich neben Olivia gesetzt.|Mia 坐到了 Olivia 旁邊。
+Olivia hat die Rechnung bezahlt.|Olivia 把帳付了。
+Das WLAN hat nicht funktioniert.|那時候無線網路不能用。
+Wir haben das Fußballspiel drei zu eins gewonnen.|我們以三比一贏了足球比賽。
+Mia hat beim Wettbewerb den ersten Preis gewonnen.|Mia 在比賽中得了第一名。
+Wir gewannen das Fußballspiel drei zu eins.|我們以三比一贏了足球比賽。
+Mia gewann beim Wettbewerb den ersten Preis.|Mia 在比賽中得了第一名。
+Mia durfte nicht mitfahren.|Mia 那次不可以跟著一起去。
+Als Kind durfte ich nicht lange aufbleiben.|我小時候不可以太晚睡。
+Das habe ich nicht erwartet.|我沒想到會這樣。
+Die Katze hat eine Maus gefangen.|貓抓到了一隻老鼠。
+Die Katze fing eine Maus.|貓抓到了一隻老鼠。
+Die Lehrerin hat die Regel noch einmal erklärt.|老師又把規則解釋了一次。
+Hast du mein Ladegerät benutzt?|你有用過我的充電器嗎？
+Olivia hat ihr altes Fahrrad verkauft.|Olivia 把她的舊腳踏車賣掉了。
+Ich habe es dir versprochen.|我答應過你的。
+Ich versprach es dir.|我答應過你的。
+Mias Eltern haben in Taiwan geheiratet.|Mia 的爸媽是在台灣結婚的。
+Die Lehrerin hat den Termin geändert.|老師把時間改了。
+Der Regen hat endlich aufgehört.|雨終於停了。
+Olivia hat gestern ein neues Kleid getragen.|Olivia 昨天穿了一件新洋裝。
+Ich habe die schwere Tasche nach Hause getragen.|我把那個很重的包包提回家了。
+Olivia trug gestern ein neues Kleid.|Olivia 昨天穿了一件新洋裝。
+Ich trug die schwere Tasche nach Hause.|我把那個很重的包包提回家了。
+Der Unterricht hat um acht angefangen.|課是八點開始的。
+Ich habe mit den Hausaufgaben angefangen.|我開始寫作業了。
+Der Unterricht fing um acht an.|課是八點開始的。
+Ich fing mit den Hausaufgaben an.|我開始寫作業了。
+Olivia hat mit Babysitten Geld verdient.|Olivia 靠幫人顧小孩賺了錢。
+Wir haben die andere Mannschaft geschlagen.|我們打敗了另一隊。
+Wir schlugen die andere Mannschaft.|我們打敗了另一隊。
+Mia hat das Fenster geschlossen.|Mia 把窗戶關上了。
+Mia schloss das Fenster.|Mia 把窗戶關上了。
+Olivia hat sich beim Sport verletzt.|Olivia 運動的時候受傷了。
+Was ist gestern in der Schule geschehen?|昨天學校發生了什麼事？
+Was geschah gestern in der Schule?|昨天學校發生了什麼事？
+Olivia hat sich um den Hund gekümmert.|Olivia 照顧了那隻狗。
+Die neue Schülerin hat sich vorgestellt.|新來的女同學做了自我介紹。
+Olivia hat das Geschenk im Schrank versteckt.|Olivia 把禮物藏在櫃子裡了。
+Als Kind mochte Olivia keinen Fisch.|Olivia 小時候不喜歡吃魚。
+Jemand hat Mias Fahrrad gestohlen.|有人偷了 Mia 的腳踏車。
+Jemand stahl Mias Fahrrad.|有人偷了 Mia 的腳踏車。
+Olivias Vater ist letzte Woche nach Taipeh geflogen.|Olivia 的爸爸上個禮拜飛去台北了。
+In den Ferien sind wir nach Spanien geflogen.|放假的時候，我們搭飛機去了西班牙。
+Olivias Vater flog letzte Woche nach Taipeh.|Olivia 的爸爸上個禮拜飛去台北了。
+In den Ferien flogen wir nach Spanien.|放假的時候，我們搭飛機去了西班牙。
+Gestern habe ich mich nicht gut gefühlt.|我昨天覺得不太舒服。
+Mia hat sich für Spanisch entschieden.|Mia 決定選西班牙文了。
+Mia entschied sich für Spanisch.|Mia 決定選西班牙文了。
+Olivia hat zwei Tore geschossen.|Olivia 踢進了兩球。
+Olivia schoss zwei Tore.|Olivia 踢進了兩球。
+Der Sturm hat das Dach zerstört.|那場暴風雨把屋頂毀了。
+Ich habe es erst heute erfahren.|我今天才知道這件事。
+Ich erfuhr es erst heute.|我今天才知道這件事。
+Der Hund ist uns nach Hause gefolgt.|那隻狗一路跟著我們回家了。
+Er hat schon wieder gelogen.|他又說謊了。
+Er log schon wieder.|他又說謊了。
+Wir haben viel gelacht.|我們一起笑了好久。
+Der Film hat um acht Uhr begonnen.|電影是八點開始的。
+Die Ferien haben endlich begonnen.|終於放假了。
+Der Film begann um acht Uhr.|電影是八點開始的。
+Die Ferien begannen endlich.|終於放假了。
+Ich habe den Zug gerade noch erreicht.|我驚險地趕上了火車。
+Mia hat sich beim Skifahren den Arm gebrochen.|Mia 滑雪的時候摔斷了手臂。
+Mia brach sich beim Skifahren den Arm.|Mia 滑雪的時候摔斷了手臂。
+Mia hat das Buch auf den Tisch gelegt.|Mia 把書放在桌上了。
+Wir haben eine Serie geschaut.|我們看了一部影集。
+Ich habe dich sehr vermisst.|我真的好想你。
+Mia hat das Fenster geöffnet.|Mia 把窗戶打開了。
+Die Stadt hat sich sehr verändert.|這座城市變了很多。
+Olivia hat den Ball ins Tor geworfen.|Olivia 把球投進了球門。
+Olivia warf den Ball ins Tor.|Olivia 把球投進了球門。
+Im Winter haben wir einen Schneemann gebaut.|冬天的時候，我們堆了一個雪人。
+Ich habe dich nicht erkannt.|我沒認出你來。
+Ich erkannte dich nicht.|我沒認出你來。
+Die Lehrerin hat Ben beim Abschreiben erwischt.|老師抓到 Ben 在抄同學的答案。
+Ich habe lange nachgedacht.|我想了很久。
+Ich dachte lange nach.|我想了很久。
+Mia und Olivia haben die ganze Nacht getanzt.|Mia 和 Olivia 跳了一整晚的舞。
+Ich habe einen Regenschirm mitgenommen.|我帶了一把雨傘。
+Ich nahm einen Regenschirm mit.|我帶了一把雨傘。
+Am Sonntag haben wir Oma besucht.|星期天我們去看了奶奶。
+Ich habe die Lösung herausgefunden.|我找出答案了。
+Ich fand die Lösung heraus.|我找出答案了。
+Früher haben wir in Taipeh gewohnt.|我們以前住在台北。
+Mia und Olivia haben im Chor gesungen.|Mia 和 Olivia 在合唱團裡唱過歌。
+Olivia hat auf der Party ein Lied gesungen.|Olivia 在派對上唱了一首歌。
+Mia und Olivia sangen im Chor.|Mia 和 Olivia 在合唱團裡唱過歌。
+Olivia sang auf der Party ein Lied.|Olivia 在派對上唱了一首歌。
+Mia hat ihr Referat beendet.|Mia 完成了她的報告。
+Olivia hat sich verliebt.|Olivia 戀愛了。
+Wir haben die Ferien bei Oma verbracht.|我們在奶奶家過了整個假期。
+Wir verbrachten die Ferien bei Oma.|我們在奶奶家過了整個假期。
+Mia und Olivia haben ihre Mutter überrascht.|Mia 和 Olivia 給了媽媽一個驚喜。
+Ich habe den Bus verpasst.|我錯過公車了。
+Wir haben auf gutes Wetter gehofft.|我們原本希望會是好天氣。
+Ich habe deine E-Mail erhalten.|我收到你的電子郵件了。
+Ich erhielt deine E-Mail.|我收到你的電子郵件了。
+Mias Mutter hat es erlaubt.|Mia 的媽媽已經同意了。
+Ich habe mir das gut überlegt.|這件事我已經好好想過了。
+Olivia hat nicht geantwortet.|Olivia 沒有回答。
+Mia hat das Geheimnis verraten.|Mia 把祕密說出去了。
+Mia verriet das Geheimnis.|Mia 把祕密說出去了。
+Olivia hat die ganze Klasse eingeladen.|Olivia 邀請了全班同學。
+Olivia lud die ganze Klasse ein.|Olivia 邀請了全班同學。
+Der Hund ist über die Straße gerannt.|那隻狗跑過了馬路。
+Ich bin schnell nach Hause gerannt.|我趕快跑回家了。
+Der Hund rannte über die Straße.|那隻狗跑過了馬路。
+Ich rannte schnell nach Hause.|我趕快跑回家了。
+Olivia hat ihrer Freundin verziehen.|Olivia 原諒了她的朋友。
+Olivia verzieh ihrer Freundin.|Olivia 原諒了她的朋友。
+Wir haben die Pizza geteilt.|我們分著吃了那個披薩。
+Am Samstag haben wir Mias Geburtstag gefeiert.|星期六我們幫 Mia 慶生了。
+Der Film hat drei Stunden gedauert.|那部電影演了三個小時。
+Den ganzen Tag hat die Sonne geschienen.|出了一整天的太陽。
+Den ganzen Tag schien die Sonne.|出了一整天的太陽。
+Mia hat sich sehr über das Geschenk gefreut.|Mia 收到禮物很開心。
+Mia hat richtig geraten.|Mia 猜對了。
+Mia riet richtig.|Mia 猜對了。
+Das Baby hat die ganze Nacht geschrien.|寶寶哭鬧了一整晚。
+Das Baby schrie die ganze Nacht.|寶寶哭鬧了一整晚。
+Die Hose hat nicht gepasst.|那件褲子穿起來不合身。
+Das Handy hat 300 Euro gekostet.|這支手機花了三百歐元。
+Mia hat Chips mitgebracht.|Mia 帶了洋芋片來。
+Mia brachte Chips mit.|Mia 帶了洋芋片來。
+Olivia hat nie aufgegeben.|Olivia 從來沒有放棄過。
+Olivia gab nie auf.|Olivia 從來沒有放棄過。
+Im Unterricht habe ich gut aufgepasst.|上課的時候，我有認真聽講。
+In den Ferien haben wir viel erlebt.|放假的時候，我們經歷了好多有趣的事。
+Olivia hat sich einen Hund gewünscht.|Olivia 一直很想要一隻狗。
+Der Lärm hat mich gestört.|噪音吵到我了。
+Olivia hat ihr Referat gut vorbereitet.|Olivia 把報告準備得很好。
+Am Wochenende sind wir auf einen Berg gestiegen.|我們週末去爬了山。
+Am Wochenende stiegen wir auf einen Berg.|我們週末去爬了山。
+Die Klasse hat Olivia zur Klassensprecherin gewählt.|全班選了 Olivia 當班長。
+Das Baby hat geweint.|寶寶哭了。
+Olivia hat die Aufgabe gelöst.|Olivia 把這一題解出來了。
+Ich habe Olivia im Sportverein kennengelernt.|我是在運動社團認識 Olivia 的。
+Das habe ich nicht gemerkt.|這個我沒注意到。
+Mia hat sich in den Finger geschnitten.|Mia 切到手指了。
+Ich habe das Brot geschnitten.|我把麵包切好了。
+Mia schnitt sich in den Finger.|Mia 切到手指了。
+Ich schnitt das Brot.|我把麵包切好了。
+Gestern Abend haben wir ferngesehen.|我們昨天晚上看了電視。
+Gestern Abend sahen wir fern.|我們昨天晚上看了電視。
+Mia hat einen Fehler entdeckt.|Mia 發現了一個錯誤。
+Das Flugzeug ist pünktlich gelandet.|飛機準時降落了。
+Ich habe von den Ferien geträumt.|我夢到放假的事了。
+Wir haben die Aufgabe in der Gruppe besprochen.|我們在小組裡討論了這個題目。
+Wir besprachen die Aufgabe in der Gruppe.|我們在小組裡討論了這個題目。
+Mias Vater hat sie vom Bahnhof abgeholt.|Mia 的爸爸去火車站接她了。
+Wir haben uns lange unterhalten.|我們聊了很久。
+Wir unterhielten uns lange.|我們聊了很久。
+Wir haben eine Pizza bestellt.|我們點了一個披薩。
+Mia hat ihre warme Jacke angezogen.|Mia 穿上了她的保暖外套。
+Mia zog ihre warme Jacke an.|Mia 穿上了她的保暖外套。
+Mias Vater ist spät von der Arbeit zurückgekommen.|Mia 的爸爸很晚才下班回家。
+Mias Vater kam spät von der Arbeit zurück.|Mia 的爸爸很晚才下班回家。
+Olivias Schwester ist auch mitgekommen.|Olivia 的妹妹也跟著來了。
+Olivias Schwester kam auch mit.|Olivia 的妹妹也跟著來了。
+Wir haben die Sonne am Strand genossen.|我們在海灘上享受了陽光。
+Wir genossen die Sonne am Strand.|我們在海灘上享受了陽光。
+Olivia hat gelächelt.|Olivia 微笑了一下。
+Der Dieb ist durch das Fenster geflohen.|小偷從窗戶逃走了。
+Der Dieb floh durch das Fenster.|小偷從窗戶逃走了。
+Mias Vater hat das Fahrrad repariert.|Mia 的爸爸把腳踏車修好了。
+Niemand hat den Fehler bemerkt.|沒有人發現這個錯誤。
+Olivia hat heute Nudeln gekocht.|Olivia 今天煮了麵。
+Olivia ist am Samstag mit Freunden ausgegangen.|Olivia 星期六和朋友出去玩了。
+Olivia ging am Samstag mit Freunden aus.|Olivia 星期六和朋友出去玩了。
+Olivia hat ihrer Mutter Blumen geschenkt.|Olivia 送了花給她媽媽。
+Mias Vater hat das Zeugnis unterschrieben.|Mia 的爸爸在成績單上簽了名。
+Mias Vater unterschrieb das Zeugnis.|Mia 的爸爸在成績單上簽了名。
+Olivia ist vom Dreimeterbrett gesprungen.|Olivia 從三公尺高的跳板跳了下去。
+Die Katze ist auf den Tisch gesprungen.|貓跳到了桌子上。
+Olivia sprang vom Dreimeterbrett.|Olivia 從三公尺高的跳板跳了下去。
+Die Katze sprang auf den Tisch.|貓跳到了桌子上。
+Mia und ihr Bruder haben sich gestritten.|Mia 和她哥哥吵架了。
+Mia und ihr Bruder stritten sich.|Mia 和她哥哥吵架了。
+Olivia hat die Prüfung bestanden.|Olivia 通過考試了。
+Olivia bestand die Prüfung.|Olivia 通過考試了。
+Letztes Jahr sind wir durch Japan gereist.|去年我們到日本各地旅行。
+Olivia ist dieses Jahr zehn Zentimeter gewachsen.|Olivia 今年長高了十公分。
+Die Tomaten im Garten sind schnell gewachsen.|花園裡的番茄很快就長大了。
+Olivia wuchs dieses Jahr zehn Zentimeter.|Olivia 今年長高了十公分。
+Die Tomaten im Garten wuchsen schnell.|花園裡的番茄很快就長大了。
+Ich habe das Essen probiert.|我已經嚐過這道菜了。
+Die Lehrerin hat Handys im Unterricht verboten.|老師規定上課不准用手機。
+Die Lehrerin verbot Handys im Unterricht.|老師規定上課不准用手機。
+Heute bin ich um sechs Uhr aufgestanden.|我今天六點就起床了。
+Olivia ist am Sonntag spät aufgestanden.|Olivia 星期天很晚才起床。
+Heute stand ich um sechs Uhr auf.|我今天六點就起床了。
+Olivia stand am Sonntag spät auf.|Olivia 星期天很晚才起床。
+Wir sind pünktlich in Hamburg angekommen.|我們準時抵達了漢堡。
+Wir kamen pünktlich in Hamburg an.|我們準時抵達了漢堡。
+Hast du mir überhaupt zugehört?|你到底有沒有在聽我說話？
+Hast du deinen Koffer schon gepackt?|你已經把行李箱打包好了嗎？
+Mias Mutter hat uns Tee angeboten.|Mia 的媽媽問我們要不要喝茶。
+Mias Mutter bot uns Tee an.|Mia 的媽媽問我們要不要喝茶。
+Der Hund hat meine Hausaufgaben gefressen.|狗把我的作業吃掉了。
+Der Hund fraß meine Hausaufgaben.|狗把我的作業吃掉了。
+Ich habe das Geld gezählt.|我把錢數過了。
+Mia hat alle Fragen beantwortet.|Mia 回答了所有的問題。
+Das neue Album ist am Freitag erschienen.|新專輯星期五發行了。
+Das neue Album erschien am Freitag.|新專輯星期五發行了。
+Olivia hat den Text ins Chinesische übersetzt.|Olivia 把這篇文章翻成了中文。
+Heute bin ich sehr früh aufgewacht.|我今天很早就醒了。
+Ich bin Olivia im Supermarkt begegnet.|我在超市碰到了 Olivia。
+Olivia hat die ganze Stunde geschwiegen.|Olivia 整節課都沒說話。
+Olivia schwieg die ganze Stunde.|Olivia 整節課都沒說話。
+Mia hat das Paket aufgemacht.|Mia 把包裹打開了。
+Olivias Bruder hat in München studiert.|Olivia 的哥哥在慕尼黑讀過大學。
+Wer hat das Telefon erfunden?|電話是誰發明的？
+Wer erfand das Telefon?|電話是誰發明的？
+Am Samstag haben wir das Auto gewaschen.|我們星期六洗了車。
+Am Samstag wuschen wir das Auto.|我們星期六洗了車。
+Der Hund hat den Briefträger gebissen.|那隻狗咬了郵差。
+Der Hund biss den Briefträger.|那隻狗咬了郵差。
+Ich habe lange mit Oma telefoniert.|我跟奶奶講了很久的電話。
+Ich habe den Kuchen schon im Flur gerochen.|我在走廊上就聞到蛋糕的香味了。
+Ich roch den Kuchen schon im Flur.|我在走廊上就聞到蛋糕的香味了。
+Wir haben die Vokabeln wiederholt.|我們複習了單字。
+Wir haben uns am Bahnhof verabschiedet.|我們在火車站道別了。
+Der Hund ist weggelaufen.|狗跑掉了。
+Der Hund lief weg.|狗跑掉了。
+Ich habe Mia mein Fahrrad geliehen.|我把腳踏車借給 Mia 了。
+Ich lieh Mia mein Fahrrad.|我把腳踏車借給 Mia 了。
+Olivia hat heute zwei Stunden trainiert.|Olivia 今天練習了兩個小時。
+Olivia hat jeden Tag Klavier geübt.|Olivia 那陣子每天都練鋼琴。
+Wir haben mein Zimmer blau gestrichen.|我們把我的房間漆成了藍色。
+Wir strichen mein Zimmer blau.|我們把我的房間漆成了藍色。
+Ich habe der Polizei den Dieb beschrieben.|我向警察描述了小偷的樣子。
+Ich beschrieb der Polizei den Dieb.|我向警察描述了小偷的樣子。
+Wir haben unser Projekt präsentiert.|我們上台報告了我們的專題。
+Mias Mutter hat sie um sieben geweckt.|Mia 的媽媽七點叫她起床了。
+Wir haben den Test abgegeben.|我們交卷了。
+Wir gaben den Test ab.|我們交卷了。
+Mia hat sich das Video dreimal angeschaut.|Mia 把那支影片看了三遍。
+Mia hat ein Bild gemalt.|Mia 畫了一幅畫。
+Mia ist vor dem Fernseher eingeschlafen.|Mia 在電視機前睡著了。
+Mia schlief vor dem Fernseher ein.|Mia 在電視機前睡著了。
+Im Wohnzimmer hat eine Kerze gebrannt.|客廳裡當時點著一根蠟燭。
+Im Wohnzimmer brannte eine Kerze.|客廳裡當時點著一根蠟燭。
+Ich bin an der falschen Haltestelle ausgestiegen.|我下錯站了。
+Ich stieg an der falschen Haltestelle aus.|我下錯站了。
+Ich habe mein ganzes Geld ausgegeben.|我把所有的錢都花光了。
+Ich gab mein ganzes Geld aus.|我把所有的錢都花光了。
+Ich bin in Taiwan aufgewachsen.|我是在台灣長大的。
+Ich wuchs in Taiwan auf.|我是在台灣長大的。
+Alle haben mitgemacht.|大家都參加了。
+Der Kuchen ist Mia richtig gut gelungen.|Mia 的蛋糕做得非常成功。
+Der Kuchen gelang Mia richtig gut.|Mia 的蛋糕做得非常成功。
+Am Samstag haben wir eingekauft.|我們星期六去買了東西。
+Olivia hat den Fernseher ausgemacht.|Olivia 把電視關掉了。
+Mia und Olivia haben die Party organisiert.|這場派對是 Mia 和 Olivia 籌辦的。
+Olivia ist gestern kurz vorbeigekommen.|Olivia 昨天有過來一下。
+Olivia kam gestern kurz vorbei.|Olivia 昨天有過來一下。
+Das Essen hat super geschmeckt.|那頓飯超好吃的。
+Wir haben lange über das Thema diskutiert.|我們針對這個主題討論了很久。
+Nach dem Sport habe ich geduscht.|運動完我洗了澡。
+Olivia hat mir den Film empfohlen.|這部電影是 Olivia 推薦給我的。
+Olivia empfahl mir den Film.|這部電影是 Olivia 推薦給我的。
+Ich habe das Buch zurückgegeben.|我把書還回去了。
+Ich gab das Buch zurück.|我把書還回去了。
+Ich bin total erschrocken, als das Telefon klingelte.|電話響的時候，我嚇了一大跳。
+Ich erschrak total, als das Telefon klingelte.|電話響的時候，我嚇了一大跳。
+Ich habe mein Zimmer geputzt.|我把房間打掃乾淨了。
+Wir haben unsere Ergebnisse verglichen.|我們比較了彼此的結果。
+Wir verglichen unsere Ergebnisse.|我們比較了彼此的結果。
+Mia hat ihre Note verbessert.|Mia 的成績進步了。
+Mia und Olivia sind in den Bus eingestiegen.|Mia 和 Olivia 上了公車。
+Mia und Olivia stiegen in den Bus ein.|Mia 和 Olivia 上了公車。
+Die Lehrerin hat die Tests korrigiert.|老師改完考卷了。
+Gerade hat das Telefon geklingelt.|剛剛電話響了。
+Der Film ist pünktlich losgegangen.|電影準時開演了。
+Der Film ging pünktlich los.|電影準時開演了。
+Olivia hat die alten Hefte weggeworfen.|Olivia 把舊的筆記本丟掉了。
+Olivia warf die alten Hefte weg.|Olivia 把舊的筆記本丟掉了。
+Olivia hat ihr Zimmer aufgeräumt.|Olivia 把她的房間整理好了。
+Eine Biene hat Mia gestochen.|Mia 被蜜蜂叮了。
+Eine Biene stach Mia.|Mia 被蜜蜂叮了。
+Olivia hat nicht zurückgerufen.|Olivia 沒有回電。
+Olivia rief nicht zurück.|Olivia 沒有回電。
+Wir haben das neue Café ausprobiert.|我們去試了那家新開的咖啡廳。
+Mia hat ein Porträt von ihrer Katze gezeichnet.|Mia 幫她的貓畫了一張畫像。
+Mia hat den Sonnenuntergang fotografiert.|Mia 拍下了夕陽。
+Mia hat einen Kuchen gebacken.|Mia 烤了一個蛋糕。
+Das Konzert hat gestern stattgefunden.|音樂會是昨天舉行的。
+Das Konzert fand gestern statt.|音樂會是昨天舉行的。
+Das Schiff ist im Sturm gesunken.|那艘船在暴風雨中沉沒了。
+Das Schiff sank im Sturm.|那艘船在暴風雨中沉沒了。
+Der Zug ist pünktlich abgefahren.|火車準時開走了。
+Der Zug fuhr pünktlich ab.|火車準時開走了。
+Mias Eltern sind für eine Woche verreist.|Mia 的爸媽出去旅行了，要去一個禮拜。
+Hast du schon gefrühstückt?|你吃過早餐了嗎？
+Olivia hat ihren Text vorgelesen.|Olivia 大聲唸出了她寫的文章。
+Olivia las ihren Text vor.|Olivia 大聲唸出了她寫的文章。
+Am Wochenende sind wir weggefahren.|我們週末出遠門了。
+Am Wochenende fuhren wir weg.|我們週末出遠門了。
+Olivia hat die Telefonnummer aufgeschrieben.|Olivia 把電話號碼寫下來了。
+Olivia schrieb die Telefonnummer auf.|Olivia 把電話號碼寫下來了。
+Mia hat am Wettbewerb teilgenommen.|Mia 參加了那場比賽。
+Mia nahm am Wettbewerb teil.|Mia 參加了那場比賽。
+Die Katze ist auf den Baum geklettert.|貓爬到樹上去了。
+Die Katze ist unter das Sofa gekrochen.|貓鑽到沙發底下去了。
+Die Katze kroch unter das Sofa.|貓鑽到沙發底下去了。
+Olivia ist leise in die Küche geschlichen.|Olivia 悄悄地溜進了廚房。
+Olivia schlich leise in die Küche.|Olivia 悄悄地溜進了廚房。
+Mia und Olivia sind am Wochenende gewandert.|Mia 和 Olivia 週末去健行了。
+Mia hat das Geschenk eingepackt.|Mia 把禮物包好了。
+Ich habe das Licht angemacht.|我把燈打開了。
+Olivia hat sich für den Kurs angemeldet.|Olivia 報名了那門課。
+Gestern hat es den ganzen Tag geregnet.|昨天下了一整天的雨。
+Hast du die Tür zugemacht?|你有把門關上嗎？
+Ich habe meinen Koffer noch nicht ausgepackt.|我還沒把行李箱裡的東西拿出來。
+Olivia hat das Formular ausgefüllt.|Olivia 把表格填好了。
+Mia ist über die Tasche gestolpert.|Mia 被包包絆了一下。
+Der Schnee ist in der Sonne geschmolzen.|雪在陽光下融化了。
+Der Schnee schmolz in der Sonne.|雪在陽光下融化了。
+Der Bus ist ohne uns losgefahren.|公車沒等我們就開走了。
+Der Bus fuhr ohne uns los.|公車沒等我們就開走了。
+Ich habe mein Handy aufgeladen.|我把手機充好電了。
+Ich lud mein Handy auf.|我把手機充好電了。
+Das Auto ist nach links abgebogen.|那台車左轉了。
+Das Auto bog nach links ab.|那台車左轉了。
+Olivia hat die Blumen gegossen.|Olivia 澆了花。
+Olivia goss die Blumen.|Olivia 澆了花。
+Olivia hat alles aufgegessen.|Olivia 把東西全部吃光了。
+Olivia aß alles auf.|Olivia 把東西全部吃光了。
+Die Lehrerin ist hereingekommen.|老師走進來了。
+Die Lehrerin kam herein.|老師走進來了。
+Ich bin auf dem Eis hingefallen.|我在冰上跌倒了。
+Ich fiel auf dem Eis hin.|我在冰上跌倒了。
+Olivia ist auf dem Eis ausgerutscht.|Olivia 在冰上滑了一跤。
+Ben hat von Mia abgeschrieben.|Ben 抄了 Mia 的答案。
+Ben schrieb von Mia ab.|Ben 抄了 Mia 的答案。
+Am Sonntag haben wir ausgeschlafen.|星期天我們睡到自然醒。
+Am Sonntag schliefen wir aus.|星期天我們睡到自然醒。
+Ich habe die Milch ausgetrunken.|我把牛奶喝光了。
+Ich trank die Milch aus.|我把牛奶喝光了。
+Nach dem Essen haben wir abgewaschen.|吃完飯後，我們洗了碗。
+Nach dem Essen wuschen wir ab.|吃完飯後，我們洗了碗。
+Mia hat ein Video hochgeladen.|Mia 上傳了一支影片。
+Mia lud ein Video hoch.|Mia 上傳了一支影片。
+In der Nacht hat es geschneit.|夜裡下雪了。
+In Frankfurt sind wir umgestiegen.|我們在法蘭克福轉了車。
+In Frankfurt stiegen wir um.|我們在法蘭克福轉了車。
+Olivia hat eine neue App heruntergeladen.|Olivia 下載了一個新的 App。
+Olivia lud eine neue App herunter.|Olivia 下載了一個新的 App。
+Olivias Onkel ist nach Kanada ausgewandert.|Olivia 的叔叔移民到加拿大了。
+Mia und Olivia haben bis Mitternacht gechattet.|Mia 和 Olivia 傳訊息聊到半夜。
+Morgen gehe ich ins Kino.|我明天要去看電影。
+Heute spielt Mia Tennis.|Mia 今天要去打網球。
+Am Wochenende besuchen wir unsere Oma.|我們週末要去看奶奶。
+Nach der Schule macht Ben seine Hausaufgaben.|Ben 放學後寫作業。
+Jeden Morgen trinkt Olivia einen Tee.|Olivia 每天早上都會喝一杯茶。
+Am Montag haben wir Sport.|我們星期一有體育課。
+Um sieben Uhr steht Mias Bruder auf.|Mia 的哥哥七點起床。
+Im Sommer fahren wir nach Deutschland.|我們夏天要去德國。
+Heute Abend sieht Olivia einen Film.|Olivia 今天晚上要看電影。
+Jetzt habe ich keine Zeit.|我現在沒空。
+In der Pause isst Ben einen Apfel.|Ben 下課時會吃一顆蘋果。
+Am Freitag schreiben wir einen Mathetest.|我們星期五要考數學小考。
+Abends liest meine Mutter gern.|我媽媽晚上喜歡看書。
+Manchmal spiele ich am Handy.|我有時候會玩手機。
+Nächste Woche hat Mia Geburtstag.|下個禮拜是 Mia 的生日。
+Am Nachmittag trifft Olivia ihre Freundinnen.|Olivia 下午要跟她的朋友們見面。
+Vor dem Unterricht lernt Ben Vokabeln.|Ben 上課前背單字。
+Nach dem Abendessen spülen wir das Geschirr.|吃完晚餐後，我們洗碗。
+Am Sonntag schlafen wir lange.|星期天我們都睡到很晚。
+Gestern habe ich einen Film gesehen.|我昨天看了一部電影。
+Letzte Woche ist Olivia nach Taipeh gefahren.|Olivia 上個禮拜去了台北。
+Am Samstag muss ich mein Zimmer aufräumen.|我星期六得整理房間。
+Heute Abend will Ben früh ins Bett gehen.|Ben 今天晚上想早點上床睡覺。
+Nach der Schule haben wir Basketball gespielt.|放學後我們打了籃球。
+Gestern Abend hat Mia ihre Oma angerufen.|Mia 昨天晚上打了電話給她奶奶。
+Morgen kann ich leider nicht kommen.|很可惜，我明天不能來。
+In den Ferien möchte Olivia nach Japan fliegen.|Olivia 放假的時候想飛去日本。
+Letztes Jahr hat Ben Gitarre gelernt.|Ben 去年學了吉他。
+Heute Morgen habe ich den Bus verpasst.|我今天早上沒趕上公車。
+Vorhin hat die Lehrerin die Tests zurückgegeben.|老師剛才把考卷發回來了。
+In Taiwan ist es im Sommer sehr heiß.|台灣的夏天非常熱。
+Im Park spielen die Kinder Fußball.|孩子們在公園裡踢足球。
+In der Schule tragen wir eine Uniform.|我們在學校穿制服。
+Zu Hause spricht Mia Chinesisch.|Mia 在家裡說中文。
+In Deutschland essen viele Leute Brot zum Frühstück.|在德國，很多人早餐吃麵包。
+Im Supermarkt kauft Ben Milch und Brot.|Ben 在超市買牛奶和麵包。
+In der Bibliothek muss man leise sein.|在圖書館裡要保持安靜。
+Auf dem Schulhof wartet Olivia auf ihre Freundin.|Olivia 在校園裡等她的朋友。
+Im Bus hört Ben immer Musik.|Ben 搭公車時總是在聽音樂。
+Im Kino haben wir Popcorn gegessen.|我們在電影院吃了爆米花。
+Am Strand macht Mia viele Fotos.|Mia 在海灘上拍很多照片。
+Bei meiner Oma gibt es immer leckeres Essen.|奶奶家總是有好吃的東西。
+In meinem Zimmer habe ich einen großen Schreibtisch.|我的房間裡有一張大書桌。
+Den Film finde ich spannend.|我覺得這部電影很精彩。
+Diese Musik mag Olivia sehr.|Olivia 很喜歡這種音樂。
+Das Buch habe ich schon gelesen.|這本書我已經看過了。
+Pizza isst Ben am liebsten.|Ben 最喜歡吃披薩。
+Meine Katze liebe ich sehr.|我非常愛我的貓。
+Die Hausaufgaben mache ich nach dem Essen.|作業我吃完飯再寫。
+Mathe finde ich schwer.|數學我覺得很難。
+Dieses Spiel kennt Mias Bruder noch nicht.|這個遊戲 Mia 的哥哥還不知道。
+Den Kuchen hat Mia selbst gebacken.|這個蛋糕是 Mia 自己烤的。
+Ihr Handy hat Olivia im Bus vergessen.|Olivia 把手機忘在公車上了。
+Diese Jacke möchte ich gern kaufen.|我很想買這件外套。
+Deinen Bruder kenne ich nicht.|我不認識你哥哥。
+Leider ist Ben heute krank.|可惜 Ben 今天生病了。
+Vielleicht regnet es morgen.|明天可能會下雨。
+Zum Glück hat Ben sein Handy gefunden.|還好 Ben 找到了他的手機。
+Plötzlich klingelt mein Handy.|突然，我的手機響了。
+Oft sehen wir abends zusammen fern.|我們晚上常常一起看電視。
+Deshalb bleibe ich heute zu Hause.|所以我今天待在家裡。
+Dann gehen wir zusammen nach Hause.|然後我們一起回家。
+Danach spielt Ben am Computer.|之後 Ben 就去玩電腦。
+Trotzdem geht Mia zur Schule.|Mia 還是照樣去上學。
+Deswegen lernt Olivia jeden Tag Vokabeln.|所以 Olivia 每天都背單字。
+Außerdem habe ich keine Lust.|而且我也不想。
+Leider kann ich heute nicht mitkommen.|可惜我今天不能跟你們一起去。
+Darum trinkt Mias Bruder keinen Kaffee.|所以 Mia 的哥哥不喝咖啡。
+Dann bestellen wir eine Pizza.|那我們就點披薩。
+Danach müssen wir noch einkaufen.|之後我們還得去買東西。
+Trotzdem hat Olivia den Test bestanden.|就算這樣，Olivia 小考還是及格了。
+Deshalb muss Ben heute früh aufstehen.|所以 Ben 今天得早起。
+Sonst kommen wir zu spät.|不然我們會遲到。
+Wann fährst du nach Hause?|你什麼時候回家？
+Was machst du am Wochenende?|你週末要做什麼？
+Wo wohnt Olivia jetzt?|Olivia 現在住在哪裡？
+Warum lernst du Deutsch?|你為什麼學德文？
+Wie findest du den Film?|你覺得這部電影怎麼樣？
+Wohin fahrt ihr in den Ferien?|你們放假要去哪裡？
+Mit wem spielt Ben Badminton?|Ben 跟誰打羽毛球？
+Wann musst du morgen aufstehen?|你明天要幾點起床？
+Wo kauft Mia ihre Kleidung?|Mia 都在哪裡買衣服？
+Welche Sprachen sprichst du zu Hause?|你在家裡說哪些語言？
+Wie lange schläfst du am Wochenende?|你週末都睡多久？
+Was möchtest du trinken?|你想喝什麼？
+Hast du morgen Zeit?|你明天有空嗎？
+Spielst du gern Fußball?|你喜歡踢足球嗎？
+Kommt Olivia heute mit?|Olivia 今天會一起來嗎？
+Kannst du mir helfen?|你可以幫我嗎？
+Hast du die Hausaufgaben gemacht?|你作業寫好了嗎？
+Habt ihr heute Sport?|你們今天有體育課嗎？
+Kannst du mir bitte helfen?|你可以幫我一下嗎？
+Das Handy gehört mir, nicht Ben.|這支手機是我的，不是 Ben 的。
+Die Nudeln schmecken mir sehr gut.|我覺得這個麵很好吃。
+Wie geht es dir heute?|你今天好嗎？
+Ich danke dir für das Geschenk.|謝謝你送我的禮物。
+Gefällt dir mein neues Kleid?|你喜歡我的新洋裝嗎？
+Ben hat Geburtstag, Mia schenkt ihm ein Buch.|Ben 過生日，Mia 送他一本書。
+Ich gebe ihm morgen das Geld zurück.|我明天把錢還給他。
+Mia hat Geburtstag, Olivia übernachtet heute bei ihr.|Mia 過生日，Olivia 今天要在她家過夜。
+Wir fahren mit euch ins Kino.|我們跟你們一起去看電影。
+Die Lehrerin erklärt uns die Aufgabe noch einmal.|老師再跟我們解釋一次這個題目。
+Warum antwortest du mir nicht?|你為什麼不回答我？
+Die Farbe steht dir wirklich gut.|這個顏色真的很適合你。
+Die Schuhe passen mir nicht mehr.|這雙鞋我已經穿不下了。
+Mia zeigt uns ihre neuen Fotos.|Mia 給我們看她的新照片。
+Kannst du mir bitte das Salz geben?|可以請你把鹽遞給我嗎？
+Warte, ich komme gleich zu dir.|等一下，我馬上過去找你。
+Hast du schon etwas von ihm gehört?|你有他的消息了嗎？
+Olivias Eltern sind nett, ich spreche gern mit ihnen.|Olivia 的爸媽人很好，我很喜歡跟他們聊天。
+Frau Weber, kann ich Ihnen helfen?|Weber 女士，我可以幫您嗎？
+Das Spiel gefällt ihm nicht.|他不喜歡這個遊戲。
+Ich schicke dir später eine Nachricht.|我等一下傳訊息給你。
+Mias Bruder leiht mir sein Fahrrad.|Mia 的哥哥把他的腳踏車借給我。
+Die Lehrerin gibt ihnen ein paar Tipps für den Test.|老師給他們幾個準備小考的小技巧。
+Der Film hat uns gut gefallen.|我們很喜歡那部電影。
+Gehört das Heft dir?|這本筆記本是你的嗎？
+Ich gratuliere dir zum Geburtstag!|祝你生日快樂！
+Olivia hat Durst, ich bringe ihr ein Glas Wasser.|Olivia 口渴了，我拿一杯水給她。
+Ben ist krank, ich schreibe ihm eine Karte.|Ben 生病了，我寫一張卡片給他。
+Tut dir der Kopf weh?|你頭痛嗎？
+Das tut mir leid.|我很抱歉。
+Mias neue Frisur steht ihr gut.|Mia 的新髮型很適合她。
+Kommst du mit uns in die Stadt?|你要跟我們一起去市區嗎？
+Das ist nicht mein Buch, es gehört ihm.|這不是我的書，是他的。
+Kinder, ich erkläre euch jetzt das Spiel.|小朋友們，我現在跟你們說明這個遊戲怎麼玩。
+Meine Großeltern sind alt, ich helfe ihnen oft im Garten.|我的爺爺奶奶年紀大了，我常常在花園裡幫他們的忙。
+Das Baby weint, die Mutter gibt ihm die Flasche.|寶寶在哭，媽媽拿奶瓶給他喝。
+Nach der Schule komme ich zu euch.|放學後我去你們家。
+Glaubst du mir nicht?|你不相信我嗎？
+Frau Chen, ich danke Ihnen für Ihre Hilfe.|陳女士，謝謝您的幫忙。
+Ben hört mir nie zu.|Ben 從來都不聽我說話。
+Die Katze folgt ihm überallhin.|那隻貓到哪裡都跟著他。
+Olivia hat Geburtstag, wir schenken ihr einen Blumenstrauß.|Olivia 過生日，我們送她一束花。
+Ist dir kalt? Soll ich das Fenster zumachen?|你會冷嗎？要不要我把窗戶關起來？
+Wie gefällt euch die neue Schule?|你們覺得新學校怎麼樣？
+Die Lehrerin hat mir eine gute Note gegeben.|老師給了我一個好成績。
+Unsere Oma erzählt uns oft Geschichten.|我們的奶奶常常講故事給我們聽。
+Mias Eltern haben ihr ein Handy gekauft.|Mia 的爸媽買了一支手機給她。
+Wie schmeckt Ihnen die Suppe, Herr Wang?|王先生，您覺得這湯味道怎麼樣？
+Ich wohne nicht weit von euch.|我住得離你們不遠。
+Das Baby lacht, die Kinder spielen gern mit ihm.|寶寶在笑，孩子們很喜歡跟他玩。
+Meine Freunde haben mir geholfen, ich danke ihnen.|我的朋友們幫了我，我很感謝他們。
+Mias Bruder hat Angst, Mia geht mit ihm zum Arzt.|Mia 的哥哥很害怕，Mia 陪他去看醫生。
+Das Wochenende gehört uns!|週末是屬於我們的！
+Hast du ihm die Wahrheit gesagt?|你跟他說實話了嗎？
+Meine Eltern sind in Deutschland, das Wetter gefällt ihnen gar nicht.|我爸媽在德國，他們一點都不喜歡那裡的天氣。
+Ich zeige euch mein Zimmer.|我帶你們看看我的房間。
+Ich sehe dich morgen in der Schule.|我們明天學校見。
+Meine Großeltern wohnen in Tainan, wir besuchen sie am Wochenende.|我的爺爺奶奶住在台南，我們週末要去看他們。
+Ruf mich bitte heute Abend an!|今天晚上記得打給我喔！
+Das Geschenk ist für dich.|這個禮物是給你的。
+Ohne dich gehe ich nicht ins Kino.|沒有你的話，我就不去看電影。
+Olivia ist sehr nett, ich kenne sie schon lange.|Olivia 人很好，我認識她很久了。
+Wir holen euch um acht Uhr ab.|我們八點去接你們。
+Die Lehrerin fragt uns nach den Hausaufgaben.|老師問我們作業的事。
+Ich vermisse dich sehr.|我好想你。
+Mias Bruder lädt mich zu seiner Party ein.|Mia 的哥哥邀請我去參加他的派對。
+Entschuldigung, störe ich Sie?|不好意思，我打擾到您了嗎？
+Ben war nicht in der Schule, hast du ihn gesehen?|Ben 沒有來學校，你有看到他嗎？
+Das Baby schläft, bitte weck es nicht auf!|寶寶在睡覺，請不要把他吵醒！
+Sprich bitte langsamer, ich verstehe dich nicht.|請說慢一點，我聽不懂你在說什麼。
+Wo ist Olivia? Wir treffen sie nach der Schule.|Olivia 在哪裡？我們放學後要跟她見面。
+Heute spielen wir gegen euch.|今天我們要跟你們比賽。
+Die Blumen sind für Sie, Frau Lin.|林女士，這些花是送給您的。
+Mama, ich liebe dich!|媽媽，我愛妳！
+Mias Bruder ist krank, Olivia ruft ihn heute an.|Mia 的哥哥生病了，Olivia 今天會打電話給他。
+Ohne euch ist das Spiel langweilig.|沒有你們，這個遊戲就很無聊。
+Die Lehrerin lobt uns für das tolle Projekt.|老師稱讚我們的專題做得很棒。
+Keine Angst, der Hund beißt dich nicht.|別怕，這隻狗不會咬你。
+Ich warte vor der Schule auf dich.|我在學校門口等你。
+Mia sieht ihre Freundinnen und umarmt sie.|Mia 看到她的朋友們，就上前抱住她們。
+Kennst du den neuen Schüler? Ich finde ihn sehr nett.|你認識那個新同學嗎？我覺得他人很好。
+Komm bitte schnell, wir brauchen dich!|快點過來，我們需要你！
+Das Kätzchen ist so süß, ich möchte es streicheln.|這隻小貓好可愛，我好想摸摸牠。
+Herr Chen, wir haben Sie gestern im Supermarkt gesehen.|陳先生，我們昨天在超市看到您了。
+Ich freue mich auf die Ferien.|我很期待放假。
+Ich wasche mir die Hände.|我去洗手。
+Beeil dich, der Bus kommt gleich!|快一點，公車馬上就來了！
+Putzt du dir jeden Abend die Zähne?|你每天晚上都有刷牙嗎？
+Ben beeilt sich, denn der Unterricht beginnt gleich.|Ben 趕緊加快腳步，因為馬上就要上課了。
+Mia freut sich auf ihren Geburtstag.|Mia 很期待她的生日。
+Wir treffen uns um drei Uhr im Park.|我們三點在公園見。
+Ihr müsst euch beeilen!|你們得快一點！
+Ich interessiere mich für Basketball.|我對籃球很有興趣。
+Fühlst du dich heute besser?|你今天覺得好一點了嗎？
+Ich habe mich erkältet.|我感冒了。
+Ich kaufe mir ein neues Handy.|我要幫自己買一支新手機。
+Zieh dir eine Jacke an, es ist kalt!|穿件外套吧，外面很冷！
+Ich ziehe mich schnell an.|我趕快把衣服穿好。
+Ich kann mir die Nummer nicht merken.|我記不住這個號碼。
+Was wünschst du dir zum Geburtstag?|你生日想要什麼禮物？
+Darf ich mich vorstellen? Ich heiße Olivia.|我可以自我介紹一下嗎？我叫 Olivia。
+Ich stelle mir das Leben in Deutschland spannend vor.|我想像中，在德國的生活應該很精彩。
+Mein Vater erholt sich im Urlaub.|我爸爸趁休假好好休息。
+Die Kinder freuen sich auf die Ferien.|孩子們很期待放假。
+Mia und Olivia verabreden sich für Samstag.|Mia 和 Olivia 約好星期六見面。
+Das Baby hat sich erkältet.|寶寶感冒了。
+Die Schüler bedanken sich bei der Lehrerin.|學生們向老師道謝。
+Herr Wang, beeilen Sie sich bitte!|王先生，請您快一點！
+Frau Lin, freuen Sie sich auf die Reise?|林女士，您期待這趟旅行嗎？
+Ich ärgere mich über die schlechte Note.|這個爛成績讓我很生氣。
+Hast du dich schon bei Oma bedankt?|你跟奶奶道謝了嗎？
+Ich dusche mich jeden Morgen.|我每天早上都會洗澡。
+Setz dich bitte neben mich!|請坐到我旁邊來！
+Ich kann mich heute nicht konzentrieren.|我今天沒辦法專心。
+Erinnerst du dich an unseren ersten Schultag?|你還記得我們上學的第一天嗎？
+Wir haben uns im Wald verlaufen.|我們在森林裡迷路了。
+Freut ihr euch auf das Wochenende?|你們期待週末嗎？
+Entschuldige dich bei deiner Schwester!|去跟你妹妹道歉！
+Ich lege mich kurz aufs Sofa.|我去沙發上躺一下。
+Wir unterhalten uns oft über Filme.|我們常常聊電影。
+Ihr streitet euch schon wieder!|你們又在吵架了！
+Ich bereite mich auf den Test vor.|我在準備小考。
+Ich mache mir Sorgen um meinen Hund.|我很擔心我的狗。
+Hast du dir wehgetan?|你有受傷嗎？
+Ich habe mir das Bein gebrochen.|我的腿骨折了。
+Kämmst du dir die Haare?|你在梳頭髮嗎？
+Überleg dir das gut!|你要好好想清楚！
+Wascht euch bitte die Hände!|請你們去洗手！
+Wir sehen uns heute Abend einen Film an.|我們今天晚上要看一部電影。
+Nimm dir ruhig noch ein Stück Kuchen!|別客氣，再拿一塊蛋糕吧！
+Ich leihe mir in der Bibliothek ein Buch aus.|我去圖書館借一本書。
+Ben putzt sich die Zähne.|Ben 在刷牙。
+Mia kämmt sich die Haare.|Mia 在梳頭髮。
+Olivia kauft sich ein neues Kleid.|Olivia 幫自己買一件新洋裝。
+Mein Bruder wünscht sich ein Fahrrad.|我弟弟很想要一台腳踏車。
+Ben schämt sich für seinen Fehler.|Ben 為自己犯的錯感到很丟臉。
+Mias Oma kümmert sich um den Garten.|Mia 的奶奶負責照顧花園。
+Olivia hat sich verspätet.|Olivia 遲到了。
+Meine Eltern ruhen sich am Sonntag aus.|我爸媽星期天會好好休息。
+Nehmen Sie sich bitte einen Stuhl, Frau Chen.|陳女士，請您拿張椅子坐。
+Ich muss mich noch umziehen.|我還得換個衣服。
+Wir langweilen uns in den Ferien nie.|我們放假的時候從來不會無聊。
+Hast du dich für den Kurs angemeldet?|你報名那門課了嗎？
+Ich kümmere mich um meine kleine Schwester.|我會照顧我妹妹。
+Das Mädchen freut sich über das Geschenk.|那個女孩收到禮物很開心。
+Mias Bruder hat sich verliebt.|Mia 的哥哥戀愛了。
+Ich hätte gern eine Cola.|我想要一杯可樂。
+Wir hätten gern zwei Stück Kuchen, bitte.|我們想要兩塊蛋糕，麻煩了。
+Was hättest du gern zum Geburtstag?|你生日想要什麼？
+Ich möchte jetzt schlafen gehen, ich bin sehr müde.|我現在想去睡覺了，我好累。
+Mia möchte später Ärztin werden.|Mia 以後想當醫生。
+Ich würde so gern einen Hund haben.|我真的好想養一隻狗。
+Olivia würde gern einmal nach Deutschland fahren.|Olivia 很想去一次德國。
+Wir würden gern mit euch ins Kino gehen.|我們很想跟你們一起去看電影。
+Ich wüsste gern, wie spät es ist.|我想請問一下現在幾點了。
+Entschuldigung, könnten Sie mir bitte helfen?|不好意思，可以請您幫我一下嗎？
+Mama, könntest du mich nach der Schule abholen?|媽媽，妳可以在我放學後來接我嗎？
+Herr Chen, dürfte ich kurz das Fenster aufmachen?|陳先生，我可以開一下窗戶嗎？
+Ben, würdest du bitte das Licht ausmachen?|Ben，可以麻煩你把燈關掉嗎？
+Frau Weber, könnten Sie den Satz noch einmal erklären?|Weber 老師，可以請您再解釋一次這個句子嗎？
+Wie wäre es mit einem Eis?|要不要來個冰淇淋？
+Wenn ich Zeit hätte, würde ich mitkommen.|如果我有時間的話，我就會跟你們一起去了。
+Wenn ich reich wäre, würde ich eine Weltreise machen.|如果我很有錢，我就會去環遊世界。
+Wenn Ben mehr lernen würde, hätte er bessere Noten.|如果 Ben 多讀一點書，他的成績就會比較好。
+Wenn es nicht so heiß wäre, könnten wir Fußball spielen.|如果天氣沒有這麼熱，我們就可以踢足球了。
+Wenn ich ein Fahrrad hätte, würde ich zur Schule fahren.|如果我有腳踏車，我就會騎車去上學。
+Wenn ich du wäre, würde ich mehr schlafen.|如果我是你，我會多睡一點。
+Wenn wir mehr Platz hätten, könnten wir einen Hund haben.|如果我們家空間大一點，我們就可以養狗了。
+Ich würde dir gern helfen, aber ich habe keine Zeit.|我很想幫你，可是我沒有時間。
+Olivia würde gern mitkommen, aber sie ist krank.|Olivia 很想一起來，可是她生病了。
+Wenn ich fliegen könnte, wäre ich schnell bei meiner Oma.|如果我會飛，我很快就能到奶奶家了。
+Wenn Mia hier wäre, wäre alles einfacher.|如果 Mia 在這裡，一切都會簡單多了。
+Es wäre toll, wenn wir zusammen lernen könnten.|如果我們可以一起讀書就太好了。
+Ich wünschte, ich hätte ein eigenes Zimmer.|真希望我有自己的房間。
+Ich wünschte, es wäre schon Wochenende.|真希望現在已經是週末了。
+Wenn ich doch nur mehr Zeit hätte!|要是我有更多時間就好了！
+Wenn Ben doch nur pünktlich wäre!|要是 Ben 能準時就好了！
+Du solltest mehr schlafen.|你應該多睡一點。
+Ihr solltet mehr Wasser trinken.|你們應該多喝點水。
+Du könntest mal mit der Lehrerin sprechen.|你可以去跟老師談談看。
+An deiner Stelle würde ich früher ins Bett gehen.|如果我是你，我會早點上床睡覺。
+Mia sollte weniger am Handy spielen.|Mia 應該少玩一點手機。
+Ben sollte beim Radfahren einen Helm tragen.|Ben 騎腳踏車的時候應該戴安全帽。
+Sie sollten mehr Obst essen, Herr Wang.|王先生，您應該多吃點水果。
+Ich an deiner Stelle würde die Lehrerin fragen.|如果我是你，我會去問老師。
+Du solltest dich wärmer anziehen, es ist kalt.|你應該穿暖一點，天氣很冷。
+Wenn ich an deiner Stelle wäre, würde ich mich entschuldigen.|如果我是你，我會去道歉。
+Wenn ich nicht zur Schule gehen müsste, würde ich lange schlafen.|如果我不用上學，我就會睡到很晚。
+Wenn ich das gewusst hätte, wäre ich gekommen.|如果我早知道，我就會來了。
+Wenn der Bus pünktlich gekommen wäre, hätten wir den Film nicht verpasst.|如果公車有準時來，我們就不會錯過電影了。
+Wenn du früher aufgestanden wärst, hättest du den Bus nicht verpasst.|如果你早點起床，就不會錯過公車了。
+Ich wäre gern mitgekommen, aber ich war krank.|我本來很想一起去，可是我那時候生病了。
+Mias Bruder würde gern Pilot werden.|Mia 的哥哥很想當機師。
+Was würdet ihr am Wochenende gern machen?|你們週末想做什麼？
+Ich wäre jetzt so gern am Strand!|我現在好想待在海邊！
+Guten Tag, was möchten Sie bestellen?|您好，請問您要點什麼？
+Wenn Olivia in Taipeh wohnen würde, könnten wir uns öfter treffen.|如果 Olivia 住在台北，我們就可以更常見面了。
+Wenn ich mehr Zeit hätte, würde ich jeden Tag Gitarre spielen.|如果我有更多時間，我就會每天彈吉他。
+Wenn wir einen Hund hätten, müssten wir jeden Tag spazieren gehen.|如果我們有養狗，我們就得每天出去散步。
+Wenn du mich fragen würdest, könnte ich dir helfen.|如果你來問我，我就可以幫你。
+Wenn ihr leiser wärt, könnte ich besser lernen.|如果你們小聲一點，我就能更專心讀書了。
+Wenn Ben nicht krank wäre, würde er mit uns Basketball spielen.|如果 Ben 沒有生病，他就會跟我們一起打籃球。
+Das Wetter ist schlecht, sonst könnten wir an den Strand fahren.|天氣不好，不然我們就可以去海邊了。
+Ich habe kein Geld, sonst würde ich mir das Spiel kaufen.|我沒有錢，不然我就會買那個遊戲了。
+Wenn Mia nicht so viel üben müsste, hätte sie mehr Freizeit.|如果 Mia 不用練習那麼多，她就會有更多空閒時間。
+Es wäre schön, wenn du morgen kommen würdest.|如果你明天能來就好了。
+Das ist der Junge, der neben mir sitzt.|這就是坐在我旁邊的那個男生。
+Ben hat einen Hund, der sehr laut bellt.|Ben 有一隻叫得很大聲的狗。
+Kennst du den Mann, der dort drüben steht?|你認識站在那邊的那位先生嗎？
+Mia hat einen Bruder, der in Deutschland studiert.|Mia 有一個在德國讀大學的哥哥。
+Der Mann, der uns geholfen hat, war sehr nett.|幫助我們的那位先生人很好。
+Das ist der Film, den ich gestern gesehen habe.|這就是我昨天看的那部電影。
+Wo ist der Stift, den du mir geliehen hast?|你借我的那支筆在哪裡？
+Der Test, den wir morgen schreiben, ist schwer.|我們明天要考的小考很難。
+Wie heißt der Sänger, den du so toll findest?|你覺得很棒的那個歌手叫什麼名字？
+Das ist der Rucksack, den ich mir gekauft habe.|這就是我買給自己的背包。
+Das ist der Freund, dem ich bei den Hausaufgaben helfe.|這就是我教他寫作業的那個朋友。
+Der Lehrer, dem das Buch gehört, sucht es überall.|這本書是那位老師的，他正在到處找。
+Wie heißt der Junge, dem du eine Nachricht geschickt hast?|你傳訊息給他的那個男生叫什麼名字？
+Das ist mein Onkel, dem ich zum Geburtstag gratuliere.|這是我叔叔，我要祝他生日快樂。
+Das ist die Lehrerin, die Deutsch unterrichtet.|這就是教德文的那位老師。
+Mia hat eine Freundin, die sehr gut singen kann.|Mia 有一個很會唱歌的朋友。
+Wo ist die Katze, die immer auf dem Sofa schläft?|那隻老是睡在沙發上的貓去哪裡了？
+Das ist die Jacke, die ich mir gekauft habe.|這就是我買給自己的外套。
+Die App, die du mir empfohlen hast, ist super.|你推薦給我的那個 App 超好用。
+Wie findest du die Musik, die Ben immer hört?|你覺得 Ben 常聽的那種音樂怎麼樣？
+Das ist die Frau, der ich den Weg gezeigt habe.|這就是我幫她指路的那位女士。
+Olivia ist die Freundin, der ich alles erzähle.|Olivia 是我什麼事都會跟她說的朋友。
+Die Lehrerin, der wir Blumen geschenkt haben, hat sich sehr gefreut.|我們送花給她的那位老師非常開心。
+Das ist das Mädchen, das neben Mia wohnt.|這就是住在 Mia 隔壁的那個女生。
+Das Handy, das auf dem Tisch liegt, gehört mir.|放在桌上的那支手機是我的。
+Wo ist das Buch, das so spannend ist?|那本很好看的書在哪裡？
+Das ist das Spiel, das ich zum Geburtstag bekommen habe.|這就是我生日收到的那個遊戲。
+Das Foto, das du geschickt hast, ist lustig.|你傳來的那張照片好好笑。
+Wie heißt das Lied, das wir im Unterricht gesungen haben?|我們上課唱的那首歌叫什麼名字？
+Das ist das Kind, dem ich Mathe erkläre.|這就是我教他數學的那個孩子。
+Das Mädchen, dem der Hund gehört, heißt Lina.|養那隻狗的女生叫 Lina。
+Das sind die Schüler, die in meine Klasse gehen.|這些就是跟我同班的學生。
+Ich mag Leute, die ehrlich sind.|我喜歡誠實的人。
+Die Kinder, die im Park spielen, sind laut.|在公園玩的那些小孩很吵。
+Die Schuhe, die ich gestern gekauft habe, sind zu klein.|我昨天買的那雙鞋太小了。
+Das sind die Freunde, die ich in den Ferien besucht habe.|這些就是我放假時去拜訪的朋友。
+Die Vokabeln, die wir lernen müssen, sind schwer.|我們要背的單字很難。
+Das sind die Nachbarn, denen wir oft helfen.|這些就是我們常常幫忙的鄰居。
+Die Kinder, denen ich Deutsch beibringe, sind sehr nett.|我教德文的那些孩子都很乖。
+Wie heißen die Mädchen, denen du geantwortet hast?|你回覆的那些女生叫什麼名字？
+Das sind meine Großeltern, denen ich jeden Sonntag schreibe.|這是我的爺爺奶奶，我每個星期天都會寫信給他們。
+Das ist die Stadt, in der ich wohne.|這就是我住的城市。
+Das ist der Freund, mit dem ich ins Kino gehe.|這就是跟我一起去看電影的朋友。
+Das ist die Lehrerin, an die ich mich gut erinnere.|這就是我記得很清楚的那位老師。
+Das ist das Geschenk, über das ich mich sehr gefreut habe.|這就是讓我非常開心的那個禮物。
+Der Stuhl, auf dem du sitzt, ist kaputt.|你坐的那張椅子壞了。
+Das ist die Freundin, für die ich das Geschenk gekauft habe.|這就是我買禮物要送的那個朋友。
+Das Zimmer, in dem ich schlafe, ist sehr klein.|我睡的房間很小。
+Der Bus, mit dem ich zur Schule fahre, ist immer voll.|我搭去上學的那班公車總是很擠。
+Das ist der Park, in dem wir oft Fußball spielen.|這就是我們常去踢足球的公園。
+Die Freunde, mit denen ich am Wochenende spiele, wohnen in meiner Straße.|週末跟我一起玩的朋友都住在我家這條街上。
+Das ist ein Thema, für das ich mich sehr interessiere.|這是一個我很感興趣的主題。
+Die Party, zu der du mich eingeladen hast, war super.|你邀請我參加的那場派對超棒的。
+Der Hund, vor dem ich Angst habe, wohnt nebenan.|我很怕的那隻狗就住在隔壁。
+Das ist die Person, auf die ich schon lange warte.|這就是我等了很久的人。
+Der Freund, für den ich ein Geschenk kaufe, hat morgen Geburtstag.|我要買禮物送的那個朋友明天生日。
+Das ist der Junge, dessen Vater Arzt ist.|這就是爸爸當醫生的那個男生。
+Lina ist das Mädchen, dessen Hund so süß ist.|Lina 就是那個狗狗超可愛的女生。
+Das ist die Frau, deren Sohn in meiner Klasse ist.|這就是兒子跟我同班的那位女士。
+Die Schüler, deren Handys klingeln, müssen sie ausmachen.|手機響起來的學生必須把手機關掉。
+Ich habe eine Freundin, deren Eltern aus Japan kommen.|我有一個爸媽來自日本的朋友。
+Die Frau, die wir im Bus getroffen haben, war unsere Lehrerin.|我們在公車上遇到的那位女士是我們的老師。
+Mia ist zwölf Jahre alt.|Mia 今年十二歲。
+Wo bist du gerade?|你現在在哪裡？
+Ihr seid heute sehr leise.|你們今天很安靜。
+Du hast morgen einen Mathetest.|你明天有數學小考。
+Ben hat ein neues Handy.|Ben 有一支新手機。
+Wir haben heute keine Hausaufgaben.|我們今天沒有作業。
+Du wirst nächste Woche dreizehn.|你下個禮拜就滿十三歲了。
+Olivia wird im Sommer sechzehn.|Olivia 今年夏天就滿十六歲了。
+Ich werde vor Tests immer nervös.|我小考前總是會很緊張。
+Ich mache jetzt meine Hausaufgaben.|我現在要來寫作業了。
+Was macht Mias Bruder am Wochenende?|Mia 的哥哥週末要做什麼？
+Was macht ihr nach der Schule?|你們放學後要做什麼？
+Wann gehst du heute ins Bett?|你今天幾點上床睡覺？
+Olivia geht zu Fuß zur Schule.|Olivia 走路去上學。
+Wir gehen am Samstag ins Kino.|我們星期六要去看電影。
+Die Lehrerin kommt heute etwas später.|老師今天會晚一點到。
+Woher kommst du?|你是從哪裡來的？
+Mia und Ben kommen zu meiner Party.|Mia 和 Ben 會來參加我的派對。
+Du siehst ohne Brille nicht viel.|你沒戴眼鏡就看不太清楚。
+Ben sieht seine Oma jeden Sonntag.|Ben 每個星期天都會去看他奶奶。
+Ich sehe das Problem nicht.|我不覺得這有什麼問題。
+Mias Bruder sagt nie die Wahrheit.|Mia 的哥哥從來不說實話。
+Was sagst du dazu?|你對這件事怎麼看？
+Ihr sagt das jeden Tag.|你們每天都這樣說。
+Warum gibst du ihm dein Handy?|你為什麼要把手機給他？
+Die Lehrerin gibt uns viele Hausaufgaben.|老師給我們很多作業。
+Ich gebe dir meine Nummer.|我給你我的電話號碼。
+Welchen Bus nimmst du heute?|你今天要搭哪一班公車？
+Olivia nimmt ein Stück Pizza.|Olivia 拿起一片披薩。
+Wir nehmen den Zug um acht.|我們搭八點的火車。
+Du fährst mit dem Fahrrad zur Schule.|你騎腳踏車去上學。
+Mias Bruder fährt sehr schnell.|Mia 的哥哥開車開得很快。
+Mia und Olivia fahren im Sommer nach Italien.|Mia 和 Olivia 夏天要去義大利。
+Olivia liest jeden Abend ein Buch.|Olivia 每天晚上都會看書。
+Was liest du gerade?|你現在在看什麼？
+Ich lese die Nachricht später.|我等一下再看訊息。
+Du isst zu viele Süßigkeiten.|你吃太多甜食了。
+Ben isst kein Fleisch.|Ben 不吃肉。
+Wir essen heute in der Mensa.|我們今天在學校餐廳吃飯。
+Du sprichst sehr gut Englisch.|你的英文說得很好。
+Mia spricht mit ihrer Freundin am Telefon.|Mia 在跟她朋友講電話。
+Ihr sprecht zu laut.|你們講話太大聲了。
+Olivia hilft ihrer Mutter in der Küche.|Olivia 在廚房幫她媽媽的忙。
+Du hilfst mir bei den Hausaufgaben, oder?|寫作業的時候你會幫我，對吧？
+Ich helfe dir gern.|我很樂意幫你。
+Das Baby schläft schon.|寶寶已經睡了。
+Wir schlafen heute bei Oma.|我們今天晚上睡奶奶家。
+Mia läuft jeden Morgen im Park.|Mia 每天早上都在公園跑步。
+Du läufst schneller als ich.|你跑得比我快。
+Ich laufe zur Bushaltestelle.|我跑去公車站。
+Olivia trägt heute eine neue Jacke.|Olivia 今天穿了一件新外套。
+Warum trägst du immer eine Mütze?|你為什麼總是戴著帽子？
+Ich trage die Tasche für dich.|我幫你提包包。
+Du wäschst dir nie die Hände.|你從來都不洗手。
+Mias Bruder wäscht heute das Auto.|Mia 的哥哥今天要洗車。
+Ich wasche meine Sportsachen.|我在洗我的運動服。
+Du weißt die Antwort bestimmt.|你一定知道答案。
+Ben weiß nicht, wo sein Handy ist.|Ben 不知道他的手機在哪裡。
+Ich weiß es auch nicht.|我也不知道。
+Wann triffst du Olivia?|你什麼時候要跟 Olivia 見面？
+Mia trifft ihre Freunde im Park.|Mia 在公園跟她的朋友見面。
+Wir treffen uns um drei Uhr.|我們三點見。
+Ben vergisst immer seine Hausaufgaben.|Ben 老是把作業忘了。
+Du vergisst schon wieder dein Passwort.|你又忘記你的密碼了。
+Ich vergesse oft meinen Schlüssel.|我常常忘記帶鑰匙。
+Der Bus hält direkt vor der Schule.|公車就停在學校正門口。
+Du hältst dein Versprechen nie.|你說話從來都不算話。
+Ich halte kurz deine Tasche.|我幫你拿一下包包。
+Warum lässt du dein Handy immer zu Hause?|你為什麼老是把手機放在家裡？
+Mia lässt ihren Bruder nie an ihren Computer.|Mia 從來不讓她哥哥碰她的電腦。
+Ihr lasst die Tür immer offen.|你們老是把門開著。
+Das Handy fällt auf den Boden.|手機掉到地上了。
+Vorsicht, du fällst gleich!|小心，你快要跌倒了！
+Im Herbst fallen die Blätter von den Bäumen.|秋天的時候，樹葉會從樹上掉下來。
+Ben wirft den Ball sehr weit.|Ben 球丟得很遠。
+Warum wirfst du deine Jacke auf den Boden?|你為什麼把外套丟在地上？
+Wir werfen den Müll in den Mülleimer.|我們把垃圾丟進垃圾桶。
+Mia findet ihren Schlüssel nicht.|Mia 找不到她的鑰匙。
+Ich finde Mathe langweilig.|我覺得數學很無聊。
+Olivia steht an der Bushaltestelle.|Olivia 站在公車站。
+Warum stehst du so lange vor dem Spiegel?|你為什麼在鏡子前面站那麼久？
+Die Schuhe stehen vor der Tür.|鞋子放在門口。
+Dein Handy liegt auf dem Tisch.|你的手機在桌上。
+Ich liege krank im Bett.|我生病躺在床上。
+Warum liegst du noch im Bett?|你怎麼還躺在床上？
+Du sitzt auf meinem Platz.|你坐到我的位子了。
+Ben sitzt in der letzten Reihe.|Ben 坐在最後一排。
+Wir sitzen im Bus ganz hinten.|我們坐在公車的最後面。
+Ich bleibe heute zu Hause.|我今天待在家裡。
+Mia bleibt bis sechs Uhr in der Schule.|Mia 在學校待到六點。
+Wie lange bleibt ihr in Berlin?|你們要在柏林待多久？
+Wie heißt du?|你叫什麼名字？
+Mias Bruder heißt Leon.|Mia 的哥哥叫 Leon。
+Die neue Lehrerin heißt Frau Weber.|新來的老師叫做 Weber 老師。
+Mia schreibt Olivia eine Nachricht.|Mia 傳訊息給 Olivia。
+Was schreibst du da?|你在寫什麼？
+Wir schreiben morgen einen Test.|我們明天要考小考。
+Du trinkst zu wenig Wasser.|你水喝得太少了。
+Ben trinkt morgens Kakao.|Ben 早上都喝可可。
+Ich trinke keinen Kaffee.|我不喝咖啡。
+Ich denke oft an meine Oma.|我常常想起我奶奶。
+Was denkt Olivia über mich?|Olivia 是怎麼看我的？
+Woran denkst du gerade?|你現在在想什麼？
+Mia bringt einen Kuchen zur Party.|Mia 會帶一個蛋糕來派對。
+Du bringst die Getränke, okay?|你負責帶飲料，好嗎？
+Ich bringe dir morgen dein Buch.|我明天把你的書帶來給你。
+Du kennst meinen Bruder doch.|你明明認識我哥哥啊。
+Olivia kennt jeden Song von dieser Band.|這個樂團的每一首歌 Olivia 都知道。
+Wir kennen die neue Schülerin noch nicht.|我們還不認識那個新來的女同學。
+Das neue Spiel gefällt mir sehr.|我很喜歡這個新遊戲。
+Die Schuhe gefallen Mia nicht.|Mia 不喜歡這雙鞋。
+Welches Buch empfiehlst du mir?|你推薦我看哪本書？
+Die Lehrerin empfiehlt uns einen Film.|老師推薦我們一部電影。
+Ich empfehle dir diese App.|我推薦你這個 App。
+Olivia schwimmt dreimal pro Woche.|Olivia 一個禮拜游泳三次。
+Du schwimmst wie ein Fisch.|你游泳游得像魚一樣。
+Wir schwimmen im Sommer im See.|我們夏天在湖裡游泳。
+Ben fliegt in den Ferien nach Spanien.|Ben 放假的時候要飛去西班牙。
+Wann fliegst du nach Taiwan?|你什麼時候要飛去台灣？
+Die Vögel fliegen im Herbst nach Süden.|鳥兒秋天會飛到南方去。
+Mia singt in einem Chor.|Mia 在一個合唱團裡唱歌。
+Du singst sehr schön.|你唱歌很好聽。
+Warum singt ihr so laut?|你們為什麼唱得那麼大聲？
+Ben rennt zum Bus.|Ben 跑去趕公車。
+Ich renne jeden Tag zur Schule.|我每天都跑著去上學。
+Warum rennst du so schnell?|你為什麼跑那麼快？
+Der Hund zieht an der Leine.|那隻狗一直在扯牽繩。
+Warum ziehst du mich an den Haaren?|你為什麼拉我的頭髮？
+Du verlierst immer beim Schach.|你下西洋棋每次都輸。
+Unsere Mannschaft verliert das Spiel.|我們隊這場比賽要輸了。
+Ich verliere ständig meine Kopfhörer.|我老是弄丟我的耳機。
+Olivia gewinnt jedes Tennisspiel.|Olivia 每場網球比賽都贏。
+Wir gewinnen heute bestimmt.|我們今天一定會贏。
+Warum gewinnst du immer?|你為什麼每次都贏？
+Der Unterricht beginnt um acht Uhr.|八點開始上課。
+Die Ferien beginnen nächste Woche.|下個禮拜開始放假。
+Wir beginnen jetzt mit der Übung.|我們現在開始做練習。
+Was tust du da?|你在做什麼？
+Ben tut nichts für die Schule.|Ben 完全不用功讀書。
+Ich tue das für dich.|我是為了你才這麼做的。
+Ben spielt jeden Tag Fußball.|Ben 每天都踢足球。
+Was spielst du auf deinem Handy?|你在用手機玩什麼？
+Wir spielen am Wochenende Karten.|我們週末會玩撲克牌。
+Ich lerne seit einem Jahr Deutsch.|我學德文學了一年了。
+Olivia lernt für den Test.|Olivia 在準備小考。
+Was lernt ihr in Mathe?|你們數學課在學什麼？
+Mia wohnt in einem kleinen Dorf.|Mia 住在一個小村莊。
+Wo wohnst du?|你住在哪裡？
+Wir wohnen im dritten Stock.|我們住在三樓。
+Mias Vater arbeitet in einem Krankenhaus.|Mia 的爸爸在醫院工作。
+Du arbeitest zu viel am Computer.|你在電腦前工作太久了。
+Ihr arbeitet heute in Gruppen.|你們今天要分組合作。
+Worauf wartest du?|你在等什麼？
+Olivia wartet vor dem Kino.|Olivia 在電影院門口等。
+Wir warten schon zwanzig Minuten auf den Bus.|我們已經等公車等了二十分鐘了。
+Ben kauft eine neue Handyhülle.|Ben 要買一個新的手機殼。
+Was kaufst du deiner Mutter zum Geburtstag?|你要買什麼給你媽媽當生日禮物？
+Ich kaufe mir ein Eis.|我要去買一支冰淇淋來吃。
+Welche Musik hörst du gern?|你喜歡聽什麼音樂？
+Mia hört beim Lernen Musik.|Mia 讀書的時候會聽音樂。
+Ich höre dich nicht.|我聽不到你的聲音。
+Ich brauche ein neues Ladekabel.|我需要一條新的充電線。
+Olivia braucht Hilfe in Physik.|Olivia 物理需要有人幫她。
+Wie lange brauchst du bis zur Schule?|你到學校要花多久時間？
+Ben fragt die Lehrerin nach der Aufgabe.|Ben 去問老師這個題目。
+Warum fragst du nicht einfach Mia?|你為什麼不直接問 Mia？
+Ich frage meinen Vater.|我去問我爸爸。
+Warum antwortest du nicht auf meine Nachricht?|你為什麼不回我的訊息？
+Olivia antwortet immer sofort.|Olivia 總是馬上回覆。
+Ich antworte dir später.|我晚一點再回你。
+Mias Bruder kocht heute Spaghetti.|Mia 的哥哥今天要煮義大利麵。
+Du kochst richtig gut.|你真的很會煮菜。
+Wir kochen am Sonntag zusammen.|我們星期天要一起煮飯。
+Mia tanzt in einer Hip-Hop-Gruppe.|Mia 在一個嘻哈舞團跳舞。
+Du tanzt echt gut.|你跳舞跳得真好。
+Olivia und Ben tanzen auf der Party.|Olivia 和 Ben 在派對上跳舞。
+Olivias Familie reist gern.|Olivia 一家人很喜歡旅行。
+Wohin reist du im Sommer?|你夏天要去哪裡旅行？
+Wir reisen mit dem Zug.|我們搭火車旅行。
+Warum öffnest du das Fenster?|你為什麼要開窗戶？
+Die Lehrerin öffnet die Tür.|老師把門打開。
+Ich öffne die App.|我打開這個 App。
+Mia zeigt mir ihre Fotos.|Mia 給我看她的照片。
+Du zeigst mir den Weg, oder?|你會幫我帶路，對吧？
+Ich zeige dir mein neues Zimmer.|我帶你看我的新房間。
+Was suchst du?|你在找什麼？
+Ben sucht seinen Schlüssel.|Ben 在找他的鑰匙。
+Wir suchen einen Platz im Bus.|我們在公車上找位子。
+Olivia schickt mir ein Video.|Olivia 傳一支影片給我。
+Du schickst mir die Hausaufgaben, okay?|你把作業傳給我，好嗎？
+Ich schicke dir die Adresse.|我把地址傳給你。
+Wir besuchen am Sonntag unsere Oma.|我們星期天要去看奶奶。
+Mia besucht ihre Cousine in Hamburg.|Mia 要去漢堡看她的表姊。
+Wann besuchst du uns?|你什麼時候要來看我們？
+Die Lehrerin erklärt die Aufgabe noch einmal.|老師再解釋一次這個題目。
+Du erklärst das besser als die Lehrerin.|你解釋得比老師還清楚。
+Ich erkläre dir das Spiel.|我跟你解釋這個遊戲怎麼玩。
+Heute bezahlst du das Eis.|今天的冰淇淋換你付錢。
+Ben bezahlt mit dem Handy.|Ben 用手機付錢。
+Ich bezahle die Pizza.|披薩我來付。
+Warum lachst du?|你在笑什麼？
+Olivia lacht über den Witz.|Olivia 被那個笑話逗得哈哈大笑。
+Alle lachen über Mias Bruder.|大家都在笑 Mia 的哥哥。
+Ich glaube dir nicht.|我不相信你。
+Du glaubst alles aus dem Internet.|網路上的東西你都相信。
+Mia glaubt an ihre Mannschaft.|Mia 對她的球隊有信心。
+Olivia chattet jeden Abend mit ihren Freundinnen.|Olivia 每天晚上都跟她的朋友們傳訊息聊天。
+Mit wem chattest du gerade?|你現在在跟誰聊天？
+Ihr chattet die ganze Zeit.|你們一直在傳訊息聊天。
+Ben sammelt Fußballkarten.|Ben 在收集足球球員卡。
+Ich sammle Sticker.|我在收集貼紙。
+Was sammelst du?|你在收集什麼？
+Mia putzt zweimal am Tag ihre Zähne.|Mia 一天刷兩次牙。
+Heute putzt du das Bad.|今天換你打掃浴室。
+Wir putzen am Samstag die Wohnung.|我們星期六要打掃家裡。
+Das Handy kostet fünfhundert Euro.|這支手機要五百歐元。
+Die Schuhe kosten achtzig Euro.|這雙鞋要八十歐元。
+Olivia übt jeden Tag Klavier.|Olivia 每天都練鋼琴。
+Wie lange übst du jeden Tag Gitarre?|你每天練多久的吉他？
+Wir üben für das Konzert.|我們在為音樂會練習。
+Du rechnest schneller als ein Computer.|你算得比電腦還快。
+Ben rechnet die Aufgabe im Kopf.|Ben 用心算解這一題。
+Olivia telefoniert stundenlang mit ihrer Freundin.|Olivia 跟她朋友講電話一講就是好幾個小時。
+Mit wem telefonierst du?|你在跟誰講電話？
+Mia fotografiert gern ihr Essen.|Mia 很喜歡拍她吃的東西。
+Warum fotografierst du alles?|你為什麼什麼都要拍？
+Ich stehe um sieben Uhr auf.|我七點起床。
+Wann stehst du am Wochenende auf?|你週末幾點起床？
+Mias Bruder steht immer sehr spät auf.|Mia 的哥哥總是很晚才起床。
+Wann rufst du mich heute an?|你今天什麼時候會打電話給我？
+Olivia ruft jeden Sonntag ihre Oma an.|Olivia 每個星期天都會打電話給她奶奶。
+Ich rufe dich später an.|我晚一點再打給你。
+Ben kauft mit seinem Vater ein.|Ben 跟他爸爸去買東西。
+Wir kaufen am Samstag ein.|我們星期六要去買東西。
+Wo kaufst du ein?|你都去哪裡買東西？
+Mia sieht jeden Abend fern.|Mia 每天晚上都看電視。
+Du siehst zu viel fern.|你看太多電視了。
+Warum seht ihr so spät noch fern?|你們為什麼這麼晚還在看電視？
+Warum kommst du nicht mit?|你為什麼不一起來？
+Ben kommt heute nicht mit.|Ben 今天不跟我們一起去。
+Ich komme gern mit.|我很樂意一起去。
+Der Film fängt um acht Uhr an.|電影八點開始。
+Wann fängst du mit den Hausaufgaben an?|你什麼時候要開始寫作業？
+Wir fangen jetzt an.|我們現在開始。
+Mia lädt die ganze Klasse ein.|Mia 邀請全班同學。
+Wen lädst du zu deiner Party ein?|你要邀請誰來你的派對？
+Ich lade dich ins Kino ein.|我請你去看電影。
+Du siehst heute müde aus.|你今天看起來很累。
+Olivia sieht wie ihre Mutter aus.|Olivia 長得像她媽媽。
+Die neuen Schuhe sehen toll aus.|這雙新鞋看起來超好看。
+Ben räumt nie sein Zimmer auf.|Ben 從來不整理他的房間。
+Wann räumst du endlich dein Zimmer auf?|你到底什麼時候才要整理你的房間？
+Wir räumen nach der Party auf.|派對結束後我們會收拾乾淨。
+Mias Vater holt sie von der Schule ab.|Mia 的爸爸去學校接她。
+Ich hole dich um fünf ab.|我五點去接你。
+Wann holst du Olivia ab?|你什麼時候去接 Olivia？
+Warum nimmst du keinen Regenschirm mit?|你為什麼不帶傘？
+Olivia nimmt ihr Handy überallhin mit.|Olivia 走到哪裡都帶著手機。
+Ich nehme eine Flasche Wasser mit.|我帶一瓶水去。
+Ben macht das Fenster auf.|Ben 把窗戶打開。
+Warum machst du die Tür nicht auf?|你為什麼不開門？
+Ich mache jetzt das Geschenk auf.|我現在要拆禮物了。
+Mia zieht ihre Sportschuhe an.|Mia 穿上她的運動鞋。
+Was ziehst du heute an?|你今天要穿什麼？
+Ich ziehe eine warme Jacke an.|我穿上一件保暖的外套。
+Der Bus fährt um halb acht ab.|公車七點半開。
+Wann fährst du morgen ab?|你明天什麼時候出發？
+Die Züge fahren hier jede Stunde ab.|這裡每個小時都有一班火車開出。
+Der Zug kommt um zehn Uhr an.|火車十點到站。
+Wann kommst du in Berlin an?|你什麼時候到柏林？
+Wir kommen immer zu spät an.|我們總是遲到。
+Ben passt im Unterricht nie auf.|Ben 上課從來不專心。
+Warum passt du nicht auf?|你為什麼不專心？
+Ihr passt heute gut auf.|你們今天很專心。
+Die Lehrerin liest eine Geschichte vor.|老師唸一個故事給大家聽。
+Du liest sehr schön vor.|你唸得很好聽。
+Ich lese meiner kleinen Schwester vor.|我唸故事給我妹妹聽。
+Olivia gibt ihr ganzes Geld für Kleidung aus.|Olivia 把所有的錢都花在衣服上。
+Wofür gibst du dein Taschengeld aus?|你的零用錢都花在什麼上面？
+Ben schläft im Unterricht fast ein.|Ben 上課上到快睡著了。
+Wann schläfst du abends ein?|你晚上都幾點睡著？
+Ich schlafe bei Filmen immer ein.|我看電影的時候總是會睡著。
+Ich kann heute leider nicht mitkommen.|很可惜，我今天不能一起去。
+Du kannst sehr gut zeichnen.|你很會畫畫。
+Mias Bruder kann schon Auto fahren.|Mia 的哥哥已經會開車了。
+Wir können heute nicht Fußball spielen.|我們今天不能踢足球。
+Ihr könnt am Wochenende bei uns schlafen.|你們週末可以來我們家過夜。
+Ich muss noch Mathe lernen.|我還得讀數學。
+Du musst heute dein Zimmer aufräumen.|你今天一定要整理你的房間。
+Ben muss um neun Uhr zu Hause sein.|Ben 九點必須到家。
+Ihr müsst in der Bibliothek leise sein.|你們在圖書館裡必須保持安靜。
+Mia und Olivia müssen morgen früh aufstehen.|Mia 和 Olivia 明天得早起。
+Olivia will später Ärztin werden.|Olivia 以後想當醫生。
+Was willst du heute Abend machen?|你今天晚上想做什麼？
+Ich will ein neues Handy haben.|我想要一支新手機。
+Wir wollen am Samstag schwimmen gehen.|我們星期六想去游泳。
+Wohin wollt ihr in den Ferien fahren?|你們放假想去哪裡？
+Mia darf nur eine Stunde am Tag am Handy spielen.|Mia 一天只能玩一個小時的手機。
+Du darfst im Unterricht nicht essen.|你上課的時候不可以吃東西。
+Ich darf heute länger aufbleiben.|我今天可以晚一點睡。
+Ihr dürft jetzt in die Pause gehen.|你們現在可以下課了。
+Die Schüler dürfen im Unterricht kein Handy benutzen.|學生上課時不可以用手機。
+Du sollst heute deine Oma anrufen.|你今天要打電話給你奶奶。
+Ben soll mehr Wasser trinken.|Ben 要多喝一點水。
+Was soll ich jetzt machen?|我現在該怎麼辦？
+Wir sollen das Buch bis Montag lesen.|我們要在星期一之前讀完這本書。
+Ihr sollt die Aufgabe allein machen.|你們要自己完成這個作業。
+Mia mag keine Tomaten.|Mia 不喜歡番茄。
+Du magst Hunde, oder?|你喜歡狗，對吧？
+Ich mag deinen Bruder sehr.|我很喜歡你哥哥。
+Wir mögen unsere neue Lehrerin.|我們很喜歡新來的老師。
+Welche Musik mögt ihr?|你們喜歡什麼音樂？
+Ich möchte ein Eis essen.|我想吃冰淇淋。
+Olivia möchte Gitarre lernen.|Olivia 想學吉他。
+Wir möchten heute ins Kino gehen.|我們今天想去看電影。
+Mia und Ben möchten später in Berlin wohnen.|Mia 和 Ben 以後想住在柏林。
+Ich bleibe heute zu Hause, weil ich krank bin.|我今天待在家，因為我生病了。
+Mia ist müde, weil sie zu spät ins Bett gegangen ist.|Mia 很累，因為她太晚睡了。
+Ben kommt nicht mit, weil er lernen muss.|Ben 不一起去，因為他得讀書。
+Olivia ist glücklich, weil sie ein neues Handy hat.|Olivia 很開心，因為她有新手機了。
+Wir fahren mit dem Bus, weil es heute regnet.|我們搭公車，因為今天下雨。
+Ich lache, weil der Film so lustig ist.|我在笑，因為這部電影太好笑了。
+Mias Bruder ist sauer, weil er das Spiel verloren hat.|Mia 的哥哥很生氣，因為他比賽輸了。
+Die Lehrerin ist zufrieden, weil wir gut mitarbeiten.|老師很滿意，因為我們上課都很認真參與。
+Ich kann nicht schlafen, weil ich morgen einen Test schreibe.|我睡不著，因為我明天有小考。
+Ben trägt eine Mütze, weil es draußen kalt ist.|Ben 戴著帽子，因為外面很冷。
+Olivia geht früh nach Hause, weil sie ihrer Mutter helfen will.|Olivia 提早回家，因為她想幫她媽媽的忙。
+Wir essen Kuchen, weil Mia heute Geburtstag hat.|我們在吃蛋糕，因為今天是 Mia 的生日。
+Du bist ganz nass, weil du keinen Regenschirm mitgenommen hast.|你全身都濕了，因為你沒帶傘。
+Ich rufe dich nicht an, weil mein Akku fast leer ist.|我不打給你了，因為我的手機快沒電了。
+Mia lernt viel Deutsch, weil sie nächstes Jahr nach Berlin fliegt.|Mia 很努力學德文，因為她明年要飛去柏林。
+Ben kommt zu spät, weil er den Bus verpasst hat.|Ben 遲到了，因為他錯過了公車。
+Ihr bekommt keine Pause, weil ihr so laut seid.|你們不能下課休息，因為你們太吵了。
+Olivia ist nervös, weil sie morgen ein Referat hält.|Olivia 很緊張，因為她明天要上台報告。
+Ich bin so müde, weil ich jeden Tag um sechs aufstehe.|我好累，因為我每天都六點起床。
+Mia und Olivia sind beste Freundinnen, weil sie viel zusammen lachen.|Mia 和 Olivia 是最好的朋友，因為她們常常一起大笑。
+Wir bleiben drinnen, weil wir nicht nass werden wollen.|我們待在室內，因為我們不想淋濕。
+Ich glaube, dass Ben heute krank ist.|我覺得 Ben 今天生病了。
+Mia sagt, dass sie morgen keine Zeit hat.|Mia 說她明天沒空。
+Olivia hofft, dass sie das Spiel gewinnt.|Olivia 希望她能贏得比賽。
+Die Lehrerin sagt, dass wir das Buch lesen müssen.|老師說我們必須讀這本書。
+Ich weiß, dass du mein Geheimnis kennst.|我知道你知道我的祕密。
+Ben findet, dass Mathe langweilig ist.|Ben 覺得數學很無聊。
+Mia erzählt, dass sie ihre Oma angerufen hat.|Mia 說她打過電話給奶奶了。
+Es ist schön, dass ihr heute mitkommt.|你們今天能一起來真好。
+Ich finde es toll, dass Olivia so gut singt.|我覺得 Olivia 唱歌唱得那麼好，真的很棒。
+Mias Bruder behauptet, dass er schon achtzehn ist.|Mia 的哥哥說他已經十八歲了。
+Wir wissen, dass der Test sehr schwer war.|我們知道那次小考很難。
+Olivia schreibt, dass sie später kommen kann.|Olivia 傳訊息說她可以晚一點來。
+Ich hoffe, dass es morgen nicht regnet.|我希望明天不要下雨。
+Ben merkt, dass er sein Handy vergessen hat.|Ben 發現他忘了帶手機。
+Die Lehrerin weiß, dass Ben nie seine Hausaufgaben macht.|老師知道 Ben 從來不寫作業。
+Mia glaubt, dass der Film um acht anfängt.|Mia 認為電影是八點開始。
+Ich denke, dass du recht hast.|我覺得你說得對。
+Olivia sagt, dass sie heute nicht trainieren darf.|Olivia 說她今天不可以練習。
+Wir freuen uns, dass ihr uns besucht.|你們來看我們，我們很開心。
+Meine Mutter sagt, dass ich mein Zimmer aufräumen soll.|我媽媽叫我整理房間。
+Ben erzählt, dass er am Wochenende Fußball gespielt hat.|Ben 說他週末去踢了足球。
+Ich rufe dich an, wenn ich zu Hause bin.|我到家的時候再打給你。
+Mia hört Musik, wenn sie Hausaufgaben macht.|Mia 寫作業的時候會聽音樂。
+Wir gehen schwimmen, wenn das Wetter schön ist.|如果天氣好，我們就去游泳。
+Ben ist glücklich, wenn seine Mannschaft am Samstag gewinnt.|如果 Ben 的球隊星期六贏了，他就會很開心。
+Olivia wird sauer, wenn ihr Bruder ihr Handy nimmt.|每次哥哥拿 Olivia 的手機，她就會生氣。
+Du bekommst ein Eis, wenn du dein Zimmer aufräumst.|如果你把房間整理好，就可以吃冰淇淋。
+Ich helfe dir, wenn du Probleme mit Mathe hast.|如果你數學有問題，我可以幫你。
+Mia darf ins Kino gehen, wenn sie ihre Hausaufgaben gemacht hat.|如果 Mia 寫完作業，她就可以去看電影。
+Wir spielen draußen, wenn es nicht regnet.|如果沒下雨，我們就在外面玩。
+Ben schläft sofort ein, wenn er müde ist.|Ben 一累就會馬上睡著。
+Ihr könnt mitkommen, wenn ihr Lust habt.|如果你們想來，可以一起來。
+Ich koche am Wochenende, wenn meine Eltern arbeiten müssen.|如果我爸媽週末要工作，就由我來煮飯。
+Olivia lacht immer, wenn Ben einen Witz erzählt.|每次 Ben 講笑話，Olivia 都會笑。
+Wir fangen an, wenn alle da sind.|等大家都到了，我們就開始。
+Mia ruft an, wenn sie am Bahnhof ankommt.|Mia 到火車站的時候會打電話來。
+Ben spielt Fußball, obwohl es stark regnet.|雖然雨下得很大，Ben 還是在踢足球。
+Mia geht zur Schule, obwohl sie Kopfschmerzen hat.|雖然 Mia 頭痛，她還是去上學。
+Olivia isst Schokolade, obwohl sie keinen Hunger hat.|雖然 Olivia 不餓，她還是吃巧克力。
+Ich bin müde, obwohl ich zehn Stunden geschlafen habe.|雖然我睡了十個小時，還是覺得很累。
+Wir gehen spazieren, obwohl es sehr kalt ist.|雖然天氣很冷，我們還是去散步。
+Ben spielt am Handy, obwohl er lernen soll.|雖然 Ben 應該要讀書，他還是在玩手機。
+Mias Bruder fährt ohne Helm, obwohl das gefährlich ist.|雖然很危險，Mia 的哥哥還是不戴安全帽騎車。
+Du bekommst eine gute Note, obwohl du nicht gelernt hast.|雖然你沒讀書，還是拿到了好成績。
+Olivia kommt zur Party, obwohl sie morgen früh aufstehen muss.|雖然 Olivia 明天得早起，她還是來參加派對。
+Ich kaufe die Schuhe, obwohl sie sehr teuer sind.|雖然那雙鞋很貴，我還是要買。
+Mia lacht, obwohl der Witz nicht lustig ist.|雖然那個笑話不好笑，Mia 還是笑了。
+Wir gewinnen das Spiel, obwohl Ben nicht mitspielt.|雖然 Ben 沒有上場，我們還是會贏這場比賽。
+Olivia geht ins Bett, obwohl sie noch fernsehen möchte.|雖然 Olivia 還想看電視，她還是去睡覺了。
+Ben ist nicht müde, obwohl es schon Mitternacht ist.|雖然已經半夜十二點了，Ben 還是不累。
+Ich weiß nicht, ob Ben heute kommt.|我不知道 Ben 今天會不會來。
+Mia fragt, ob ihr morgen Zeit habt.|Mia 問你們明天有沒有空。
+Olivia fragt ihre Mutter, ob sie ins Kino gehen darf.|Olivia 問媽媽她可不可以去看電影。
+Ich frage mich, ob der Test schwer ist.|我在想這次小考會不會很難。
+Die Lehrerin fragt, ob wir die Hausaufgaben gemacht haben.|老師問我們作業寫了沒。
+Ben weiß nicht, ob er am Samstag Zeit hat.|Ben 不知道他星期六有沒有空。
+Ich bin nicht sicher, ob Mia mich mag.|我不確定 Mia 喜不喜歡我。
+Mias Bruder fragt, ob er das Auto nehmen kann.|Mia 的哥哥問他可不可以開家裡的車。
+Olivia überlegt, ob sie das Kleid kauft.|Olivia 在考慮要不要買那件洋裝。
+Wir wissen noch nicht, ob wir in den Ferien wegfahren.|我們還不知道放假時要不要出遠門。
+Mia fragt Ben, ob er heute Abend mitkommt.|Mia 問 Ben 今天晚上要不要一起來。
+Ich weiß nicht, ob Olivia die Nachricht gelesen hat.|我不知道 Olivia 有沒有看到那則訊息。
+Die Lehrerin will wissen, ob du den Text verstehst.|老師想知道你看不看得懂這篇文章。
+Ben fragt, ob das Spiel um vier beginnt.|Ben 問比賽是不是四點開始。
+Mia spielt besser Tennis als Ben.|Mia 網球打得比 Ben 好。
+Olivia zeichnet am besten in unserer Klasse.|Olivia 是我們班上畫畫最厲害的。
+Ben isst mehr als sein Bruder.|Ben 吃得比他哥哥還多。
+Olivia liest am meisten von uns allen.|我們所有人當中，Olivia 讀的書最多。
+Ich trinke lieber Tee als Kaffee.|比起咖啡，我比較喜歡喝茶。
+Mia isst am liebsten Pizza.|Mia 最喜歡吃披薩。
+Der Turm ist höher als die Kirche.|那座塔比教堂還高。
+Mittags steht die Sonne am höchsten.|中午的時候太陽最高。
+Die Bäckerei ist näher als der Supermarkt.|麵包店比超市近。
+Ben wohnt am nächsten an der Schule.|Ben 住得離學校最近。
+Mias Bruder ist größer als ihr Vater.|Mia 的哥哥比她爸爸還高。
+Ben ist am größten in unserer Klasse.|Ben 是我們班上最高的。
+Olivia ist älter als Mia.|Olivia 比 Mia 大。
+Oma ist am ältesten in unserer Familie.|奶奶是我們家年紀最大的。
+Mia ist jünger als Olivia.|Mia 比 Olivia 小。
+Mein kleiner Bruder ist am jüngsten in unserer Familie.|我弟弟是我們家年紀最小的。
+Heute ist es kälter als gestern.|今天比昨天冷。
+Im Januar ist es am kältesten.|一月的時候最冷。
+Die Sommerferien sind länger als die Osterferien.|暑假比復活節假期還長。
+Am Freitag dauert der Unterricht am längsten.|星期五的課上得最久。
+Im Juli ist es wärmer als im Mai.|七月比五月暖和。
+Im August ist das Wasser im See am wärmsten.|湖裡的水在八月最溫暖。
+Mias Haare sind kürzer als Olivias Haare.|Mia 的頭髮比 Olivia 的短。
+Im Dezember sind die Tage am kürzesten.|十二月的白天最短。
+Ben ist stärker als sein Bruder.|Ben 比他哥哥還強壯。
+Im Winter ist der Wind hier am stärksten.|這裡冬天的風最強。
+Die Familie ist heute ärmer als früher.|這個家庭現在比以前窮。
+In diesem Viertel sind die Menschen am ärmsten.|這一區的人最窮。
+Der zweite Film ist noch dümmer als der erste.|第二部電影比第一部還要蠢。
+Die letzte Idee war am dümmsten.|最後那個點子最蠢。
+Ben geht öfter ins Kino als Mia.|Ben 比 Mia 更常去看電影。
+Olivia trainiert am häufigsten.|Olivia 練習的次數最多。
+Olivia läuft schneller als Ben.|Olivia 跑得比 Ben 快。
+Mia schwimmt am schnellsten.|Mia 游得最快。
+Das Wetter ist heute schöner als gestern.|今天的天氣比昨天好。
+Im Frühling ist der Park am schönsten.|公園在春天的時候最美。
+Mias Zimmer ist kleiner als das Zimmer von ihrem Bruder.|Mia 的房間比她哥哥的房間小。
+Von allen Hunden im Park ist Olivias Hund am kleinsten.|公園裡所有的狗當中，Olivia 的狗最小。
+Das T-Shirt ist billiger als die Jacke.|這件 T恤比外套便宜。
+Im Supermarkt ist das Wasser am billigsten.|超市的水最便宜。
+Das neue Handy ist teurer als das alte.|新手機比舊的貴。
+Im Zentrum sind die Wohnungen am teuersten.|市中心的房子最貴。
+Im Winter ist es morgens dunkler als im Sommer.|冬天早上比夏天早上暗。
+Um Mitternacht ist es am dunkelsten.|半夜十二點的時候最暗。
+Das Buch ist interessanter als der Film.|這本書比電影還有趣。
+Olivia findet Biologie am interessantesten.|Olivia 覺得生物最有趣。
+Der Tee ist heißer als der Kakao.|茶比可可還燙。
+Im Juli ist es am heißesten.|七月的時候最熱。
+Ben ist lustiger als sein Bruder.|Ben 比他哥哥還要幽默。
+Mia erzählt die Witze am lustigsten.|Mia 講笑話講得最好笑。
+Mathe ist für Ben langweiliger als Sport.|對 Ben 來說，數學比體育無聊。
+Die Deutschstunde am Freitag ist am langweiligsten.|星期五的德文課最無聊。
+Der Test heute war schwerer als der letzte.|今天的小考比上一次難。
+Für Mia ist Physik am schwersten.|對 Mia 來說，物理最難。
+Englisch ist für Olivia leichter als Französisch.|對 Olivia 來說，英文比法文簡單。
+Die erste Aufgabe ist am leichtesten.|第一題最簡單。
+Olivia ist klüger als ihr Bruder.|Olivia 比她哥哥聰明。
+In unserer Klasse ist Mia am klügsten.|Mia 是我們班上最聰明的。
+Ben ist in Mathe schwächer als in Deutsch.|Ben 的數學比德文差。
+Unsere Mannschaft war dieses Jahr am schwächsten.|我們隊今年是最弱的一隊。
+Mias Bruder ist lauter als Mia.|Mia 的哥哥比 Mia 還吵。
+Ben lacht am lautesten.|Ben 笑得最大聲。
+Olivia spricht leiser als Ben.|Olivia 說話比 Ben 小聲。
+Mia ist in der Klasse am leisesten.|Mia 是班上最安靜的。
+Heute stehe ich früher auf als sonst.|我今天比平常還早起。
+Olivia kommt immer am frühesten in die Schule.|Olivia 總是最早到學校。
+Ben kommt später nach Hause als Mia.|Ben 比 Mia 晚回家。
+Mias Bruder steht am Wochenende am spätesten auf.|週末的時候，Mia 的哥哥是最晚起床的。
+Heute ist Ben kränker als gestern.|Ben 今天病得比昨天重。
+Von allen in der Familie war Oma am kränksten.|全家人當中，奶奶病得最重。
+Mein Mathebuch ist dicker als mein Deutschbuch.|我的數學課本比德文課本厚。
+Das Wörterbuch ist am dicksten.|字典最厚。
+Das Heft ist dünner als das Buch.|筆記本比書薄。
+Dieses Handy ist am dünnsten.|這支手機最薄。
+Olivias Handy ist neuer als mein Handy.|Olivia 的手機比我的新。
+Bens Fahrrad ist am neuesten.|Ben 的腳踏車最新。
+Motorradfahren ist gefährlicher als Fahrradfahren.|騎機車比騎腳踏車危險。
+Nachts ist die Straße am gefährlichsten.|這條路晚上最危險。
+Die zweite Aufgabe ist einfacher als die erste.|第二題比第一題簡單。
+Mit dem Bus kommst du am einfachsten zur Schule.|搭公車去學校最方便。
+Bens Note in Mathe ist schlechter als in Englisch.|Ben 的數學成績比英文差。
+Am Montag ist meine Laune am schlechtesten.|星期一的時候我的心情最差。
+Olivia wirft den Ball weiter als Ben.|Olivia 球丟得比 Ben 遠。
+Mia springt am weitesten.|Mia 跳得最遠。
+Der Kakao ist süßer als der Tee.|可可比茶甜。
+Omas Kuchen ist am süßesten.|奶奶做的蛋糕最甜。
+Für Mia ist Sport wichtiger als Mathe.|對 Mia 來說，體育比數學重要。
+Für Ben ist sein Handy am wichtigsten.|對 Ben 來說，手機最重要。
+Die neue Lehrerin ist netter als die alte.|新來的老師比之前那位親切。
+Olivias Oma ist am nettesten.|Olivia 的奶奶人最好。
+Das Training heute war härter als gestern.|今天的練習比昨天辛苦。
+Im Winter ist der Boden am härtesten.|冬天的時候地面最硬。
+Die Sängerin ist berühmter als der Schauspieler.|那位女歌手比那個男演員有名。
+In Deutschland ist diese Band am berühmtesten.|在德國，這個樂團最有名。
+Mia ist heute glücklicher als gestern.|Mia 今天比昨天開心。
+Ben ist nach einem Sieg am glücklichsten.|Ben 贏了比賽之後最開心。
+Nach dem Sport ist Olivia müder als nach der Schule.|Olivia 運動完比放學後還累。
+Am Freitagabend bin ich am müdesten.|我星期五晚上最累。
+Das Curry ist schärfer als die Suppe.|咖哩比湯還辣。
+Die rote Soße ist am schärfsten.|紅色的醬最辣。`.split("\n").forEach(l=>{ const i=l.indexOf("|"); if(i>0) ZH_S[l.slice(0,i).trim()]=l.slice(i+1).trim(); });   // ganze Saetze auf Chinesisch (Schluessel = d.speak), nur Gruppen mit zh
 function zhHtml(it,d){ if(!CFG.zh) return ""; let w=null, zh="";   // CFG.zh: liest diese Gruppe Chinesisch?
   if(/^(perf|prat|pres|modal)$/.test(it.kind)){ w=it.word; zh=(typeof ZH_V!=="undefined"&&ZH_V[w])||""; }
   else { w=it.kind==="adj"?it.w:(it.kind==="case"?d.w:it.word); zh=(w&&ZH_N[w])||""; }
-  return zh ? '<span class="why" lang="zh-Hant" style="margin-top:4px;">'+w+"："+zh+"</span>" : ""; }
+  const zs=(d&&d.speak&&ZH_S[String(d.speak).trim()])||"";   // der ganze Satz auf Chinesisch (Saetze der Themen Perfekt bis Relativsaetze)
+  return (zh ? '<span class="why" lang="zh-Hant" style="margin-top:4px;">'+w+"："+zh+"</span>" : "")+(zs ? '<span class="why" lang="zh-Hant" style="margin-top:4px;">'+zs+"</span>" : ""); }
 // ===== Stufe 15 (Perfekt) + 16 (Präteritum) =====
 // Zeile: Infinitiv|Präteritum ("-" = regelmäßig)|Partizip II|Hilfsverb (s/h)|trennbarer Teil|Sätze (Person:Satz; ...)|Extras
 // Reihenfolge = Häufigkeit (OpenSubtitles-Wortliste, de_50k): häufige Verben kommen zuerst dran.
@@ -2469,9 +3845,11 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   }); }
 // lokaler Tag: folgt der Zeitzone des Geräts, passt sich beim Reisen automatisch an
 function today(){return Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);}
+const MAX_STAGE=Math.max(...STAGES.map(x=>x.id));   // hoechste Stufennummer (Nummern duerfen Luecken haben, z. B. entfernte Themen)
+function stageName(id){ return (STAGES.find(x=>x.id===id)||{name:""}).name; }
 let S=load(), saveOk=true;
-if(CFG.teacher){ S.unlocked=STAGES.length; save(); }   // Lehrerversion: alle Stufen frei
-if(CFG.allOpen) S.unlocked=STAGES.length;   // alles gleichzeitig: alle Stufen offen
+if(CFG.teacher){ S.unlocked=MAX_STAGE; save(); }   // Lehrerversion: alle Stufen frei
+if(CFG.allOpen) S.unlocked=MAX_STAGE;   // alles gleichzeitig: alle Stufen offen
 for(const id in S.cards){ if(!byId[id]) delete S.cards[id]; }   // Karten zu gestrichenen Woertern entfernen
 S.crittersSeen=crittersGot(S.points||0);   // Basislinie: bereits verdiente Tiere nicht nachtraeglich als "neu" melden
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.cards)return Object.assign(fresh(),s);}catch(e){} return fresh();}
@@ -2679,16 +4057,18 @@ function nextCard(){
 function showIntro(stage){
   const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
   fb.textContent=""; fb.className="feedback"; opts.innerHTML="";
-  box.innerHTML='<div class="hint">Neu: '+STAGES[stage-1].name+'</div><div class="intro">'+INTRO[stage]+'</div>';
+  box.innerHTML='<div class="hint">Neu: '+stageName(stage)+'</div><div class="intro">'+INTRO[stage]+'</div>';
   const b=document.createElement("button"); b.className="btn big"; b.textContent="Verstanden, los!";
   b.onclick=()=>{ S.seenIntro=S.seenIntro||{}; S.seenIntro[stage]=1; save(); renderCurrent(); };
   opts.appendChild(b);
 }
+const PRE={};   // schon vorgeladene Fotos
+function preloadNext(){ try{ queue.slice(1,3).forEach(q=>{ const u=IMGS[q.word]||IMGS[q.w]; if(u&&!PRE[u]){ PRE[u]=1; const im=new Image(); im.src=u; } }); }catch(e){} }   // naechste Karten: Foto sofort da, auch bei schwachem Netz
 function renderCurrent(){
   shownAt=Date.now(); answeredAt=0;
   const it=current, d=cardData(it); curD=d; helpUsed=false;
   const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
-  fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt;
+  fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt; preloadNext();
   const bx=(S.cards[it.id]&&S.cards[it.id].box)||0;
   const recall=bx>=3;                                       // sicheres Wort -> Abruf statt Ankreuzen
   // Tipps (scaffold) ausgeblendet: keine Vorab-Hinweise mehr
@@ -2820,7 +4200,7 @@ function finishSession(){
   if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
   if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Übungstage, neues Abzeichen!</div>';
   if(wordMedalNew!=null) ub.innerHTML+='<div class="unlock medalbox" style="background:linear-gradient(135deg,#E2F7F2,#C3EFE6);border-color:#2BA89A;color:#0d6b5e;">'+medalSvg(wordMedalNew,"teal")+' '+wordMedalNew+' Wörter gemeistert!</div>';
-  if(u){const st=STAGES[u-1]; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+', '+st.name+'!</div>';}
+  if(u){const st=STAGES.find(x=>x.id===u)||{name:""}; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+', '+st.name+'!</div>';}
   if(CFG.critters){
   const gotNow=crittersGot(S.points||0), gotBefore=(S.crittersSeen==null?crittersGot(0):S.crittersSeen);
   if(gotNow>gotBefore){ for(let i=gotBefore;i<gotNow && i<ANIMALS.length;i++){
@@ -2882,7 +4262,7 @@ function renderHome(){
     document.getElementById("homeSub").textContent="";
     sb.style.display=""; sb.textContent=(S.resume&&S.resume.day===t&&S.resume.ids&&S.resume.ids.length)?"Runde fortsetzen":"Heute üben";
   }
-  const lastSt=STAGES.length;
+  const lastSt=MAX_STAGE;
   const allMast = S.unlocked>=lastSt && stageMastered(lastSt)>=unlockNeed(lastSt);
   const lb=document.getElementById("levelBox"); lb.style.color="var(--gold)"; lb.style.fontWeight="800";
   lb.textContent = allMast ? "Geschafft! Alle "+STAGES.length+" Stufen gemeistert." : "";

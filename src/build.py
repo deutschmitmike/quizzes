@@ -7,13 +7,14 @@ GROUPS = ["kyana", "mia-olivia"]            # neue Gruppe: groups/<name>.js + .h
 build = open(os.path.join(SRC, "BUILD"), encoding="utf-8").read().strip()
 engine = open(os.path.join(SRC, "engine.js"), encoding="utf-8").read()
 # Uebungsdaten aus src/data/<name>.txt einsetzen (Platzhalter %%DATA:name%% im Kern)
-def _data(m):
+def _data(m, zh=True):
+    if m.group(1).startswith("zh_") and not zh: return ""   # chinesische Daten nur fuer Gruppen, die Chinesisch lesen (Steckbrief "zh")
     f = os.path.join(SRC, "data", m.group(1) + ".txt")
     if not os.path.exists(f): print("  Hinweis: src/data/%s.txt fehlt (Stufe bleibt leer)" % m.group(1)); return ""
     t = open(f, encoding="utf-8").read().strip()
     if "`" in t or "${" in t: sys.exit("FEHLER: verbotenes Zeichen (` oder ${) in src/data/%s.txt" % m.group(1))
     return t
-engine = re.sub(r"%%DATA:(\w+)%%", _data, engine)
+engine = re.sub(r"%%DATA:((?!zh_)\w+)%%", _data, engine)   # zh_* erst je Gruppe (unten)
 meta = []
 built = []
 for g in GROUPS:
@@ -23,7 +24,8 @@ for g in GROUPS:
     for teacher, shell_name, page in ((False, g + ".html", "index.html"), (True, g + "_lehrer.html", "index_lehrer.html")):
         shell = open(os.path.join(SRC, "groups", shell_name), encoding="utf-8").read()
         if shell.count("%%SCRIPT%%") != 1: sys.exit("FEHLER: Platzhalter in " + shell_name)
-        script = gjs + "\nconst CFG=Object.assign({},GROUP,{teacher:%s, build:%s});\n" % ("true" if teacher else "false", json.dumps(build)) + engine
+        eng_g = re.sub(r"%%DATA:(zh_\w+)%%", lambda m: _data(m, bool(cfg.get("zh"))), engine)
+        script = gjs + "\nconst CFG=Object.assign({},GROUP,{teacher:%s, build:%s});\n" % ("true" if teacher else "false", json.dumps(build)) + eng_g
         open(os.path.join(out, page), "w", encoding="utf-8").write(shell.replace("%%SCRIPT%%", script))
         built.append(os.path.join(cfg["folder"], page))
     open(os.path.join(out, "version.json"), "w").write('{"build":"%s"}\n' % build)

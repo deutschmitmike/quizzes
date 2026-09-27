@@ -29,3 +29,4 @@ Laufen automatisch bei `python3 src/build.py` (`src/tests/run_all.js`): jede Kar
 ## Übungsdaten
 `src/data/*.txt` (Verben, Präsens, Modalverben, Nebensätze, Komparativ, Satzbau, Pronomen, Reflexiv, Konjunktiv II, Relativsätze).
 Format steht im Kopf der jeweiligen Stelle in `engine.js`. Zeilen ergänzen ist unkritisch; keine ` oder ${ verwenden.
+`src/data/zh_saetze.txt`: jeder feste Satz auf Chinesisch (`Deutscher Satz|中文`), wird nur in Gruppen mit `zh` eingebaut (build.py setzt `zh_*`-Daten je Gruppe ein). Neue oder geänderte Sätze brauchen eine neue Zeile; `node src/tests/run_all.js mia-olivia/index.html` zeigt fehlende.

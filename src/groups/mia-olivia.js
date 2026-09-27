@@ -87,8 +87,8 @@ const GROUP={
    "Pronomen Dativ"
   ],
   [
-   23,
-   "Reflexiv/Konjunktiv/Relativ"
+   25,
+   "Relativsätze"
   ]
  ],
  "zh": true,
@@ -173,8 +173,6 @@ const GROUP={
   ],
   [
    [
-    23,
-    24,
     25
    ]
   ]
@@ -355,8 +353,6 @@ const STAGES=[
  {id:20,name:"Komparativ",desc:"älter, am ältesten"},
  {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
  {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
- {id:23,name:"Reflexive Verben",desc:"ich freue mich, ich wasche mir die Hände"},
- {id:24,name:"Konjunktiv II",desc:"hätte, wäre, würde, könnte"},
  {id:25,name:"Relativsätze",desc:"der, den, dem, die, denen ..."}
 ];
 const INTRO={
