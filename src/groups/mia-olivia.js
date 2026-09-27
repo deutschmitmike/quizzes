@@ -286,10 +286,10 @@ const A=[
 ];
 // Stufe 7-10: Alltagsnomen fuer Jugendliche (16 der, 16 die, 16 das), abwechselnd der/die/das
 const EXTRA=[
- "Laptop","Jacke","Handy","Rucksack","Tasche","Fahrrad","Pullover","Uhr","Buch","Schal","Brille","Heft",
- "Koffer","Lampe","Kleid","Schreibtisch","Hose","Auto","Schlüssel","Flasche","Tablet","Kalender","Kamera","Hemd",
+ "Laptop","Jacke","Handy","Rucksack","Tasche","Fahrrad","Pullover","Bluse","Buch","Schal","Brille","Heft",
+ "Koffer","Lampe","Hemd","Schreibtisch","Hose","Auto","Schlüssel","Flasche","Tablet","Kalender","Kamera","Kleid",
  "Kopfhörer","Mütze","Bild","Mantel","Tasse","Sofa","Stuhl","Kette","T-Shirt","Fernseher","Gitarre","Geschenk",
- "Teppich","Decke","Foto","Spiegel","Tastatur","Glas","Becher","Kerze","Kissen","Drucker","Bluse","Ticket"];
+ "Teppich","Decke","Foto","Spiegel","Tastatur","Glas","Becher","Kerze","Kissen","Drucker","Uhr","Ticket"];
 // Stufe 9: sein/ihr - Besitzer er -> sein, sie -> ihr; bei die-Woertern + e. Nominativ.
 const PER_ER=["der Vater","der Bruder","der Lehrer","Ben","Herr Wagner"];
 const PER_SIE=["die Mutter","die Schwester","die Lehrerin","Mia","Olivia"];
