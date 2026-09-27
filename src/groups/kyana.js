@@ -11,7 +11,7 @@ const GROUP={
  "critters": true,
  "allOpen": true,
  "intros": true,
- "typedRecall": false,
+ "typedRecall": true,
  "teenPron": false,
  "weekView": false,
  "names": null,

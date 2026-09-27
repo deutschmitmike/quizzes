@@ -1,62 +1,62 @@
-Das ist der Junge, {_} neben mir sitzt.|der Junge|der|den|dem|Der Junge sitzt neben mir (Nominativ): der.
-Ben hat einen Hund, {_} sehr laut bellt.|der Hund|der|den|dem|Der Hund bellt (Nominativ): der.
-Kennst du den Mann, {_} dort drüben steht?|der Mann|der|den|dem|Der Mann steht dort (Nominativ): der.
-Mia hat einen Bruder, {_} in Deutschland studiert.|der Bruder|der|den|dem|Der Bruder studiert (Nominativ): der.
-Der Mann, {_} uns geholfen hat, war sehr nett.|der Mann|der|den|dem|Der Mann hat uns geholfen (Nominativ): der.
-Das ist der Film, {_} ich gestern gesehen habe.|der Film|den|der|dem|Ich habe den Film gesehen (Akkusativ): den.
-Wo ist der Stift, {_} du mir geliehen hast?|der Stift|den|der|dem|Du hast mir den Stift geliehen (Akkusativ): den.
-Der Test, {_} wir morgen schreiben, ist schwer.|der Test|den|der|dem|Wir schreiben den Test (Akkusativ): den.
-Wie heißt der Sänger, {_} du so toll findest?|der Sänger|den|der|dem|Du findest den Sänger toll (Akkusativ): den.
-Das ist der Rucksack, {_} ich mir gekauft habe.|der Rucksack|den|der|dem|Ich habe mir den Rucksack gekauft (Akkusativ): den.
-Das ist der Freund, {_} ich bei den Hausaufgaben helfe.|der Freund|dem|den|der|Ich helfe dem Freund (Dativ): dem.
-Der Lehrer, {_} das Buch gehört, sucht es überall.|der Lehrer|dem|den|der|Das Buch gehört dem Lehrer (Dativ): dem.
-Wie heißt der Junge, {_} du eine Nachricht geschickt hast?|der Junge|dem|den|der|Du hast dem Jungen eine Nachricht geschickt (Dativ): dem.
-Das ist mein Onkel, {_} ich zum Geburtstag gratuliere.|der Onkel|dem|den|der|Ich gratuliere dem Onkel (Dativ): dem.
-Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Lehrerin unterrichtet Deutsch (Nominativ): die.
-Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.
-Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.
-Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.
-Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.
-Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.
-Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.
-Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.
-Die Lehrerin, {_} wir Blumen geschenkt haben, hat sich sehr gefreut.|die Lehrerin|der|die|den|Wir haben der Lehrerin Blumen geschenkt (Dativ): der.
-Das ist das Mädchen, {_} neben Mia wohnt.|das Mädchen|das|dass|dem|Das Mädchen wohnt neben Mia (Nominativ): das.
-Das Handy, {_} auf dem Tisch liegt, gehört mir.|das Handy|das|dass|der|Das Handy liegt auf dem Tisch (Nominativ): das.
-Wo ist das Buch, {_} so spannend ist?|das Buch|das|dass|dem|Das Buch ist spannend (Nominativ): das.
-Das ist das Spiel, {_} ich zum Geburtstag bekommen habe.|das Spiel|das|dem|den|Ich habe das Spiel bekommen (Akkusativ): das.
-Das Foto, {_} du geschickt hast, ist lustig.|das Foto|das|dass|dem|Du hast das Foto geschickt (Akkusativ): das.
-Wie heißt das Lied, {_} wir im Unterricht gesungen haben?|das Lied|das|dem|dass|Wir haben das Lied gesungen (Akkusativ): das.
-Das ist das Kind, {_} ich Mathe erkläre.|das Kind|dem|das|den|Ich erkläre dem Kind Mathe (Dativ): dem.
-Das Mädchen, {_} der Hund gehört, heißt Lina.|das Mädchen|dem|das|dessen|Der Hund gehört dem Mädchen (Dativ): dem.
-Das sind die Schüler, {_} in meine Klasse gehen.|die Schüler|die|denen|der|Die Schüler gehen in meine Klasse (Nominativ Plural): die.
-Ich mag Leute, {_} ehrlich sind.|die Leute|die|denen|den|Die Leute sind ehrlich (Nominativ Plural): die.
-Die Kinder, {_} im Park spielen, sind laut.|die Kinder|die|denen|der|Die Kinder spielen im Park (Nominativ Plural): die.
-Die Schuhe, {_} ich gestern gekauft habe, sind zu klein.|die Schuhe|die|denen|den|Ich habe die Schuhe gekauft (Akkusativ Plural): die.
-Das sind die Freunde, {_} ich in den Ferien besucht habe.|die Freunde|die|denen|den|Ich habe die Freunde besucht (Akkusativ Plural): die.
-Die Vokabeln, {_} wir lernen müssen, sind schwer.|die Vokabeln|die|denen|der|Wir müssen die Vokabeln lernen (Akkusativ Plural): die.
-Das sind die Nachbarn, {_} wir oft helfen.|die Nachbarn|denen|die|den|Wir helfen den Nachbarn (Dativ Plural): denen.
-Die Kinder, {_} ich Deutsch beibringe, sind sehr nett.|die Kinder|denen|die|den|Ich bringe den Kindern Deutsch bei (Dativ Plural): denen.
-Wie heißen die Mädchen, {_} du geantwortet hast?|die Mädchen|denen|die|den|Du hast den Mädchen geantwortet (Dativ Plural): denen.
-Das sind meine Großeltern, {_} ich jeden Sonntag schreibe.|die Großeltern|denen|die|den|Ich schreibe den Großeltern (Dativ Plural): denen.
-Das ist die Stadt, {_} ich wohne.|die Stadt|in der|in die|die|wohnen in (wo?) verlangt den Dativ: in der.
-Das ist der Freund, {_} ich ins Kino gehe.|der Freund|mit dem|mit den|mit der|Nach „mit“ steht der Dativ: mit dem.
-Das ist die Lehrerin, {_} ich mich gut erinnere.|die Lehrerin|an die|an der|die|sich erinnern an + Akkusativ: an die.
-Das ist das Geschenk, {_} ich mich sehr gefreut habe.|das Geschenk|über das|über dem|das|sich freuen über + Akkusativ: über das.
-Der Stuhl, {_} du sitzt, ist kaputt.|der Stuhl|auf dem|auf den|dem|sitzen auf (wo?) verlangt den Dativ: auf dem.
-Das ist die Freundin, {_} ich das Geschenk gekauft habe.|die Freundin|für die|für der|die|Nach „für“ steht der Akkusativ: für die.
-Das Zimmer, {_} ich schlafe, ist sehr klein.|das Zimmer|in dem|in das|das|schlafen in (wo?) verlangt den Dativ: in dem.
-Der Bus, {_} ich zur Schule fahre, ist immer voll.|der Bus|mit dem|mit den|dem|Nach „mit“ steht der Dativ: mit dem.
-Das ist der Park, {_} wir oft Fußball spielen.|der Park|in dem|in den|den|spielen in (wo?) verlangt den Dativ: in dem.
-Die Freunde, {_} ich am Wochenende spiele, wohnen in meiner Straße.|die Freunde|mit denen|mit den|mit die|Nach „mit“ steht der Dativ, im Plural: mit denen.
-Das ist ein Thema, {_} ich mich sehr interessiere.|das Thema|für das|für dem|das|sich interessieren für + Akkusativ: für das.
-Die Party, {_} du mich eingeladen hast, war super.|die Party|zu der|zu die|die|Nach „zu“ steht der Dativ: zu der.
-Der Hund, {_} ich Angst habe, wohnt nebenan.|der Hund|vor dem|vor den|den|Angst haben vor + Dativ: vor dem.
-Das ist die Person, {_} ich schon lange warte.|die Person|auf die|auf der|die|warten auf + Akkusativ: auf die.
-Der Freund, {_} ich ein Geschenk kaufe, hat morgen Geburtstag.|der Freund|für den|für dem|den|Nach „für“ steht der Akkusativ: für den.
-Das ist der Junge, {_} Vater Arzt ist.|der Junge|dessen|deren|den|Der Vater von dem Jungen: maskulin, also dessen.
-Lina ist das Mädchen, {_} Hund so süß ist.|das Mädchen|dessen|deren|dem|Der Hund von dem Mädchen: neutral, also dessen.
-Das ist die Frau, {_} Sohn in meiner Klasse ist.|die Frau|deren|dessen|der|Der Sohn von der Frau: feminin, also deren.
-Die Schüler, {_} Handys klingeln, müssen sie ausmachen.|die Schüler|deren|dessen|denen|Die Handys von den Schülern: Plural, also deren.
-Ich habe eine Freundin, {_} Eltern aus Japan kommen.|die Freundin|deren|dessen|der|Die Eltern von der Freundin: feminin, also deren.
-Die Frau, {_} wir im Bus getroffen haben, war unsere Lehrerin.|die Frau|die|der|den|Wir haben die Frau getroffen (Akkusativ): die.
+Das ist der Junge, {_} neben mir sitzt.|der Junge|der|den|dem|Der Junge sitzt neben mir (Nominativ): der.|die
+Ben hat einen Hund, {_} sehr laut bellt.|der Hund|der|den|dem|Der Hund bellt (Nominativ): der.|die
+Kennst du den Mann, {_} dort drüben steht?|der Mann|der|den|dem|Der Mann steht dort (Nominativ): der.|die
+Mia hat einen Bruder, {_} in Deutschland studiert.|der Bruder|der|den|dem|Der Bruder studiert (Nominativ): der.|die
+Der Mann, {_} uns geholfen hat, war sehr nett.|der Mann|der|den|dem|Der Mann hat uns geholfen (Nominativ): der.|die
+Das ist der Film, {_} ich gestern gesehen habe.|der Film|den|der|dem|Ich habe den Film gesehen (Akkusativ): den.|das
+Wo ist der Stift, {_} du mir geliehen hast?|der Stift|den|der|dem|Du hast mir den Stift geliehen (Akkusativ): den.|das
+Der Test, {_} wir morgen schreiben, ist schwer.|der Test|den|der|dem|Wir schreiben den Test (Akkusativ): den.|die
+Wie heißt der Sänger, {_} du so toll findest?|der Sänger|den|der|dem|Du findest den Sänger toll (Akkusativ): den.|die
+Das ist der Rucksack, {_} ich mir gekauft habe.|der Rucksack|den|der|dem|Ich habe mir den Rucksack gekauft (Akkusativ): den.|das
+Das ist der Freund, {_} ich bei den Hausaufgaben helfe.|der Freund|dem|den|der|Ich helfe dem Freund (Dativ): dem.|denen
+Der Lehrer, {_} das Buch gehört, sucht es überall.|der Lehrer|dem|den|der|Das Buch gehört dem Lehrer (Dativ): dem.|denen
+Wie heißt der Junge, {_} du eine Nachricht geschickt hast?|der Junge|dem|den|der|Du hast dem Jungen eine Nachricht geschickt (Dativ): dem.|denen
+Das ist mein Onkel, {_} ich zum Geburtstag gratuliere.|der Onkel|dem|den|der|Ich gratuliere dem Onkel (Dativ): dem.|denen
+Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Lehrerin unterrichtet Deutsch (Nominativ): die.|dem
+Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.|dem
+Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.|den
+Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.|dem
+Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.|das
+Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.|das
+Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.|dem
+Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.|den
+Die Lehrerin, {_} wir Blumen geschenkt haben, hat sich sehr gefreut.|die Lehrerin|der|die|den|Wir haben der Lehrerin Blumen geschenkt (Dativ): der.|dem
+Das ist das Mädchen, {_} neben Mia wohnt.|das Mädchen|das|dass|dem|Das Mädchen wohnt neben Mia (Nominativ): das.|der
+Das Handy, {_} auf dem Tisch liegt, gehört mir.|das Handy|das|dass|der|Das Handy liegt auf dem Tisch (Nominativ): das.|den
+Wo ist das Buch, {_} so spannend ist?|das Buch|das|dass|dem|Das Buch ist spannend (Nominativ): das.|der
+Das ist das Spiel, {_} ich zum Geburtstag bekommen habe.|das Spiel|das|dem|den|Ich habe das Spiel bekommen (Akkusativ): das.|dass
+Das Foto, {_} du geschickt hast, ist lustig.|das Foto|das|dass|dem|Du hast das Foto geschickt (Akkusativ): das.|den
+Wie heißt das Lied, {_} wir im Unterricht gesungen haben?|das Lied|das|dem|dass|Wir haben das Lied gesungen (Akkusativ): das.|den
+Das ist das Kind, {_} ich Mathe erkläre.|das Kind|dem|das|den|Ich erkläre dem Kind Mathe (Dativ): dem.|der
+Das Mädchen, {_} der Hund gehört, heißt Lina.|das Mädchen|dem|das|dessen|Der Hund gehört dem Mädchen (Dativ): dem.|den
+Das sind die Schüler, {_} in meine Klasse gehen.|die Schüler|die|denen|der|Die Schüler gehen in meine Klasse (Nominativ Plural): die.|den
+Ich mag Leute, {_} ehrlich sind.|die Leute|die|denen|den|Die Leute sind ehrlich (Nominativ Plural): die.|der
+Die Kinder, {_} im Park spielen, sind laut.|die Kinder|die|denen|der|Die Kinder spielen im Park (Nominativ Plural): die.|das
+Die Schuhe, {_} ich gestern gekauft habe, sind zu klein.|die Schuhe|die|denen|den|Ich habe die Schuhe gekauft (Akkusativ Plural): die.|der
+Das sind die Freunde, {_} ich in den Ferien besucht habe.|die Freunde|die|denen|den|Ich habe die Freunde besucht (Akkusativ Plural): die.|der
+Die Vokabeln, {_} wir lernen müssen, sind schwer.|die Vokabeln|die|denen|der|Wir müssen die Vokabeln lernen (Akkusativ Plural): die.|den
+Das sind die Nachbarn, {_} wir oft helfen.|die Nachbarn|denen|die|den|Wir helfen den Nachbarn (Dativ Plural): denen.|dem
+Die Kinder, {_} ich Deutsch beibringe, sind sehr nett.|die Kinder|denen|die|den|Ich bringe den Kindern Deutsch bei (Dativ Plural): denen.|dem
+Wie heißen die Mädchen, {_} du geantwortet hast?|die Mädchen|denen|die|den|Du hast den Mädchen geantwortet (Dativ Plural): denen.|dem
+Das sind meine Großeltern, {_} ich jeden Sonntag schreibe.|die Großeltern|denen|die|den|Ich schreibe den Großeltern (Dativ Plural): denen.|dem
+Das ist die Stadt, {_} ich wohne.|die Stadt|in der|in die|die|wohnen in (wo?) verlangt den Dativ: in der.|in dem
+Das ist der Freund, {_} ich ins Kino gehe.|der Freund|mit dem|mit den|mit der|Nach „mit“ steht der Dativ: mit dem.|mit die
+Das ist die Lehrerin, {_} ich mich gut erinnere.|die Lehrerin|an die|an der|die|sich erinnern an + Akkusativ: an die.|an den
+Das ist das Geschenk, {_} ich mich sehr gefreut habe.|das Geschenk|über das|über dem|das|sich freuen über + Akkusativ: über das.|über den
+Der Stuhl, {_} du sitzt, ist kaputt.|der Stuhl|auf dem|auf den|dem|sitzen auf (wo?) verlangt den Dativ: auf dem.|auf der
+Das ist die Freundin, {_} ich das Geschenk gekauft habe.|die Freundin|für die|für der|die|Nach „für“ steht der Akkusativ: für die.|für den
+Das Zimmer, {_} ich schlafe, ist sehr klein.|das Zimmer|in dem|in das|das|schlafen in (wo?) verlangt den Dativ: in dem.|in der
+Der Bus, {_} ich zur Schule fahre, ist immer voll.|der Bus|mit dem|mit den|dem|Nach „mit“ steht der Dativ: mit dem.|mit der
+Das ist der Park, {_} wir oft Fußball spielen.|der Park|in dem|in den|den|spielen in (wo?) verlangt den Dativ: in dem.|in der
+Die Freunde, {_} ich am Wochenende spiele, wohnen in meiner Straße.|die Freunde|mit denen|mit den|mit die|Nach „mit“ steht der Dativ, im Plural: mit denen.|mit dem
+Das ist ein Thema, {_} ich mich sehr interessiere.|das Thema|für das|für dem|das|sich interessieren für + Akkusativ: für das.|für den
+Die Party, {_} du mich eingeladen hast, war super.|die Party|zu der|zu die|die|Nach „zu“ steht der Dativ: zu der.|zu dem
+Der Hund, {_} ich Angst habe, wohnt nebenan.|der Hund|vor dem|vor den|den|Angst haben vor + Dativ: vor dem.|vor der
+Das ist die Person, {_} ich schon lange warte.|die Person|auf die|auf der|die|warten auf + Akkusativ: auf die.|auf den
+Der Freund, {_} ich ein Geschenk kaufe, hat morgen Geburtstag.|der Freund|für den|für dem|den|Nach „für“ steht der Akkusativ: für den.|für die
+Das ist der Junge, {_} Vater Arzt ist.|der Junge|dessen|deren|den|Der Vater von dem Jungen: maskulin, also dessen.|dem
+Lina ist das Mädchen, {_} Hund so süß ist.|das Mädchen|dessen|deren|dem|Der Hund von dem Mädchen: neutral, also dessen.|das
+Das ist die Frau, {_} Sohn in meiner Klasse ist.|die Frau|deren|dessen|der|Der Sohn von der Frau: feminin, also deren.|die
+Die Schüler, {_} Handys klingeln, müssen sie ausmachen.|die Schüler|deren|dessen|denen|Die Handys von den Schülern: Plural, also deren.|die
+Ich habe eine Freundin, {_} Eltern aus Japan kommen.|die Freundin|deren|dessen|der|Die Eltern von der Freundin: feminin, also deren.|die
+Die Frau, {_} wir im Bus getroffen haben, war unsere Lehrerin.|die Frau|die|der|den|Wir haben die Frau getroffen (Akkusativ): die.|dem

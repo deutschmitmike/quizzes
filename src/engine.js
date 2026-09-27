@@ -592,21 +592,21 @@ function pronCard(it){ const w=it.word, g=G[w], fills=[];
   if(it.kind==="pron"){ const corr=g==="der"?"er":g==="die"?"sie":"es", f=rnd(PRON_F);
     const html=f[0].replace("{n}",g+" "+w)+'<br>'+blankLine(f[1],corr,fills);
     return {prompt:'<div class="hint">er, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["er","sie","es"], correct:corr,
-      scaffold:"der → er, die → sie, das → es", explain:g+" "+w+" → "+corr+".", speak:"", blankFill:true, fills}; }
+      scaffold:"der → er, die → sie, das → es", explain:g+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"er, sie oder es"}; }
   if(it.kind==="poss"){ const corr=g==="die"?"meine":"mein";
     const html=blankLine(rnd(POSS_F).replace("{w}",w),corr,fills);
     return {prompt:'<div class="hint">mein oder meine?</div>'+img+'<div class="sentence">'+html+'</div>', options:["mein","meine"], correct:corr,
-      scaffold:"der/das → mein, die → meine", explain:"Es heißt "+corr+" "+w+" ("+g+" "+w+").", speak:"", blankFill:true, fills}; }
+      scaffold:"der/das → mein, die → meine", explain:"Es heißt "+corr+" "+w+" ("+g+" "+w+").", speak:"", blankFill:true, fills, typed:[corr], typedHint:"mein oder meine"}; }
   if(it.kind==="poss3"){ const corr=(it.gp==="er"?"sein":"ihr")+(g==="die"?"e":"");
     const html="Das ist "+it.who+".<br>"+blankLine(rnd(POSS3_F).replace("{w}",w),corr,fills);
     return {prompt:'<div class="hint">sein oder ihr?</div>'+img+'<div class="sentence">'+html+'</div>', options:shuffle(["sein","seine","ihr","ihre"]), correct:corr,
-      scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)", explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+w+"“ ("+g+" "+w+").", speak:"", blankFill:true, fills}; }
+      scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)", explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+w+"“ ("+g+" "+w+").", speak:"", blankFill:true, fills, typed:[corr], typedHint:"sein, seine, ihr oder ihre"}; }
   // pakk: ihn, sie, es
   const akk=g==="der"?"den":g, corr=g==="der"?"ihn":(g==="die"?"sie":"es"); let html;
   if(Math.random()<0.25){ html="Wo ist "+(g==="die"?"meine":"mein")+" "+w+"?<br>Ich finde "+blankLine("{B}",corr,fills,true)+" nicht."; }
   else { const p=rnd(PAKK_S), v=p[1+Math.floor(Math.random()*5)]; html=p[0]+" "+v+" "+akk+" "+w+".<br>"+p[0]+" "+v+" "+blankLine("{B}",corr,fills,true)+"."; }
   return {prompt:'<div class="hint">ihn, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["ihn","sie","es"], correct:corr,
-    scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills}; }
+    scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"ihn, sie oder es"}; }
 // ===== selbst schreiben (sichere Karten): Plural, Perfekt, Präteritum =====
 function normAns(s){ return (s||"").toLowerCase().replace(/…|\.\.\./g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(); }
 // ===== Vergleich mit der eigenen Vorwoche (statt Rangliste) =====
@@ -660,7 +660,7 @@ function topicCard(it){
       scaffold:!q?"Im Hauptsatz steht das konjugierte Verb an Position 2.":w?"In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).":"In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).",
       explain:f[3]||"", speak:f[0]}; }
     return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">'+(f[1].indexOf("(")>=0?f[1]:"("+f[1]+")")+'</div>',
-      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:maskAns(f[5],f[2]), explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
+      options:shuffle([f[2],f[3],f[4]].concat(f[6]?[f[6]]:[])), correct:f[2], scaffold:maskAns(f[5],f[2]),   /* 7. Feld = optionale 4. Antwort */ explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
   const big='<div class="word" style="font-size:clamp(24px,7vw,34px)">';
   if(it.kind==="pres"||it.kind==="modal"){ const v=PBY[it.kind+":"+it.word], s=rnd(v.sents), corr=v.forms[s.p];
     const other=v.forms[s.p==="3s"?"2s":"3s"], reg=presRegular(v,s.p), opts=[corr];
@@ -734,22 +734,22 @@ function cardData(it){
   if(it.kind==="pron"){const g=G[it.word]; const corr=g==="der"?"er":g==="die"?"sie":"es";
     return {prompt:'<div class="hint">Welches Wort passt?</div><div class="word">'+g+" "+it.word+spk(g+" "+it.word)+'</div><div class="sentence" style="margin-top:10px">→ <span class="blank">?</span> ist da.</div>',
       options:["er","sie","es"], correct:corr, scaffold:"der → er, die → sie, das → es",
-      explain:"Merke: "+g+" "+it.word+" → "+corr+".", speak:g+" "+it.word, blankFill:true};
+      explain:"Merke: "+g+" "+it.word+" → "+corr+".", speak:g+" "+it.word, blankFill:true, typed:[corr], typedHint:"er, sie oder es"};
   }
   if(it.kind==="poss"){const g=G[it.word]; const corr=g==="die"?"meine":"mein";
     return {prompt:'<div class="hint">mein oder meine?</div><div class="sentence">Das ist <span class="blank">?</span> '+it.word+spk(it.word)+'.</div>',
       options:["mein","meine"], correct:corr, scaffold:"der/das → mein, die → meine",
-      explain:"Es heißt "+corr+" "+it.word+" ("+g+" "+it.word+").", speak:corr+" "+it.word, blankFill:true};
+      explain:"Es heißt "+corr+" "+it.word+" ("+g+" "+it.word+").", speak:corr+" "+it.word, blankFill:true, typed:[corr], typedHint:"mein oder meine"};
   }
   if(it.kind==="poss3"){const g=G[it.word], end=g==="die"?"e":""; const corr=(it.gp==="er"?"sein":"ihr")+end;
     return {prompt:'<div class="hint">sein oder ihr?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="sentence">Das ist '+it.who+'.<br>Das ist <span class="blank">?</span> '+it.word+'.</div>',
       options:shuffle(["sein","seine","ihr","ihre"]), correct:corr, scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)",
-      explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+it.word+"“.", speak:corr+" "+it.word, blankFill:true};
+      explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+it.word+"“.", speak:corr+" "+it.word, blankFill:true, typed:[corr], typedHint:"sein, seine, ihr oder ihre"};
   }
   if(it.kind==="pakk"){const g=G[it.word]; const akk=g==="der"?"den":(g==="die"?"die":"das"); const corr=g==="der"?"ihn":(g==="die"?"sie":"es");
     return {prompt:'<div class="hint">ihn, sie oder es?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+pakkWho(it.word)+' '+akk+' '+it.word+'.<br>'+pakkWho(it.word)+' <span class="blank">?</span>.</div>',
       options:["ihn","sie","es"], correct:corr, scaffold:"den → ihn, die → sie, das → es",
-      explain:akk+" "+it.word+" → "+corr+".", speak:pakkWho(it.word)+" "+corr, blankFill:true};
+      explain:akk+" "+it.word+" → "+corr+".", speak:pakkWho(it.word)+" "+corr, blankFill:true, typed:[corr], typedHint:"ihn, sie oder es"};
   }
   if(it.kind==="adj"){
     const g=G[it.w], cs=it.cs, def=it.def!==false;
@@ -762,9 +762,9 @@ function cardData(it){
     else if(g==="die") scaf="eine (die-Wort): -e, wie bei der.";
     else if(g==="der") scaf=(cs==="akk") ? "einen (der-Wort): -en." : "ein (der-Wort): -er.";
     else scaf="ein (das-Wort): -es.";
-    return {prompt:'<div class="hint">Welche Endung?</div>'+(IMGS[it.w]?'<img class="wordimg" src="'+IMGS[it.w]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+lead+' '+article+' <span class="blank">?</span> '+it.w+'.</div>',
+    return {prompt:'<div class="hint">Welche Endung?</div>'+(IMGS[it.w]?'<img class="wordimg" src="'+IMGS[it.w]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+lead+' '+article+' <span class="blank">?</span> '+it.w+'.</div><div class="scaffold" style="margin-top:10px;">('+it.adj+')</div>',
       options:shuffle(opts), correct:correct, scaffold:scaf,
-      explain:"„"+lead+" "+article+" "+correct+" "+it.w+"“. "+scaf, speak:lead+" "+article+" "+correct+" "+it.w, blankFill:true};
+      explain:"„"+lead+" "+article+" "+correct+" "+it.w+"“. "+scaf, speak:lead+" "+article+" "+correct+" "+it.w, blankFill:true, typed:[correct,end,"-"+end], typedHint:it.adj+" + Endung"};
   }
   const x=it.x;
   const seen=(S.cards[it.id]&&S.cards[it.id].seen)||[];
@@ -795,8 +795,8 @@ function cardData(it){
   if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da ist etwas schon.";
   else if(it.stage===4 || (it.stage===6&&cc==="dat")) rule = "Nach mit, aus, bei, zu, von kommt der Dativ.";
   else rule = "Nach für, ohne, durch, um, gegen kommt der Akkusativ.";
-  return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div>',
-    options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w};
+  return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div><div class="scaffold" style="margin-top:10px;">('+x.prep+' …)</div>',
+    options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w, typed:[...new Set([correct,x.prep+" "+art(w,cc),art(w,cc)])], typedHint:x.prep+" + Artikel"};
 }
 function pakkWho(w){ const i=Math.max(0,EXTRA.indexOf(w)); return PAKK_WHO[i%PAKK_WHO.length]+" "+PAKK_VERB[Math.floor(i/2)%PAKK_VERB.length]; }
 function spk(text){return "";}  // Vorlese-Dreieck in der Frage entfernt (kein Tipp mehr)

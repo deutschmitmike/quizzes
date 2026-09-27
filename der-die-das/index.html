@@ -255,7 +255,7 @@ const GROUP={
  "critters": true,
  "allOpen": true,
  "intros": true,
- "typedRecall": false,
+ "typedRecall": true,
  "teenPron": false,
  "weekView": false,
  "names": null,
@@ -551,7 +551,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-5"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-6"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1437,21 +1437,21 @@ function pronCard(it){ const w=it.word, g=G[w], fills=[];
   if(it.kind==="pron"){ const corr=g==="der"?"er":g==="die"?"sie":"es", f=rnd(PRON_F);
     const html=f[0].replace("{n}",g+" "+w)+'<br>'+blankLine(f[1],corr,fills);
     return {prompt:'<div class="hint">er, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["er","sie","es"], correct:corr,
-      scaffold:"der → er, die → sie, das → es", explain:g+" "+w+" → "+corr+".", speak:"", blankFill:true, fills}; }
+      scaffold:"der → er, die → sie, das → es", explain:g+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"er, sie oder es"}; }
   if(it.kind==="poss"){ const corr=g==="die"?"meine":"mein";
     const html=blankLine(rnd(POSS_F).replace("{w}",w),corr,fills);
     return {prompt:'<div class="hint">mein oder meine?</div>'+img+'<div class="sentence">'+html+'</div>', options:["mein","meine"], correct:corr,
-      scaffold:"der/das → mein, die → meine", explain:"Es heißt "+corr+" "+w+" ("+g+" "+w+").", speak:"", blankFill:true, fills}; }
+      scaffold:"der/das → mein, die → meine", explain:"Es heißt "+corr+" "+w+" ("+g+" "+w+").", speak:"", blankFill:true, fills, typed:[corr], typedHint:"mein oder meine"}; }
   if(it.kind==="poss3"){ const corr=(it.gp==="er"?"sein":"ihr")+(g==="die"?"e":"");
     const html="Das ist "+it.who+".<br>"+blankLine(rnd(POSS3_F).replace("{w}",w),corr,fills);
     return {prompt:'<div class="hint">sein oder ihr?</div>'+img+'<div class="sentence">'+html+'</div>', options:shuffle(["sein","seine","ihr","ihre"]), correct:corr,
-      scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)", explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+w+"“ ("+g+" "+w+").", speak:"", blankFill:true, fills}; }
+      scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)", explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+w+"“ ("+g+" "+w+").", speak:"", blankFill:true, fills, typed:[corr], typedHint:"sein, seine, ihr oder ihre"}; }
   // pakk: ihn, sie, es
   const akk=g==="der"?"den":g, corr=g==="der"?"ihn":(g==="die"?"sie":"es"); let html;
   if(Math.random()<0.25){ html="Wo ist "+(g==="die"?"meine":"mein")+" "+w+"?<br>Ich finde "+blankLine("{B}",corr,fills,true)+" nicht."; }
   else { const p=rnd(PAKK_S), v=p[1+Math.floor(Math.random()*5)]; html=p[0]+" "+v+" "+akk+" "+w+".<br>"+p[0]+" "+v+" "+blankLine("{B}",corr,fills,true)+"."; }
   return {prompt:'<div class="hint">ihn, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["ihn","sie","es"], correct:corr,
-    scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills}; }
+    scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"ihn, sie oder es"}; }
 // ===== selbst schreiben (sichere Karten): Plural, Perfekt, Präteritum =====
 function normAns(s){ return (s||"").toLowerCase().replace(/…|\.\.\./g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(); }
 // ===== Vergleich mit der eigenen Vorwoche (statt Rangliste) =====
@@ -2015,68 +2015,68 @@ Das Wetter ist schlecht, sonst {_} wir an den Strand fahren.|können (irreal)|k�
 Ich habe kein Geld, sonst {_} ich mir das Spiel kaufen.|werden (irreal)|würde|würdest|wurde|Das ist nicht real, deshalb: ich würde kaufen.
 Wenn Mia nicht so viel üben {_}, hätte sie mehr Freizeit.|müssen (irreal)|müsste|müsstest|musste|Irreale Bedingung: wenn Mia nicht so viel üben müsste.
 Es {_} schön, wenn du morgen kommen würdest.|sein (Wunsch)|wäre|wärst|war|Der ganze Satz ist ein Wunsch im Konjunktiv II: es wäre schön.`},
- {stage:25, kind:"cloze", hint:"Welches Relativpronomen?", data:`Das ist der Junge, {_} neben mir sitzt.|der Junge|der|den|dem|Der Junge sitzt neben mir (Nominativ): der.
-Ben hat einen Hund, {_} sehr laut bellt.|der Hund|der|den|dem|Der Hund bellt (Nominativ): der.
-Kennst du den Mann, {_} dort drüben steht?|der Mann|der|den|dem|Der Mann steht dort (Nominativ): der.
-Mia hat einen Bruder, {_} in Deutschland studiert.|der Bruder|der|den|dem|Der Bruder studiert (Nominativ): der.
-Der Mann, {_} uns geholfen hat, war sehr nett.|der Mann|der|den|dem|Der Mann hat uns geholfen (Nominativ): der.
-Das ist der Film, {_} ich gestern gesehen habe.|der Film|den|der|dem|Ich habe den Film gesehen (Akkusativ): den.
-Wo ist der Stift, {_} du mir geliehen hast?|der Stift|den|der|dem|Du hast mir den Stift geliehen (Akkusativ): den.
-Der Test, {_} wir morgen schreiben, ist schwer.|der Test|den|der|dem|Wir schreiben den Test (Akkusativ): den.
-Wie heißt der Sänger, {_} du so toll findest?|der Sänger|den|der|dem|Du findest den Sänger toll (Akkusativ): den.
-Das ist der Rucksack, {_} ich mir gekauft habe.|der Rucksack|den|der|dem|Ich habe mir den Rucksack gekauft (Akkusativ): den.
-Das ist der Freund, {_} ich bei den Hausaufgaben helfe.|der Freund|dem|den|der|Ich helfe dem Freund (Dativ): dem.
-Der Lehrer, {_} das Buch gehört, sucht es überall.|der Lehrer|dem|den|der|Das Buch gehört dem Lehrer (Dativ): dem.
-Wie heißt der Junge, {_} du eine Nachricht geschickt hast?|der Junge|dem|den|der|Du hast dem Jungen eine Nachricht geschickt (Dativ): dem.
-Das ist mein Onkel, {_} ich zum Geburtstag gratuliere.|der Onkel|dem|den|der|Ich gratuliere dem Onkel (Dativ): dem.
-Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Lehrerin unterrichtet Deutsch (Nominativ): die.
-Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.
-Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.
-Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.
-Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.
-Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.
-Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.
-Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.
-Die Lehrerin, {_} wir Blumen geschenkt haben, hat sich sehr gefreut.|die Lehrerin|der|die|den|Wir haben der Lehrerin Blumen geschenkt (Dativ): der.
-Das ist das Mädchen, {_} neben Mia wohnt.|das Mädchen|das|dass|dem|Das Mädchen wohnt neben Mia (Nominativ): das.
-Das Handy, {_} auf dem Tisch liegt, gehört mir.|das Handy|das|dass|der|Das Handy liegt auf dem Tisch (Nominativ): das.
-Wo ist das Buch, {_} so spannend ist?|das Buch|das|dass|dem|Das Buch ist spannend (Nominativ): das.
-Das ist das Spiel, {_} ich zum Geburtstag bekommen habe.|das Spiel|das|dem|den|Ich habe das Spiel bekommen (Akkusativ): das.
-Das Foto, {_} du geschickt hast, ist lustig.|das Foto|das|dass|dem|Du hast das Foto geschickt (Akkusativ): das.
-Wie heißt das Lied, {_} wir im Unterricht gesungen haben?|das Lied|das|dem|dass|Wir haben das Lied gesungen (Akkusativ): das.
-Das ist das Kind, {_} ich Mathe erkläre.|das Kind|dem|das|den|Ich erkläre dem Kind Mathe (Dativ): dem.
-Das Mädchen, {_} der Hund gehört, heißt Lina.|das Mädchen|dem|das|dessen|Der Hund gehört dem Mädchen (Dativ): dem.
-Das sind die Schüler, {_} in meine Klasse gehen.|die Schüler|die|denen|der|Die Schüler gehen in meine Klasse (Nominativ Plural): die.
-Ich mag Leute, {_} ehrlich sind.|die Leute|die|denen|den|Die Leute sind ehrlich (Nominativ Plural): die.
-Die Kinder, {_} im Park spielen, sind laut.|die Kinder|die|denen|der|Die Kinder spielen im Park (Nominativ Plural): die.
-Die Schuhe, {_} ich gestern gekauft habe, sind zu klein.|die Schuhe|die|denen|den|Ich habe die Schuhe gekauft (Akkusativ Plural): die.
-Das sind die Freunde, {_} ich in den Ferien besucht habe.|die Freunde|die|denen|den|Ich habe die Freunde besucht (Akkusativ Plural): die.
-Die Vokabeln, {_} wir lernen müssen, sind schwer.|die Vokabeln|die|denen|der|Wir müssen die Vokabeln lernen (Akkusativ Plural): die.
-Das sind die Nachbarn, {_} wir oft helfen.|die Nachbarn|denen|die|den|Wir helfen den Nachbarn (Dativ Plural): denen.
-Die Kinder, {_} ich Deutsch beibringe, sind sehr nett.|die Kinder|denen|die|den|Ich bringe den Kindern Deutsch bei (Dativ Plural): denen.
-Wie heißen die Mädchen, {_} du geantwortet hast?|die Mädchen|denen|die|den|Du hast den Mädchen geantwortet (Dativ Plural): denen.
-Das sind meine Großeltern, {_} ich jeden Sonntag schreibe.|die Großeltern|denen|die|den|Ich schreibe den Großeltern (Dativ Plural): denen.
-Das ist die Stadt, {_} ich wohne.|die Stadt|in der|in die|die|wohnen in (wo?) verlangt den Dativ: in der.
-Das ist der Freund, {_} ich ins Kino gehe.|der Freund|mit dem|mit den|mit der|Nach „mit“ steht der Dativ: mit dem.
-Das ist die Lehrerin, {_} ich mich gut erinnere.|die Lehrerin|an die|an der|die|sich erinnern an + Akkusativ: an die.
-Das ist das Geschenk, {_} ich mich sehr gefreut habe.|das Geschenk|über das|über dem|das|sich freuen über + Akkusativ: über das.
-Der Stuhl, {_} du sitzt, ist kaputt.|der Stuhl|auf dem|auf den|dem|sitzen auf (wo?) verlangt den Dativ: auf dem.
-Das ist die Freundin, {_} ich das Geschenk gekauft habe.|die Freundin|für die|für der|die|Nach „für“ steht der Akkusativ: für die.
-Das Zimmer, {_} ich schlafe, ist sehr klein.|das Zimmer|in dem|in das|das|schlafen in (wo?) verlangt den Dativ: in dem.
-Der Bus, {_} ich zur Schule fahre, ist immer voll.|der Bus|mit dem|mit den|dem|Nach „mit“ steht der Dativ: mit dem.
-Das ist der Park, {_} wir oft Fußball spielen.|der Park|in dem|in den|den|spielen in (wo?) verlangt den Dativ: in dem.
-Die Freunde, {_} ich am Wochenende spiele, wohnen in meiner Straße.|die Freunde|mit denen|mit den|mit die|Nach „mit“ steht der Dativ, im Plural: mit denen.
-Das ist ein Thema, {_} ich mich sehr interessiere.|das Thema|für das|für dem|das|sich interessieren für + Akkusativ: für das.
-Die Party, {_} du mich eingeladen hast, war super.|die Party|zu der|zu die|die|Nach „zu“ steht der Dativ: zu der.
-Der Hund, {_} ich Angst habe, wohnt nebenan.|der Hund|vor dem|vor den|den|Angst haben vor + Dativ: vor dem.
-Das ist die Person, {_} ich schon lange warte.|die Person|auf die|auf der|die|warten auf + Akkusativ: auf die.
-Der Freund, {_} ich ein Geschenk kaufe, hat morgen Geburtstag.|der Freund|für den|für dem|den|Nach „für“ steht der Akkusativ: für den.
-Das ist der Junge, {_} Vater Arzt ist.|der Junge|dessen|deren|den|Der Vater von dem Jungen: maskulin, also dessen.
-Lina ist das Mädchen, {_} Hund so süß ist.|das Mädchen|dessen|deren|dem|Der Hund von dem Mädchen: neutral, also dessen.
-Das ist die Frau, {_} Sohn in meiner Klasse ist.|die Frau|deren|dessen|der|Der Sohn von der Frau: feminin, also deren.
-Die Schüler, {_} Handys klingeln, müssen sie ausmachen.|die Schüler|deren|dessen|denen|Die Handys von den Schülern: Plural, also deren.
-Ich habe eine Freundin, {_} Eltern aus Japan kommen.|die Freundin|deren|dessen|der|Die Eltern von der Freundin: feminin, also deren.
-Die Frau, {_} wir im Bus getroffen haben, war unsere Lehrerin.|die Frau|die|der|den|Wir haben die Frau getroffen (Akkusativ): die.`}];
+ {stage:25, kind:"cloze", hint:"Welches Relativpronomen?", data:`Das ist der Junge, {_} neben mir sitzt.|der Junge|der|den|dem|Der Junge sitzt neben mir (Nominativ): der.|die
+Ben hat einen Hund, {_} sehr laut bellt.|der Hund|der|den|dem|Der Hund bellt (Nominativ): der.|die
+Kennst du den Mann, {_} dort drüben steht?|der Mann|der|den|dem|Der Mann steht dort (Nominativ): der.|die
+Mia hat einen Bruder, {_} in Deutschland studiert.|der Bruder|der|den|dem|Der Bruder studiert (Nominativ): der.|die
+Der Mann, {_} uns geholfen hat, war sehr nett.|der Mann|der|den|dem|Der Mann hat uns geholfen (Nominativ): der.|die
+Das ist der Film, {_} ich gestern gesehen habe.|der Film|den|der|dem|Ich habe den Film gesehen (Akkusativ): den.|das
+Wo ist der Stift, {_} du mir geliehen hast?|der Stift|den|der|dem|Du hast mir den Stift geliehen (Akkusativ): den.|das
+Der Test, {_} wir morgen schreiben, ist schwer.|der Test|den|der|dem|Wir schreiben den Test (Akkusativ): den.|die
+Wie heißt der Sänger, {_} du so toll findest?|der Sänger|den|der|dem|Du findest den Sänger toll (Akkusativ): den.|die
+Das ist der Rucksack, {_} ich mir gekauft habe.|der Rucksack|den|der|dem|Ich habe mir den Rucksack gekauft (Akkusativ): den.|das
+Das ist der Freund, {_} ich bei den Hausaufgaben helfe.|der Freund|dem|den|der|Ich helfe dem Freund (Dativ): dem.|denen
+Der Lehrer, {_} das Buch gehört, sucht es überall.|der Lehrer|dem|den|der|Das Buch gehört dem Lehrer (Dativ): dem.|denen
+Wie heißt der Junge, {_} du eine Nachricht geschickt hast?|der Junge|dem|den|der|Du hast dem Jungen eine Nachricht geschickt (Dativ): dem.|denen
+Das ist mein Onkel, {_} ich zum Geburtstag gratuliere.|der Onkel|dem|den|der|Ich gratuliere dem Onkel (Dativ): dem.|denen
+Das ist die Lehrerin, {_} Deutsch unterrichtet.|die Lehrerin|die|der|den|Die Lehrerin unterrichtet Deutsch (Nominativ): die.|dem
+Mia hat eine Freundin, {_} sehr gut singen kann.|die Freundin|die|der|den|Die Freundin kann gut singen (Nominativ): die.|dem
+Wo ist die Katze, {_} immer auf dem Sofa schläft?|die Katze|die|der|das|Die Katze schläft auf dem Sofa (Nominativ): die.|den
+Das ist die Jacke, {_} ich mir gekauft habe.|die Jacke|die|der|den|Ich habe mir die Jacke gekauft (Akkusativ): die.|dem
+Die App, {_} du mir empfohlen hast, ist super.|die App|die|der|den|Du hast mir die App empfohlen (Akkusativ): die.|das
+Wie findest du die Musik, {_} Ben immer hört?|die Musik|die|der|den|Ben hört die Musik (Akkusativ): die.|das
+Das ist die Frau, {_} ich den Weg gezeigt habe.|die Frau|der|die|den|Ich habe der Frau den Weg gezeigt (Dativ): der.|dem
+Olivia ist die Freundin, {_} ich alles erzähle.|die Freundin|der|die|dem|Ich erzähle der Freundin alles (Dativ): der.|den
+Die Lehrerin, {_} wir Blumen geschenkt haben, hat sich sehr gefreut.|die Lehrerin|der|die|den|Wir haben der Lehrerin Blumen geschenkt (Dativ): der.|dem
+Das ist das Mädchen, {_} neben Mia wohnt.|das Mädchen|das|dass|dem|Das Mädchen wohnt neben Mia (Nominativ): das.|der
+Das Handy, {_} auf dem Tisch liegt, gehört mir.|das Handy|das|dass|der|Das Handy liegt auf dem Tisch (Nominativ): das.|den
+Wo ist das Buch, {_} so spannend ist?|das Buch|das|dass|dem|Das Buch ist spannend (Nominativ): das.|der
+Das ist das Spiel, {_} ich zum Geburtstag bekommen habe.|das Spiel|das|dem|den|Ich habe das Spiel bekommen (Akkusativ): das.|dass
+Das Foto, {_} du geschickt hast, ist lustig.|das Foto|das|dass|dem|Du hast das Foto geschickt (Akkusativ): das.|den
+Wie heißt das Lied, {_} wir im Unterricht gesungen haben?|das Lied|das|dem|dass|Wir haben das Lied gesungen (Akkusativ): das.|den
+Das ist das Kind, {_} ich Mathe erkläre.|das Kind|dem|das|den|Ich erkläre dem Kind Mathe (Dativ): dem.|der
+Das Mädchen, {_} der Hund gehört, heißt Lina.|das Mädchen|dem|das|dessen|Der Hund gehört dem Mädchen (Dativ): dem.|den
+Das sind die Schüler, {_} in meine Klasse gehen.|die Schüler|die|denen|der|Die Schüler gehen in meine Klasse (Nominativ Plural): die.|den
+Ich mag Leute, {_} ehrlich sind.|die Leute|die|denen|den|Die Leute sind ehrlich (Nominativ Plural): die.|der
+Die Kinder, {_} im Park spielen, sind laut.|die Kinder|die|denen|der|Die Kinder spielen im Park (Nominativ Plural): die.|das
+Die Schuhe, {_} ich gestern gekauft habe, sind zu klein.|die Schuhe|die|denen|den|Ich habe die Schuhe gekauft (Akkusativ Plural): die.|der
+Das sind die Freunde, {_} ich in den Ferien besucht habe.|die Freunde|die|denen|den|Ich habe die Freunde besucht (Akkusativ Plural): die.|der
+Die Vokabeln, {_} wir lernen müssen, sind schwer.|die Vokabeln|die|denen|der|Wir müssen die Vokabeln lernen (Akkusativ Plural): die.|den
+Das sind die Nachbarn, {_} wir oft helfen.|die Nachbarn|denen|die|den|Wir helfen den Nachbarn (Dativ Plural): denen.|dem
+Die Kinder, {_} ich Deutsch beibringe, sind sehr nett.|die Kinder|denen|die|den|Ich bringe den Kindern Deutsch bei (Dativ Plural): denen.|dem
+Wie heißen die Mädchen, {_} du geantwortet hast?|die Mädchen|denen|die|den|Du hast den Mädchen geantwortet (Dativ Plural): denen.|dem
+Das sind meine Großeltern, {_} ich jeden Sonntag schreibe.|die Großeltern|denen|die|den|Ich schreibe den Großeltern (Dativ Plural): denen.|dem
+Das ist die Stadt, {_} ich wohne.|die Stadt|in der|in die|die|wohnen in (wo?) verlangt den Dativ: in der.|in dem
+Das ist der Freund, {_} ich ins Kino gehe.|der Freund|mit dem|mit den|mit der|Nach „mit“ steht der Dativ: mit dem.|mit die
+Das ist die Lehrerin, {_} ich mich gut erinnere.|die Lehrerin|an die|an der|die|sich erinnern an + Akkusativ: an die.|an den
+Das ist das Geschenk, {_} ich mich sehr gefreut habe.|das Geschenk|über das|über dem|das|sich freuen über + Akkusativ: über das.|über den
+Der Stuhl, {_} du sitzt, ist kaputt.|der Stuhl|auf dem|auf den|dem|sitzen auf (wo?) verlangt den Dativ: auf dem.|auf der
+Das ist die Freundin, {_} ich das Geschenk gekauft habe.|die Freundin|für die|für der|die|Nach „für“ steht der Akkusativ: für die.|für den
+Das Zimmer, {_} ich schlafe, ist sehr klein.|das Zimmer|in dem|in das|das|schlafen in (wo?) verlangt den Dativ: in dem.|in der
+Der Bus, {_} ich zur Schule fahre, ist immer voll.|der Bus|mit dem|mit den|dem|Nach „mit“ steht der Dativ: mit dem.|mit der
+Das ist der Park, {_} wir oft Fußball spielen.|der Park|in dem|in den|den|spielen in (wo?) verlangt den Dativ: in dem.|in der
+Die Freunde, {_} ich am Wochenende spiele, wohnen in meiner Straße.|die Freunde|mit denen|mit den|mit die|Nach „mit“ steht der Dativ, im Plural: mit denen.|mit dem
+Das ist ein Thema, {_} ich mich sehr interessiere.|das Thema|für das|für dem|das|sich interessieren für + Akkusativ: für das.|für den
+Die Party, {_} du mich eingeladen hast, war super.|die Party|zu der|zu die|die|Nach „zu“ steht der Dativ: zu der.|zu dem
+Der Hund, {_} ich Angst habe, wohnt nebenan.|der Hund|vor dem|vor den|den|Angst haben vor + Dativ: vor dem.|vor der
+Das ist die Person, {_} ich schon lange warte.|die Person|auf die|auf der|die|warten auf + Akkusativ: auf die.|auf den
+Der Freund, {_} ich ein Geschenk kaufe, hat morgen Geburtstag.|der Freund|für den|für dem|den|Nach „für“ steht der Akkusativ: für den.|für die
+Das ist der Junge, {_} Vater Arzt ist.|der Junge|dessen|deren|den|Der Vater von dem Jungen: maskulin, also dessen.|dem
+Lina ist das Mädchen, {_} Hund so süß ist.|das Mädchen|dessen|deren|dem|Der Hund von dem Mädchen: neutral, also dessen.|das
+Das ist die Frau, {_} Sohn in meiner Klasse ist.|die Frau|deren|dessen|der|Der Sohn von der Frau: feminin, also deren.|die
+Die Schüler, {_} Handys klingeln, müssen sie ausmachen.|die Schüler|deren|dessen|denen|Die Handys von den Schülern: Plural, also deren.|die
+Ich habe eine Freundin, {_} Eltern aus Japan kommen.|die Freundin|deren|dessen|der|Die Eltern von der Freundin: feminin, also deren.|die
+Die Frau, {_} wir im Bus getroffen haben, war unsere Lehrerin.|die Frau|die|der|den|Wir haben die Frau getroffen (Akkusativ): die.|dem`}];
 function hashId(t){ let h=5381; for(let i=0;i<t.length;i++) h=((h<<5)+h+t.charCodeAt(i))>>>0; return h.toString(36); }
 const TSET={}, TITEM={};
 TOPIC_SETS.forEach(ts=>{ TSET[ts.stage]=ts; ts.rows=ts.data.trim()?ts.data.trim().split("\n").map(l=>l.split("|")):[]; });
@@ -2096,7 +2096,7 @@ function topicCard(it){
       scaffold:!q?"Im Hauptsatz steht das konjugierte Verb an Position 2.":w?"In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).":"In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).",
       explain:f[3]||"", speak:f[0]}; }
     return {prompt:'<div class="hint">'+ts.hint+'</div><div class="sentence">'+f[0].replace("{_}",'<span class="blank">?</span>')+'</div><div class="scaffold" style="margin-top:10px;">'+(f[1].indexOf("(")>=0?f[1]:"("+f[1]+")")+'</div>',
-      options:shuffle([f[2],f[3],f[4]]), correct:f[2], scaffold:maskAns(f[5],f[2]), explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
+      options:shuffle([f[2],f[3],f[4]].concat(f[6]?[f[6]]:[])), correct:f[2], scaffold:maskAns(f[5],f[2]),   /* 7. Feld = optionale 4. Antwort */ explain:f[5]||"", speak:f[0].replace("{_}",f[2]), blankFill:true, fills:[f[2]], typed:[f[2]], typedHint:"Lösung eintippen"}; }
   const big='<div class="word" style="font-size:clamp(24px,7vw,34px)">';
   if(it.kind==="pres"||it.kind==="modal"){ const v=PBY[it.kind+":"+it.word], s=rnd(v.sents), corr=v.forms[s.p];
     const other=v.forms[s.p==="3s"?"2s":"3s"], reg=presRegular(v,s.p), opts=[corr];
@@ -2170,22 +2170,22 @@ function cardData(it){
   if(it.kind==="pron"){const g=G[it.word]; const corr=g==="der"?"er":g==="die"?"sie":"es";
     return {prompt:'<div class="hint">Welches Wort passt?</div><div class="word">'+g+" "+it.word+spk(g+" "+it.word)+'</div><div class="sentence" style="margin-top:10px">→ <span class="blank">?</span> ist da.</div>',
       options:["er","sie","es"], correct:corr, scaffold:"der → er, die → sie, das → es",
-      explain:"Merke: "+g+" "+it.word+" → "+corr+".", speak:g+" "+it.word, blankFill:true};
+      explain:"Merke: "+g+" "+it.word+" → "+corr+".", speak:g+" "+it.word, blankFill:true, typed:[corr], typedHint:"er, sie oder es"};
   }
   if(it.kind==="poss"){const g=G[it.word]; const corr=g==="die"?"meine":"mein";
     return {prompt:'<div class="hint">mein oder meine?</div><div class="sentence">Das ist <span class="blank">?</span> '+it.word+spk(it.word)+'.</div>',
       options:["mein","meine"], correct:corr, scaffold:"der/das → mein, die → meine",
-      explain:"Es heißt "+corr+" "+it.word+" ("+g+" "+it.word+").", speak:corr+" "+it.word, blankFill:true};
+      explain:"Es heißt "+corr+" "+it.word+" ("+g+" "+it.word+").", speak:corr+" "+it.word, blankFill:true, typed:[corr], typedHint:"mein oder meine"};
   }
   if(it.kind==="poss3"){const g=G[it.word], end=g==="die"?"e":""; const corr=(it.gp==="er"?"sein":"ihr")+end;
     return {prompt:'<div class="hint">sein oder ihr?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="sentence">Das ist '+it.who+'.<br>Das ist <span class="blank">?</span> '+it.word+'.</div>',
       options:shuffle(["sein","seine","ihr","ihre"]), correct:corr, scaffold:"er → sein, sie → ihr (bei die-Wörtern + e)",
-      explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+it.word+"“.", speak:corr+" "+it.word, blankFill:true};
+      explain:it.who+": "+(it.gp==="er"?"er → sein":"sie → ihr")+", also „"+corr+" "+it.word+"“.", speak:corr+" "+it.word, blankFill:true, typed:[corr], typedHint:"sein, seine, ihr oder ihre"};
   }
   if(it.kind==="pakk"){const g=G[it.word]; const akk=g==="der"?"den":(g==="die"?"die":"das"); const corr=g==="der"?"ihn":(g==="die"?"sie":"es");
     return {prompt:'<div class="hint">ihn, sie oder es?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+pakkWho(it.word)+' '+akk+' '+it.word+'.<br>'+pakkWho(it.word)+' <span class="blank">?</span>.</div>',
       options:["ihn","sie","es"], correct:corr, scaffold:"den → ihn, die → sie, das → es",
-      explain:akk+" "+it.word+" → "+corr+".", speak:pakkWho(it.word)+" "+corr, blankFill:true};
+      explain:akk+" "+it.word+" → "+corr+".", speak:pakkWho(it.word)+" "+corr, blankFill:true, typed:[corr], typedHint:"ihn, sie oder es"};
   }
   if(it.kind==="adj"){
     const g=G[it.w], cs=it.cs, def=it.def!==false;
@@ -2198,9 +2198,9 @@ function cardData(it){
     else if(g==="die") scaf="eine (die-Wort): -e, wie bei der.";
     else if(g==="der") scaf=(cs==="akk") ? "einen (der-Wort): -en." : "ein (der-Wort): -er.";
     else scaf="ein (das-Wort): -es.";
-    return {prompt:'<div class="hint">Welche Endung?</div>'+(IMGS[it.w]?'<img class="wordimg" src="'+IMGS[it.w]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+lead+' '+article+' <span class="blank">?</span> '+it.w+'.</div>',
+    return {prompt:'<div class="hint">Welche Endung?</div>'+(IMGS[it.w]?'<img class="wordimg" src="'+IMGS[it.w]+'" alt="" loading="lazy">':'')+'<div class="sentence">'+lead+' '+article+' <span class="blank">?</span> '+it.w+'.</div><div class="scaffold" style="margin-top:10px;">('+it.adj+')</div>',
       options:shuffle(opts), correct:correct, scaffold:scaf,
-      explain:"„"+lead+" "+article+" "+correct+" "+it.w+"“. "+scaf, speak:lead+" "+article+" "+correct+" "+it.w, blankFill:true};
+      explain:"„"+lead+" "+article+" "+correct+" "+it.w+"“. "+scaf, speak:lead+" "+article+" "+correct+" "+it.w, blankFill:true, typed:[correct,end,"-"+end], typedHint:it.adj+" + Endung"};
   }
   const x=it.x;
   const seen=(S.cards[it.id]&&S.cards[it.id].seen)||[];
@@ -2231,8 +2231,8 @@ function cardData(it){
   if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da ist etwas schon.";
   else if(it.stage===4 || (it.stage===6&&cc==="dat")) rule = "Nach mit, aus, bei, zu, von kommt der Dativ.";
   else rule = "Nach für, ohne, durch, um, gegen kommt der Akkusativ.";
-  return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div>',
-    options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w};
+  return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div><div class="scaffold" style="margin-top:10px;">('+x.prep+' …)</div>',
+    options:options, correct:correct, scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule, speak:correct+" "+w, blankFill:true, w:w, typed:[...new Set([correct,x.prep+" "+art(w,cc),art(w,cc)])], typedHint:x.prep+" + Artikel"};
 }
 function pakkWho(w){ const i=Math.max(0,EXTRA.indexOf(w)); return PAKK_WHO[i%PAKK_WHO.length]+" "+PAKK_VERB[Math.floor(i/2)%PAKK_VERB.length]; }
 function spk(text){return "";}  // Vorlese-Dreieck in der Frage entfernt (kein Tipp mehr)

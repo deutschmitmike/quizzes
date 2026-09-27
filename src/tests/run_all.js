@@ -36,6 +36,8 @@ for (const rel of process.argv.slice(2)) {
     if (/undefined|NaN|\[object/.test(txt)) fail(name, it.id + ": kaputter Text: " + txt.slice(0, 120));
     if (EMO.test(txt)) fail(name, it.id + ": Emoji auf der Karte");
     if (d.fills) { const nb = (d.prompt.match(/class="blank"/g) || []).length; if (d.fills.length !== nb) fail(name, it.id + ": Luecken " + nb + " / Fuellungen " + d.fills.length); }
+    if (d.typed) { const n = t => (t || "").toLowerCase().replace(/…|\.\.\./g, " ").replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[.,!?]/g, " ").replace(/\s+/g, " ").trim();
+      if (!d.typed.some(x => n(x) === n(d.correct))) fail(name, it.id + ": beim Tippen wird die richtige Loesung nicht akzeptiert (" + d.correct + " / " + d.typed.join(", ") + ")"); }   // sichere Karten: Eingabe der richtigen Loesung muss zaehlen
     if (!DET.test(it.kind)) break;
   }
   // 2) keine bisherige Karte darf verschwinden (Vergleich mit dem letzten Commit)
