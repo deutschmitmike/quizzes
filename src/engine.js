@@ -1204,7 +1204,7 @@ function renderCurrent(){
     setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
   } else {                                                  // alle anderen: immer echte Auswahl (Selbst-Check abgeschafft - war eine Hintertuer)
     d.options.forEach(o=>{ const b=document.createElement("button");
-      b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
+      b.className="btn opt"+(it.kind==="genus"&&["der","die","das"].includes(o)?" "+o:"")   /* Artikelfarben nur bei Artikel-Karten; bei Relativpronomen/Dativ ist "der" oft weiblich */;
       b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
   }
   const rem=new Set(queue.map(q=>q.id)).size, done=Math.max(0,sessionTotal-rem);

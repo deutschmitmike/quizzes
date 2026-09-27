@@ -617,7 +617,7 @@ const INTRO={
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-4"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-5"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -4084,7 +4084,7 @@ function renderCurrent(){
     setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
   } else {                                                  // alle anderen: immer echte Auswahl (Selbst-Check abgeschafft - war eine Hintertuer)
     d.options.forEach(o=>{ const b=document.createElement("button");
-      b.className="btn opt"+(["der","die","das"].includes(o)?" "+o:"");
+      b.className="btn opt"+(it.kind==="genus"&&["der","die","das"].includes(o)?" "+o:"")   /* Artikelfarben nur bei Artikel-Karten; bei Relativpronomen/Dativ ist "der" oft weiblich */;
       b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
   }
   const rem=new Set(queue.map(q=>q.id)).size, done=Math.max(0,sessionTotal-rem);
