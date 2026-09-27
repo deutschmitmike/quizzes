@@ -21,10 +21,13 @@ if os.path.exists(os.path.join(G, ordner + ".js")) or os.path.exists(os.path.joi
 # 1) Steckbrief kopieren und anpassen (Schluessel und Speicherpfade sind neu und eindeutig)
 t = open(os.path.join(G, a.vorlage + ".js"), encoding="utf-8").read()
 i = t.index("const GROUP=") + len("const GROUP="); j = t.index(";\n", i); cfg = json.loads(t[i:j])
+alt0 = cfg.get("beispielName")
 cfg.update({"name": a.name, "folder": ordner, "key": kurz + "_v1", "teacherKey": kurz + "_lehrer_v1",
             "lbPath": "lb/__" + kurz, "savePath": "save/__" + kurz, "names": namen, "zh": bool(a.zh)})
 rest = t[j:]
-if a.vorlage == "kyana": rest = rest.replace("Kyana", namen[0])   # Beispielsaetze mit dem eigenen Namen
+alt = alt0   # Beispielsaetze: bei neuen Schuelern immer der eigene Name (Mike)
+if alt: rest = rest.replace(alt, namen[0])
+cfg["beispielName"] = namen[0] if alt else None
 kopf = "// ===== Steckbrief: %s (angelegt mit neue_gruppe.py, Vorlage %s) =====\n" % (a.name, a.vorlage)
 t = kopf + t[t.index("\n") + 1:i] + json.dumps(cfg, ensure_ascii=False, indent=1) + rest
 open(os.path.join(G, ordner + ".js"), "w", encoding="utf-8").write(t)
