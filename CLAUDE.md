@@ -41,6 +41,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Tippen statt Auswählen für sichere Karten (Box ≥ 3) in beiden Gruppen (`typedRecall`, Kyana seit 2026-09-27 auch, Mike: „ein Wort tippen ist ok“): Artikel, Plural, Fälle/Präpositionen (Präposition steht unter dem Satz), Pronomen, Adjektive (Adjektiv steht unter dem Satz), Verben, Komparativ, Lückensätze. Sichere Satzbau- und Nebensatz-Karten: Satz aus Kärtchen bauen (`tileBlocks`, erster Teil steht fest, Ja/Nein-Fragen bleiben Auswahl). Einführungsseiten in beiden Gruppen, kurz (max. 2 Sätze), nur bei noch nie geübtem Thema. **Getippte Antworten müssen exakt stimmen, keine Tippfehler-Toleranz** (Mike 2026-09-27; nur Groß/klein, ß=ss und ae=ä werden gleich behandelt). Antworten: meist 3 (Artikel immer der/die/das), Relativsätze 4, Perfekt und sein/ihr 4. Artikelfarben nur auf Artikel-Karten.
 - Kyana: Bobby, Sammeltiere, alle Themen gleichzeitig wie bei Mia & Olivia (seit 2026-09-26, ihr Wunsch; Einführungsseite beim ersten Kontakt mit einem Thema), 35 Karten, Extrarunden erlaubt, freier Name.
 - Mia & Olivia: **reflexive Verben (23) und Konjunktiv II (24) sind raus** (Mike, 2026-09-27; Daten und Übersetzungen bleiben in `src/data` für später, wieder einschalten = Stufe in den Steckbrief + Präfix aus `src/tests/entfernt.txt`). Stufennummern dürfen Lücken haben (`MAX_STAGE`, `stageName`).
+- Marta: wie Kyana, ohne Chinesisch, ohne Rangliste, 20 Karten. **Sanfter Start** (Mike 2026-09-27): die ersten 7 Tage ab ihrem ersten Übungstag nur Artikel und Mehrzahl, danach automatisch alle Themen gemischt (`startNur`/`startTage` im Steckbrief; neue Gruppen bekommen das nur, wenn man es einträgt).
 - Mia & Olivia: kein Maskottchen, alle Themen gleichzeitig (gewichtet), eine Runde pro Tag (25 Karten, ab 2026-10-11 automatisch 30: `roundFullAb` im Steckbrief), sichere Karten werden getippt, Vergleich mit der Vorwoche statt Rangliste, Anmeldung nur über die Knöpfe „Ich bin Mia/Olivia“.
 
 ## Lernverfahren (Stand 2026-09-26)
@@ -49,6 +50,6 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `node src/tests/sim_effekt.js <seite>` misst die Effektivität mit einem Lerner, der vergisst. Der größte Hebel ist die Übungszeit (Rundengröße).
 
 ## Außerhalb des Repos
-- Wochenbericht alle Schüler (Montag): `~/Desktop/claude cowork/mia-olivia-berichte/alle_bericht.js`. Kyana zusätzlich alle 14 Tage: `~/Desktop/claude cowork/kyana-berichte/`.
+- Wochenbericht alle Schüler (Montag, ein Bericht für alle): `~/Desktop/claude cowork/mia-olivia-berichte/alle_bericht.js`. Der alte Kyana-Bericht (`kyana-berichte/`) ist abgeschaltet.
 - Tägliches Backup aller Spielstände: `~/Desktop/claude cowork/backups/` (`backup.js`).
 - Wortlisten, Übersetzungen, Prüfungen: `~/Desktop/claude cowork/wortliste/`.

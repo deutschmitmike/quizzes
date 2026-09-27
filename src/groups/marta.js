@@ -10,6 +10,11 @@ const GROUP={
  "mascot": true,
  "critters": true,
  "allOpen": true,
+ "startNur": [
+  1,
+  2
+ ],
+ "startTage": 7,
  "intros": true,
  "typedRecall": true,
  "teenPron": false,

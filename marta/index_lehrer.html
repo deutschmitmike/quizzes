@@ -265,6 +265,11 @@ const GROUP={
  "mascot": true,
  "critters": true,
  "allOpen": true,
+ "startNur": [
+  1,
+  2
+ ],
+ "startTage": 7,
  "intros": true,
  "typedRecall": true,
  "teenPron": false,
@@ -565,7 +570,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Ich spiele mit"]};
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-18"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-19"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2326,6 +2331,8 @@ function weakStage(stages){ let best=null, br=0;   // Stufe (ausser 1) mit den m
   return br>=0.5 ? best : null; }   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
 let NEW_PER_DAY, NEW_PER_SESSION, MAX_SESSION, MAX_REPEAT=3, TARGET_SESSION;   // Rundengroesse je Spielerin: erst klein, dann voll
 const RUNDE_START=CFG.roundStart, RUNDE_VOLL=CFG.roundFull, RUNDE_START_TAGE=CFG.roundStartDays;   // [max Karten, max neue, Mindestfuellung]
+function startPhase(){ if(!CFG.startNur||CFG.teacher) return null;   // startNur/startTage im Steckbrief: die ersten startTage Tage ab dem ersten Uebungstag nur diese Stufen, danach alles gemischt
+  const b=Object.values(S.cards).map(c=>c.born).filter(x=>x!=null); return !b.length||today()-Math.min(...b)<(CFG.startTage||7) ? CFG.startNur : null; }
 function rundeSetzen(){ const ab=CFG.roundFullAb?Math.floor(Date.UTC(+CFG.roundFullAb.slice(0,4),+CFG.roundFullAb.slice(5,7)-1,+CFG.roundFullAb.slice(8,10))/86400000):null;   // roundFullAb: ab diesem Datum volle Runde (sonst nach Uebungstagen)
   const r=(ab!=null ? today()>=ab : ((S&&S.streak)||0)>=RUNDE_START_TAGE) ? RUNDE_VOLL : RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2];
   if(!((S&&S.streak)||0)) NEW_PER_DAY=NEW_PER_SESSION=MAX_SESSION; }   // allererster Uebungstag: noch nichts zu wiederholen -> volle Runde aus neuen Karten
@@ -2561,7 +2568,8 @@ function startSession(mode){
     let neu=[];
     if(CFG.allOpen){   // alles gleichzeitig: Themen gewichtet
     { const GROUPS_ALL=CFG.topicGroups, GW_ALL=CFG.topicWeights, STEP_OPEN=3;   // Themen und Gewichte kommen aus dem Steckbrief
-      const GROUPS=[], GW=[]; GROUPS_ALL.forEach((g,i)=>{ if(g.flat().some(st=>STAGES.some(x=>x.id===st))){ GROUPS.push(g.map(t=>t.filter(st=>STAGES.some(x=>x.id===st))).filter(t=>t.length)); GW.push(GW_ALL[i]); } });   // Themen in Stufen-Ebenen: Artikel, Plural, Praepositionen, Pronomen, Adjektive, Verben
+      const START=startPhase(), da=st=>STAGES.some(x=>x.id===st)&&(!START||START.includes(st));   // sanfter Start: erste Tage nur einige Themen
+      const GROUPS=[], GW=[]; GROUPS_ALL.forEach((g,i)=>{ if(g.flat().some(da)){ GROUPS.push(g.map(t=>t.filter(da)).filter(t=>t.length)); GW.push(GW_ALL[i]); } });   // Themen in Stufen-Ebenen: Artikel, Plural, Praepositionen, Pronomen, Adjektive, Verben
       const orderStage=st=>{ const c=ITEMS.filter(it=>it.stage===st&&!S.cards[it.id]);
         if(st===1){ const byG={der:[],die:[],das:[]}; c.sort((a,b)=>nounKey(a)-nounKey(b)).forEach(it=>byG[G[it.word]].push(it));   // haeufigste zuerst, Artikel ausgewogen
           const wk=weakGenus(); const ord= wk ? shuffle(["der","die","das"].filter(g=>g!==wk)).flatMap(g=>[wk,g]) : shuffle(["der","die","das"]); const p=[]; let x=0;   // schwaechster Artikel doppelt

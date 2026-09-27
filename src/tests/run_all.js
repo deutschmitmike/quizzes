@@ -67,6 +67,10 @@ for (const rel of process.argv.slice(2)) {
       if (!X.EXTRA_ROUNDS) { X.startDaily(); if (X.queue().length) fail(name, "Tag " + (d + 1) + ": Extrarunde moeglich, obwohl verboten"); }
       checks++;
     }
+    if (X.CFG.startNur && !X.CFG.teacher) { const C = sb.run("S.cards"), t0 = X.today() - 29, T = X.CFG.startTage || 7, byId = {}; X.ITEMS.forEach(it => byId[it.id] = it);   // sanfter Start: erst nur startNur, danach Mix
+      const frueh = Object.keys(C).filter(id => C[id].born - t0 < T && byId[id]), spaet = Object.keys(C).filter(id => C[id].born - t0 >= T && byId[id]);
+      const falsch = frueh.filter(id => !X.CFG.startNur.includes(byId[id].stage)); if (falsch.length) fail(name, "sanfter Start: in den ersten " + T + " Tagen andere Themen: " + falsch.slice(0, 3).join(", "));
+      if (!spaet.some(id => !X.CFG.startNur.includes(byId[id].stage))) fail(name, "sanfter Start: nach " + T + " Tagen kommt kein Mix"); checks++; }
   } catch (e) { fail(name, "30-Tage-Simulation: " + e.message); }
   // 5) abgebrochene Runde wird fortgesetzt (nur ohne Extrarunden)
   if (!X.EXTRA_ROUNDS && !X.CFG.teacher) try {
