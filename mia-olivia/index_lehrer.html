@@ -280,9 +280,9 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
+  25,
   20,
-  15,
-  15
+  18
  ],
  "roundFull": [
   30,
@@ -446,7 +446,8 @@ const GROUP={
  "nameSwap": {
   "Mia": "Olivia",
   "Olivia": "Mia"
- }
+ },
+ "roundFullAb": "2026-10-11"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
@@ -637,7 +638,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-17"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-18"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8737,7 +8738,8 @@ function weakStage(stages){ let best=null, br=0;   // Stufe (ausser 1) mit den m
   return br>=0.5 ? best : null; }   // "sicher" erst, wenn ein Wort nach einer Pause von 4+ Tagen noch richtig war (vorher Box 3)
 let NEW_PER_DAY, NEW_PER_SESSION, MAX_SESSION, MAX_REPEAT=3, TARGET_SESSION;   // Rundengroesse je Spielerin: erst klein, dann voll
 const RUNDE_START=CFG.roundStart, RUNDE_VOLL=CFG.roundFull, RUNDE_START_TAGE=CFG.roundStartDays;   // [max Karten, max neue, Mindestfuellung]
-function rundeSetzen(){ const r=((S&&S.streak)||0)>=RUNDE_START_TAGE ? RUNDE_VOLL : RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2];
+function rundeSetzen(){ const ab=CFG.roundFullAb?Math.floor(Date.UTC(+CFG.roundFullAb.slice(0,4),+CFG.roundFullAb.slice(5,7)-1,+CFG.roundFullAb.slice(8,10))/86400000):null;   // roundFullAb: ab diesem Datum volle Runde (sonst nach Uebungstagen)
+  const r=(ab!=null ? today()>=ab : ((S&&S.streak)||0)>=RUNDE_START_TAGE) ? RUNDE_VOLL : RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2];
   if(!((S&&S.streak)||0)) NEW_PER_DAY=NEW_PER_SESSION=MAX_SESSION; }   // allererster Uebungstag: noch nichts zu wiederholen -> volle Runde aus neuen Karten
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}

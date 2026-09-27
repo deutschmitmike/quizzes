@@ -29,9 +29,9 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
+  25,
   20,
-  15,
-  15
+  18
  ],
  "roundFull": [
   30,
@@ -195,7 +195,8 @@ const GROUP={
  "nameSwap": {
   "Mia": "Olivia",
   "Olivia": "Mia"
- }
+ },
+ "roundFullAb": "2026-10-11"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
