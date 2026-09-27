@@ -2,3 +2,43 @@
 # Nur eintragen, wenn Mike ein Thema/Wort ausdruecklich raushaben will; der Lernstand dieser Karten geht verloren.
 t23:   # 2026-09-27 Mike: reflexive Verben raus (Mia & Olivia)
 t24:   # 2026-09-27 Mike: Konjunktiv II raus (Mia & Olivia)
+# 2026-09-27 Mike: Mehrzahl-Karten fuer Woerter ohne echten Plural raus ($ = genau diese Karte, nicht p:Geldbeutel usw.)
+p:Geld$
+p:Papier$
+p:Spaß$
+p:Hilfe$
+p:Luft$
+p:Himmel$
+p:Haut$
+p:Ordnung$
+p:Schluss$
+p:Honig$
+p:Öl$
+p:Schokolade$
+p:Marmelade$
+p:Müsli$
+p:Kreide$
+p:Pappe$
+p:Asche$
+p:Brühe$
+p:Seide$
+p:Teig$
+p:Tinte$
+p:Wachs$
+p:Lack$
+p:Garn$
+p:Kompost$
+p:Getreide$
+p:Pulver$
+p:Sprudel$
+p:Gemüse$
+p:Geschirr$
+p:Besteck$
+p:Donner$
+p:Nebel$
+p:Frost$
+p:Dampf$
+p:Glut$
+p:Grippe$
+p:Freude$
+p:Not$
