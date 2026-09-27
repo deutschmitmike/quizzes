@@ -136,8 +136,6 @@
     <div class="center">
       <h1>Hallo!</h1>
       <p class="sub">Wer bist du?</p>
-      <button class="btn big" id="welMia" style="margin-top:6px;">Ich bin Mia</button>
-      <button class="btn big" id="welOlivia" style="margin-top:12px; background:var(--das); box-shadow:0 6px 0 #157a43;">Ich bin Olivia</button>
       <input id="welNameInput" hidden maxlength="14" placeholder="Vorname / Spitzname" autocomplete="off" style="width:100%; border:1.5px solid #d7ddec; border-radius:14px; padding:14px; font-family:inherit; font-size:18px; text-align:center;">
       <button class="btn big" id="welJoin" hidden style="margin-top:12px;">Los geht's</button>
     </div>
@@ -624,7 +622,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-11"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-27-12"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9315,7 +9313,12 @@ function welcomeJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);
 (document.getElementById("welNameInput")||{addEventListener(){}}).addEventListener("keydown",e=>{ if(e.key==="Enter") welcomeJoin(document.getElementById("welNameInput").value); });
 (document.getElementById("homeBtn")||{}).onclick=()=>show("home");
 const ERLAUBT=CFG.names||null;   // feste Namen (Knoepfe) oder freie Eingabe
-(ERLAUBT||[]).forEach(n=>{ const b=document.getElementById("wel"+n); if(b) b.onclick=()=>{ lbPickName(n); show("home"); }; });
+if(ERLAUBT){ const wc=document.querySelector&&document.querySelector("#welcome .center");   // Anmeldung nur ueber Knoepfe "Ich bin ..." (Mike 2026-09-27: alle Gruppen)
+  ["welNameInput","welJoin","welSkip"].forEach(id=>{ const e=document.getElementById(id); if(e) e.hidden=true; });
+  const sub=wc&&wc.querySelector(".sub"); if(sub) sub.textContent="Wer bist du?";
+  ERLAUBT.forEach((n,i)=>{ let b=document.getElementById("wel_"+nameKey(n)); if(!b&&wc){ b=document.createElement("button"); b.className="btn big"; b.id="wel_"+nameKey(n); b.style.marginTop=i?"12px":"6px";
+      if(i%2){ b.style.background="var(--das)"; b.style.boxShadow="0 6px 0 #157a43"; } b.textContent="Ich bin "+n; wc.appendChild(b); }
+    if(b) b.onclick=()=>{ lbPickName(n); show("home"); }; }); }
 function switchPlayer(){ if(!S.playerName) return;                    // geteiltes Geraet: Stand sichern (lokal je Name + Cloud), dann neu anmelden
   save(); syncPush(); cloudSave(); try{ localStorage.setItem(KEY+"_p_"+nameKey(S.playerName), JSON.stringify(S)); }catch(e){}
   S=fresh(); save(); const i=document.getElementById("welNameInput"); if(i) i.value=""; show("welcome"); }

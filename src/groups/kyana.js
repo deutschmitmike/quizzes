@@ -14,7 +14,9 @@ const GROUP={
  "typedRecall": true,
  "teenPron": false,
  "weekView": false,
- "names": null,
+ "names": [
+  "Bobby K"
+ ],
  "allowSkip": true,
  "extraRounds": true,
  "praise": [

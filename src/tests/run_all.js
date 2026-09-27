@@ -76,7 +76,7 @@ for (const rel of process.argv.slice(2)) {
     if (X.queue().map(q => q.id).join() !== rest) fail(name, "abgebrochene Runde wird nicht korrekt fortgesetzt"); checks++;
   } catch (e) { fail(name, "Fortsetzen: " + e.message); }
   // 6) Spielerwechsel auf einem Geraet haelt Staende getrennt
-  if (X.CFG.names && X.switchPlayer && !X.CFG.teacher) try {
+  if (X.CFG.names && X.CFG.names.length >= 2 && X.switchPlayer && !X.CFG.teacher) try {
     const [a, b] = X.CFG.names; sb.run("S=fresh();"); X.lbPickName(a); sb.run("S.points=11; save();"); X.switchPlayer();
     X.lbPickName(b); const pb = sb.run("S.points"); X.switchPlayer(); X.lbPickName(a); const pa = sb.run("S.points");
     if (pb !== 0 || pa !== 11) fail(name, "Spielerwechsel vermischt Staende (" + pa + "/" + pb + ")"); checks++;

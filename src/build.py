@@ -3,7 +3,7 @@
 # Build-Nummer: src/BUILD (eine Nummer fuer alle Gruppen; bei JEDEM Deploy hochzaehlen).
 import os, json, sys, re, subprocess
 SRC = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.dirname(SRC)
-GROUPS = ["kyana", "mia-olivia"]            # neue Gruppe: groups/<name>.js + .html + _lehrer.html anlegen und hier eintragen
+GROUPS = sorted(f[:-3] for f in os.listdir(os.path.join(SRC, "groups")) if f.endswith(".js"))   # jede groups/<name>.js ist eine Gruppe (neu anlegen: python3 src/neue_gruppe.py)
 build = open(os.path.join(SRC, "BUILD"), encoding="utf-8").read().strip()
 engine = open(os.path.join(SRC, "engine.js"), encoding="utf-8").read()
 # Uebungsdaten aus src/data/<name>.txt einsetzen (Platzhalter %%DATA:name%% im Kern)

@@ -18,6 +18,9 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 5. Mike ansagen: „Neue Version: `<BUILD>`“. Er sieht die Nummer unten rechts in der App.
 6. Commit (mit Co-Authored-By-Zeile), `git push`, dann `…/version.json` live abfragen, bis die neue Nummer da ist (ca. 1 Min.). Meldet GitHub Pages „Deployment failed“: leeren Commit pushen.
 
+## Neue Schülerin / neue Gruppe
+`python3 src/neue_gruppe.py --name Marta --vorlage kyana` (oder `--vorlage mia-olivia`, `--zh` wenn sie Chinesisch liest, `--namen "A,B"` für mehrere Knöpfe). Legt Steckbrief, Seitenhüllen, App-Ordner und eigene Speicherpfade (`lb/__name`, `save/__name`) an. build.py, Montagsbericht, Backup und Lehrer-Übersicht finden die Gruppe automatisch. Danach BUILD hochzählen, bauen, committen, pushen. Link: `…/quizzes/<ordner>/`. **Alle melden sich per Knopf „Ich bin …“ an** (`names` im Steckbrief; Kyana: „Bobby K“ = Speicher `save/bobby_k`).
+
 ## Harte Regeln (sonst geht Lernstand verloren)
 - **Speicher-Schlüssel und Firebase-Pfade einer Gruppe nie ändern.** Kyana: `ddd_kyana_v2`, `lb/`, `save/`. Mia & Olivia: `mo_v1`, `lb/__mia_olivia`, `save/__mia_olivia`. Die Firebase-Regeln erlauben nur `lb/` und `save/`, eine neue Gruppe bekommt deshalb einen Unterordner `lb/__name`.
 - **Karten-IDs nie ändern** (`g:Wort`, `p:Wort`, `pf:verb`, `t21:<prüfsumme>` …). Die Tests brechen ab, wenn Karten verschwinden. In `data/*.txt` darf man Zeilen ergänzen. Ändert man den richtigen Satz einer order-/cloze-Zeile, entsteht eine neue Karte.
