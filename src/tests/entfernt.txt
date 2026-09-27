@@ -95,3 +95,6 @@ p:Schoß$
 [mia-olivia] m:a5:Bruder$
 [mia-olivia] m:a5:Schwester$
 [mia-olivia] m:a5:Freundin$
+# 2026-09-27: Strom, Mittag ohne Mehrzahl-Karte
+p:Strom$
+p:Mittag$
