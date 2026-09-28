@@ -562,7 +562,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-6"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-7"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1465,6 +1465,7 @@ function fillBlanks(d){ const bl=document.querySelectorAll("#promptBox .blank");
   for(let i=0;i<bl.length;i++){ if(f[i]!=null){ bl[i].textContent=f[i]; bl[i].classList.add("filled"); } } }
 
 // ===== Mia & Olivia: Stufen 7-10 mit Alltagsnomen und wechselnden Satzmustern =====
+const W_KLO=[{pre:"Ich muss mal",prep:"auf",c:"akk",h:"Wohin?",pool:["Klo","Toilette"],kurz:true},{pre:"Papa ist gerade",prep:"auf",c:"dat",h:"Wo?",pool:["Klo","Toilette"],kurz:true}];   // kurz: "auf das" -> "aufs"
 const PRON_F=[["Wo ist {n}?","{B} ist hier."],["Wie ist {n}?","{B} ist super."],["Gehört {n} dir?","Nein, {B} gehört Olivia."],["Ist {n} von Mia?","Ja, {B} ist von Mia."]];
 const POSS_F=["Das ist {B} {w}.","Wo ist {B} {w}?","{B} {w} ist neu.","Hier ist {B} {w}.","{B} {w} ist weg."];
 const POSS3_F=["Das ist {B} {w}.","{B} {w} ist neu.","{B} {w} ist weg.","Wo ist {B} {w}?"];
@@ -2206,6 +2207,7 @@ function buildItems(){const items=[];
   Object.keys(P).filter(w=>!OHNE_PL.has(w)).forEach(w=>items.push({id:"p:"+w,stage:2,kind:"plural",word:w}));
   const expl=(arr,stage,idp,ex)=>{const o=[]; arr.forEach((x,fi)=>x.pool.forEach(w=>o.push({id:idp+fi+":"+w,stage,kind:"case",x:ex?Object.assign({},x,ex):x,w:w}))); return o;};
   expl(W,3,"w:").slice(0,100).forEach(it=>items.push(it));
+  if(STAGES.some(x=>x.id===3)) expl(W_KLO,3,"wk:").forEach(it=>items.push(it));   // aufs Klo / auf dem Klo, auf die / auf der Toilette (Mike: hoert er oft falsch)
   expl(D,4,"d:").slice(0,100).forEach(it=>items.push(it));
   expl(A,5,"a:").slice(0,100).forEach(it=>items.push(it));
   expl(D,6,"m:d",{trueCase:"dat"}).slice(0,34).forEach(it=>items.push(it));
@@ -2280,7 +2282,7 @@ function cardData(it){
   const pk=unseen.length?unseen:x.pool;            // ungesehene Nomen zuerst -> alle Varianten kommen dran
   const w = it.w || pk[Math.floor(Math.random()*pk.length)];
   const cc = it.stage===4 ? "dat" : it.stage===5 ? "akk" : it.stage===6 ? (x.trueCase||x.c) : x.c;
-  const correct=chunk(x.prep,w,cc);
+  let correct=chunk(x.prep,w,cc);
   let options, scaf;
   if(it.stage===6 && x.wechsel){
     options=[chunk(x.prep,w,"akk"),chunk(x.prep,w,"dat"),merge(x.prep,WECHSEL3[G[w]])];     // Wo/Wohin ohne Hinweis, Verb lesen
@@ -2304,6 +2306,7 @@ function cardData(it){
   if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da ist etwas schon.";
   else if(it.stage===4 || (it.stage===6&&cc==="dat")) rule = "Nach mit, aus, bei, zu, von kommt der Dativ.";
   else rule = "Nach für, ohne, durch, um, gegen kommt der Akkusativ.";
+  if(x.kurz){ const k=o=>o==="auf das"?"aufs":o; options=options.map(k); if(correct==="auf das") correct="aufs"; }   // umgangssprachlich normal: aufs Klo
   const satz=it.stage===3||(it.stage===6&&x.wechsel), ganz=o=>x.pre+" "+o+" "+w+".";   // Wo/Wohin: ganze Saetze als Antworten, damit das Verb mitgelesen wird (Mike 2026-09-28)
   return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div><div class="scaffold" style="margin-top:10px;">('+x.prep+' …)</div>',
     options:satz?options.map(ganz):options, correct:satz?ganz(correct):correct, fills:[correct], scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule+(correct!==x.prep+" "+art(w,cc)?" ("+x.prep+" "+art(w,cc)+" = "+correct+")":""), speak:correct+" "+w, blankFill:true, w:w, typed:[...new Set([correct,x.prep+" "+art(w,cc),art(w,cc)].concat(MERGE2[x.prep+" "+art(w,cc)]||[]).concat(satz?[ganz(correct)]:[]))], typedHint:x.prep+" + Artikel"};

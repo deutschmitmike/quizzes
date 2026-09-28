@@ -6375,3 +6375,7 @@ Das ist für den Onkel.|這是給叔叔的。
 Das ist für die Tante.|這是給阿姨的。
 Das ist die Mutter. Das ist ihr Auto.|這是媽媽。這是她的車。
 Das ist die Mutter. Ihr Auto ist neu.|這是媽媽。她的車是新的。
+Ich muss mal aufs Klo.|我要去上個廁所。
+Ich muss mal auf die Toilette.|我要去上個廁所。
+Papa ist gerade auf dem Klo.|爸爸現在在廁所。
+Papa ist gerade auf der Toilette.|爸爸現在在廁所。
