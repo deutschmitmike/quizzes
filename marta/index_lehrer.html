@@ -573,7 +573,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-3"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-4"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2445,8 +2445,8 @@ function wochenKarte(leute){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute
   const txt = zus===0 ? 'Bobby hat noch '+f[3].kein+' '+f[1]+'. Wer bringt ihm '+f[3].ersten+'?'
     : zus>=ziel ? ziel+' '+f[2]+'! Bobby ist pappsatt und glücklich. Danke, ihr zwei!'
     : 'Bobby hat schon '+zus+' von '+ziel+' '+f[2]+'. Noch '+rest+', dann ist er satt!';
-  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Diese Woche geübt</div>'+kopf+leute.map(zeile).join("")+
-    '<div style="font-size:15px;font-weight:800;margin:14px 0 2px;">Bobbys Essen der Woche</div>'+reihe+
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Wer hat Bobby diese Woche gefüttert?</div>'+kopf+leute.map(zeile).join("")+
+    '<div style="font-size:15px;font-weight:800;margin:14px 0 2px;">Diese Woche gibt es: '+f[2]+'</div>'+reihe+
     '<div style="font-size:14px;color:var(--ink);">'+txt+'</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">Jeder Übungstag von euch beiden ist ein Stück. Montag gibt es neues Essen.</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
 const G_=g=>({der:{kein:"keinen",ersten:"den ersten"},die:{kein:"keine",ersten:"die erste"},das:{kein:"kein",ersten:"das erste"}})[g];
@@ -2493,7 +2493,7 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
     const jn=document.getElementById("lbJoinNow"); if(jn) jn.onclick=()=>show("welcome"); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   if(CFG.partner){ const ich={name:zeigName(S.playerName), tage:uebTage()}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
-    const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Bobbys Wochenziel";
+    const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Bobby hat Hunger!";
     list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:[]}]);
     try{ fetch(SYNC_URL+CFG.partner.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:(e&&e.fertig)||[]}]); }).catch(()=>{}); }catch(e){}
     return; }
