@@ -638,7 +638,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-2"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8881,10 +8881,20 @@ function wochenKarte(leute){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute
   const kopf='<div style="display:flex;align-items:center;gap:8px;margin:0 0 2px;"><span style="min-width:74px"></span><span style="display:flex;gap:4px;">'+T.map((t,i)=>'<span style="width:22px;text-align:center;font-size:11px;font-weight:800;color:'+(i===heute?'var(--ink)':'var(--muted)')+'">'+t+'</span>').join("")+'</span></div>';
   const zeile=p=>{ const w=dieseWoche(p.tage); return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+
     [0,1,2,3,4,5,6].map(i=>'<span style="width:22px;height:22px;border-radius:50%;display:inline-block;'+(w.some(d=>(d+3)%7===i)?'background:var(--das);':'border:2px solid #d4dae6;box-sizing:border-box;')+'"></span>').join("")+'</span><span style="font-size:13px;color:var(--muted);font-weight:700;">'+w.length+(w.length===1?' Tag':' Tage')+'</span></div>'; };
-  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||10, pct=Math.min(100,Math.round(100*zus/ziel));
+  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||10, f=wochenEssen(), rest=Math.max(0,ziel-zus);
+  const reihe='<div style="display:flex;flex-wrap:wrap;gap:3px;font-size:26px;line-height:1.1;margin:4px 0 6px;">'+Array.from({length:ziel},(_,i)=>'<span style="'+(i<zus?'':'filter:grayscale(1);opacity:.22;')+'">'+f[0]+'</span>').join("")+'</div>';
+  const txt = zus===0 ? 'Bobby hat noch '+f[3].kein+' '+f[1]+'. Wer bringt ihm '+f[3].ersten+'?'
+    : zus>=ziel ? ziel+' '+f[2]+'! Bobby ist pappsatt und glücklich. Danke, ihr zwei!'
+    : 'Bobby hat schon '+zus+' von '+ziel+' '+f[2]+'. Noch '+rest+', dann ist er satt!';
   return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Diese Woche geübt</div>'+kopf+leute.map(zeile).join("")+
-    '<div style="font-size:15px;margin:12px 0 6px;">Zusammen <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
-    '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel geschafft! Super, ihr zwei!':'Noch '+(ziel-zus)+(ziel-zus===1?' Tag':' Tage')+' bis zum Wochenziel. Montag geht es neu los.')+'</div>'; }
+    '<div style="font-size:15px;font-weight:800;margin:14px 0 2px;">Bobbys Essen der Woche</div>'+reihe+
+    '<div style="font-size:14px;color:var(--ink);">'+txt+'</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">Jeder Übungstag von euch beiden ist ein Stück. Montag gibt es neues Essen.</div>'; }
+// Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
+const G_=g=>({der:{kein:"keinen",ersten:"den ersten"},die:{kein:"keine",ersten:"die erste"},das:{kein:"kein",ersten:"das erste"}})[g];
+const ESSEN=[["🍊","Orange","Orangen",G_("die")],["🥨","Brezel","Brezeln",G_("die")],["🌭","Hotdog","Hotdogs",G_("der")],["🍰","Kuchenstück","Kuchenstücke",G_("das")],
+  ["🍉","Melonenstück","Melonenstücke",G_("das")],["🍎","Apfel","Äpfel",G_("der")],["🥕","Karotte","Karotten",G_("die")],["🍕","Pizzastück","Pizzastücke",G_("das")],
+  ["🍌","Banane","Bananen",G_("die")],["🌽","Maiskolben","Maiskolben",G_("der")],["🍓","Erdbeere","Erdbeeren",G_("die")],["🍪","Keks","Kekse",G_("der")]];
+function wochenEssen(){ const wk=Math.floor((today()+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7); return ESSEN[((wk-wk0)%ESSEN.length+ESSEN.length)%ESSEN.length]; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
@@ -8924,7 +8934,7 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
     const jn=document.getElementById("lbJoinNow"); if(jn) jn.onclick=()=>show("welcome"); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
   if(CFG.partner){ const ich={name:zeigName(S.playerName), tage:uebTage()}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
-    const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Wochenziel";
+    const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Bobbys Wochenziel";
     list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:[]}]);
     try{ fetch(SYNC_URL+CFG.partner.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:(e&&e.fertig)||[]}]); }).catch(()=>{}); }catch(e){}
     return; }
