@@ -1467,7 +1467,7 @@ function renderHome(){
   setMascot("homeMascot", S.streak>0?"happy":"idle");
   { const gname=zeigName((S.playerName||"").trim()); const hg=document.getElementById("homeGreet");
     const swb=document.getElementById("switchBtn"); if(swb) swb.style.display=(SYNC_URL&&gname)?"block":"none";
-    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"! "+(/bobby/i.test(gname)?"Ich heiße auch Bobby!":"Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
+    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"!"+(/bobby/i.test(gname)?"":" Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";

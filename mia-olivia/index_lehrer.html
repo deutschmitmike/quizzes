@@ -638,7 +638,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9366,7 +9366,7 @@ function renderHome(){
   setMascot("homeMascot", S.streak>0?"happy":"idle");
   { const gname=zeigName((S.playerName||"").trim()); const hg=document.getElementById("homeGreet");
     const swb=document.getElementById("switchBtn"); if(swb) swb.style.display=(SYNC_URL&&gname)?"block":"none";
-    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"! "+(/bobby/i.test(gname)?"Ich heiße auch Bobby!":"Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
+    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"!"+(/bobby/i.test(gname)?"":" Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";
