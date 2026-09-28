@@ -96,7 +96,7 @@ const GROUP={
  ],
  "sound": false,
  "ohneKarten": ["po:Sonne","po:Kind","ps:Kind","ps:Sonne"],
- "partner": {"pfad":"lb/__marta/marta","name":"Bobby M","ziel":10},
+ "partner": {"pfad":"lb/__marta/marta","name":"Bobby M"},
  "beispielName": "Marta"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ

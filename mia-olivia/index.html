@@ -651,7 +651,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-8"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-9"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9036,22 +9036,28 @@ function uebTage(){ const f=(S.fertig||[]).slice(); if(!f.length&&S.lastDay!=nul
 const zeigName=n=>(CFG.anzeige&&CFG.anzeige[n])||n;   // Anzeigename (Marta heisst in der App "Bobby M")
 // Wochen-Kaertchen (CFG.partner, Kyana & Marta): wer hat diese Woche geuebt? Ein Punkt pro Tag, montags neu. Dazu ein gemeinsames Ziel.
 function dieseWoche(tage){ const wk=Math.floor((today()+3)/7); return [...new Set((tage||[]).filter(d=>Math.floor((d+3)/7)===wk))]; }
-function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute=(today()+3)%7;
-  const kopf='<div style="display:flex;align-items:center;gap:8px;margin:0 0 2px;"><span style="min-width:74px"></span><span style="display:flex;gap:4px;">'+T.map((t,i)=>'<span style="width:22px;text-align:center;font-size:11px;font-weight:800;color:'+(i===heute?'var(--ink)':'var(--muted)')+'">'+t+'</span>').join("")+'</span></div>';
+function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], t=today(), heute=(t+3)%7, mo=t-heute;
+  const kopf='<div style="display:flex;align-items:center;gap:8px;margin:0 0 2px;"><span style="min-width:74px"></span><span style="display:flex;gap:4px;">'+T.map((x,i)=>'<span style="width:'+(sachlich?22:26)+'px;text-align:center;font-size:11px;font-weight:800;color:'+(i===heute?'var(--ink)':'var(--muted)')+'">'+x+'</span>').join("")+'</span></div>';
   const zeile=p=>{ const w=dieseWoche(p.tage); return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+
     [0,1,2,3,4,5,6].map(i=>'<span style="width:22px;height:22px;border-radius:50%;display:inline-block;'+(w.some(d=>(d+3)%7===i)?'background:var(--das);':'border:2px solid #d4dae6;box-sizing:border-box;')+'"></span>').join("")+'</span><span style="font-size:13px;color:var(--muted);font-weight:700;">'+w.length+(w.length===1?' Tag':' Tage')+'</span></div>'; };
-  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||CFG.wochenZiel||10, f=wochenEssen(), rest=Math.max(0,ziel-zus);
+  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=CFG.wochenZiel||10, rest=Math.max(0,ziel-zus);
   if(sachlich){ const pct=Math.min(100,Math.round(100*zus/ziel));   // Mia & Olivia: ohne Maskottchen, ganz normal
     return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Übungstage diese Woche</div>'+kopf+leute.map(zeile).join("")+
       '<div style="font-size:15px;margin:14px 0 6px;">Gemeinsam <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
       '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
-  const reihe='<div style="display:flex;flex-wrap:wrap;gap:3px;font-size:26px;line-height:1.1;margin:4px 0 6px;">'+Array.from({length:ziel},(_,i)=>'<span style="'+(i<zus?'':'filter:grayscale(1);opacity:.22;')+'">'+f[0]+'</span>').join("")+'</div>';
-  const txt = zus===0 ? 'Bobby hat noch '+f[3].kein+' '+f[1]+'. Wer bringt ihm '+f[3].ersten+'?'
-    : zus>=ziel ? ziel+' '+f[2]+'! Bobby ist pappsatt und glücklich. Danke, ihr zwei!'
-    : 'Bobby hat schon '+zus+' von '+ziel+' '+f[2]+'. Noch '+rest+', dann ist er satt!';
-  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Wer hat Bobby diese Woche gefüttert?</div>'+kopf+leute.map(zeile).join("")+
-    '<div style="font-size:15px;font-weight:800;margin:14px 0 2px;">Diese Woche gibt es: '+f[2]+'</div>'+reihe+
-    '<div style="font-size:14px;color:var(--ink);">'+txt+'</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">Jeder Übungstag von euch beiden ist ein Stück. Montag gibt es neues Essen.</div>'; }
+  // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
+  const f=wochenEssen(), hat=(p,d)=>(p.tage||[]).includes(d);
+  const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d);
+    return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok?'':(d<t?'':'filter:grayscale(1);opacity:.22;'))+'">'+(ok?f[0]:(d<t?'😣':f[0]))+'</span>'; };
+  const reihe=p=>'<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+[0,1,2,3,4,5,6].map(i=>slot(p,i)).join("")+'</span></div>';
+  const mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=leute.length*7;
+  const txt = heuteN>=leute.length ? 'Heute hat Bobby beide Mahlzeiten bekommen. Er ist satt und glücklich!'
+    : heute>0&&gesternN<leute.length ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur eine Mahlzeit':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte '+(heuteN?'noch eine':'beide')+'!'
+    : heuteN ? 'Bobby hat heute schon eine Mahlzeit. Wer bringt ihm die zweite?'
+    : 'Bobby hat Hunger! Er wartet heute auf zwei Mahlzeiten: eine von '+leute.map(p=>p.name).join(', eine von ')+'.';
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Diese Woche gibt es: '+f[2]+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
+    '<div style="font-size:14px;color:var(--ink);margin-top:10px;">'+txt+'</div>'+
+    '<div style="font-size:12px;color:var(--muted);margin-top:4px;">Diese Woche '+wo+' von '+soll+' Mahlzeiten'+(wo>=soll?'. Die ganze Woche jeden Tag gefüttert, super!':'. Jeder Übungstag ist eine Mahlzeit, montags gibt es neues Essen.')+'</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
 const G_=g=>({der:{kein:"keinen",ersten:"den ersten"},die:{kein:"keine",ersten:"die erste"},das:{kein:"kein",ersten:"das erste"}})[g];
 const ESSEN=[["🍊","Orange","Orangen",G_("die")],["🥨","Brezel","Brezeln",G_("die")],["🌭","Hotdog","Hotdogs",G_("der")],["🍰","Kuchenstück","Kuchenstücke",G_("das")],
@@ -9498,7 +9504,8 @@ function finishSession(){
   const ub=document.getElementById("unlockBox"); ub.innerHTML="";
   if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">'+S.streak+'. Übungstag geschafft, weiter so!</div>';
   if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
-  if(CFG.partner||CFG.wochenZiel){ const n=dieseWoche(uebTage()).length; ub.innerHTML+='<div class="unlock">Du hast diese Woche '+n+(n===1?' Tag':' Tage')+' geübt.</div>'; }
+  if(CFG.partner){ ub.innerHTML+='<div class="unlock">Mjam! Du hast Bobby heute gefüttert.</div>'; }
+  else if(CFG.wochenZiel){ const n=dieseWoche(uebTage()).length; ub.innerHTML+='<div class="unlock">Du hast diese Woche '+n+(n===1?' Tag':' Tage')+' geübt.</div>'; }
   if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Übungstage, neues Abzeichen!</div>';
   if(wordMedalNew!=null) ub.innerHTML+='<div class="unlock medalbox" style="background:linear-gradient(135deg,#E2F7F2,#C3EFE6);border-color:#2BA89A;color:#0d6b5e;">'+medalSvg(wordMedalNew,"teal")+' '+wordMedalNew+' Wörter gemeistert!</div>';
   if(u){const st=STAGES.find(x=>x.id===u)||{name:""}; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+', '+st.name+'!</div>';}

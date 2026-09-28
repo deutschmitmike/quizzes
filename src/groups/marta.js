@@ -101,7 +101,7 @@ const GROUP={
  ],
  "sound": false,
  "ohneKarten": ["po:Sonne","po:Kind","ps:Kind","ps:Sonne"],
- "partner": {"pfad":"lb/bobby_k","name":"Bobby K","ziel":10},
+ "partner": {"pfad":"lb/bobby_k","name":"Bobby K"},
  "anzeige": {"Marta":"Bobby M"},
  "beispielName": "Kyana"
 };
