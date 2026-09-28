@@ -759,7 +759,7 @@ function buildItems(){const items=[];
   const OHNE_PL=new Set(["Geld", "Papier", "Spaß", "Hilfe", "Luft", "Himmel", "Haut", "Ordnung", "Schluss", "Honig", "Öl", "Schokolade", "Marmelade", "Müsli", "Kreide", "Pappe", "Asche", "Brühe", "Seide", "Teig", "Tinte", "Wachs", "Lack", "Garn", "Kompost", "Getreide", "Pulver", "Sprudel", "Gemüse", "Geschirr", "Besteck", "Donner", "Nebel", "Frost", "Dampf", "Glut", "Grippe", "Freude", "Not", "Brust", "Mops", "Fett", "Unkraut", "Moos", "Schoß", "Strom", "Mittag"]);   // Mike 2026-09-27: keine Mehrzahl-Karte fuer Woerter, die man praktisch nur in der Einzahl benutzt (Artikel-Karte bleibt)
   Object.keys(P).filter(w=>!OHNE_PL.has(w)).forEach(w=>items.push({id:"p:"+w,stage:2,kind:"plural",word:w}));
   const expl=(arr,stage,idp,ex)=>{const o=[]; arr.forEach((x,fi)=>x.pool.forEach(w=>o.push({id:idp+fi+":"+w,stage,kind:"case",x:ex?Object.assign({},x,ex):x,w:w}))); return o;};
-  expl(W,3,"w:").slice(0,100).forEach(it=>items.push(it));
+  expl(W,3,"w:").forEach(it=>items.push(it));   // alle Satzrahmen (frueher nach 100 Karten abgeschnitten)
   if(STAGES.some(x=>x.id===3)) expl(W_KLO,3,"wk:").forEach(it=>items.push(it));   // aufs Klo / auf dem Klo, auf die / auf der Toilette (Mike: hoert er oft falsch)
   expl(D,4,"d:").slice(0,100).forEach(it=>items.push(it));
   expl(A,5,"a:").slice(0,100).forEach(it=>items.push(it));
