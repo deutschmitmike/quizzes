@@ -651,7 +651,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-9"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-10"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9048,7 +9048,7 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
   // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
   const f=wochenEssen(), hat=(p,d)=>(p.tage||[]).includes(d);
   const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d);
-    return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok?'':(d<t?'':'filter:grayscale(1);opacity:.22;'))+'">'+(ok?f[0]:(d<t?'😣':f[0]))+'</span>'; };
+    return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok?'':(d<t?'':'filter:grayscale(1);opacity:.22;'))+'">'+(ok?f[0]:(d<t?'😩':f[0]))+'</span>'; };
   const reihe=p=>'<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+[0,1,2,3,4,5,6].map(i=>slot(p,i)).join("")+'</span></div>';
   const mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=leute.length*7;
   const txt = heuteN>=leute.length ? 'Heute hat Bobby beide Mahlzeiten bekommen. Er ist satt und glücklich!'
@@ -9063,7 +9063,10 @@ const G_=g=>({der:{kein:"keinen",ersten:"den ersten"},die:{kein:"keine",ersten:"
 const ESSEN=[["🍊","Orange","Orangen",G_("die")],["🥨","Brezel","Brezeln",G_("die")],["🌭","Hotdog","Hotdogs",G_("der")],["🍰","Kuchenstück","Kuchenstücke",G_("das")],
   ["🍉","Melonenstück","Melonenstücke",G_("das")],["🍎","Apfel","Äpfel",G_("der")],["🥕","Karotte","Karotten",G_("die")],["🍕","Pizzastück","Pizzastücke",G_("das")],
   ["🍌","Banane","Bananen",G_("die")],["🌽","Maiskolben","Maiskolben",G_("der")],["🍓","Erdbeere","Erdbeeren",G_("die")],["🍪","Keks","Kekse",G_("der")]];
-function wochenEssen(){ const wk=Math.floor((today()+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7); return ESSEN[((wk-wk0)%ESSEN.length+ESSEN.length)%ESSEN.length]; }
+// Die Kinder bestimmen, was Bobby naechste Woche isst: Eintrag "Montag der Woche": [Emoji, Einzahl, Mehrzahl] (Mike 2026-09-28). Ohne Eintrag: ESSEN reihum.
+const ESSEN_PLAN={"2026-09-28":["🍊","Orange","Orangen"],"2026-10-05":["🍣","Sushi","Sushi"]};
+function wochenEssen(){ const t=today(), mo=t-((t+3)%7), key=new Date(mo*864e5).toISOString().slice(0,10); if(ESSEN_PLAN[key]) return ESSEN_PLAN[key];
+  const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7); return ESSEN[((wk-wk0)%ESSEN.length+ESSEN.length)%ESSEN.length]; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
