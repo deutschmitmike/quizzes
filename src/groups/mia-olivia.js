@@ -192,7 +192,7 @@ const GROUP={
   1
  ],
  "sound": false,
- "wochenZiel": 10,
+ "wochenZiel": 14,
  "nameSwap": {
   "Mia": "Olivia",
   "Olivia": "Mia"
