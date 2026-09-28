@@ -166,11 +166,11 @@
     </div>
     <div id="levelBox" style="margin: 0px 2px 10px; font-size: 13px; color: var(--gold); font-weight: 800;"></div>
     <button class="btn big" id="startBtn">Heute üben</button>
-    <div class="stages" id="stageList"></div>
     <div class="panel" id="lbPanel" style="display: block; margin-top: 12px;">
       <h2 style="font-size:17px; margin:0 0 8px;">Gemeinsames Ziel 🎯</h2>
       <div id="lbList"><button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button></div>
     </div>
+    <div class="stages" id="stageList"></div>
     <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
   </div>
 
@@ -432,6 +432,7 @@ const GROUP={
   1
  ],
  "sound": false,
+ "wochenZiel": 10,
  "nameSwap": {
   "Mia": "Olivia",
   "Olivia": "Mia"
@@ -627,7 +628,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-4"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-28-5"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8866,11 +8867,15 @@ function uebTage(){ const f=(S.fertig||[]).slice(); if(!f.length&&S.lastDay!=nul
 const zeigName=n=>(CFG.anzeige&&CFG.anzeige[n])||n;   // Anzeigename (Marta heisst in der App "Bobby M")
 // Wochen-Kaertchen (CFG.partner, Kyana & Marta): wer hat diese Woche geuebt? Ein Punkt pro Tag, montags neu. Dazu ein gemeinsames Ziel.
 function dieseWoche(tage){ const wk=Math.floor((today()+3)/7); return [...new Set((tage||[]).filter(d=>Math.floor((d+3)/7)===wk))]; }
-function wochenKarte(leute){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute=(today()+3)%7;
+function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute=(today()+3)%7;
   const kopf='<div style="display:flex;align-items:center;gap:8px;margin:0 0 2px;"><span style="min-width:74px"></span><span style="display:flex;gap:4px;">'+T.map((t,i)=>'<span style="width:22px;text-align:center;font-size:11px;font-weight:800;color:'+(i===heute?'var(--ink)':'var(--muted)')+'">'+t+'</span>').join("")+'</span></div>';
   const zeile=p=>{ const w=dieseWoche(p.tage); return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+
     [0,1,2,3,4,5,6].map(i=>'<span style="width:22px;height:22px;border-radius:50%;display:inline-block;'+(w.some(d=>(d+3)%7===i)?'background:var(--das);':'border:2px solid #d4dae6;box-sizing:border-box;')+'"></span>').join("")+'</span><span style="font-size:13px;color:var(--muted);font-weight:700;">'+w.length+(w.length===1?' Tag':' Tage')+'</span></div>'; };
-  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||10, f=wochenEssen(), rest=Math.max(0,ziel-zus);
+  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||CFG.wochenZiel||10, f=wochenEssen(), rest=Math.max(0,ziel-zus);
+  if(sachlich){ const pct=Math.min(100,Math.round(100*zus/ziel));   // Mia & Olivia: ohne Maskottchen, ganz normal
+    return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Übungstage diese Woche</div>'+kopf+leute.map(zeile).join("")+
+      '<div style="font-size:15px;margin:14px 0 6px;">Gemeinsam <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
   const reihe='<div style="display:flex;flex-wrap:wrap;gap:3px;font-size:26px;line-height:1.1;margin:4px 0 6px;">'+Array.from({length:ziel},(_,i)=>'<span style="'+(i<zus?'':'filter:grayscale(1);opacity:.22;')+'">'+f[0]+'</span>').join("")+'</div>';
   const txt = zus===0 ? 'Bobby hat noch '+f[3].kein+' '+f[1]+'. Wer bringt ihm '+f[3].ersten+'?'
     : zus>=ziel ? ziel+' '+f[2]+'! Bobby ist pappsatt und glücklich. Danke, ihr zwei!'
@@ -8927,6 +8932,9 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
     list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:[]}]);
     try{ fetch(SYNC_URL+CFG.partner.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:(e&&e.fertig)||[]}]); }).catch(()=>{}); }catch(e){}
     return; }
+  if(CFG.wochenZiel){ const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Wochenziel"; const ps=document.getElementById("playerScores"); if(ps&&CFG.weekView) ps.innerHTML=weekHtml();   // Geschwister in einer Gruppe (Mia & Olivia)
+    const leute=o=>(CFG.names||[S.playerName]).map(n=>({name:n, tage:n===S.playerName?uebTage():(((o||{})[nameKey(n)]||{}).fertig||[])}));
+    list.innerHTML=wochenKarte(leute(null),true); syncPull(o=>{ if(o) list.innerHTML=wochenKarte(leute(o),true); }); return; }
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
     const arr=Object.keys(o).filter(k=>k[0]!=="_").map(k=>o[k]).filter(e=>e&&e.name);   // _focus (Lehrer-Schwerpunkt) ist kein Spieler
@@ -9321,7 +9329,7 @@ function finishSession(){
   const ub=document.getElementById("unlockBox"); ub.innerHTML="";
   if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">'+S.streak+'. Übungstag geschafft, weiter so!</div>';
   if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
-  if(CFG.partner){ const n=dieseWoche(uebTage()).length; ub.innerHTML+='<div class="unlock">Du hast diese Woche '+n+(n===1?' Tag':' Tage')+' geübt.</div>'; }
+  if(CFG.partner||CFG.wochenZiel){ const n=dieseWoche(uebTage()).length; ub.innerHTML+='<div class="unlock">Du hast diese Woche '+n+(n===1?' Tag':' Tage')+' geübt.</div>'; }
   if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Übungstage, neues Abzeichen!</div>';
   if(wordMedalNew!=null) ub.innerHTML+='<div class="unlock medalbox" style="background:linear-gradient(135deg,#E2F7F2,#C3EFE6);border-color:#2BA89A;color:#0d6b5e;">'+medalSvg(wordMedalNew,"teal")+' '+wordMedalNew+' Wörter gemeistert!</div>';
   if(u){const st=STAGES.find(x=>x.id===u)||{name:""}; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+', '+st.name+'!</div>';}
