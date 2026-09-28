@@ -35,7 +35,7 @@ t = open(os.path.join(G, a.vorlage + ".js"), encoding="utf-8").read()
 i = t.index("const GROUP=") + len("const GROUP="); j = t.index(";\n", i); cfg = json.loads(t[i:j])
 alt0 = cfg.get("beispielName")
 cfg.update(dict(neu, name=a.name, names=namen, zh=bool(a.zh)))
-cfg.pop("roundFullAb", None)   # Stichtag gehoert zu Mia & Olivia; neue Gruppen: volle Runde nach 7 Uebungstagen
+cfg.pop("roundFullAb", None); cfg.pop("partner", None); cfg.pop("anzeige", None); cfg.pop("startNur", None); cfg.pop("startTage", None)   # Stichtag gehoert zu Mia & Olivia; neue Gruppen: volle Runde nach 7 Uebungstagen
 rest = t[j:]
 alt = alt0   # Beispielsaetze: bei neuen Schuelern immer der eigene Name (Mike)
 if alt: rest = rest.replace(alt, namen[0])

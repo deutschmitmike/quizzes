@@ -638,7 +638,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-27-26"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-09-28-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8872,7 +8872,19 @@ function nameKey(n){ return (n||"").trim().toLowerCase().replace(/[.#$\[\]\/\s]+
 function esc(s){ return (s||"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
 function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
   return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
-    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length, sterne:(S.points||0), ts:Date.now()}; }
+    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length, sterne:(S.points||0), fertig:uebTage().slice(-14), ts:Date.now()}; }
+function uebTage(){ const f=(S.fertig||[]).slice(); if(!f.length&&S.lastDay!=null) f.push(S.lastDay); return [...new Set(f)].sort((a,b)=>a-b); }   // Tage mit fertig gespielter Runde
+const zeigName=n=>(CFG.anzeige&&CFG.anzeige[n])||n;   // Anzeigename (Marta heisst in der App "Bobby M")
+// Wochen-Kaertchen (CFG.partner, Kyana & Marta): wer hat diese Woche geuebt? Ein Punkt pro Tag, montags neu. Dazu ein gemeinsames Ziel.
+function dieseWoche(tage){ const wk=Math.floor((today()+3)/7); return [...new Set((tage||[]).filter(d=>Math.floor((d+3)/7)===wk))]; }
+function wochenKarte(leute){ const T=["Mo","Di","Mi","Do","Fr","Sa","So"], heute=(today()+3)%7;
+  const kopf='<div style="display:flex;align-items:center;gap:8px;margin:0 0 2px;"><span style="min-width:74px"></span><span style="display:flex;gap:4px;">'+T.map((t,i)=>'<span style="width:22px;text-align:center;font-size:11px;font-weight:800;color:'+(i===heute?'var(--ink)':'var(--muted)')+'">'+t+'</span>').join("")+'</span></div>';
+  const zeile=p=>{ const w=dieseWoche(p.tage); return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+
+    [0,1,2,3,4,5,6].map(i=>'<span style="width:22px;height:22px;border-radius:50%;display:inline-block;'+(w.some(d=>(d+3)%7===i)?'background:var(--das);':'border:2px solid #d4dae6;box-sizing:border-box;')+'"></span>').join("")+'</span><span style="font-size:13px;color:var(--muted);font-weight:700;">'+w.length+(w.length===1?' Tag':' Tage')+'</span></div>'; };
+  const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=(CFG.partner&&CFG.partner.ziel)||10, pct=Math.min(100,Math.round(100*zus/ziel));
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Diese Woche geübt</div>'+kopf+leute.map(zeile).join("")+
+    '<div style="font-size:15px;margin:12px 0 6px;">Zusammen <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
+    '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel geschafft! Super, ihr zwei!':'Noch '+(ziel-zus)+(ziel-zus===1?' Tag':' Tage')+' bis zum Wochenziel. Montag geht es neu los.')+'</div>'; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
@@ -8911,6 +8923,11 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   if(!S.playerName){ list.innerHTML='<button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button>';
     const jn=document.getElementById("lbJoinNow"); if(jn) jn.onclick=()=>show("welcome"); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
+  if(CFG.partner){ const ich={name:zeigName(S.playerName), tage:uebTage()}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
+    const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Wochenziel";
+    list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:[]}]);
+    try{ fetch(SYNC_URL+CFG.partner.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:(e&&e.fertig)||[]}]); }).catch(()=>{}); }catch(e){}
+    return; }
   syncPull(o=>{ if(o===false){ panel.style.display="none"; return; }
     if(!o){ list.innerHTML='<div style="color:var(--muted);font-size:13px;">gerade offline, kommt wieder</div>'; return; }
     const arr=Object.keys(o).filter(k=>k[0]!=="_").map(k=>o[k]).filter(e=>e&&e.name);   // _focus (Lehrer-Schwerpunkt) ist kein Spieler
@@ -9284,7 +9301,7 @@ let sessionDay=null;   // Tag, an dem die Runde begann (Runde ueber Mitternacht 
 function finishSession(){
   const t=sessionDay!=null&&sessionDay<=today()?sessionDay:today(); sessionDay=null; const prevStreak=S.streak||0;
   if(!stufenTest){ if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
-    S.lastDay=t; S.best=S.streak; S.resume=null; }
+    S.lastDay=t; S.best=S.streak; S.resume=null; S.fertig=[...new Set((S.fertig||[]).filter(d=>d>t-14).concat([t]))]; }
   stufenTest=false;
   S.medals=S.medals||[]; let medalNew=null;
   MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
@@ -9305,6 +9322,7 @@ function finishSession(){
   const ub=document.getElementById("unlockBox"); ub.innerHTML="";
   if(grew) ub.innerHTML+='<div class="unlock" style="background:linear-gradient(135deg,#FFF1D6,#FFE0A8);border-color:var(--gold);color:#8a5a10;">'+S.streak+'. Übungstag geschafft, weiter so!</div>';
   if(perfect) ub.innerHTML+='<div class="unlock perfect">Perfekte Runde! Alles auf Anhieb richtig.</div>';
+  if(CFG.partner){ const n=dieseWoche(uebTage()).length; ub.innerHTML+='<div class="unlock">Du hast diese Woche '+n+(n===1?' Tag':' Tage')+' geübt.</div>'; }
   if(medalNew!=null) ub.innerHTML+='<div class="unlock medalbox">'+medalSvg(medalNew)+' '+medalNew+' Übungstage, neues Abzeichen!</div>';
   if(wordMedalNew!=null) ub.innerHTML+='<div class="unlock medalbox" style="background:linear-gradient(135deg,#E2F7F2,#C3EFE6);border-color:#2BA89A;color:#0d6b5e;">'+medalSvg(wordMedalNew,"teal")+' '+wordMedalNew+' Wörter gemeistert!</div>';
   if(u){const st=STAGES.find(x=>x.id===u)||{name:""}; ub.innerHTML+='<div class="unlock">Neu frei: Stufe '+u+', '+st.name+'!</div>';}
@@ -9346,9 +9364,9 @@ function renderHome(){
   if(cn){ if(gotN<ANIMALS.length){ const need=STAR_GOALS[gotN]-(S.points||0); cn.textContent="Noch "+need+" ⭐ bis "+ANIMALS[gotN]; }
     else cn.textContent="Alle Tiere gesammelt! 🎉"; }
   setMascot("homeMascot", S.streak>0?"happy":"idle");
-  { const gname=(S.playerName||"").trim(); const hg=document.getElementById("homeGreet");
+  { const gname=zeigName((S.playerName||"").trim()); const hg=document.getElementById("homeGreet");
     const swb=document.getElementById("switchBtn"); if(swb) swb.style.display=(SYNC_URL&&gname)?"block":"none";
-    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"! "+(/bobby/i.test(gname)?"Ich heiße auch "+gname+"!":"Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
+    if(hg) hg.textContent = (CFG.mascot ? (gname ? ("Hallo "+gname+"! "+(/bobby/i.test(gname)?"Ich heiße auch Bobby!":"Ich bin Bobby!")) : "Hallo! Ich bin Bobby!") : (gname ? ("Hallo "+gname+"!") : "Hallo!"))+(CFG.teacher?" (Lehrer-Test)":""); }
   const sicher=Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length;
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";
@@ -9442,7 +9460,7 @@ if(ERLAUBT){ const wc=document.querySelector&&document.querySelector("#welcome .
   ["welNameInput","welJoin","welSkip"].forEach(id=>{ const e=document.getElementById(id); if(e) e.hidden=true; });
   const sub=wc&&wc.querySelector(".sub"); if(sub) sub.textContent="Wer bist du?";
   ERLAUBT.forEach((n,i)=>{ let b=document.getElementById("wel_"+nameKey(n)); if(!b&&wc){ b=document.createElement("button"); b.className="btn big"; b.id="wel_"+nameKey(n); b.style.marginTop=i?"12px":"6px";
-      if(i%2){ b.style.background="var(--das)"; b.style.boxShadow="0 6px 0 #157a43"; } b.textContent="Ich bin "+n; wc.appendChild(b); }
+      if(i%2){ b.style.background="var(--das)"; b.style.boxShadow="0 6px 0 #157a43"; } b.textContent="Ich bin "+zeigName(n); wc.appendChild(b); }
     if(b) b.onclick=()=>{ lbPickName(n); show("home"); }; }); }
 function switchPlayer(){ if(!S.playerName) return;                    // geteiltes Geraet: Stand sichern (lokal je Name + Cloud), dann neu anmelden
   save(); syncPush(); cloudSave(); try{ localStorage.setItem(KEY+"_p_"+nameKey(S.playerName), JSON.stringify(S)); }catch(e){}
