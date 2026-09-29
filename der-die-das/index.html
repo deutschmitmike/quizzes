@@ -581,7 +581,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-29-1"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-29-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2814,13 +2814,16 @@ function renderCurrent(){
   } else {                                                  // alle anderen: immer echte Auswahl (Selbst-Check abgeschafft - war eine Hintertuer)
     d.options.forEach(o=>{ const b=document.createElement("button");
       b.className="btn opt"+(it.kind==="genus"&&["der","die","das"].includes(o)?" "+o:"")   /* Artikelfarben nur bei Artikel-Karten; bei Relativpronomen/Dativ ist "der" oft weiblich */;
-      b.textContent=o; b.onclick=()=>answer(b,o,d,it); opts.appendChild(b); });
+      b.textContent=o; b.onclick=()=>{ if(!b.dataset.frei) return; answer(b,o,d,it); }; b.style.opacity=".4"; opts.appendChild(b); });
+    const warte=rateSperre>0?3000:1000, token=++karteNr; if(rateSperre>0) rateSperre--;   // Knoepfe erst nach 1 s (nach schnellem Fehler 3 s): kein blindes Durchtippen (Mike 2026-09-29)
+    setTimeout(()=>{ if(token!==karteNr) return; [...opts.querySelectorAll(".opt")].forEach(b=>{ b.dataset.frei="1"; b.style.opacity=""; }); freiAb=Date.now(); shownAt=Date.now(); }, warte);
   }
   const rem=new Set(queue.map(q=>q.id)).size, done=Math.max(0,sessionTotal-rem);
   document.getElementById("sessN").textContent=done+"/"+sessionTotal;
   document.getElementById("progBar").style.width=(100*done/sessionTotal)+"%";
   setMascot("playMascot","idle");
 }
+let rateSperre=0, karteNr=0, freiAb=0;   // Raten bremsen: schnell + falsch -> naechste 3 Karten 3 s warten
 function answer(btn,chosen,d,it){
   if(!answeredAt) answeredAt=Date.now();
   const fb=document.getElementById("fb");
@@ -2838,7 +2841,8 @@ function answer(btn,chosen,d,it){
   } else {
     // aktive Korrektur: falsch Angetipptes sperren, den richtigen markieren – erst der bewusste Tipp darauf führt weiter (kein Auto-Sprung, kein Wegklicken)
     btn.classList.add("wrong");
-    fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Tippe auf die richtige Lösung: <b>"+d.correct+"</b>"+(d.auch?" (auch: "+d.auch.join(", ")+")":"")+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops");
+    const geraten=freiAb&&Date.now()-freiAb<1500; if(geraten) rateSperre=3;
+    fb.innerHTML=(geraten?(CFG.mascot?"Hoppla, zu schnell geraten! Schau genau hin. ":"Zu schnell geraten? Lies die Karte in Ruhe. "):"")+GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Tippe auf die richtige Lösung: <b>"+d.correct+"</b>"+(d.auch?" (auch: "+d.auch.join(", ")+")":"")+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops");
     fb.insertAdjacentHTML("beforeend", zhHtml(it,d));
     [...document.querySelectorAll(".opt")].forEach(b=>{
       if(b.textContent===d.correct||(d.auch||[]).includes(b.textContent)){ b.classList.add("correct"); b.disabled=false; b.onclick=commitNext; }
