@@ -6517,3 +6517,9 @@ Mia legt die Stifte ins Mäppchen.|Mia 把筆放進鉛筆盒裡。
 Mia legt die Stifte in die Schublade.|Mia 把筆放進抽屜裡。
 Die Stifte liegen im Mäppchen.|筆在鉛筆盒裡。
 Die Stifte liegen in der Schublade.|筆在抽屜裡。
+Olivia legt die Fernbedienung auf das Sofa.|Olivia 把遙控器放到沙發上。
+Olivia legt die Fernbedienung auf den Tisch.|Olivia 把遙控器放到桌子上。
+Die Fernbedienung liegt auf dem Sofa.|遙控器在沙發上。
+Die Fernbedienung liegt auf dem Tisch.|遙控器在桌子上。
+Olivia legt die Fernbedienung unter das Kissen.|Olivia 把遙控器放到枕頭底下。
+Die Fernbedienung liegt unter dem Kissen.|遙控器在枕頭底下。
