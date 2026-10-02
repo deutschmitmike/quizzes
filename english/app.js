@@ -123,8 +123,8 @@ function diff(a, b) { const ta = a.split(/\s+/).filter(Boolean), tb = b.split(/\
   return {a: A.join(" "), b: B.join(" ")}; }
 
 /* ===== Runde planen ===== */
-const MIX = {1: {b: 3, m: 3, q: 2, s: 0}, 2: {b: 2, m: 2, q: 3, s: 1}, 3: {b: 1, m: 2, q: 3, s: 2}};   // Treppe: weniger Bausteine, mehr freies Sprechen
-function stufe() { const n = (S.tage || []).filter(d => d < today()).length; return n < 5 ? 1 : n < 14 ? 2 : 3; }
+const MIX = {1: {b: 2, m: 2, q: 4, s: 0}, 2: {b: 1, m: 2, q: 3, s: 2}, 3: {b: 1, m: 1, q: 4, s: 2}};   // Treppe: weniger Vorgaben, mehr freies Sprechen (Mike 2026-10-02: schwerer)
+function stufe() { const n = (S.tage || []).filter(d => d < today()).length; return n < 2 ? 1 : n < 7 ? 2 : 3; }
 function waehle(list, n, lv, belegt) {   // zuerst Ungenutztes der aktuellen Stufe, dann Ungenutztes darunter, dann das am laengsten Zurueckliegende
   return list.filter(x => x.lv <= lv && !belegt.has(x.id))
     .map(x => { const u = S.used[x.id]; return {x, k: (u == null ? 0 : 1000 + u) + (x.lv === lv ? 0 : 300) + Math.random()}; })
@@ -226,7 +226,7 @@ function danach(text, ex) {   // nach dem Absenden: ihr Satz, Beispiel zum Anhoe
     + (ex ? '<div class="lbl grey">別人可能會這樣說：</div><div class="ex">' + esc(ex) + ' ' + spk(ex) + '</div>' : "")
     + '<button class="btn" id="next">下一題</button>';
   $("#next").onclick = weiter; }
-function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "說三四句，用 because、so、but 連起來。" : "") + '</div>'; }
+function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "至少說三句，用 because、so、but 連起來。" : min > 1 ? "至少說兩句，或是一個長句子。" : "") + '</div>'; }
 
 /* ----- Satz bauen ----- */
 const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Hsinchu|Japan|English|German|Chinese|Sunday|TV)$/;
@@ -253,41 +253,41 @@ function stepKaertchen(it) {   // (Reserve, falls ein Satz keine MC-Stuecke hat)
       nsBind(satz); $("#next").onclick = weiter; } };
   zeig(); }
 
-function stepBauen(it) {   // Mehrfachauswahl in Stuecken: je Schritt 3 Moeglichkeiten, falsche werden rot und bleiben aus (sie tippt selbst das Richtige)
+function falscheSaetze(teile) {   // 3 falsche Saetze, je ein Stueck getauscht, moeglichst an verschiedenen Stellen
+  const paare = shuffle(teile.flatMap((t, k) => t.slice(1).map(f => [k, f]))), wahl = [], stellen = new Set();
+  paare.forEach(p => { if (wahl.length < 3 && !stellen.has(p[0])) { wahl.push(p); stellen.add(p[0]); } });
+  paare.forEach(p => { if (wahl.length < 3 && !wahl.includes(p)) wahl.push(p); });
+  return wahl.map(([k, f]) => teile.map((t, j) => j === k ? f : t[0]).join(" ")); }
+function stepBauen(it) {   // Mehrfachauswahl ganzer Saetze: falsche werden rot und bleiben aus, sie tippt selbst das Richtige
   const teile = typeof MC !== "undefined" && MC[it.id]; if (!teile) return stepKaertchen(it);
-  let n = 0; const fertig = [];
-  APP.innerHTML = kopf("選出正確的下一段") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="satz" id="satz"></div><div class="opts" id="opts"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
-  const zeig = () => {
-    $("#satz").innerHTML = fertig.map(esc).join(" ") + (n < teile.length ? ' <span class="blank"></span>' : "");
-    $("#opts").innerHTML = shuffle(teile[n]).map(o => '<button class="opt" data-ok="' + (o === teile[n][0] ? 1 : 0) + '">' + esc(o) + '</button>').join("");
-    $("#opts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
-      if (b.dataset.ok !== "1") { b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "不太對，再看看其他的。"; return; }
-      fertig.push(teile[n][0]); n++; $("#msg").textContent = "";
-      if (n < teile.length) return zeig();
-      $("#satz").classList.add("right"); $("#satz").textContent = it.en; $("#opts").style.display = "none"; $("#msg").style.display = "none"; say(it.en);
-      $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(it.en) + '</div>' + nsHtml("換你說整個句子") + '<button class="btn" id="next">下一題</button>';
-      nsBind(it.en); $("#next").onclick = weiter; }); };
-  zeig(); }
+  APP.innerHTML = kopf("選出正確的句子") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="opts" id="opts"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
+  $("#opts").innerHTML = shuffle([it.en, ...falscheSaetze(teile)]).map(o => '<button class="opt" data-ok="' + (o === it.en ? 1 : 0) + '">' + esc(o) + '</button>').join("");
+  $("#opts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    if (b.dataset.ok !== "1") { b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "這句有錯，再看看其他的。"; return; }
+    $("#opts").outerHTML = '<div class="satz right" id="satz">' + esc(it.en) + '</div>'; $("#msg").style.display = "none"; say(it.en);
+    $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(it.en) + '</div>' + nsHtml("蓋住句子，憑記憶說一次") + '<button class="btn" id="next">下一題</button>';
+    nsBind(it.en, null, "#satz"); $("#next").onclick = weiter; }); }
 
 /* ----- Nachsprechen (nach Satz bauen, Korrektur, Wiederholung) ----- */
 function nsHtml(label) {
   return '<div class="ns">' + (SR ? '<div class="microw"><button class="mic" id="nsmic" aria-label="說話">' + I.mic + '</button><div class="michint" id="nshint">' + (label || "換你說一次") + '</div></div>'
     : '<div class="hint">' + (label || "跟著大聲唸一次！") + '</div>') + '<div id="nsres"></div><div class="err" id="err"></div></div>'; }
-function nsBind(z, onTry) { const mic = $("#nsmic"), ziel = typeof z === "function" ? z : () => z; if (!mic) return;
-  mic.onclick = () => { $("#nshint").textContent = "正在聽……"; $("#err").textContent = "";
+function nsBind(z, onTry, deckel) { const mic = $("#nsmic"), ziel = typeof z === "function" ? z : () => z; if (!mic) return;   // deckel: Element, das beim Sprechen verdeckt wird
+  const zu = an => { const d = deckel && $(deckel); if (d) d.classList.toggle("verdeckt", an); };
+  mic.onclick = () => { $("#nshint").textContent = "正在聽……"; $("#err").textContent = ""; if (!REC) zu(true);
     hoeren(mic, {part: t => { $("#nsres").innerHTML = '<div class="said">' + esc(t) + '</div>'; },
-      end: t => { if (!t) { $("#nshint").textContent = "沒聽到，再按一次"; return; }
-        $("#nshint").textContent = "再說一次"; S.spoken++; save(); const sc = treffer(ziel(), t), weg = fehlend(ziel(), t), gut = sc >= 0.9 && weg.length <= 1;
+      end: t => { zu(false); if (!t) { $("#nshint").textContent = "沒聽到，再按一次"; return; }
+        $("#nshint").textContent = "再說一次"; S.spoken++; save(); const sc = treffer(ziel(), t), weg = fehlend(ziel(), t), gut = sc >= 0.9 && !weg.length;
         $("#nsres").innerHTML = '<div class="said">' + esc(t) + '</div><div class="fb ' + (gut ? "good" : "close") + '">'
-          + (gut ? (weg.length ? "說得很好！只少了一個字：" + esc(weg[0]) : "說得很好！") : "很接近了！" + (weg.length && weg.length <= 4 ? "少了：" + weg.map(esc).join("、") + "。" : "") + "可以再試一次，或是直接下一題。") + '</div>';
+          + (gut ? "說得很好！" : "很接近了！" + (weg.length && weg.length <= 4 ? "少了：" + weg.map(esc).join("、") + "。" : "") + "可以再試一次，或是直接下一題。") + '</div>';
         onTry && onTry(t, sc); },
-      err: e => { $("#err").textContent = errText(e); }}); }; }
+      err: e => { zu(false); $("#err").textContent = errText(e); }}); }; }
 
 /* ----- Satzmuster ----- */
 function stepMuster(it) {
   APP.innerHTML = kopf("用自己的話完成句子") + '<div class="card"><div class="stem">' + esc(it.en).replace(/___/g, '<span class="blank"></span>') + '</div>'
     + '<div class="zh">' + esc(it.zh) + '</div><div id="body">' + eingabeHtml("說出整個句子……") + absendenKnopf(1) + '</div></div>';
-  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 2; });
+  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 6; });
   $("#go").onclick = () => { const s = speichern(it, "muster", e); danach(s.text, it.ex); }; }
 
 /* ----- Laenger sprechen: Verbinder-Hilfe und ein Anstupser, wenn keiner vorkommt ----- */
@@ -309,10 +309,10 @@ function stepFrage(it) {
     + '<div id="body"><div class="helps"><button class="chip" id="hs">給我開頭</button><button class="chip" id="hw">單字提示</button><button class="chip" id="hv">說長一點</button></div>'
     + '<div class="hint hid" id="st">可以這樣說：' + esc(it.start) + '</div>'
     + '<div class="words hid" id="ws">' + (it.w || []).map(w => '<button class="word" data-say="' + esc(w[0]) + '">' + esc(w[0]) + '<small>' + esc(w[1]) + '</small></button>').join("") + '</div>'
-    + verbinderHtml() + eingabeHtml("說兩句以上，用 because、so、but 連起來……") + absendenKnopf(1) + '</div></div>';
+    + verbinderHtml() + eingabeHtml("說兩句以上，用 because、so、but 連起來……") + absendenKnopf(2) + '</div></div>';
   $("#zhb").onclick = () => { $("#zh").classList.toggle("hid"); };
-  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 2; });
-  $("#hs").onclick = () => { $("#st").classList.remove("hid"); if (!e.text()) e.el.value = it.start.split("...")[0].trim() + " "; $("#go").disabled = wc(e.text()) < 2; };   // nur der Teil vor dem ersten "..." kommt ins Feld
+  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 8; });
+  $("#hs").onclick = () => { $("#st").classList.remove("hid"); if (!e.text()) e.el.value = it.start.split("...")[0].trim() + " "; $("#go").disabled = wc(e.text()) < 8; };   // nur der Teil vor dem ersten "..." kommt ins Feld
   $("#hw").onclick = () => { $("#ws").classList.toggle("hid"); };
   $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
   absenden(e, () => { const s = speichern(it, it.t === "situation" ? "situation" : it.t === "meinung" ? "meinung" : "frage", e); danach(s.text, it.ex); }); }
@@ -326,7 +326,7 @@ function stepErzaehlen(it) {
     + eingabeHtml("可以分好幾次說，每說完一句就再按一次麥克風。", 5) + absendenKnopf(3) + '</div></div>';
   $("#zhb").onclick = () => { $("#zh").classList.toggle("hid"); };
   $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
-  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 4; });
+  const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 18; });
   absenden(e, () => { const s = speichern(it, "erzaehlen", e); danach(s.text, it.ex); }); }
 
 /* ----- Mikes Korrekturen ----- */
@@ -334,10 +334,10 @@ function ctxHtml(s) { return '<div class="ctx">' + esc(s.prompt) + (s.zh ? "<br>
 function stepKorr(s) { const d = diff(s.text, s.korr); let nach = null;
   APP.innerHTML = kopf("Mike 幫你改好了") + '<div class="card">' + ctxHtml(s)
     + '<div class="lbl grey">你說的：</div><div class="yours">' + d.a + '</div>'
-    + '<div class="lbl grey">Mike 改成：</div><div class="fixed">' + d.b + ' ' + spk(s.korr) + '</div>'
+    + '<div class="lbl grey">Mike 改成：</div><div class="fixed" id="fixed">' + d.b + ' ' + spk(s.korr) + '</div>'
     + (s.notiz ? '<div class="note"><b>Mike：</b>' + esc(s.notiz) + '</div>' : "")
-    + '<div class="hint">先聽一次，再自己說說看。</div>' + nsHtml() + '<button class="btn" id="next">下一題</button></div>';
-  nsBind(s.korr, t => { nach = t; });
+    + '<div class="hint">先聽一次，再蓋住句子，憑記憶說一次。</div>' + nsHtml() + '<button class="btn" id="next">下一題</button></div>';
+  nsBind(s.korr, t => { nach = t; }, "#fixed");
   $("#next").onclick = () => { patchSatz(s.id, {gh: today(), wn: 0, wd: today() + ABSTAND[0], nach: nach}); weiter(); }; }
 function stepLob(_, st) { const list = st.ids.map(id => SAETZE[id]).filter(Boolean);
   APP.innerHTML = kopf("Mike 看過了") + '<div class="card"><p style="font-size:20px;font-weight:800;margin:0 0 10px">這' + (list.length > 1 ? "幾" : "") + '句完全正確，很棒！</p>'
