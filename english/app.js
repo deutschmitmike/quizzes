@@ -41,9 +41,11 @@ function neu() { return {v: 1, name: "", tage: [], used: {}, total: 0, spoken: 0
 function load() { try { const o = JSON.parse(localStorage.getItem(LSKEY)); if (o && o.v) return Object.assign(neu(), o); } catch (e) {} return neu(); }
 let S = load(), SAETZE = {}, VIEW = "home";
 function lokal() { try { localStorage.setItem(LSKEY, JSON.stringify(S)); } catch (e) {} }
-let cst = null;
+let cst = null, CLOUD_OK = false;   // CLOUD_OK: Stand aus der Cloud wurde in dieser Sitzung gelesen
 function save() { S.upd = Date.now(); lokal(); clearTimeout(cst); cst = setTimeout(cloudSave, 800); }
-function cloudSave() { if (!S.name) return; const o = Object.assign({}, S); delete o.queue; dbWrite("PUT", BASE + "/kyla", o).catch(() => {}); }
+async function cloudSave() { if (!S.name) return;
+  if (!CLOUD_OK) { try { merge(await dbGet(BASE + "/kyla")); CLOUD_OK = true; lokal(); } catch (e) { return; } }   // nie einen (evtl. leeren) Stand hochladen, ohne den aus der Cloud zu kennen
+  const o = Object.assign({}, S); delete o.queue; dbWrite("PUT", BASE + "/kyla", o).catch(() => {}); }
 function merge(c) { if (!c || !c.v) return;
   S.tage = [...new Set([...(S.tage || []), ...(c.tage || [])])].sort((a, b) => a - b);
   for (const k in (c.used || {})) S.used[k] = Math.max(S.used[k] || 0, c.used[k]);
@@ -52,10 +54,15 @@ function merge(c) { if (!c || !c.v) return;
   if (!S.name && c.name) S.name = c.name; }
 
 // Warteschlange: jeder Schreibzugriff bleibt lokal gespeichert, bis Firebase ihn angenommen hat (kein Satz geht offline verloren).
-let flushing = false;
-async function flush() { if (flushing) return; flushing = true;
-  try { while (S.queue.length) { const q = S.queue[0]; await dbWrite(q.m, q.p, q.v); S.queue.shift(); lokal(); } } catch (e) {}
+let flushing = false, flushTimer = null;
+async function flush() { if (flushing) return; flushing = true; clearTimeout(flushTimer);
+  try { while (S.queue.length) { const q = S.queue[0];
+      try { await dbWrite(q.m, q.p, q.v); }
+      catch (e) { if (/^4\d\d$/.test(e.message) && !/^(401|403|429)$/.test(e.message)) { S.kaputt = (S.kaputt || []).concat([q]); } else throw e; }   // dauerhaft abgelehnt: beiseitelegen, Rest nicht blockieren
+      S.queue.shift(); lokal(); } }
+  catch (e) { flushTimer = setTimeout(flush, 30000); }   // offline: in 30 s nochmal
   flushing = false; }
+window.addEventListener("online", () => flush());
 function send(m, p, v) { S.queue.push({m, p, v}); save(); flush(); }
 function patchSatz(id, v) { SAETZE[id] = Object.assign(SAETZE[id] || {}, v); send("PATCH", BASE + "/saetze/" + id, v); }
 
@@ -65,58 +72,73 @@ async function ladeSaetze() {
     SAETZE[id] = q.m === "PATCH" ? Object.assign(SAETZE[id] || {}, q.v) : q.v; }); }
 
 const korrigiert = s => s && (s.ok || s.korr);
-const neuKorr = s => korrigiert(s) && !s.gh;
+const neuKorr = s => korrigiert(s) && (!s.gh || (s.kt && s.gk && s.gk !== s.kt));   // gk = welche Fassung (kt) sie gesehen hat; aendert Mike danach, kommt sie wieder
 const faellig = s => s && s.korr && !s.ok && s.gh && s.wd && s.wd <= today();
 const ABSTAND = [2, 5, 12, 30];   // Wiederholung korrigierter Saetze: nach 2, 5, 12, 30 Tagen
 
 /* ===== Sprache: Vorlesen + Spracherkennung ===== */
 let VOICE = null;
-function pickVoice() { try { const vs = speechSynthesis.getVoices().filter(v => /^en[-_]US/i.test(v.lang));
+const sess = t => { try { if (navigator.audioSession) navigator.audioSession.type = t; } catch (e) {} };   // iOS: nach dem Mikro wieder auf Lautsprecher
+const SPASS = /Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Grandma|Grandpa|Eddy|Flo|Reed|Rocko|Sandy|Shelley/;
+function pickVoice() { try { const vs = speechSynthesis.getVoices().filter(v => /^en[-_]US/i.test(v.lang) && !SPASS.test(v.name));
   VOICE = vs.find(v => /Samantha|Ava|Allison|Susan|Zoe|Nicky/i.test(v.name)) || vs.find(v => v.localService) || vs[0] || null; } catch (e) {} }
 if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function say(t, slow) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; if (VOICE) u.voice = VOICE;
-  u.rate = slow ? 0.7 : 0.95; speechSynthesis.speak(u); } catch (e) {} }
+function say(t, slow) { if (REC) return;   // nicht vorlesen, solange das Mikro offen ist (sonst Echo im Text)
+  try { sess("playback"); const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; if (VOICE) u.voice = VOICE; u.rate = slow ? 0.7 : 0.95; window._u = u;
+    if (speechSynthesis.speaking || speechSynthesis.pending) { speechSynthesis.cancel(); setTimeout(() => speechSynthesis.speak(u), 80); } else speechSynthesis.speak(u); } catch (e) {} }
 const spk = t => '<span class="spkw"><button class="spk" data-say="' + esc(t) + '" aria-label="聽">' + I.spk + '</button><button class="spk slow" data-say="' + esc(t) + '" data-slow="1">慢</button></span>';
 document.addEventListener("click", e => { const b = e.target.closest("[data-say]"); if (b) say(b.dataset.say, !!b.dataset.slow); });
 
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const STANDALONE = !!navigator.standalone;   // vom Home-Bildschirm gestartet: dort gibt es auf dem iPhone keine Spracherkennung
+const SR = STANDALONE ? null : (window.SpeechRecognition || window.webkitSpeechRecognition);
 let REC = null;
-function stopRec() { if (REC) { const r = REC; REC = null; r.onend = null; r.onresult = null; try { r.abort(); } catch (e) {} } }
+function stopRec() { if (REC) { const r = REC; REC = null; if (r._still) r._still(); r.onend = null; r.onresult = null; r.onerror = null; try { r.abort(); } catch (e) {} } }
 /* ----- Tonaufnahme parallel zur Spracherkennung, damit Mike sie anhoeren kann (Mike 2026-10-02) -----
    Gespeichert in save/__kyla_en/audio/<satz-id> = {m: Typ, c: [data-URLs]}, getrennt von den Texten; nach 30 Tagen loescht die App sie.
    Stoert die Aufnahme auf einem Geraet die Spracherkennung (2x leer, bevor es je geklappt hat), schaltet sie sich dort ab. */
 const AUFN_AUS = "kyla_en_aufnahme_aus", AUFN_OK = "kyla_en_aufnahme_ok";
-let STREAM = null, MR = null, CLIPS = [], leerMitAufn = 0;
+let STREAM = null, STREAM_P = null, MR = null, CLIPS = [], leerMitAufn = 0;
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
-const aufnMoeglich = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder) && !lsGet(AUFN_AUS);
+const aufnMoeglich = () => { if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder)) return false;
+  const aus = +lsGet(AUFN_AUS); if (aus && Date.now() - aus < 7 * 864e5) return false;   // abgeschaltet gilt 7 Tage, dann neuer Versuch
+  if (aus) { try { localStorage.removeItem(AUFN_AUS); localStorage.removeItem(AUFN_OK); } catch (e) {} } return true; };
 function aufnStart() { if (!aufnMoeglich()) return false; const ziel = CLIPS;
   const los = st => { try { const typ = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || "";
       const mr = new MediaRecorder(st, Object.assign({audioBitsPerSecond: 24000}, typ ? {mimeType: typ} : {})), teile = [], t0 = Date.now();
       mr.ondataavailable = e => { if (e.data && e.data.size) teile.push(e.data); };
-      mr.onstop = () => { if (teile.length && Date.now() - t0 > 600) ziel.push(new Blob(teile, {type: mr.mimeType || typ || "audio/mp4"})); };
+      mr.onstop = () => { const stumm = st.getAudioTracks().every(t => t.muted);   // Spur stumm (Mikro gehoert der Erkennung): Clip verwerfen
+        if (teile.length && !stumm && Date.now() - t0 > 600) ziel.push(new Blob(teile, {type: mr.mimeType || typ || "audio/mp4"})); };
       mr.start(); MR = mr; } catch (e) {} };
   if (STREAM) los(STREAM);
-  else navigator.mediaDevices.getUserMedia({audio: true}).then(st => { STREAM = st; if (REC) los(st); else aufnFrei(); }).catch(() => {});
+  else { if (!STREAM_P) STREAM_P = navigator.mediaDevices.getUserMedia({audio: true}).then(st => { STREAM = st; STREAM_P = null; return st; }, e => { STREAM_P = null; throw e; });
+    STREAM_P.then(st => { if (REC && !MR) los(st); else if (!REC) aufnFrei(); }).catch(() => {}); }
   return true; }
 function aufnStop() { if (MR) { try { if (MR.state !== "inactive") MR.stop(); } catch (e) {} MR = null; } }
 function aufnFrei() { aufnStop(); if (STREAM) { STREAM.getTracks().forEach(t => t.stop()); STREAM = null; } }
-function aufnErgebnis(mitAufn, text) { if (!mitAufn) return;
-  if (text) { leerMitAufn = 0; lsSet(AUFN_OK, "1"); } else if (!lsGet(AUFN_OK) && ++leerMitAufn >= 2) { lsSet(AUFN_AUS, "1"); aufnFrei(); } }
+function aufnErgebnis(mitAufn, text, fehler) { if (!mitAufn || fehler) return;   // Schweigen/Abbruch (no-speech, aborted ...) zaehlt nicht
+  if (text) { leerMitAufn = 0; lsSet(AUFN_OK, "1"); } else if (!lsGet(AUFN_OK) && ++leerMitAufn >= 2) { lsSet(AUFN_AUS, String(Date.now())); aufnFrei(); } }
 const alsDataUrl = b => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => res(null); r.readAsDataURL(b); });
-function aufnHochladen(id, clips) {   // kurz warten, bis die letzte Aufnahme fertig ist
+function aufnHochladen(id, clips) {   // kurz warten, bis die letzte Aufnahme fertig ist; direkt hochladen (nicht ueber die Warteschlange im localStorage, die waere fuer Audio zu klein)
   setTimeout(async () => { if (!clips.length) return; const c = (await Promise.all(clips.map(alsDataUrl))).filter(Boolean); if (!c.length) return;
-    send("PUT", BASE + "/audio/" + id, {m: clips[0].type || "", c}); patchSatz(id, {audio: c.length}); }, 900); }
+    for (let a = 0; a < 4; a++) { try { await dbWrite("PUT", BASE + "/audio/" + id, {m: clips[0].type || "", c}); patchSatz(id, {audio: c.length}); return; }
+      catch (e) { await new Promise(r => setTimeout(r, 8000 * (a + 1))); } } }, 900); }   // offline: Aufnahme geht verloren, der Text nicht
 
-function hoeren(btn, cb) {   // erster Druck startet, zweiter beendet
-  if (REC) { try { REC.stop(); } catch (e) {} return; }
+function hoeren(btn, cb) {   // erster Druck startet, zweiter beendet; cb.end(text, fehler) kommt genau einmal
+  if (REC) { const r = REC; try { r.stop(); } catch (e) {} setTimeout(() => { if (REC === r && r._ende) r._ende(); }, 1500); return; }   // kommt kein onend: nach 1,5 s selbst beenden
   try { speechSynthesis.cancel(); } catch (e) {}
-  const r = new SR(); REC = r; let txt = "";
+  sess("play-and-record");
+  const r = new SR(), t0 = Date.now(); REC = r; let txt = "", fehler = null, fertig = false, tLast = t0, wd = null;
   r.lang = "en-US"; r.interimResults = true; r.continuous = false; r.maxAlternatives = 1;
-  r.onresult = e => { let s = ""; for (let i = 0; i < e.results.length; i++) s += e.results[i][0].transcript; txt = s.trim(); cb.part && cb.part(txt); };
-  r.onerror = e => { cb.err && cb.err(e.error); };
-  r.onend = () => { btn.classList.remove("rec"); if (REC === r) REC = null; cb.end && cb.end(txt); };
+  const ende = () => { if (fertig) return; fertig = true; clearInterval(wd); btn.classList.remove("rec"); if (REC === r) REC = null; try { r.abort(); } catch (e) {} sess("playback"); cb.end && cb.end(txt, fehler); };
+  r._ende = ende; r._still = () => { fertig = true; clearInterval(wd); btn.classList.remove("rec"); sess("playback"); };   // still: beim Verlassen der Seite, ohne Rueckruf
+  r.onresult = e => { tLast = Date.now(); let s = ""; for (let i = 0; i < e.results.length; i++) s += e.results[i][0].transcript; txt = s.trim(); cb.part && cb.part(txt); };
+  r.onerror = e => { fehler = e.error || "fehler"; cb.err && cb.err(fehler); };
+  r.onend = ende;
+  wd = setInterval(() => { if (fertig) return clearInterval(wd);   // Wachhund: iOS meldet manchmal kein Ende
+    if (Date.now() - tLast > (txt ? 5000 : 10000) || Date.now() - t0 > 60000) { clearInterval(wd); try { r.stop(); } catch (e) {} setTimeout(ende, 1500); } }, 500);
   btn.classList.add("rec");
-  try { r.start(); } catch (e) { btn.classList.remove("rec"); REC = null; cb.err && cb.err("start"); } }
+  try { r.start(); } catch (e) { fehler = "start"; cb.err && cb.err("start"); ende(); } }
+const setT = (sel, t) => { const el = $(sel); if (el) el.textContent = t; };   // Elemente koennen nach dem Absenden schon weg sein
 function errText(e) {
   if (e === "not-allowed") return "沒有麥克風權限。請在 Safari 允許使用麥克風，或是用鍵盤上的麥克風輸入。";
   if (e === "service-not-allowed") return "語音辨識沒有開。請到「設定」打開「聽寫」，或是先用打字的。";
@@ -140,7 +162,7 @@ function fehlend(ziel, gesagt) {   // Woerter des Zielsatzes, die sie nicht gesa
   while (i < a.length && j < b.length) { if (a[i] === b[j]) { i++; j++; } else if (L[i + 1][j] >= L[i][j + 1]) weg.push(a[i++]); else j++; }
   while (i < a.length) weg.push(a[i++]); return weg; }
 // Wortweiser Unterschied: in ihrem Satz Gestrichenes rot, in Mikes Satz Neues gruen. Gross/klein und Satzzeichen zaehlen nicht.
-function diff(a, b) { const ta = a.split(/\s+/).filter(Boolean), tb = b.split(/\s+/).filter(Boolean), nz = t => t.toLowerCase().replace(/[^a-z0-9']/g, "");
+function diff(a, b) { const ta = a.split(/\s+/).filter(Boolean), tb = b.split(/\s+/).filter(Boolean), nz = t => t.toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9']/g, "");
   const na = ta.map(nz), nb = tb.map(nz), L = lcs(na, nb); let i = 0, j = 0; const A = [], B = [];
   while (i < ta.length && j < tb.length) { if (na[i] === nb[j]) { A.push(esc(ta[i++])); B.push(esc(tb[j++])); }
     else if (L[i + 1][j] >= L[i][j + 1]) A.push("<del>" + esc(ta[i++]) + "</del>"); else B.push("<ins>" + esc(tb[j++]) + "</ins>"); }
@@ -154,15 +176,20 @@ function waehle(list, n, lv, belegt) {   // zuerst Ungenutztes der aktuellen Stu
   return list.filter(x => x.lv <= lv && !belegt.has(x.id))
     .map(x => { const u = S.used[x.id]; return {x, k: (u == null ? 0 : 1000 + u) + (x.lv === lv ? 0 : 300) + Math.random()}; })
     .sort((a, b) => a.k - b.k).slice(0, Math.max(0, n)).map(o => { belegt.add(o.x.id); return o.x.id; }); }
+const MAX_SCHRITTE = 8;   // Tagesrunde inkl. Korrekturen und Wiederholungen; was nicht passt, kommt am naechsten Tag
+function pause() { const vor = (S.tage || []).filter(d => d < today()); return vor.length ? today() - Math.max(...vor) - 1 : 0; }   // verpasste Tage seit dem letzten Uebungstag
+const KURZ_NACH_PAUSE = () => pause() >= 2;   // nach 2+ verpassten Tagen: kurze Wiedereinstiegs-Runde
 function plan(art) {   // art: "tag" (Tagesrunde), "extra" (noch ein paar Saetze), "korr" (nur Mikes Korrekturen)
-  const lv = stufe(), extra = art !== "tag", mx = art === "korr" ? {b: 0, m: 0, q: 0, s: 0} : art === "extra" ? {b: 0, m: 1, q: 2, s: lv > 1 ? 1 : 0} : MIX[lv], vorne = [], wdh = [], belegt = new Set();
+  const lv = stufe(), extra = art !== "tag", kurz = art === "tag" && KURZ_NACH_PAUSE(), vorne = [], wdh = [], belegt = new Set();
+  const mx = Object.assign({}, art === "korr" ? {b: 0, m: 0, q: 0, s: 0} : art === "extra" ? {b: 0, m: 1, q: 2, s: lv > 1 ? 1 : 0} : kurz ? {b: 1, m: 1, q: 2, s: 0} : MIX[lv]);
   { const alle = Object.values(SAETZE).filter(s => s && s.id);
     const nk = alle.filter(neuKorr).sort((a, b) => a.ts - b.ts), lob = nk.filter(s => s.ok);
     if (lob.length) vorne.push({k: "lob", ids: lob.map(s => s.id)});
-    nk.filter(s => !s.ok).slice(0, 4).forEach(s => vorne.push({k: "korr", id: s.id}));
-    if (art === "tag") alle.filter(faellig).sort((a, b) => a.wd - b.wd).slice(0, 2).forEach(s => wdh.push({k: "wdh", id: s.id})); }
-  let b = mx.b, m = mx.m; const fest = vorne.filter(s => s.k !== "lob").length + wdh.length;
-  while (fest + b + m + mx.q + mx.s > 10 && (b > 0 || m > 1)) { if (b > 0) b--; else m--; }
+    nk.filter(s => !s.ok).slice(0, art === "korr" ? 8 : 4).forEach(s => vorne.push({k: "korr", id: s.id}));
+    if (art === "tag") alle.filter(faellig).sort((a, b) => a.wd - b.wd).slice(0, Math.max(0, Math.min(2, 5 - vorne.filter(s => s.k === "korr").length))).forEach(s => wdh.push({k: "wdh", id: s.id})); }
+  if (art === "tag") { const frei = Math.max(3, MAX_SCHRITTE - vorne.filter(s => s.k !== "lob").length - wdh.length);
+    while (mx.b + mx.m + mx.q + mx.s > frei) { if (mx.b) mx.b--; else if (mx.s) mx.s--; else if (mx.m) mx.m--; else if (mx.q > 1) mx.q--; else break; } }
+  const b = mx.b, m = mx.m;
   const sit = mx.q ? waehle(FRAGEN.filter(f => f.t === "situation"), 1, lv, belegt) : [];
   const fr = [...sit, ...waehle(FRAGEN, mx.q - sit.length, lv, belegt)];
   const steps = [...vorne,
@@ -178,9 +205,10 @@ function render() { try { speechSynthesis.cancel(); } catch (e) {} stopRec(); au
   const r = S.round;
   if (!S.name) return renderLogin();
   if (VIEW === "end") return renderEnd();
-  if (VIEW === "round" && r && !r.done && r.d === today()) { if (r.i >= r.steps.length) return fertig(); return renderStep(r.steps[r.i]); }
+  if (VIEW === "round" && r && !r.done && r.d >= today() - 1) { if (r.i >= r.steps.length) return fertig(); return renderStep(r.steps[r.i]); }   // eine offene Runde ueber Mitternacht darf fertig werden
   VIEW = "home"; renderHome(); }
-function weiter() { const r = S.round, st = r.steps[r.i]; if (st && st.id && BYID[st.id]) S.used[st.id] = today(); r.i++; save(); render(); window.scrollTo(0, 0); }
+function erledigt() { const r = S.round, st = r && r.steps[r.i]; if (!st) return; if (st.id && BYID[st.id]) S.used[st.id] = today(); r.i++; save(); }
+function weiter() { erledigt(); render(); window.scrollTo(0, 0); }
 function fertig() { const r = S.round; r.done = true; if (!S.tage.includes(today())) S.tage.push(today()); save(); VIEW = "end"; render(); }
 function zaehle() { S.total++; if (!S.heute || S.heute.d !== today()) S.heute = {d: today(), n: 0}; S.heute.n++; if (S.round) S.round.n = (S.round.n || 0) + 1; }
 
@@ -188,7 +216,7 @@ function testBanner() { return TEST ? '<div class="test">測試模式：資料�
 function renderLogin() {
   APP.innerHTML = testBanner() + '<h1>Hi!</h1><p class="sub">每天幾分鐘，用英文說出你自己的句子。</p>'
     + '<div class="card"><p style="margin:0">說錯沒關係，Mike 會幫你改。最重要的是開口說。</p><button class="btn" id="ich">我是 Kyla</button></div>';
-  $("#ich").onclick = async () => { S.name = "Kyla"; try { merge(await dbGet(BASE + "/kyla")); } catch (e) {} save(); render(); }; }
+  $("#ich").onclick = async () => { S.name = "Kyla"; try { merge(await dbGet(BASE + "/kyla")); CLOUD_OK = true; } catch (e) {} save(); render(); }; }
 
 function wocheHtml() { const t = today(), wd = new Date(t * 86400000).getUTCDay(), mo = t - ((wd + 6) % 7), tg = new Set(S.tage || []);
   return '<div class="week">' + ["一", "二", "三", "四", "五", "六", "日"].map((n, i) => { const d = mo + i;
@@ -197,12 +225,13 @@ function wocheHtml() { const t = today(), wd = new Date(t * 86400000).getUTCDay(
 async function renderHome() {
   const r = S.round, heuteFertig = (S.tage || []).includes(today()), laeuft = r && !r.done && r.d === today() && r.i > 0;
   const nk = Object.values(SAETZE).filter(neuKorr).length;
-  APP.innerHTML = testBanner() + '<h1>Hi Kyla!</h1><p class="sub">' + (heuteFertig ? "今天的練習完成了，太棒了！" : "今天也來說幾句英文吧。") + '</p>'
+  const kurz = !heuteFertig && !laeuft && KURZ_NACH_PAUSE();
+  APP.innerHTML = testBanner() + '<h1>Hi Kyla!</h1><p class="sub">' + (heuteFertig ? "今天的練習完成了，太棒了！" : kurz ? "歡迎回來！今天輕鬆一點，說幾句就好。" : "今天也來說幾句英文吧。") + '</p>'
     + (nk && !heuteFertig ? '<div class="badge">Mike 改好了你的 ' + nk + ' 個句子，開始練習就會看到。</div>' : "")
     + (heuteFertig && nk ? '<button class="btn" id="korr">看 Mike 改好的句子<small>' + nk + ' 個句子</small></button>' : "")
     + (heuteFertig
         ? '<button class="btn soft" id="mehr">再多說幾句<small>大約 3 到 4 句</small></button>'
-        : '<button class="btn" id="los">' + (laeuft ? "繼續今天的練習" : "開始今天的練習") + '<small>大約 8 句，5 到 10 分鐘</small></button>')
+        : '<button class="btn" id="los">' + (laeuft ? "繼續今天的練習" : "開始今天的練習") + '<small>' + (kurz ? "大約 5 句，5 分鐘" : "大約 8 句，5 到 10 分鐘") + '</small></button>')
     + '<div class="card" style="margin-top:16px"><b>這個禮拜</b>' + wocheHtml() + '</div>'
     + '<div class="card"><div class="stat"><div><b>' + (S.total || 0) + '</b><span>你自己造的英文句子</span></div><div><b>' + (S.spoken || 0) + '</b><span>開口說英文的次數</span></div></div></div>';
   const los = $("#los"), mehr = $("#mehr");
@@ -225,34 +254,39 @@ function bindKopf() { $("#x").onclick = () => { VIEW = "home"; render(); }; }
 function renderStep(st) {
   const f = {bauen: stepBauen, muster: stepMuster, frage: stepFrage, erzaehlen: stepErzaehlen, korr: stepKorr, lob: stepLob, wdh: stepWdh}[st.k];
   const it = st.id ? (BYID[st.id] || SAETZE[st.id]) : null;
-  if (!f || (st.id && !it)) return weiter();   // unbekannte Aufgabe (z. B. geloeschter Satz) ueberspringen
-  f(it, st); bindKopf(); }
+  const gueltig = st.k === "korr" || st.k === "wdh" ? !!(it && it.korr && !it.ok && it.text) : st.k === "lob" ? (st.ids || []).some(id => SAETZE[id] && SAETZE[id].ok) : !st.id || !!it;
+  if (!f || !gueltig) return weiter();   // unbekannt oder inzwischen geaendert (z. B. Mike hat eine Korrektur auf richtig gestellt): ueberspringen
+  try { f(it, st); bindKopf(); } catch (e) { console.error(e); weiter(); } }
 
 /* ----- Eingabe: Textfeld + Mikrofon ----- */
+const OHNE_SR = () => STANDALONE ? "從主畫面打開時不能用語音辨識。請用 Safari 打開這個網頁，或是用鍵盤上的麥克風說。" : "可以用鍵盤上的麥克風說，也可以打字。";
 function eingabeHtml(ph, rows) {
   return '<textarea id="txt" rows="' + (rows || 3) + '" placeholder="' + esc(ph) + '" autocapitalize="sentences" autocorrect="off" spellcheck="false"></textarea>'
     + (SR ? '<div class="microw"><button class="mic" id="mic" aria-label="說話">' + I.mic + '</button><div class="michint" id="michint">按一下，用英文說</div></div>'
-          : '<div class="hint">可以用鍵盤上的麥克風說，也可以打字。</div>')
+          : '<div class="hint">' + OHNE_SR() + '</div>')
     + '<div class="err" id="err"></div>'; }
-function eingabeBind(onChange) { const ta = $("#txt"), mic = $("#mic"); let gesprochen = false;
+function eingabeBind(onChange) { const ta = $("#txt"), mic = $("#mic"); let gesprochen = false, warte = null;
   ta.addEventListener("input", onChange);
-  if (mic) mic.onclick = () => { const pre = ta.value.trim() ? ta.value.trim() + " " : "", neu = !REC;
-    $("#michint").textContent = "正在聽……說完再按一下"; $("#err").textContent = "";
+  if (mic) mic.onclick = () => { const pre = ta.value.trim() ? ta.value.trim() + " " : "", neu = !REC; let mitAufn = false;
+    ta.blur(); setT("#michint", "正在聽……說完停一下，會自動結束"); setT("#err", "");
     hoeren(mic, {part: t => { ta.value = pre + (pre ? t : cap(t)); onChange(); },
-      end: t => { aufnStop(); aufnErgebnis(mitAufn, t); $("#michint").textContent = t ? "可以再按一次，繼續說" : "按一下，用英文說"; if (t) { gesprochen = true; S.spoken++; save(); } onChange(); },
-      err: e => { aufnStop(); $("#err").textContent = errText(e); }});
-    const mitAufn = neu && REC ? aufnStart() : false; };
-  return {text: () => ta.value.trim().replace(/\s+/g, " "), gesprochen: () => gesprochen, el: ta}; }
+      end: (t, f) => { aufnFrei(); aufnErgebnis(mitAufn, t, f); setT("#michint", t ? "可以再按一次，繼續說" : "按一下，用英文說");
+        if (t) { gesprochen = true; S.spoken++; save(); } onChange(); if (warte) { const w = warte; warte = null; setTimeout(w, 0); } },
+      err: e => { setT("#err", errText(e)); }});
+    mitAufn = neu && REC ? aufnStart() : false; };
+  return {text: () => ta.value.trim().replace(/\s+/g, " "), gesprochen: () => gesprochen, el: ta,
+    fertig: cb => { if (REC && mic) { warte = cb; hoeren(mic, {}); } else cb(); } };   // Absenden waehrend das Mikro laeuft: erst das Ende abwarten
+}
 
 function speichern(it, typ, e) { const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const s = {id, d: today(), ts: Date.now(), typ, aufgabe: it.id, prompt: it.en, zh: it.zh, text: e.text(), gesprochen: e.gesprochen()};
-  SAETZE[id] = s; zaehle(); send("PUT", BASE + "/saetze/" + id, s); if (s.gesprochen) aufnHochladen(id, CLIPS); return s; }
-function danach(text, ex) {   // nach dem Absenden: ihr Satz, Beispiel zum Anhoeren, weiter
+  SAETZE[id] = s; zaehle(); send("PATCH", BASE + "/saetze/" + id, s); if (s.gesprochen) aufnHochladen(id, CLIPS); erledigt(); return s; }
+function danach(text, ex) {   // nach dem Absenden (Schritt ist schon erledigt): ihr Satz, Beispiel zum Anhoeren, weiter
   $("#body").innerHTML = '<div class="done">存好了！Mike 會幫你看。</div><div class="lbl grey">你的句子：</div><div class="mine">' + esc(text) + '</div>'
     + (ex ? '<div class="lbl grey">別人可能會這樣說：</div><div class="ex">' + esc(ex) + ' ' + spk(ex) + '</div>' : "")
     + '<button class="btn" id="next">下一題</button>';
-  $("#next").onclick = weiter; }
-function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "至少說三句，用 because、so、but 連起來。" : min > 1 ? "至少說兩句，或是一個長句子。" : "") + '</div>'; }
+  $("#next").onclick = () => { render(); window.scrollTo(0, 0); }; }
+function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "至少說三句，用 because、so、but 連起來。" : min > 1 ? "至少說兩句，或是一個長句子。" : "至少說六個字。") + '</div>'; }
 
 /* ----- Satz bauen ----- */
 const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Hsinchu|Japan|English|German|Chinese|Sunday|TV)$/;
@@ -279,19 +313,18 @@ function stepKaertchen(it) {   // (Reserve, falls ein Satz keine MC-Stuecke hat)
       nsBind(satz); $("#next").onclick = weiter; } };
   zeig(); }
 
-function falscheSaetze(teile) {   // 3 falsche Saetze, je ein Stueck getauscht, moeglichst an verschiedenen Stellen
-  const paare = shuffle(teile.flatMap((t, k) => t.slice(1).map(f => [k, f]))), wahl = [], stellen = new Set();
-  paare.forEach(p => { if (wahl.length < 3 && !stellen.has(p[0])) { wahl.push(p); stellen.add(p[0]); } });
-  paare.forEach(p => { if (wahl.length < 3 && !wahl.includes(p)) wahl.push(p); });
-  return wahl.map(([k, f]) => teile.map((t, j) => j === k ? f : t[0]).join(" ")); }
+function mcSaetze(teile) {   // Mike 2026-10-02: alle 4 Saetze unterscheiden sich an DERSELBEN Stelle (sonst ist der richtige per Mehrheit erratbar)
+  const k = Math.floor(Math.random() * teile.length);
+  return teile[k].map(f => teile.map((t, j) => j === k ? f : t[0]).join(" ")); }
 function stepBauen(it) {   // Mehrfachauswahl ganzer Saetze: falsche werden rot und bleiben aus, sie tippt selbst das Richtige
   const teile = typeof MC !== "undefined" && MC[it.id]; if (!teile) return stepKaertchen(it);
   APP.innerHTML = kopf("選出正確的句子") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="opts" id="opts"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
-  $("#opts").innerHTML = shuffle([it.en, ...falscheSaetze(teile)]).map(o => '<button class="opt" data-ok="' + (o === it.en ? 1 : 0) + '">' + esc(o) + '</button>').join("");
+  let fehler = 0;
+  $("#opts").innerHTML = shuffle(mcSaetze(teile)).map(o => '<button class="opt" data-ok="' + (o === it.en ? 1 : 0) + '">' + esc(o) + '</button>').join("");
   $("#opts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    if (b.dataset.ok !== "1") { b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "這句有錯，再看看其他的。"; return; }
+    if (b.dataset.ok !== "1") { fehler++; b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "這句有錯，再看看其他的。"; return; }
     $("#opts").outerHTML = '<div class="satz right" id="satz">' + esc(it.en) + '</div>'; $("#msg").style.display = "none"; say(it.en);
-    $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(it.en) + '</div>' + nsHtml("蓋住句子，憑記憶說一次") + '<button class="btn" id="next">下一題</button>';
+    $("#body").innerHTML = '<div class="done" style="margin-top:12px">' + (fehler ? "對，就是這句。" : "答對了！") + spk(it.en) + '</div>' + nsHtml("按下麥克風，句子會蓋起來，憑記憶說一次") + '<button class="btn" id="next">下一題</button>';
     nsBind(it.en, null, "#satz"); $("#next").onclick = weiter; }); }
 
 /* ----- Nachsprechen (nach Satz bauen, Korrektur, Wiederholung) ----- */
@@ -300,32 +333,32 @@ function nsHtml(label) {
     : '<div class="hint">' + (label || "跟著大聲唸一次！") + '</div>') + '<div id="nsres"></div><div class="err" id="err"></div></div>'; }
 function nsBind(z, onTry, deckel) { const mic = $("#nsmic"), ziel = typeof z === "function" ? z : () => z; if (!mic) return;   // deckel: Element, das beim Sprechen verdeckt wird
   const zu = an => { const d = deckel && $(deckel); if (d) d.classList.toggle("verdeckt", an); };
-  mic.onclick = () => { $("#nshint").textContent = "正在聽……"; $("#err").textContent = ""; if (!REC) zu(true);
-    hoeren(mic, {part: t => { $("#nsres").innerHTML = '<div class="said">' + esc(t) + '</div>'; },
-      end: t => { zu(false); if (!t) { $("#nshint").textContent = "沒聽到，再按一次"; return; }
-        $("#nshint").textContent = "再說一次"; S.spoken++; save(); const sc = treffer(ziel(), t), weg = fehlend(ziel(), t), gut = sc >= 0.9 && !weg.length;
+  mic.onclick = () => { setT("#nshint", "正在聽……"); setT("#err", ""); if (!REC) zu(true);
+    hoeren(mic, {part: t => { const r = $("#nsres"); if (r) r.innerHTML = '<div class="said">' + esc(t) + '</div>'; },
+      end: t => { zu(false); if (!$("#nsres")) return; if (!t) { setT("#nshint", "沒聽到，再按一次"); return; }
+        setT("#nshint", "再說一次"); S.spoken++; save(); const sc = treffer(ziel(), t), weg = fehlend(ziel(), t), gut = sc >= 0.9 && !weg.length;
         $("#nsres").innerHTML = '<div class="said">' + esc(t) + '</div><div class="fb ' + (gut ? "good" : "close") + '">'
           + (gut ? "說得很好！" : "很接近了！" + (weg.length && weg.length <= 4 ? "少了：" + weg.map(esc).join("、") + "。" : "") + "可以再試一次，或是直接下一題。") + '</div>';
         onTry && onTry(t, sc); },
-      err: e => { zu(false); $("#err").textContent = errText(e); }}); }; }
+      err: e => { zu(false); setT("#err", errText(e)); }}); }; }
 
 /* ----- Satzmuster ----- */
 function stepMuster(it) {
   APP.innerHTML = kopf("用自己的話完成句子") + '<div class="card"><div class="stem">' + esc(it.en).replace(/___/g, '<span class="blank"></span>') + '</div>'
     + '<div class="zh">' + esc(it.zh) + '</div><div id="body">' + eingabeHtml("說出整個句子……") + absendenKnopf(1) + '</div></div>';
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 6; });
-  $("#go").onclick = () => { const s = speichern(it, "muster", e); danach(s.text, it.ex); }; }
+  $("#go").onclick = () => e.fertig(() => { const s = speichern(it, "muster", e); danach(s.text, it.ex); }); }
 
 /* ----- Laenger sprechen: Verbinder-Hilfe und ein Anstupser, wenn keiner vorkommt ----- */
 const VERB_RE = /\b(because|so|but|and then|that's why|that is why|when|after|before|then|although|even though|if|otherwise|while)\b/i;
 function verbinderHtml() { const lv = stufe();
   return '<div class="words hid" id="vb">' + VERBINDER.filter(v => v.lv <= lv).map(v => '<button class="word" data-say="' + esc(v.en) + '">' + esc(v.en) + '<small>' + esc(v.zh) + '</small></button>').join("") + '</div>'; }
 function absenden(e, los) { let gestupst = false;   // einmal nachfragen, wenn die Antwort keine Verknuepfung hat
-  $("#go").onclick = () => { if (!gestupst && !VERB_RE.test(e.text())) { gestupst = true;
+  $("#go").onclick = () => e.fertig(() => { if (!$("#gohint")) return; if (!gestupst && !VERB_RE.test(e.text())) { gestupst = true;
       $("#gohint").innerHTML = '<div class="note">可以說長一點嗎？用 <b>because</b>、<b>so</b> 或 <b>but</b> 再加一點。<div class="helps" style="margin-top:8px"><button class="chip" id="mehrsag">好，再說一點</button><button class="chip" id="trotzdem">這樣就送出</button></div></div>';
       $("#mehrsag").onclick = () => { $("#gohint").innerHTML = ""; const vb = $("#vb"); if (vb) vb.classList.remove("hid"); };
       $("#trotzdem").onclick = los; return; }
-    los(); }; }
+    los(); }); }
 
 /* ----- Frage ----- */
 const FRAGE_LBL = {alltag: "回答問題", situation: "情境對話", meinung: "說說你的看法"};
@@ -364,12 +397,12 @@ function stepKorr(s) { const d = diff(s.text, s.korr); let nach = null;
     + (s.notiz ? '<div class="note"><b>Mike：</b>' + esc(s.notiz) + '</div>' : "")
     + '<div class="hint">先聽一次，再蓋住句子，憑記憶說一次。</div>' + nsHtml() + '<button class="btn" id="next">下一題</button></div>';
   nsBind(s.korr, t => { nach = t; }, "#fixed");
-  $("#next").onclick = () => { patchSatz(s.id, {gh: today(), wn: 0, wd: today() + ABSTAND[0], nach: nach}); weiter(); }; }
-function stepLob(_, st) { const list = st.ids.map(id => SAETZE[id]).filter(Boolean);
+  $("#next").onclick = () => { patchSatz(s.id, {gh: today(), gk: s.kt || null, wn: 0, wd: today() + ABSTAND[0], nach: nach}); weiter(); }; }
+function stepLob(_, st) { const list = st.ids.map(id => SAETZE[id]).filter(s => s && s.ok);
   APP.innerHTML = kopf("Mike 看過了") + '<div class="card"><p style="font-size:20px;font-weight:800;margin:0 0 10px">這' + (list.length > 1 ? "幾" : "") + '句完全正確，很棒！</p>'
     + '<ul class="lob">' + list.map(s => '<li>' + esc(s.text) + (s.notiz ? '<div class="note"><b>Mike：</b>' + esc(s.notiz) + '</div>' : "") + '</li>').join("") + '</ul>'
     + '<button class="btn" id="next">太好了！</button></div>';
-  $("#next").onclick = () => { list.forEach(s => patchSatz(s.id, {gh: today()})); weiter(); }; }
+  $("#next").onclick = () => { list.forEach(s => patchSatz(s.id, {gh: today(), gk: s.kt || null})); weiter(); }; }
 function stepWdh(s) { let offen = false;
   APP.innerHTML = kopf("複習") + '<div class="card">' + ctxHtml(s)
     + '<div class="lbl grey">上次你說：</div><div class="yours plain">' + esc(s.text) + '</div>'
@@ -385,9 +418,10 @@ function stepWdh(s) { let offen = false;
   $("#ver").textContent = (TEST ? "TEST " : "") + (window.BUILD || "");
   if (S.round && S.round.d !== today()) S.round = null;   // neuer Tag, neue Runde
   APP.innerHTML = testBanner() + '<p class="sub" style="margin-top:30px">載入中……</p>';
-  if (S.name) { try { merge(await dbGet(BASE + "/kyla")); } catch (e) {} if (S.round && S.round.d !== today()) S.round = null; }
+  if (S.name) { try { merge(await dbGet(BASE + "/kyla")); CLOUD_OK = true; } catch (e) {} if (S.round && S.round.d !== today()) S.round = null; }
   await ladeSaetze();
   Object.values(SAETZE).filter(x => x && x.audio && x.d < today() - 30).forEach(x => { send("DELETE", BASE + "/audio/" + x.id, null); patchSatz(x.id, {audio: null}); });   // Aufnahmen nach 30 Tagen loeschen
   flush(); render();
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && VIEW === "home") ladeSaetze().then(() => { if (VIEW === "home") render(); }); });
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState !== "visible") return; flush();
+    if (VIEW === "home") ladeSaetze().then(() => { if (VIEW === "home") render(); }); });
 })();

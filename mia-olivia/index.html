@@ -653,7 +653,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-09-29-2"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-02-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9605,10 +9605,15 @@ function renderHome(){
   if(tb && !tb.children.length){ STAGES.forEach(st=>{ const b=document.createElement("button"); b.className="btn"; b.style.cssText="flex:0 0 auto; padding:8px 13px; font-size:15px; background:#eef1f7; color:var(--ink);"; b.textContent=st.id; b.title=st.name; b.onclick=()=>startStageTest(st.id); tb.appendChild(b); }); }
   renderLeaderboard();
 }
+// Kyana-Gruppe liegt direkt in save/: nur ihre Spielstaende laden, nicht die Unterordner anderer Gruppen (save/__…, z. B. Kylas Tonaufnahmen)
+function holeAlleSaves(){ if(SAVE_PATH!=="save") return fetch(SYNC_URL+SAVE_PATH+".json").then(r=>r.json());
+  return fetch(SYNC_URL+"save.json?shallow=true").then(r=>r.json())
+    .then(ks=>Promise.all(Object.keys(ks||{}).filter(k=>!k.startsWith("__")).map(k=>fetch(SYNC_URL+"save/"+encodeURIComponent(k)+".json").then(r=>r.json()).then(v=>[k,v]))))
+    .then(ps=>Object.fromEntries(ps)); }
 function renderAllKids(){ const panel=document.getElementById("allKidsPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const box=document.getElementById("allKids"); box.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
-  fetch(SYNC_URL+SAVE_PATH+".json").then(r=>r.json()).then(all=>{
+  holeAlleSaves().then(all=>{
     const kids=all?Object.keys(all).map(k=>all[k]).filter(s=>s&&s.cards&&s.playerName):[];
     kids.sort((a,b)=>(b.streak||0)-(a.streak||0));
     box.innerHTML = kids.length ? kids.map(s=>{

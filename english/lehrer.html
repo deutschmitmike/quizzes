@@ -59,7 +59,7 @@ async function dbPatch(path,val){ if(TEST){ const o=fake.load(), [p,k]=fakeAt(o,
 
 // gleicher Wortvergleich wie in der App (app.js diff)
 function lcs(a,b){ const m=a.length,n=b.length,L=Array.from({length:m+1},()=>new Array(n+1).fill(0)); for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--) L[i][j]=a[i]===b[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]); return L; }
-function diff(a,b){ const ta=a.split(/\s+/).filter(Boolean), tb=b.split(/\s+/).filter(Boolean), nz=t=>t.toLowerCase().replace(/[^a-z0-9']/g,"");
+function diff(a,b){ const ta=a.split(/\s+/).filter(Boolean), tb=b.split(/\s+/).filter(Boolean), nz=t=>t.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9']/g,"");
   const na=ta.map(nz), nb=tb.map(nz), L=lcs(na,nb); let i=0,j=0; const A=[],B=[];
   while(i<ta.length&&j<tb.length){ if(na[i]===nb[j]){ A.push(esc(ta[i++])); B.push(esc(tb[j++])); } else if(L[i+1][j]>=L[i][j+1]) A.push("<del>"+esc(ta[i++])+"</del>"); else B.push("<ins>"+esc(tb[j++])+"</ins>"); }
   while(i<ta.length) A.push("<del>"+esc(ta[i++])+"</del>"); while(j<tb.length) B.push("<ins>"+esc(tb[j++])+"</ins>");
@@ -70,6 +70,7 @@ const WT=["So","Mo","Di","Mi","Do","Fr","Sa"];
 const datum=d=>{ const x=new Date(d*86400000); return WT[x.getUTCDay()]+" "+x.getUTCDate()+"."+(x.getUTCMonth()+1)+"."; };
 const agoTxt=d=>{ if(d==null) return "noch nie"; const a=today()-d; return a===0?"heute":a===1?"gestern":"vor "+a+" Tagen"; };
 let SAETZE={}, ST=null, TAB="offen";
+const STUFE=n=>n<2?1:n<7?2:3;   // muss zu stufe() in app.js passen
 
 async function load(){ if(TEST) $("#test").innerHTML='<div class="test">Testmodus: Spiel-Datenbank in diesem Browser, nicht die echte</div>';
   try{ [SAETZE,ST]=await Promise.all([dbGet(BASE+"/saetze"),dbGet(BASE+"/kyla")]); SAETZE=SAETZE||{}; }catch(e){ $("#stats").textContent="gerade offline"; return; }
@@ -77,7 +78,7 @@ async function load(){ if(TEST) $("#test").innerHTML='<div class="test">Testmodu
 function stats(){ const all=Object.values(SAETZE).filter(s=>s&&s.id), tage=(ST&&ST.tage)||[], t=today();
   const offen=all.filter(s=>!s.ok&&!s.korr).length, last=tage.length?Math.max(...tage):null, w7=tage.filter(d=>d>t-7).length;
   const gespr=all.filter(s=>s.gesprochen).length, korr=all.filter(s=>s.korr&&!s.ok).length, ok=all.filter(s=>s.ok).length;
-  const stufe=(()=>{ const n=tage.filter(d=>d<t).length; return n<5?1:n<14?2:3; })();
+  const vor=tage.filter(d=>d<t).length, stufe=STUFE(vor);
   $("#stats").innerHTML='<div class="stats">'
     +'<div><b'+(last==null||t-last>2?' class="warn"':'')+'>'+agoTxt(last)+'</b><span>zuletzt fertig geübt</span></div>'
     +'<div><b>'+w7+' / 7</b><span>Übungstage letzte Woche</span></div>'
@@ -86,28 +87,34 @@ function stats(){ const all=Object.values(SAETZE).filter(s=>s&&s.id), tage=(ST&&
     +'<div><b>'+(all.length?Math.round(100*gespr/all.length):0)+' %</b><span>davon gesprochen</span></div>'
     +'<div><b>'+ok+' / '+korr+'</b><span>richtig / korrigiert</span></div>'
     +'<div><b>'+((ST&&ST.spoken)||0)+'</b><span>Mal ins Mikro gesprochen</span></div>'
-    +'<div><b>Stufe '+stufe+'</b><span>'+(stufe===1?"viel Bausteine":stufe===2?"gemischt":"viel frei")+' ('+tage.length+' Tage)</span></div></div>';
+    +'<div><b>Stufe '+stufe+'</b><span>'+(stufe===1?"Einstieg":stufe===2?"mit Erzählen":"viel frei")+' ('+vor+' Übungstage vor heute)</span></div></div>';
   $("#tOffen").textContent="Offen ("+offen+")"; }
-function list(){ const all=Object.values(SAETZE).filter(s=>s&&s.id).sort((a,b)=>b.ts-a.ts), xs=TAB==="offen"?all.filter(s=>!s.ok&&!s.korr):all;
+function entwuerfe(){ const d={}; document.querySelectorAll("#list .s").forEach(c=>{ const ta=c.querySelector("textarea"), no=c.querySelector("[data-n]"), ed=c.querySelector(".ed");
+    d[c.id]={k:ta&&ta.value, n:no&&no.value, offen:ed&&ed.style.display!=="none"}; }); return d; }
+function list(){ const D=entwuerfe(), all=Object.values(SAETZE).filter(s=>s&&s.id).sort((a,b)=>b.ts-a.ts), xs=TAB==="offen"?all.filter(s=>!s.ok&&!s.korr):all;
   $("#tOffen").className=TAB==="offen"?"on":""; $("#tAlle").className=TAB==="alle"?"on":"";
   $("#list").innerHTML=xs.length?xs.map(card).join(""):'<p class="empty">'+(!all.length?"Noch keine Sätze. Sobald Kyla übt, erscheinen sie hier.":"Alles korrigiert.")+'</p>';
-  xs.forEach(bind); }
+  xs.forEach(s=>{ const c=document.getElementById("c_"+s.id), d=D["c_"+s.id]; if(c&&d){   // ungespeicherte Eingaben in anderen Karten nicht verlieren
+      const ta=c.querySelector("textarea"), no=c.querySelector("[data-n]"), ed=c.querySelector(".ed"), eb=c.querySelector("[data-edit]");
+      if(ta&&d.k!=null) ta.value=d.k; if(no&&d.n!=null) no.value=d.n; if(d.offen&&ed&&eb){ ed.style.display="block"; eb.style.display="none"; } }
+    bind(s); }); }
 function card(s){ const fertig=s.ok||s.korr;
   const status=fertig?(s.ok?"✓ als richtig markiert":"korrigiert")+(s.gh?", von Kyla gesehen "+agoTxt(s.gh):", Kyla hat es noch nicht gesehen")
-    +(s.nach?" · nachgesprochen: „"+esc(s.nach)+"“":"")+(s.wn?" · "+s.wn+"× wiederholt":""):"";
-  return '<div class="s'+(fertig?" fertig":"")+'" id="c_'+s.id+'"><div class="meta"><b>'+datum(s.d)+'</b> · '+(TYP[s.typ]||s.typ)+' · '+(s.gesprochen?"gesprochen":"getippt")+'</div>'
+    +(s.nach?" · nachgesprochen: „"+esc(s.nach)+"“":"")+(s.wn?" · "+esc(s.wn)+"× wiederholt":""):"";
+  return '<div class="s'+(fertig?" fertig":"")+'" id="c_'+esc(s.id)+'"><div class="meta"><b>'+(s.d!=null?datum(s.d):"")+'</b> · '+esc(TYP[s.typ]||s.typ)+' · '+(s.gesprochen?"gesprochen":"getippt")+'</div>'
     +'<div class="prompt">'+esc(s.prompt)+'</div><div class="text">'+esc(s.text)+'</div>'
-    +(s.audio?'<div class="row"><button data-play="'+s.id+'">▶ anhören'+(s.audio>1?" ("+s.audio+" Teile)":"")+'</button></div><div class="audio" data-a="'+s.id+'"></div>':"")
+    +(s.audio?'<div class="row"><button data-play="1">▶ anhören'+(s.audio>1?" ("+esc(s.audio)+" Teile)":"")+'</button></div><div class="audio" data-a="1"></div>':"")
     +(fertig&&!s.ok?'<div class="korr">'+diff(s.text,s.korr).b+'</div>':"")
     +(s.notiz?'<div class="status">Notiz: '+esc(s.notiz)+'</div>':"")
-    +(fertig?'<div class="status">'+status+'</div><div class="row"><button data-edit="'+s.id+'">ändern</button></div><div class="ed" style="display:none">'+editor(s)+'</div>'
+    +(fertig?'<div class="status">'+status+'</div><div class="row"><button data-edit="1">ändern</button></div><div class="ed" style="display:none">'+editor(s)+'</div>'
             :'<div class="ed">'+editor(s)+'</div>')+'</div>'; }
-function editor(s){ return '<textarea rows="2" data-k="'+s.id+'">'+esc(s.korr||s.text)+'</textarea><div class="vor" data-v="'+s.id+'"></div>'
-  +'<input class="notiz" data-n="'+s.id+'" placeholder="Notiz für Kyla (optional, Chinesisch oder Englisch)" value="'+esc(s.notiz||"")+'">'
-  +'<div class="row"><button class="ok" data-ok="'+s.id+'">✓ Richtig</button><button class="save" data-save="'+s.id+'">Korrektur speichern</button></div>'; }
-function bind(s){ const c=$("#c_"+s.id), ta=c.querySelector("textarea"), vor=c.querySelector("[data-v]"), no=c.querySelector("[data-n]");
+function editor(s){ return '<textarea rows="2" data-k="1">'+esc(s.korr||s.text)+'</textarea><div class="vor" data-v="1"></div>'
+  +'<input class="notiz" data-n="1" placeholder="Notiz für Kyla (optional, Chinesisch oder Englisch)" value="'+esc(s.notiz||"")+'">'
+  +'<div class="row"><button class="ok" data-ok="1">✓ Richtig</button><button class="save" data-save="1">Korrektur speichern</button></div>'; }
+function bind(s){ const c=document.getElementById("c_"+s.id); if(!c) return; const ta=c.querySelector("textarea"), vor=c.querySelector("[data-v]"), no=c.querySelector("[data-n]");
   const pl=c.querySelector("[data-play]"); if(pl) pl.onclick=async()=>{ const box=c.querySelector("[data-a]"); pl.disabled=true; box.textContent="lädt ...";   // Aufnahme erst beim Klick laden
-    try{ const a=await dbGet(BASE+"/audio/"+s.id); box.innerHTML=a&&a.c?a.c.map(u=>'<audio controls preload="auto" src="'+u+'"></audio>').join(""):"Aufnahme nicht mehr da (wird nach 30 Tagen gelöscht).";
+    try{ const a=await dbGet(BASE+"/audio/"+s.id); if(a&&a.c){ box.innerHTML=""; for(const u of a.c){ const el=document.createElement("audio"); el.controls=true; el.preload="auto";
+        try{ el.src=URL.createObjectURL(await (await fetch(u)).blob()); }catch(e){ el.src=u; } box.appendChild(el); } } else box.textContent="Aufnahme nicht mehr da (wird nach 30 Tagen gelöscht).";
       const first=box.querySelector("audio"); if(first) first.play().catch(()=>{}); pl.style.display="none"; }catch(e){ box.textContent="Laden hat nicht geklappt."; pl.disabled=false; } };
   const zeig=()=>{ const v=ta.value.trim(); vor.innerHTML=v&&v!==s.text.trim()?"Kyla sieht: "+diff(s.text,v).a+" → "+diff(s.text,v).b:""; };
   ta.addEventListener("input",zeig); zeig();
@@ -115,9 +122,13 @@ function bind(s){ const c=$("#c_"+s.id), ta=c.querySelector("textarea"), vor=c.q
   // neu speichern setzt "gesehen" und die Wiederholung zurueck, damit Kyla die geaenderte Fassung wieder vorne sieht
   const schreib=async v=>{ try{ await dbPatch(BASE+"/saetze/"+s.id,Object.assign({kt:Date.now(),gh:null,wn:null,wd:null,nach:null},v)); Object.assign(SAETZE[s.id],v,{gh:null,wn:null,wd:null,nach:null});
       for(const f in v) if(v[f]==null) delete SAETZE[s.id][f]; stats(); list(); }catch(e){ alert("Speichern hat nicht geklappt. Internet?"); } };
-  c.querySelector("[data-ok]").onclick=()=>schreib({ok:true,korr:null,notiz:no.value.trim()||null});
-  c.querySelector("[data-save]").onclick=()=>{ const v=ta.value.trim().replace(/\s+/g," ");
-    if(!v||v===s.text.trim()) schreib({ok:true,korr:null,notiz:no.value.trim()||null}); else schreib({ok:null,korr:v,notiz:no.value.trim()||null}); }; }
+  const norm=x=>String(x||"").trim().replace(/\s+/g," ");
+  c.querySelector("[data-ok]").onclick=()=>{ const v=norm(ta.value);
+    if(v&&v!==norm(s.text)&&v!==norm(s.korr)&&!confirm("Im Feld steht eine andere Fassung. Trotzdem Kylas Satz als richtig markieren?")) return;
+    schreib({ok:true,korr:null,notiz:no.value.trim()||null}); };
+  c.querySelector("[data-save]").onclick=()=>{ const v=norm(ta.value);
+    if(!v){ alert("Das Feld ist leer. Bitte die Korrektur eintragen (oder „✓ Richtig“)."); return; }
+    if(v===norm(s.text)) schreib({ok:true,korr:null,notiz:no.value.trim()||null}); else schreib({ok:null,korr:v,notiz:no.value.trim()||null}); }; }
 $("#tOffen").onclick=()=>{ TAB="offen"; list(); }; $("#tAlle").onclick=()=>{ TAB="alle"; list(); }; $("#neu").onclick=load;
 load();
 </script>
