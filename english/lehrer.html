@@ -32,6 +32,7 @@
   .korr{font-size:17px; background:var(--ok2); border-radius:10px; padding:8px 10px;}
   .test{background:#FFE9A8; color:#7A5A00; font-size:13px; font-weight:700; text-align:center; padding:6px; border-radius:10px; margin-bottom:10px;}
   .empty{color:var(--muted);}
+  .audio audio{display:block; width:100%; max-width:420px; margin:6px 0 0;}
 </style></head>
 <body><main>
 <div id="test"></div>
@@ -96,6 +97,7 @@ function card(s){ const fertig=s.ok||s.korr;
     +(s.nach?" · nachgesprochen: „"+esc(s.nach)+"“":"")+(s.wn?" · "+s.wn+"× wiederholt":""):"";
   return '<div class="s'+(fertig?" fertig":"")+'" id="c_'+s.id+'"><div class="meta"><b>'+datum(s.d)+'</b> · '+(TYP[s.typ]||s.typ)+' · '+(s.gesprochen?"gesprochen":"getippt")+'</div>'
     +'<div class="prompt">'+esc(s.prompt)+'</div><div class="text">'+esc(s.text)+'</div>'
+    +(s.audio?'<div class="row"><button data-play="'+s.id+'">▶ anhören'+(s.audio>1?" ("+s.audio+" Teile)":"")+'</button></div><div class="audio" data-a="'+s.id+'"></div>':"")
     +(fertig&&!s.ok?'<div class="korr">'+diff(s.text,s.korr).b+'</div>':"")
     +(s.notiz?'<div class="status">Notiz: '+esc(s.notiz)+'</div>':"")
     +(fertig?'<div class="status">'+status+'</div><div class="row"><button data-edit="'+s.id+'">ändern</button></div><div class="ed" style="display:none">'+editor(s)+'</div>'
@@ -104,6 +106,9 @@ function editor(s){ return '<textarea rows="2" data-k="'+s.id+'">'+esc(s.korr||s
   +'<input class="notiz" data-n="'+s.id+'" placeholder="Notiz für Kyla (optional, Chinesisch oder Englisch)" value="'+esc(s.notiz||"")+'">'
   +'<div class="row"><button class="ok" data-ok="'+s.id+'">✓ Richtig</button><button class="save" data-save="'+s.id+'">Korrektur speichern</button></div>'; }
 function bind(s){ const c=$("#c_"+s.id), ta=c.querySelector("textarea"), vor=c.querySelector("[data-v]"), no=c.querySelector("[data-n]");
+  const pl=c.querySelector("[data-play]"); if(pl) pl.onclick=async()=>{ const box=c.querySelector("[data-a]"); pl.disabled=true; box.textContent="lädt ...";   // Aufnahme erst beim Klick laden
+    try{ const a=await dbGet(BASE+"/audio/"+s.id); box.innerHTML=a&&a.c?a.c.map(u=>'<audio controls preload="auto" src="'+u+'"></audio>').join(""):"Aufnahme nicht mehr da (wird nach 30 Tagen gelöscht).";
+      const first=box.querySelector("audio"); if(first) first.play().catch(()=>{}); pl.style.display="none"; }catch(e){ box.textContent="Laden hat nicht geklappt."; pl.disabled=false; } };
   const zeig=()=>{ const v=ta.value.trim(); vor.innerHTML=v&&v!==s.text.trim()?"Kyla sieht: "+diff(s.text,v).a+" → "+diff(s.text,v).b:""; };
   ta.addEventListener("input",zeig); zeig();
   const ed=c.querySelector("[data-edit]"); if(ed) ed.onclick=()=>{ c.querySelector(".ed").style.display="block"; ed.style.display="none"; };

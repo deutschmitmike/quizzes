@@ -54,9 +54,14 @@ function focusHtml(g,fo){ const cur=(fo&&fo.stage&&fo.until>=today())?fo:null;
   return '<div class="focus"><b>Schwerpunkt: '+(cur?esc(cur.name)+" (noch "+(cur.until-today())+" Tage)":"keiner")+'</b><div class="btns">'
     +g.focusOpts.map(o=>'<button data-g="'+g.id+'" data-s="'+o[0]+'" data-n="'+esc(o[1])+'"'+(cur&&cur.stage===o[0]?' class="on"':'')+'>'+esc(o[1])+'</button>').join("")
     +'<button data-g="'+g.id+'" data-s="0">kein Schwerpunkt</button></div></div>'; }
+// Kyana-Gruppe liegt direkt in save/: nur ihre Spielstaende laden, nicht die Unterordner anderer Gruppen (save/__…, z. B. Kylas Tonaufnahmen)
+async function holeSaves(p){ const j=async u=>(await fetch(DB+u+(u.includes("?")?"&":"?")+"t="+Date.now())).json();
+  if(p!=="save") return (await j(p+".json"))||{};
+  const keys=Object.keys((await j("save.json?shallow=true"))||{}).filter(k=>!k.startsWith("__")), o={};
+  await Promise.all(keys.map(async k=>{ o[k]=await j("save/"+encodeURIComponent(k)+".json"); })); return o; }
 async function load(){ const root=document.getElementById("root"); let html="";
   for(const g of META){ let saves={}, fo=null;
-    try{ saves=await (await fetch(DB+g.savePath+".json?t="+Date.now())).json()||{}; fo=await (await fetch(DB+g.lbPath+"/_focus.json?t="+Date.now())).json(); }catch(e){ html+='<div class="group"><h2>'+esc(g.name)+'</h2><p class="empty">gerade offline</p></div>'; continue; }
+    try{ saves=await holeSaves(g.savePath); fo=await (await fetch(DB+g.lbPath+"/_focus.json?t="+Date.now())).json(); }catch(e){ html+='<div class="group"><h2>'+esc(g.name)+'</h2><p class="empty">gerade offline</p></div>'; continue; }
     const kids=Object.values(saves).filter(S=>S&&S.cards&&S.playerName).sort((a,b)=>(b.lastDay||0)-(a.lastDay||0));
     html+='<div class="group"><h2>'+esc(g.name)+'</h2><div class="links"><a href="../'+g.folder+'/">Schüler-Link</a><a href="../'+g.folder+'/index_lehrer.html">Lehrerversion (Stufen testen)</a></div>'
       +focusHtml(g,fo)+(kids.length?'<div class="kids">'+kids.map(k=>kidHtml(k,g)).join("")+'</div>':'<p class="empty">Noch niemand hat hier gespielt.</p>')+'</div>'; }

@@ -32,7 +32,7 @@ async function dbGet(path) {
   const r = await fetch(DB_URL + path + ".json?t=" + Date.now(), {cache: "no-store"}); if (!r.ok) throw new Error(r.status); return r.json(); }
 async function dbWrite(method, path, val) {
   if (TEST) { const o = fake.load(), [p, k] = fakeAt(o, path, true);
-    if (method === "PATCH") { p[k] = Object.assign(p[k] || {}, val); for (const f in val) if (val[f] == null) delete p[k][f]; } else p[k] = val;
+    if (method === "PATCH") { p[k] = Object.assign(p[k] || {}, val); for (const f in val) if (val[f] == null) delete p[k][f]; } else if (method === "DELETE") delete p[k]; else p[k] = val;
     fake.save(o); return; }
   const r = await fetch(DB_URL + path + ".json", {method, body: JSON.stringify(val)}); if (!r.ok) throw new Error(r.status); }
 
@@ -82,6 +82,31 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-say]
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let REC = null;
 function stopRec() { if (REC) { const r = REC; REC = null; r.onend = null; r.onresult = null; try { r.abort(); } catch (e) {} } }
+/* ----- Tonaufnahme parallel zur Spracherkennung, damit Mike sie anhoeren kann (Mike 2026-10-02) -----
+   Gespeichert in save/__kyla_en/audio/<satz-id> = {m: Typ, c: [data-URLs]}, getrennt von den Texten; nach 30 Tagen loescht die App sie.
+   Stoert die Aufnahme auf einem Geraet die Spracherkennung (2x leer, bevor es je geklappt hat), schaltet sie sich dort ab. */
+const AUFN_AUS = "kyla_en_aufnahme_aus", AUFN_OK = "kyla_en_aufnahme_ok";
+let STREAM = null, MR = null, CLIPS = [], leerMitAufn = 0;
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const aufnMoeglich = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder) && !lsGet(AUFN_AUS);
+function aufnStart() { if (!aufnMoeglich()) return false; const ziel = CLIPS;
+  const los = st => { try { const typ = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || "";
+      const mr = new MediaRecorder(st, Object.assign({audioBitsPerSecond: 24000}, typ ? {mimeType: typ} : {})), teile = [], t0 = Date.now();
+      mr.ondataavailable = e => { if (e.data && e.data.size) teile.push(e.data); };
+      mr.onstop = () => { if (teile.length && Date.now() - t0 > 600) ziel.push(new Blob(teile, {type: mr.mimeType || typ || "audio/mp4"})); };
+      mr.start(); MR = mr; } catch (e) {} };
+  if (STREAM) los(STREAM);
+  else navigator.mediaDevices.getUserMedia({audio: true}).then(st => { STREAM = st; if (REC) los(st); else aufnFrei(); }).catch(() => {});
+  return true; }
+function aufnStop() { if (MR) { try { if (MR.state !== "inactive") MR.stop(); } catch (e) {} MR = null; } }
+function aufnFrei() { aufnStop(); if (STREAM) { STREAM.getTracks().forEach(t => t.stop()); STREAM = null; } }
+function aufnErgebnis(mitAufn, text) { if (!mitAufn) return;
+  if (text) { leerMitAufn = 0; lsSet(AUFN_OK, "1"); } else if (!lsGet(AUFN_OK) && ++leerMitAufn >= 2) { lsSet(AUFN_AUS, "1"); aufnFrei(); } }
+const alsDataUrl = b => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => res(null); r.readAsDataURL(b); });
+function aufnHochladen(id, clips) {   // kurz warten, bis die letzte Aufnahme fertig ist
+  setTimeout(async () => { if (!clips.length) return; const c = (await Promise.all(clips.map(alsDataUrl))).filter(Boolean); if (!c.length) return;
+    send("PUT", BASE + "/audio/" + id, {m: clips[0].type || "", c}); patchSatz(id, {audio: c.length}); }, 900); }
+
 function hoeren(btn, cb) {   // erster Druck startet, zweiter beendet
   if (REC) { try { REC.stop(); } catch (e) {} return; }
   try { speechSynthesis.cancel(); } catch (e) {}
@@ -149,7 +174,7 @@ function plan(art) {   // art: "tag" (Tagesrunde), "extra" (noch ein paar Saetze
   S.round = {d: today(), steps, i: 0, done: false, extra, art, n: 0}; save(); }
 
 /* ===== Ablauf ===== */
-function render() { try { speechSynthesis.cancel(); } catch (e) {} stopRec();
+function render() { try { speechSynthesis.cancel(); } catch (e) {} stopRec(); aufnFrei(); CLIPS = [];
   const r = S.round;
   if (!S.name) return renderLogin();
   if (VIEW === "end") return renderEnd();
@@ -211,16 +236,17 @@ function eingabeHtml(ph, rows) {
     + '<div class="err" id="err"></div>'; }
 function eingabeBind(onChange) { const ta = $("#txt"), mic = $("#mic"); let gesprochen = false;
   ta.addEventListener("input", onChange);
-  if (mic) mic.onclick = () => { const pre = ta.value.trim() ? ta.value.trim() + " " : "";
+  if (mic) mic.onclick = () => { const pre = ta.value.trim() ? ta.value.trim() + " " : "", neu = !REC;
     $("#michint").textContent = "正在聽……說完再按一下"; $("#err").textContent = "";
     hoeren(mic, {part: t => { ta.value = pre + (pre ? t : cap(t)); onChange(); },
-      end: t => { $("#michint").textContent = t ? "可以再按一次，繼續說" : "按一下，用英文說"; if (t) { gesprochen = true; S.spoken++; save(); } onChange(); },
-      err: e => { $("#err").textContent = errText(e); }}); };
+      end: t => { aufnStop(); aufnErgebnis(mitAufn, t); $("#michint").textContent = t ? "可以再按一次，繼續說" : "按一下，用英文說"; if (t) { gesprochen = true; S.spoken++; save(); } onChange(); },
+      err: e => { aufnStop(); $("#err").textContent = errText(e); }});
+    const mitAufn = neu && REC ? aufnStart() : false; };
   return {text: () => ta.value.trim().replace(/\s+/g, " "), gesprochen: () => gesprochen, el: ta}; }
 
 function speichern(it, typ, e) { const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const s = {id, d: today(), ts: Date.now(), typ, aufgabe: it.id, prompt: it.en, zh: it.zh, text: e.text(), gesprochen: e.gesprochen()};
-  SAETZE[id] = s; zaehle(); send("PUT", BASE + "/saetze/" + id, s); return s; }
+  SAETZE[id] = s; zaehle(); send("PUT", BASE + "/saetze/" + id, s); if (s.gesprochen) aufnHochladen(id, CLIPS); return s; }
 function danach(text, ex) {   // nach dem Absenden: ihr Satz, Beispiel zum Anhoeren, weiter
   $("#body").innerHTML = '<div class="done">存好了！Mike 會幫你看。</div><div class="lbl grey">你的句子：</div><div class="mine">' + esc(text) + '</div>'
     + (ex ? '<div class="lbl grey">別人可能會這樣說：</div><div class="ex">' + esc(ex) + ' ' + spk(ex) + '</div>' : "")
@@ -360,6 +386,8 @@ function stepWdh(s) { let offen = false;
   if (S.round && S.round.d !== today()) S.round = null;   // neuer Tag, neue Runde
   APP.innerHTML = testBanner() + '<p class="sub" style="margin-top:30px">載入中……</p>';
   if (S.name) { try { merge(await dbGet(BASE + "/kyla")); } catch (e) {} if (S.round && S.round.d !== today()) S.round = null; }
-  await ladeSaetze(); flush(); render();
+  await ladeSaetze();
+  Object.values(SAETZE).filter(x => x && x.audio && x.d < today() - 30).forEach(x => { send("DELETE", BASE + "/audio/" + x.id, null); patchSatz(x.id, {audio: null}); });   // Aufnahmen nach 30 Tagen loeschen
+  flush(); render();
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && VIEW === "home") ladeSaetze().then(() => { if (VIEW === "home") render(); }); });
 })();
