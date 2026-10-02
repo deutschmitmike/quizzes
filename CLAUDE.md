@@ -10,6 +10,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt je Gruppe setzen). Erzeugt.
 - `src/`: **Quelle der gemeinsamen App** (ein Kern, ein Steckbrief pro Gruppe), siehe `src/LIESMICH.md`.
 - `index.html` + `finden-gefallen/`: älterer Präpositions-Drill (React), **nicht** Teil der gemeinsamen App.
+- `english/`: **Kyla Speaks**, Englisch-Sprech-App für **Kyla** (Erwachsene, kein Deutsch, Angst vor dem Sprechen, iPhone). Eigene kleine App, **nicht** Teil des Deutsch-Kerns; von Hand gepflegt, kein build.py. Siehe Abschnitt unten.
 
 ## Arbeitsablauf (immer so)
 1. `git pull`. Andere Chats können inzwischen gepusht haben.
@@ -60,3 +61,14 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Wochenbericht alle Schüler (Montag, ein Bericht für alle): `~/Desktop/claude cowork/mia-olivia-berichte/alle_bericht.js`. Der alte Kyana-Bericht (`kyana-berichte/`) ist abgeschaltet.
 - Tägliches Backup aller Spielstände: `~/Desktop/claude cowork/backups/` (`backup.js`).
 - Wortlisten, Übersetzungen, Prüfungen: `~/Desktop/claude cowork/wortliste/`.
+
+## english/ (Kyla Speaks, seit 2026-10-02)
+- Dateien: `index.html` (Ladeseite + CSS), `app.js` (Logik), `data.js` (Inhalte), `lehrer.html` (Mikes Korrekturseite, Deutsch), `version.json`. **Versionsnummer nur in `english/version.json`** (Format `JJJJ-MM-TT-N`), die Ladeseite hängt sie an data.js/app.js; bei jeder Änderung hochzählen und Mike ansagen. Unabhängig von `src/BUILD`.
+- Anweisungen in der App **nur 繁體中文** (Taiwan, „，“, keine Gedankenstriche), Übungen auf Englisch. Lehrer-Seite auf Deutsch.
+- Idee (Mike): möglichst viele **eigene** Sätze, sprechen statt nur verstehen. Treppe über die Übungstage: Stufe 1 (<5 Tage) viel Satz bauen, Stufe 2 (<14) gemischt, Stufe 3 viel frei (`MIX` in app.js). Tagesrunde ca. 8 Sätze, max. 10 Schritte. Spracherkennung (Safari `webkitSpeechRecognition`, en-US) + Vorlesen (`speechSynthesis`); ohne Erkennung bleibt die Tastatur-Diktierfunktion. Keine Punkte, kein „falsch“ bei freien Sätzen.
+- **Korrektur macht Mike von Hand** (Mike 2026-10-02, KI-Korrektur vielleicht später): `english/lehrer.html` (verlinkt aus `lehrer/`). Kyla sieht Korrekturen beim nächsten Öffnen (Diff, Vorlesen, Nachsprechen), danach kommen sie nach 2/5/12/30 Tagen als Wiederholung.
+- Firebase: `save/__kyla_en/kyla` (Fortschritt, kein Feld `cards`, damit Bericht/Backup sie nicht als Deutsch-Schülerin lesen), `save/__kyla_en/saetze/<id>` (ein Satz). Kyla schreibt nur `text, gesprochen, gh, wn, wd, nach`, Mike nur `korr, notiz, ok, kt`, immer PATCH. Pfade nie ändern.
+- Testen: lokal (`localhost`) oder mit `?test` läuft alles gegen eine Spiel-Datenbank im localStorage (gelber Balken), nie gegen Firebase.
+- Inhalte: IDs (`b…`, `m…`, `q…`, `s…`) nie ändern, nur anhängen. `lv` = Stufe. Bausteine: `alt` = weitere richtige Reihenfolgen mit denselben Wörtern.
+- Mit Claude korrigieren: `node ~/Desktop/claude\ cowork/kyla-englisch/saetze.js offen` zeigt offene Sätze, Claude schlägt Korrekturen vor, nach Mikes OK `… saetze.js eintragen <datei.json>`.
+

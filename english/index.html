@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<title>Kyla Speaks</title>
+<style>
+  :root{ --bg:#FBF7F2; --card:#FFFFFF; --ink:#2B2A33; --muted:#857F8C; --line:#EFE8DF;
+         --accent:#E2703A; --accent2:#FCE9DE; --ok:#23915F; --ok2:#E3F4EB; --del:#C94040; --del2:#FBE6E6; --blue:#2F6FDB; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; background:var(--bg); color:var(--ink);}
+  body{font-family:-apple-system,"PingFang TC","Helvetica Neue",Arial,sans-serif; font-size:17px; line-height:1.45;}
+  #app{max-width:560px; margin:0 auto; padding:16px 16px 70px; min-height:100vh;}
+  h1{font-size:28px; margin:18px 0 4px;} .sub{color:var(--muted); margin:0 0 18px;}
+  .card{background:var(--card); border-radius:20px; padding:18px; margin:0 0 14px; box-shadow:0 2px 10px rgba(60,40,20,.06);}
+  .btn{display:block; width:100%; border:none; border-radius:18px; padding:16px; font:inherit; font-size:19px; font-weight:800;
+       background:var(--accent); color:#fff; cursor:pointer; margin:14px 0 0;}
+  .btn:disabled{opacity:.35;} .btn.soft{background:var(--accent2); color:var(--accent);} .btn:active{transform:scale(.98);}
+  .btn small{display:block; font-size:14px; font-weight:600; opacity:.85; margin-top:2px;}
+  .link{background:none; border:none; color:var(--muted); font:inherit; font-size:15px; text-decoration:underline; padding:8px 0; cursor:pointer;}
+  .badge{background:var(--ok2); color:var(--ok); border-radius:16px; padding:14px 16px; font-weight:700; margin:0 0 14px;}
+  .week{display:flex; justify-content:space-between; margin-top:10px;}
+  .week div{flex:1; text-align:center; font-size:14px; color:var(--muted);}
+  .week i{display:block; width:28px; height:28px; border-radius:50%; margin:4px auto 0; background:var(--line);}
+  .week i.on{background:var(--ok);} .week i.heute{outline:2px solid var(--accent); outline-offset:2px;}
+  .stat{display:flex; gap:12px;} .stat div{flex:1; background:var(--bg); border-radius:14px; padding:10px 12px;}
+  .stat b{display:block; font-size:26px;} .stat span{font-size:14px; color:var(--muted);}
+  /* Aufgaben */
+  .top{display:flex; align-items:center; gap:12px; margin:4px 0 16px;}
+  .bar{flex:1; height:8px; background:var(--line); border-radius:4px; overflow:hidden;} .bar i{display:block; height:100%; background:var(--accent); border-radius:4px;}
+  .x{background:none; border:none; font-size:28px; line-height:1; color:var(--muted); padding:0 4px; cursor:pointer;}
+  .lbl{font-size:15px; font-weight:700; color:var(--accent); margin:0 0 8px; letter-spacing:.02em;}
+  .lbl.grey{color:var(--muted); margin-top:14px;}
+  .q{font-size:23px; font-weight:700; line-height:1.35; margin:0 0 6px;}
+  .stem{font-size:24px; font-weight:700; line-height:1.4; margin:0 0 6px;}
+  .blank{display:inline-block; min-width:70px; border-bottom:3px solid var(--accent); margin:0 4px; transform:translateY(-4px);}
+  .zh{font-size:18px; color:var(--muted); margin:2px 0 10px;} .zhbig{font-size:24px; font-weight:700; margin:0 0 14px;}
+  .hid{display:none;}
+  .ctx{font-size:15px; color:var(--muted); margin:0 0 10px;}
+  .guides{margin:6px 0 12px; padding:0; list-style:none;} .guides li{padding:5px 0; border-bottom:1px dashed var(--line);} .guides small{color:var(--muted); margin-left:6px;}
+  textarea{width:100%; border:2px solid var(--line); border-radius:16px; padding:12px 14px; font:inherit; font-size:20px; line-height:1.4; resize:vertical; background:#fff; color:var(--ink); margin-top:6px;}
+  textarea:focus{outline:none; border-color:var(--accent);}
+  .microw{display:flex; align-items:center; gap:14px; margin:12px 0 0;}
+  .mic{flex:0 0 auto; width:72px; height:72px; border-radius:50%; border:none; background:var(--accent); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;}
+  .mic svg{width:34px; height:34px;} .mic.rec{background:var(--del); animation:puls 1.1s infinite;}
+  @keyframes puls{0%{box-shadow:0 0 0 0 rgba(201,64,64,.45);}100%{box-shadow:0 0 0 18px rgba(201,64,64,0);}}
+  .michint{color:var(--muted); font-size:16px;}
+  .err{color:var(--del); font-size:15px; margin-top:6px;}
+  .helps{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 4px;}
+  .chip{border:none; border-radius:14px; padding:8px 12px; font:inherit; font-size:15px; font-weight:700; background:var(--accent2); color:var(--accent); cursor:pointer;}
+  .words{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0;}
+  .word{border:1px solid var(--line); background:#fff; border-radius:12px; padding:6px 10px; font:inherit; font-size:16px; cursor:pointer; color:var(--ink);}
+  .word small{display:block; color:var(--muted); font-size:13px;}
+  .spk{display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; border:none; background:var(--accent2); color:var(--accent);
+       width:38px; height:38px; border-radius:50%; cursor:pointer; margin-left:6px; padding:0;}
+  .spk svg{width:22px; height:22px;} .spk.slow{width:auto; padding:0 11px; border-radius:19px; font:inherit; font-size:14px; font-weight:800;}
+  .ex{font-size:20px; font-weight:600; background:var(--bg); border-radius:14px; padding:12px 14px;}
+  .mine{font-size:20px; background:var(--bg); border-radius:14px; padding:12px 14px; margin:0 0 6px;}
+  .done{color:var(--ok); font-weight:800; font-size:18px; margin:0 0 12px;}
+  .yours{font-size:20px; background:var(--del2); border-radius:14px; padding:12px 14px;}
+  .yours.plain{background:var(--bg);}
+  .fixed{font-size:21px; font-weight:600; background:var(--ok2); border-radius:14px; padding:12px 14px;}
+  del{color:var(--del); text-decoration-thickness:2px;} ins{color:var(--ok); font-weight:800; text-decoration:none; border-bottom:2px solid var(--ok);}
+  .note{background:#FFF8E6; border-radius:14px; padding:12px 14px; margin-top:10px; font-size:17px;}
+  .said{font-size:19px; margin-top:12px; padding:10px 14px; border-radius:14px; background:var(--bg);}
+  .fb{font-weight:800; margin-top:8px;} .fb.good{color:var(--ok);} .fb.close{color:var(--accent);}
+  .hint{color:var(--muted); margin:12px 0 0;}
+  /* Satz bauen */
+  .slots{min-height:64px; border:2px dashed var(--line); border-radius:16px; padding:8px; display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start;}
+  .pool{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; min-height:48px;}
+  .tile{border:none; border-radius:12px; padding:10px 14px; font:inherit; font-size:19px; font-weight:700; background:#fff; color:var(--ink);
+        box-shadow:0 1px 0 var(--line),0 2px 6px rgba(60,40,20,.08); cursor:pointer;}
+  .slots .tile{background:var(--accent2);} .slots.right{border-color:var(--ok); background:var(--ok2);} .slots.right .tile{background:#fff; color:var(--ok);}
+  .msg{margin-top:10px; font-weight:700; color:var(--accent); min-height:24px;}
+  .lob li{padding:8px 0; border-bottom:1px dashed var(--line); font-size:19px;} .lob{list-style:none; padding:0; margin:0;}
+  .lob li::before{content:"\2713"; color:var(--ok); font-weight:900; margin-right:8px;}
+  .test{background:#FFE9A8; color:#7A5A00; font-size:13px; font-weight:700; text-align:center; padding:6px; border-radius:10px; margin-bottom:10px;}
+  #ver{position:fixed; right:8px; bottom:6px; font-size:11px; color:#B9B2BF;}
+</style></head>
+<body>
+<div id="app">載入中……</div>
+<div id="ver"></div>
+<script>
+// Laedt data.js und app.js passend zur Version in version.json (einzige Stelle fuer die Versionsnummer).
+(function(){
+  function go(v){ window.BUILD=v||"?"; try{ if(v) localStorage.setItem("kyla_en_build",v); }catch(e){}
+    var q=v?"?v="+encodeURIComponent(v):"", files=["data.js","app.js"], i=0;
+    (function next(){ if(i>=files.length) return; var s=document.createElement("script"); s.src=files[i++]+q; s.onload=next;
+      s.onerror=function(){ document.getElementById("app").textContent="載入失敗，請檢查網路，再重新整理。"; }; document.body.appendChild(s); })(); }
+  fetch("version.json?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.json(); }).then(function(o){ go(o.build); })
+    .catch(function(){ var v=""; try{ v=localStorage.getItem("kyla_en_build")||""; }catch(e){} go(v); });
+})();
+</script>
+</body></html>

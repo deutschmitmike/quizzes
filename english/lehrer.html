@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light">
+<title>Kyla Englisch – Lehrer</title>
+<style>
+  :root{ --bg:#F4F6FB; --card:#fff; --ink:#1F2A44; --muted:#7A86A1; --line:#E7EBF5; --blue:#2D6CDF; --ok:#1F8F5A; --ok2:#E3F4EB; --del:#C94040; --del2:#FBE6E6; --warn:#C77F0E; }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:-apple-system,"PingFang TC","Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); font-size:16px;}
+  main{max-width:820px; margin:0 auto; padding:16px;}
+  h1{font-size:24px; margin:8px 0 4px;} .sub{color:var(--muted); font-size:14px; margin:0 0 14px;} .sub a{color:var(--blue);}
+  .box{background:var(--card); border-radius:16px; padding:14px 16px; margin:0 0 14px; box-shadow:0 2px 8px rgba(31,42,68,.06);}
+  .stats{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px;}
+  .stats div{background:var(--bg); border-radius:12px; padding:8px 10px;} .stats b{display:block; font-size:20px;} .stats span{font-size:13px; color:var(--muted);}
+  .warn{color:var(--warn);}
+  .tabs{display:flex; gap:8px; margin:0 0 12px;}
+  button{border:none; border-radius:10px; padding:8px 12px; font:inherit; font-size:14px; font-weight:700; background:#e7ebf5; color:var(--ink); cursor:pointer;}
+  button.on{background:var(--blue); color:#fff;} button.ok{background:var(--ok2); color:var(--ok);} button.save{background:var(--blue); color:#fff;}
+  button:disabled{opacity:.4;}
+  .s{background:var(--card); border-radius:14px; padding:14px 16px; margin:0 0 12px; box-shadow:0 1px 4px rgba(31,42,68,.06); border-left:5px solid var(--warn);}
+  .s.fertig{border-left-color:var(--ok);}
+  .meta{font-size:13px; color:var(--muted); margin-bottom:4px;} .meta b{color:var(--ink);}
+  .prompt{font-size:14px; color:var(--muted); margin-bottom:8px;}
+  .text{font-size:19px; margin:0 0 10px; line-height:1.4;}
+  textarea{width:100%; font:inherit; font-size:17px; line-height:1.4; border:2px solid var(--line); border-radius:10px; padding:8px 10px; resize:vertical;}
+  textarea:focus,input:focus{outline:none; border-color:var(--blue);}
+  input.notiz{width:100%; font:inherit; font-size:15px; border:2px solid var(--line); border-radius:10px; padding:7px 10px; margin-top:6px;}
+  .vor{font-size:15px; margin:6px 0 0; color:var(--muted);} del{color:var(--del);} ins{color:var(--ok); font-weight:700; text-decoration:none; border-bottom:2px solid var(--ok);}
+  .row{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; align-items:center;}
+  .status{font-size:13px; color:var(--muted); margin-top:6px;}
+  .korr{font-size:17px; background:var(--ok2); border-radius:10px; padding:8px 10px;}
+  .test{background:#FFE9A8; color:#7A5A00; font-size:13px; font-weight:700; text-align:center; padding:6px; border-radius:10px; margin-bottom:10px;}
+  .empty{color:var(--muted);}
+</style></head>
+<body><main>
+<div id="test"></div>
+<h1>Kyla · Englisch</h1>
+<p class="sub">Ihre eigenen Sätze. Feld anpassen und speichern, oder „✓ Richtig“. Kyla sieht die Korrektur beim nächsten Öffnen, hört sie und spricht sie nach.
+  · <a href="./" target="_blank">Kylas App</a> · <a href="../lehrer/">alle Schüler</a></p>
+<div id="stats" class="box">lädt ...</div>
+<div class="tabs"><button id="tOffen" class="on">Offen</button><button id="tAlle">Alle</button><button id="neu" style="margin-left:auto">neu laden</button></div>
+<div id="list"></div>
+</main>
+<script>
+"use strict";
+const DB_URL="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/", BASE="save/__kyla_en";
+const TEST=/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)||/[?&]test\b/.test(location.search);
+const $=s=>document.querySelector(s);
+const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
+const esc=s=>String(s==null?"":s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
+const fake={load(){try{return JSON.parse(localStorage.getItem("kyla_fakedb")||"{}");}catch(e){return {};}}, save(o){localStorage.setItem("kyla_fakedb",JSON.stringify(o));}};
+function fakeAt(o,path,create){ const ps=path.split("/").filter(Boolean); let cur=o; for(let i=0;i<ps.length-1;i++){ if(cur[ps[i]]==null){ if(!create) return [null]; cur[ps[i]]={}; } cur=cur[ps[i]]; } return [cur,ps[ps.length-1]]; }
+async function dbGet(path){ if(TEST){ const [p,k]=fakeAt(fake.load(),path); return p&&p[k]!==undefined?p[k]:null; }
+  const r=await fetch(DB_URL+path+".json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) throw new Error(r.status); return r.json(); }
+async function dbPatch(path,val){ if(TEST){ const o=fake.load(), [p,k]=fakeAt(o,path,true); p[k]=Object.assign(p[k]||{},val); for(const f in val) if(val[f]==null) delete p[k][f]; fake.save(o); return; }
+  const r=await fetch(DB_URL+path+".json",{method:"PATCH",body:JSON.stringify(val)}); if(!r.ok) throw new Error(r.status); }
+
+// gleicher Wortvergleich wie in der App (app.js diff)
+function lcs(a,b){ const m=a.length,n=b.length,L=Array.from({length:m+1},()=>new Array(n+1).fill(0)); for(let i=m-1;i>=0;i--) for(let j=n-1;j>=0;j--) L[i][j]=a[i]===b[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]); return L; }
+function diff(a,b){ const ta=a.split(/\s+/).filter(Boolean), tb=b.split(/\s+/).filter(Boolean), nz=t=>t.toLowerCase().replace(/[^a-z0-9']/g,"");
+  const na=ta.map(nz), nb=tb.map(nz), L=lcs(na,nb); let i=0,j=0; const A=[],B=[];
+  while(i<ta.length&&j<tb.length){ if(na[i]===nb[j]){ A.push(esc(ta[i++])); B.push(esc(tb[j++])); } else if(L[i+1][j]>=L[i][j+1]) A.push("<del>"+esc(ta[i++])+"</del>"); else B.push("<ins>"+esc(tb[j++])+"</ins>"); }
+  while(i<ta.length) A.push("<del>"+esc(ta[i++])+"</del>"); while(j<tb.length) B.push("<ins>"+esc(tb[j++])+"</ins>");
+  return {a:A.join(" "),b:B.join(" ")}; }
+
+const TYP={muster:"Satzmuster",frage:"Frage",situation:"Situation",meinung:"Meinung",erzaehlen:"Erzählen"};
+const WT=["So","Mo","Di","Mi","Do","Fr","Sa"];
+const datum=d=>{ const x=new Date(d*86400000); return WT[x.getUTCDay()]+" "+x.getUTCDate()+"."+(x.getUTCMonth()+1)+"."; };
+const agoTxt=d=>{ if(d==null) return "noch nie"; const a=today()-d; return a===0?"heute":a===1?"gestern":"vor "+a+" Tagen"; };
+let SAETZE={}, ST=null, TAB="offen";
+
+async function load(){ if(TEST) $("#test").innerHTML='<div class="test">Testmodus: Spiel-Datenbank in diesem Browser, nicht die echte</div>';
+  try{ [SAETZE,ST]=await Promise.all([dbGet(BASE+"/saetze"),dbGet(BASE+"/kyla")]); SAETZE=SAETZE||{}; }catch(e){ $("#stats").textContent="gerade offline"; return; }
+  stats(); list(); }
+function stats(){ const all=Object.values(SAETZE).filter(s=>s&&s.id), tage=(ST&&ST.tage)||[], t=today();
+  const offen=all.filter(s=>!s.ok&&!s.korr).length, last=tage.length?Math.max(...tage):null, w7=tage.filter(d=>d>t-7).length;
+  const gespr=all.filter(s=>s.gesprochen).length, korr=all.filter(s=>s.korr&&!s.ok).length, ok=all.filter(s=>s.ok).length;
+  const stufe=(()=>{ const n=tage.filter(d=>d<t).length; return n<5?1:n<14?2:3; })();
+  $("#stats").innerHTML='<div class="stats">'
+    +'<div><b'+(last==null||t-last>2?' class="warn"':'')+'>'+agoTxt(last)+'</b><span>zuletzt fertig geübt</span></div>'
+    +'<div><b>'+w7+' / 7</b><span>Übungstage letzte Woche</span></div>'
+    +'<div><b>'+all.length+'</b><span>eigene Sätze gesamt</span></div>'
+    +'<div><b'+(offen?' class="warn"':'')+'>'+offen+'</b><span>noch nicht korrigiert</span></div>'
+    +'<div><b>'+(all.length?Math.round(100*gespr/all.length):0)+' %</b><span>davon gesprochen</span></div>'
+    +'<div><b>'+ok+' / '+korr+'</b><span>richtig / korrigiert</span></div>'
+    +'<div><b>'+((ST&&ST.spoken)||0)+'</b><span>Mal ins Mikro gesprochen</span></div>'
+    +'<div><b>Stufe '+stufe+'</b><span>'+(stufe===1?"viel Bausteine":stufe===2?"gemischt":"viel frei")+' ('+tage.length+' Tage)</span></div></div>';
+  $("#tOffen").textContent="Offen ("+offen+")"; }
+function list(){ const all=Object.values(SAETZE).filter(s=>s&&s.id).sort((a,b)=>b.ts-a.ts), xs=TAB==="offen"?all.filter(s=>!s.ok&&!s.korr):all;
+  $("#tOffen").className=TAB==="offen"?"on":""; $("#tAlle").className=TAB==="alle"?"on":"";
+  $("#list").innerHTML=xs.length?xs.map(card).join(""):'<p class="empty">'+(TAB==="offen"?"Alles korrigiert.":"Noch keine Sätze.")+'</p>';
+  xs.forEach(bind); }
+function card(s){ const fertig=s.ok||s.korr;
+  const status=fertig?(s.ok?"✓ als richtig markiert":"korrigiert")+(s.gh?", von Kyla gesehen "+agoTxt(s.gh):", Kyla hat es noch nicht gesehen")
+    +(s.nach?" · nachgesprochen: „"+esc(s.nach)+"“":"")+(s.wn?" · "+s.wn+"× wiederholt":""):"";
+  return '<div class="s'+(fertig?" fertig":"")+'" id="c_'+s.id+'"><div class="meta"><b>'+datum(s.d)+'</b> · '+(TYP[s.typ]||s.typ)+' · '+(s.gesprochen?"gesprochen":"getippt")+'</div>'
+    +'<div class="prompt">'+esc(s.prompt)+'</div><div class="text">'+esc(s.text)+'</div>'
+    +(fertig&&!s.ok?'<div class="korr">'+diff(s.text,s.korr).b+'</div>':"")
+    +(s.notiz?'<div class="status">Notiz: '+esc(s.notiz)+'</div>':"")
+    +(fertig?'<div class="status">'+status+'</div><div class="row"><button data-edit="'+s.id+'">ändern</button></div><div class="ed" style="display:none">'+editor(s)+'</div>'
+            :'<div class="ed">'+editor(s)+'</div>')+'</div>'; }
+function editor(s){ return '<textarea rows="2" data-k="'+s.id+'">'+esc(s.korr||s.text)+'</textarea><div class="vor" data-v="'+s.id+'"></div>'
+  +'<input class="notiz" data-n="'+s.id+'" placeholder="Notiz für Kyla (optional, Chinesisch oder Englisch)" value="'+esc(s.notiz||"")+'">'
+  +'<div class="row"><button class="ok" data-ok="'+s.id+'">✓ Richtig</button><button class="save" data-save="'+s.id+'">Korrektur speichern</button></div>'; }
+function bind(s){ const c=$("#c_"+s.id), ta=c.querySelector("textarea"), vor=c.querySelector("[data-v]"), no=c.querySelector("[data-n]");
+  const zeig=()=>{ const v=ta.value.trim(); vor.innerHTML=v&&v!==s.text.trim()?"Kyla sieht: "+diff(s.text,v).a+" → "+diff(s.text,v).b:""; };
+  ta.addEventListener("input",zeig); zeig();
+  const ed=c.querySelector("[data-edit]"); if(ed) ed.onclick=()=>{ c.querySelector(".ed").style.display="block"; ed.style.display="none"; };
+  // neu speichern setzt "gesehen" und die Wiederholung zurueck, damit Kyla die geaenderte Fassung wieder vorne sieht
+  const schreib=async v=>{ try{ await dbPatch(BASE+"/saetze/"+s.id,Object.assign({kt:Date.now(),gh:null,wn:null,wd:null,nach:null},v)); Object.assign(SAETZE[s.id],v,{gh:null,wn:null,wd:null,nach:null});
+      for(const f in v) if(v[f]==null) delete SAETZE[s.id][f]; stats(); list(); }catch(e){ alert("Speichern hat nicht geklappt. Internet?"); } };
+  c.querySelector("[data-ok]").onclick=()=>schreib({ok:true,korr:null,notiz:no.value.trim()||null});
+  c.querySelector("[data-save]").onclick=()=>{ const v=ta.value.trim().replace(/\s+/g," ");
+    if(!v||v===s.text.trim()) schreib({ok:true,korr:null,notiz:no.value.trim()||null}); else schreib({ok:null,korr:v,notiz:no.value.trim()||null}); }; }
+$("#tOffen").onclick=()=>{ TAB="offen"; list(); }; $("#tAlle").onclick=()=>{ TAB="alle"; list(); }; $("#neu").onclick=load;
+load();
+</script>
+</body></html>
