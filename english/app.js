@@ -76,7 +76,7 @@ function pickVoice() { try { const vs = speechSynthesis.getVoices().filter(v => 
 if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
 function say(t, slow) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; if (VOICE) u.voice = VOICE;
   u.rate = slow ? 0.7 : 0.95; speechSynthesis.speak(u); } catch (e) {} }
-const spk = t => '<button class="spk" data-say="' + esc(t) + '" aria-label="聽">' + I.spk + '</button><button class="spk slow" data-say="' + esc(t) + '" data-slow="1">慢</button>';
+const spk = t => '<span class="spkw"><button class="spk" data-say="' + esc(t) + '" aria-label="聽">' + I.spk + '</button><button class="spk slow" data-say="' + esc(t) + '" data-slow="1">慢</button></span>';
 document.addEventListener("click", e => { const b = e.target.closest("[data-say]"); if (b) say(b.dataset.say, !!b.dataset.slow); });
 
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
