@@ -231,7 +231,7 @@ function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送�
 /* ----- Satz bauen ----- */
 const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Hsinchu|Japan|English|German|Chinese|Sunday|TV)$/;
 function kaertchen(satz) { return satz.replace(/[.,?!]/g, "").split(/\s+/).filter(Boolean).map((w, i) => i === 0 && !GROSS.test(w) ? w.toLowerCase() : w); }
-function stepBauen(it) {   // jedes Kaertchen wird sofort geprueft: richtig = bleibt liegen, falsch = wackelt und bleibt im Vorrat; nach 2 Fehlern leuchtet das richtige
+function stepKaertchen(it) {   // (Reserve, falls ein Satz keine MC-Stuecke hat) jedes Kaertchen wird sofort geprueft: richtig = bleibt liegen, falsch = wackelt und bleibt im Vorrat; nach 2 Fehlern leuchtet das richtige
   const loes = [it.en, ...(it.alt || [])], anzeige = loes.map(x => x.split(/\s+/).filter(Boolean)), ziele = loes.map(x => kaertchen(x).map(w => w.toLowerCase()));
   const tiles = shuffle(kaertchen(it.en).map((w, i) => ({w, i}))); let wahl = [], fehler = 0;
   APP.innerHTML = kopf("把句子排好") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="slots" id="slots"></div><div class="pool" id="pool"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
@@ -251,6 +251,22 @@ function stepBauen(it) {   // jedes Kaertchen wird sofort geprueft: richtig = bl
       $("#pool").style.display = "none"; $("#msg").style.display = "none"; say(satz);
       $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(satz) + '</div>' + nsHtml() + '<button class="btn" id="next">下一題</button>';
       nsBind(satz); $("#next").onclick = weiter; } };
+  zeig(); }
+
+function stepBauen(it) {   // Mehrfachauswahl in Stuecken: je Schritt 3 Moeglichkeiten, falsche werden rot und bleiben aus (sie tippt selbst das Richtige)
+  const teile = typeof MC !== "undefined" && MC[it.id]; if (!teile) return stepKaertchen(it);
+  let n = 0; const fertig = [];
+  APP.innerHTML = kopf("選出正確的下一段") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="satz" id="satz"></div><div class="opts" id="opts"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
+  const zeig = () => {
+    $("#satz").innerHTML = fertig.map(esc).join(" ") + (n < teile.length ? ' <span class="blank"></span>' : "");
+    $("#opts").innerHTML = shuffle(teile[n]).map(o => '<button class="opt" data-ok="' + (o === teile[n][0] ? 1 : 0) + '">' + esc(o) + '</button>').join("");
+    $("#opts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
+      if (b.dataset.ok !== "1") { b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "不太對，再看看其他的。"; return; }
+      fertig.push(teile[n][0]); n++; $("#msg").textContent = "";
+      if (n < teile.length) return zeig();
+      $("#satz").classList.add("right"); $("#satz").textContent = it.en; $("#opts").style.display = "none"; $("#msg").style.display = "none"; say(it.en);
+      $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(it.en) + '</div>' + nsHtml("換你說整個句子") + '<button class="btn" id="next">下一題</button>';
+      nsBind(it.en); $("#next").onclick = weiter; }); };
   zeig(); }
 
 /* ----- Nachsprechen (nach Satz bauen, Korrektur, Wiederholung) ----- */
