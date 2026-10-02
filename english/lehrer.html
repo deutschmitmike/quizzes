@@ -89,7 +89,7 @@ function stats(){ const all=Object.values(SAETZE).filter(s=>s&&s.id), tage=(ST&&
   $("#tOffen").textContent="Offen ("+offen+")"; }
 function list(){ const all=Object.values(SAETZE).filter(s=>s&&s.id).sort((a,b)=>b.ts-a.ts), xs=TAB==="offen"?all.filter(s=>!s.ok&&!s.korr):all;
   $("#tOffen").className=TAB==="offen"?"on":""; $("#tAlle").className=TAB==="alle"?"on":"";
-  $("#list").innerHTML=xs.length?xs.map(card).join(""):'<p class="empty">'+(TAB==="offen"?"Alles korrigiert.":"Noch keine Sätze.")+'</p>';
+  $("#list").innerHTML=xs.length?xs.map(card).join(""):'<p class="empty">'+(!all.length?"Noch keine Sätze. Sobald Kyla übt, erscheinen sie hier.":"Alles korrigiert.")+'</p>';
   xs.forEach(bind); }
 function card(s){ const fertig=s.ok||s.korr;
   const status=fertig?(s.ok?"✓ als richtig markiert":"korrigiert")+(s.gh?", von Kyla gesehen "+agoTxt(s.gh):", Kyla hat es noch nicht gesehen")
