@@ -71,6 +71,11 @@
   .tile{border:none; border-radius:12px; padding:10px 14px; font:inherit; font-size:19px; font-weight:700; background:#fff; color:var(--ink);
         box-shadow:0 1px 0 var(--line),0 2px 6px rgba(60,40,110,.08); cursor:pointer;}
   .slots .tile{background:var(--accent2);} .slots.right{border-color:var(--ok); background:var(--ok2);} .slots.right .tile{background:#fff; color:var(--ok);}
+  .wackel{animation:wackel .35s; background:var(--del2) !important; color:var(--del) !important;}
+  @keyframes wackel{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+  .tipp{outline:3px solid var(--accent); outline-offset:2px; animation:tipp 1s infinite;}
+  @keyframes tipp{50%{outline-color:transparent;}}
+  .slots span.tile{cursor:default;}
   .msg{margin-top:10px; font-weight:700; color:var(--accent); min-height:24px;}
   .lob li{padding:8px 0; border-bottom:1px dashed var(--line); font-size:19px;} .lob{list-style:none; padding:0; margin:0;}
   .lob li::before{content:"\2713"; color:var(--ok); font-weight:900; margin-right:8px;}

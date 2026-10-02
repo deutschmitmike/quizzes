@@ -231,24 +231,26 @@ function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送�
 /* ----- Satz bauen ----- */
 const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Hsinchu|Japan|English|German|Chinese|Sunday|TV)$/;
 function kaertchen(satz) { return satz.replace(/[.,?!]/g, "").split(/\s+/).filter(Boolean).map((w, i) => i === 0 && !GROSS.test(w) ? w.toLowerCase() : w); }
-function stepBauen(it) {
-  const loes = [it.en, ...(it.alt || [])], ziele = loes.map(s => kaertchen(s).map(w => w.toLowerCase()));
-  const tiles = shuffle(kaertchen(it.en).map((w, i) => ({w, i}))); let wahl = [];
+function stepBauen(it) {   // jedes Kaertchen wird sofort geprueft: richtig = bleibt liegen, falsch = wackelt und bleibt im Vorrat; nach 2 Fehlern leuchtet das richtige
+  const loes = [it.en, ...(it.alt || [])], anzeige = loes.map(x => x.split(/\s+/).filter(Boolean)), ziele = loes.map(x => kaertchen(x).map(w => w.toLowerCase()));
+  const tiles = shuffle(kaertchen(it.en).map((w, i) => ({w, i}))); let wahl = [], fehler = 0;
   APP.innerHTML = kopf("把句子排好") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="slots" id="slots"></div><div class="pool" id="pool"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
-  const zeig = () => {
-    $("#slots").innerHTML = wahl.map((t, k) => '<button class="tile" data-k="' + k + '">' + esc(k === 0 ? cap(t.w) : t.w) + '</button>').join("");
-    $("#pool").innerHTML = tiles.filter(t => !wahl.includes(t)).map(t => '<button class="tile" data-i="' + t.i + '">' + esc(t.w) + '</button>').join("");
-    $("#slots").querySelectorAll(".tile").forEach(b => b.onclick = () => { wahl = wahl.slice(0, +b.dataset.k).concat(wahl.slice(+b.dataset.k + 1)); $("#msg").textContent = ""; zeig(); });
-    $("#pool").querySelectorAll(".tile").forEach(b => b.onclick = () => { wahl.push(tiles.find(t => t.i === +b.dataset.i)); zeig(); pruefe(); }); };
-  const pruefe = () => { if (wahl.length < tiles.length) return;
-    const ist = wahl.map(t => t.w.toLowerCase()), k = ziele.findIndex(z => z.join(" ") === ist.join(" "));
-    if (k >= 0) { const satz = loes[k];
-      $("#slots").classList.add("right"); $("#slots").innerHTML = '<div style="font-size:21px;font-weight:700;padding:6px 4px">' + esc(satz) + '</div>'; $("#pool").style.display = "none"; $("#msg").style.display = "none"; say(satz);
+  const passend = () => ziele.map((z, k) => k).filter(k => wahl.every((t, n) => ziele[k][n] === t.w.toLowerCase()));
+  const zeig = () => { const k = passend()[0];
+    $("#slots").innerHTML = wahl.map((t, n) => '<span class="tile">' + esc(anzeige[k][n]) + '</span>').join("");
+    const naechst = fehler >= 2 ? ziele[k][wahl.length] : null; let markiert = false;
+    $("#pool").innerHTML = tiles.filter(t => !wahl.includes(t)).map(t => { const tipp = !markiert && naechst && t.w.toLowerCase() === naechst; if (tipp) markiert = true;
+      return '<button class="tile' + (tipp ? " tipp" : "") + '" data-i="' + t.i + '">' + esc(t.w) + '</button>'; }).join("");
+    $("#pool").querySelectorAll(".tile").forEach(b => b.onclick = () => tippe(tiles.find(t => t.i === +b.dataset.i), b)); };
+  const tippe = (t, b) => { const n = wahl.length;
+    if (!passend().some(k => ziele[k][n] === t.w.toLowerCase())) { fehler++; b.classList.remove("wackel"); void b.offsetWidth; b.classList.add("wackel");
+      $("#msg").textContent = fehler >= 2 ? "看看發亮的那個。" : "不是這個，再找找看。"; if (fehler === 2) zeig(); return; }
+    wahl.push(t); fehler = 0; $("#msg").textContent = ""; zeig();
+    if (wahl.length === tiles.length) { const satz = loes[passend()[0]];
+      $("#slots").classList.add("right"); $("#slots").innerHTML = '<div style="font-size:21px;font-weight:700;padding:6px 4px">' + esc(satz) + '</div>';
+      $("#pool").style.display = "none"; $("#msg").style.display = "none"; say(satz);
       $("#body").innerHTML = '<div class="done" style="margin-top:12px">答對了！' + spk(satz) + '</div>' + nsHtml() + '<button class="btn" id="next">下一題</button>';
-      nsBind(satz); $("#next").onclick = weiter; return; }
-    // falsch: der laengste richtige Anfang bleibt liegen, der Rest geht zurueck
-    let best = 0; ziele.forEach(z => { let n = 0; while (n < ist.length && ist[n] === z[n]) n++; best = Math.max(best, n); });
-    wahl = wahl.slice(0, best); zeig(); $("#msg").textContent = best ? "前面這幾個是對的，後面再試試看。" : "順序還不太對，再試試看。"; };
+      nsBind(satz); $("#next").onclick = weiter; } };
   zeig(); }
 
 /* ----- Nachsprechen (nach Satz bauen, Korrektur, Wiederholung) ----- */
