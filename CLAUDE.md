@@ -69,6 +69,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - **Korrektur macht Mike von Hand** (Mike 2026-10-02, KI-Korrektur vielleicht später): `english/lehrer.html` (verlinkt aus `lehrer/`). Kyla sieht Korrekturen beim nächsten Öffnen (Diff, Vorlesen, Nachsprechen), danach kommen sie nach 2/5/12/30 Tagen als Wiederholung.
 - Firebase: `save/__kyla_en/kyla` (Fortschritt, kein Feld `cards`, damit Bericht/Backup sie nicht als Deutsch-Schülerin lesen), `save/__kyla_en/saetze/<id>` (ein Satz). Kyla schreibt nur `text, gesprochen, gh, wn, wd, nach`, Mike nur `korr, notiz, ok, kt`, immer PATCH. Pfade nie ändern.
 - Testen: lokal (`localhost`) oder mit `?test` läuft alles gegen eine Spiel-Datenbank im localStorage (gelber Balken), nie gegen Firebase.
+- **Lange Sätze mit Verknüpfung** (Mike 2026-10-02): because, so, but, that's why, when, although, if, otherwise. Bausteine 2 Teilsätze, Muster zweiteilig, Beispielantworten 2 bis 4 Sätze. Hilfe-Knopf „說長一點“ (`VERBINDER` in data.js), und einmal pro Aufgabe ein Hinweis, wenn eine freie Antwort keine Verknüpfung hat.
 - Inhalte: IDs (`b…`, `m…`, `q…`, `s…`) nie ändern, nur anhängen. `lv` = Stufe. Bausteine: `alt` = weitere richtige Reihenfolgen mit denselben Wörtern.
 - Mit Claude korrigieren: `node ~/Desktop/claude\ cowork/kyla-englisch/saetze.js offen` zeigt offene Sätze, Claude schlägt Korrekturen vor, nach Mikes OK `… saetze.js eintragen <datei.json>`.
 

@@ -226,10 +226,10 @@ function danach(text, ex) {   // nach dem Absenden: ihr Satz, Beispiel zum Anhoe
     + (ex ? '<div class="lbl grey">別人可能會這樣說：</div><div class="ex">' + esc(ex) + ' ' + spk(ex) + '</div>' : "")
     + '<button class="btn" id="next">下一題</button>';
   $("#next").onclick = weiter; }
-function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "說兩三句就可以了。" : "") + '</div>'; }
+function absendenKnopf(min) { return '<button class="btn" id="go" disabled>送出</button><div class="hint" id="gohint">' + (min > 2 ? "說三四句，用 because、so、but 連起來。" : "") + '</div>'; }
 
 /* ----- Satz bauen ----- */
-const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Japan|English|German|Chinese|Sunday|TV)$/;
+const GROSS = /^(I|I'm|I'll|I'd|I've|Taipei|Tainan|Hsinchu|Japan|English|German|Chinese|Sunday|TV)$/;
 function kaertchen(satz) { return satz.replace(/[.,?!]/g, "").split(/\s+/).filter(Boolean).map((w, i) => i === 0 && !GROSS.test(w) ? w.toLowerCase() : w); }
 function stepBauen(it) {
   const loes = [it.en, ...(it.alt || [])], ziele = loes.map(s => kaertchen(s).map(w => w.toLowerCase()));
@@ -272,29 +272,44 @@ function stepMuster(it) {
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 2; });
   $("#go").onclick = () => { const s = speichern(it, "muster", e); danach(s.text, it.ex); }; }
 
+/* ----- Laenger sprechen: Verbinder-Hilfe und ein Anstupser, wenn keiner vorkommt ----- */
+const VERB_RE = /\b(because|so|but|and then|that's why|that is why|when|after|before|then|although|even though|if|otherwise|while)\b/i;
+function verbinderHtml() { const lv = stufe();
+  return '<div class="words hid" id="vb">' + VERBINDER.filter(v => v.lv <= lv).map(v => '<button class="word" data-say="' + esc(v.en) + '">' + esc(v.en) + '<small>' + esc(v.zh) + '</small></button>').join("") + '</div>'; }
+function absenden(e, los) { let gestupst = false;   // einmal nachfragen, wenn die Antwort keine Verknuepfung hat
+  $("#go").onclick = () => { if (!gestupst && !VERB_RE.test(e.text())) { gestupst = true;
+      $("#gohint").innerHTML = '<div class="note">可以說長一點嗎？用 <b>because</b>、<b>so</b> 或 <b>but</b> 再加一點。<div class="helps" style="margin-top:8px"><button class="chip" id="mehrsag">好，再說一點</button><button class="chip" id="trotzdem">這樣就送出</button></div></div>';
+      $("#mehrsag").onclick = () => { $("#gohint").innerHTML = ""; const vb = $("#vb"); if (vb) vb.classList.remove("hid"); };
+      $("#trotzdem").onclick = los; return; }
+    los(); }; }
+
 /* ----- Frage ----- */
 const FRAGE_LBL = {alltag: "回答問題", situation: "情境對話", meinung: "說說你的看法"};
 function stepFrage(it) {
   APP.innerHTML = kopf(FRAGE_LBL[it.t] || "回答問題") + '<div class="card"><div class="q">' + esc(it.en) + ' ' + spk(it.en) + '</div>'
     + '<button class="link" id="zhb">看中文</button><div class="zh hid" id="zh">' + esc(it.zh) + '</div>'
-    + '<div id="body"><div class="helps"><button class="chip" id="hs">給我開頭</button><button class="chip" id="hw">單字提示</button></div>'
+    + '<div id="body"><div class="helps"><button class="chip" id="hs">給我開頭</button><button class="chip" id="hw">單字提示</button><button class="chip" id="hv">說長一點</button></div>'
+    + '<div class="hint hid" id="st">可以這樣說：' + esc(it.start) + '</div>'
     + '<div class="words hid" id="ws">' + (it.w || []).map(w => '<button class="word" data-say="' + esc(w[0]) + '">' + esc(w[0]) + '<small>' + esc(w[1]) + '</small></button>').join("") + '</div>'
-    + eingabeHtml("用一兩句回答……") + absendenKnopf(1) + '</div></div>';
+    + verbinderHtml() + eingabeHtml("說兩句以上，用 because、so、but 連起來……") + absendenKnopf(1) + '</div></div>';
   $("#zhb").onclick = () => { $("#zh").classList.toggle("hid"); };
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 2; });
-  $("#hs").onclick = () => { if (!e.text()) { e.el.value = it.start.replace(/\s*\.\.\.\s*$/, "").replace(/\s*\.\.\.\s*/g, " ") + " "; } $("#go").disabled = wc(e.text()) < 2; };
+  $("#hs").onclick = () => { $("#st").classList.remove("hid"); if (!e.text()) e.el.value = it.start.split("...")[0].trim() + " "; $("#go").disabled = wc(e.text()) < 2; };   // nur der Teil vor dem ersten "..." kommt ins Feld
   $("#hw").onclick = () => { $("#ws").classList.toggle("hid"); };
-  $("#go").onclick = () => { const s = speichern(it, it.t === "situation" ? "situation" : it.t === "meinung" ? "meinung" : "frage", e); danach(s.text, it.ex); }; }
+  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
+  absenden(e, () => { const s = speichern(it, it.t === "situation" ? "situation" : it.t === "meinung" ? "meinung" : "frage", e); danach(s.text, it.ex); }); }
 
 /* ----- Erzaehlen ----- */
 function stepErzaehlen(it) {
-  APP.innerHTML = kopf("說一個小故事（兩三句）") + '<div class="card"><div class="q">' + esc(it.en) + ' ' + spk(it.en) + '</div>'
+  APP.innerHTML = kopf("說一個小故事（三四句）") + '<div class="card"><div class="q">' + esc(it.en) + ' ' + spk(it.en) + '</div>'
     + '<button class="link" id="zhb">看中文</button><div class="zh hid" id="zh">' + esc(it.zh) + '</div>'
     + '<ul class="guides">' + it.g.map(g => '<li>' + esc(g[0]) + '<small>' + esc(g[1]) + '</small></li>').join("") + '</ul>'
-    + '<div id="body">' + eingabeHtml("可以分好幾次說，每說完一句就再按一次麥克風。", 5) + absendenKnopf(3) + '</div></div>';
+    + '<div id="body"><div class="helps"><button class="chip" id="hv">說長一點</button></div>' + verbinderHtml()
+    + eingabeHtml("可以分好幾次說，每說完一句就再按一次麥克風。", 5) + absendenKnopf(3) + '</div></div>';
   $("#zhb").onclick = () => { $("#zh").classList.toggle("hid"); };
+  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 4; });
-  $("#go").onclick = () => { const s = speichern(it, "erzaehlen", e); danach(s.text, it.ex); }; }
+  absenden(e, () => { const s = speichern(it, "erzaehlen", e); danach(s.text, it.ex); }); }
 
 /* ----- Mikes Korrekturen ----- */
 function ctxHtml(s) { return '<div class="ctx">' + esc(s.prompt) + (s.zh ? "<br>" + esc(s.zh) : "") + '</div>'; }
