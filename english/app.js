@@ -313,18 +313,22 @@ function stepKaertchen(it) {   // (Reserve, falls ein Satz keine MC-Stuecke hat)
       nsBind(satz); $("#next").onclick = weiter; } };
   zeig(); }
 
-function mcSaetze(teile) {   // Mike 2026-10-02: alle 4 Saetze unterscheiden sich an DERSELBEN Stelle (sonst ist der richtige per Mehrheit erratbar)
-  const k = Math.floor(Math.random() * teile.length);
+function mcSaetze(teile, k) {   // Mike 2026-10-02: alle 4 Saetze unterscheiden sich an DERSELBEN Stelle k (sonst ist der richtige per Mehrheit erratbar)
   return teile[k].map(f => teile.map((t, j) => j === k ? f : t[0]).join(" ")); }
+// Mike 2026-10-04: kurze Erklaerung auf Chinesisch (data.js MC_X, TIPP), minimal, nur auf Knopfdruck bzw. nach der Antwort
+const warum = (id, k) => { const x = typeof MC_X !== "undefined" && MC_X[id] && MC_X[id][k]; return x ? '<div class="erkl"><b>為什麼？</b>' + esc(x) + '</div>' : ""; };
+const tippKnopf = id => typeof TIPP !== "undefined" && TIPP[id] ? '<button class="chip" id="ht">小提示</button>' : "";
+const tippBox = id => typeof TIPP !== "undefined" && TIPP[id] ? '<div class="erkl hid" id="tp">' + esc(TIPP[id]) + '</div>' : "";
+const tippBind = () => { const b = $("#ht"); if (b) b.onclick = () => $("#tp").classList.toggle("hid"); };
 function stepBauen(it) {   // Mehrfachauswahl ganzer Saetze: falsche werden rot und bleiben aus, sie tippt selbst das Richtige
   const teile = typeof MC !== "undefined" && MC[it.id]; if (!teile) return stepKaertchen(it);
   APP.innerHTML = kopf("選出正確的句子") + '<div class="card"><div class="zhbig">' + esc(it.zh) + '</div><div class="opts" id="opts"></div><div class="msg" id="msg"></div><div id="body"></div></div>';
-  let fehler = 0;
-  $("#opts").innerHTML = shuffle(mcSaetze(teile)).map(o => '<button class="opt" data-ok="' + (o === it.en ? 1 : 0) + '">' + esc(o) + '</button>').join("");
+  let fehler = 0; const stelle = Math.floor(Math.random() * teile.length);
+  $("#opts").innerHTML = shuffle(mcSaetze(teile, stelle)).map(o => '<button class="opt" data-ok="' + (o === it.en ? 1 : 0) + '">' + esc(o) + '</button>').join("");
   $("#opts").querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (b.dataset.ok !== "1") { fehler++; b.classList.add("falsch", "wackel"); b.disabled = true; $("#msg").textContent = "這句有錯，再看看其他的。"; return; }
     $("#opts").outerHTML = '<div class="satz right" id="satz">' + esc(it.en) + '</div>'; $("#msg").style.display = "none"; say(it.en);
-    $("#body").innerHTML = '<div class="done" style="margin-top:12px">' + (fehler ? "對，就是這句。" : "答對了！") + spk(it.en) + '</div>' + nsHtml("按下麥克風，句子會蓋起來，憑記憶說一次") + '<button class="btn" id="next">下一題</button>';
+    $("#body").innerHTML = '<div class="done" style="margin-top:12px">' + (fehler ? "對，就是這句。" : "答對了！") + spk(it.en) + '</div>' + warum(it.id, stelle) + nsHtml("按下麥克風，句子會蓋起來，憑記憶說一次") + '<button class="btn" id="next">下一題</button>';
     nsBind(it.en, null, "#satz"); $("#next").onclick = weiter; }); }
 
 /* ----- Nachsprechen (nach Satz bauen, Korrektur, Wiederholung) ----- */
@@ -345,7 +349,9 @@ function nsBind(z, onTry, deckel) { const mic = $("#nsmic"), ziel = typeof z ===
 /* ----- Satzmuster ----- */
 function stepMuster(it) {
   APP.innerHTML = kopf("用自己的話完成句子") + '<div class="card"><div class="stem">' + esc(it.en).replace(/___/g, '<span class="blank"></span>') + '</div>'
-    + '<div class="zh">' + esc(it.zh) + '</div><div id="body">' + eingabeHtml("說出整個句子……") + absendenKnopf(1) + '</div></div>';
+    + '<div class="zh">' + esc(it.zh) + '</div><div id="body">' + (tippKnopf(it.id) ? '<div class="helps">' + tippKnopf(it.id) + '</div>' + tippBox(it.id) : "")
+    + eingabeHtml("說出整個句子……") + absendenKnopf(1) + '</div></div>';
+  tippBind();
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 6; });
   $("#go").onclick = () => e.fertig(() => { const s = speichern(it, "muster", e); danach(s.text, it.ex); }); }
 
@@ -365,7 +371,7 @@ const FRAGE_LBL = {alltag: "回答問題", situation: "情境對話", meinung: "
 function stepFrage(it) {
   APP.innerHTML = kopf(FRAGE_LBL[it.t] || "回答問題") + '<div class="card"><div class="q">' + esc(it.en) + ' ' + spk(it.en) + '</div>'
     + '<button class="link" id="zhb">看中文</button><div class="zh hid" id="zh">' + esc(it.zh) + '</div>'
-    + '<div id="body"><div class="helps"><button class="chip" id="hs">給我開頭</button><button class="chip" id="hw">單字提示</button><button class="chip" id="hv">說長一點</button></div>'
+    + '<div id="body"><div class="helps"><button class="chip" id="hs">給我開頭</button><button class="chip" id="hw">單字提示</button><button class="chip" id="hv">說長一點</button>' + tippKnopf(it.id) + '</div>' + tippBox(it.id)
     + '<div class="hint hid" id="st">可以這樣說：' + esc(it.start) + '</div>'
     + '<div class="words hid" id="ws">' + (it.w || []).map(w => '<button class="word" data-say="' + esc(w[0]) + '">' + esc(w[0]) + '<small>' + esc(w[1]) + '</small></button>').join("") + '</div>'
     + verbinderHtml() + eingabeHtml("說兩句以上，用 because、so、but 連起來……") + absendenKnopf(2) + '</div></div>';
@@ -373,7 +379,7 @@ function stepFrage(it) {
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 8; });
   $("#hs").onclick = () => { $("#st").classList.remove("hid"); if (!e.text()) e.el.value = it.start.split("...")[0].trim() + " "; $("#go").disabled = wc(e.text()) < 8; };   // nur der Teil vor dem ersten "..." kommt ins Feld
   $("#hw").onclick = () => { $("#ws").classList.toggle("hid"); };
-  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
+  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); }; tippBind();
   absenden(e, () => { const s = speichern(it, it.t === "situation" ? "situation" : it.t === "meinung" ? "meinung" : "frage", e); danach(s.text, it.ex); }); }
 
 /* ----- Erzaehlen ----- */
@@ -381,10 +387,10 @@ function stepErzaehlen(it) {
   APP.innerHTML = kopf("說一個小故事（三四句）") + '<div class="card"><div class="q">' + esc(it.en) + ' ' + spk(it.en) + '</div>'
     + '<button class="link" id="zhb">看中文</button><div class="zh hid" id="zh">' + esc(it.zh) + '</div>'
     + '<ul class="guides">' + it.g.map(g => '<li>' + esc(g[0]) + '<small>' + esc(g[1]) + '</small></li>').join("") + '</ul>'
-    + '<div id="body"><div class="helps"><button class="chip" id="hv">說長一點</button></div>' + verbinderHtml()
+    + '<div id="body"><div class="helps"><button class="chip" id="hv">說長一點</button>' + tippKnopf(it.id) + '</div>' + tippBox(it.id) + verbinderHtml()
     + eingabeHtml("可以分好幾次說，每說完一句就再按一次麥克風。", 5) + absendenKnopf(3) + '</div></div>';
   $("#zhb").onclick = () => { $("#zh").classList.toggle("hid"); };
-  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); };
+  $("#hv").onclick = () => { $("#vb").classList.toggle("hid"); }; tippBind();
   const e = eingabeBind(() => { $("#go").disabled = wc(e.text()) < 18; });
   absenden(e, () => { const s = speichern(it, "erzaehlen", e); danach(s.text, it.ex); }); }
 
