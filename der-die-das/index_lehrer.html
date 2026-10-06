@@ -606,7 +606,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-06-5"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-06-6"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2485,7 +2485,9 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
       '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
   // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
   const E=wochenEssen(), we=heute>=5, hat=(p,d)=>(p.tage||[]).includes(d), N0=leute.length;
-  const mahlzeiten=d=>{ const i=(d+3)%7, mittag=i>=5?E.we:E.wo, fr=FRUEH[((d%FRUEH.length)+FRUEH.length)%FRUEH.length]; let ab=ABEND[(((d*3+1)%ABEND.length)+ABEND.length)%ABEND.length]; if(ab[0]===mittag[0]) ab=ABEND[(ABEND.indexOf(ab)+1)%ABEND.length];
+  const mahlzeiten=d=>{ const i=(d+3)%7, wend=i>=5, mittag=wend?E.we:E.wo, FL=wend?WE_FRUEH:FRUEH, AL=wend?WE_ABEND:ABEND, m=(x,n)=>((x%n)+n)%n;   // Wochenende: alles besonders (Mike 2026-10-06)
+    let fr=FL[m(d,FL.length)]; if(fr[0]===mittag[0]) fr=FL[m(d+1,FL.length)];
+    let ab=AL[m(d*3+1,AL.length)]; if(ab[0]===mittag[0]||ab[0]===fr[0]) ab=AL[m(d*3+2,AL.length)];
     return N0>=3?[fr,mittag,ab]:N0===2?[mittag,ab]:[mittag]; };   // jede Mahlzeit etwas anderes (Mike 2026-10-06)
   const rang=(p,d)=>leute.filter(q=>hat(q,d)).sort((a,b)=>(((a.zeit||{})[d]||9e15)-((b.zeit||{})[d]||9e15))||(leute.indexOf(a)-leute.indexOf(b))).indexOf(p);   // wer zuerst uebt, bringt das Fruehstueck
   const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d), zu=i>=5&&!we, M=mahlzeiten(d);   // Wochenende: bis Samstag Ueberraschung (🎁)
@@ -2556,6 +2558,8 @@ const ESSEN_PLAN={"2026-09-28":{wo:["🍊","Orange","Orangen"],we:["🍊","Orang
 // Nach dem Plan: jedes Jahr wieder von vorn, gleiche Kalenderwoche (Saisonales bleibt in seiner Zeit). Ostereier immer am Osterwochenende.
 const OSTER=["🥚","Osterei","Ostereier"];
 const FRUEH=[["🥐","Croissant","Croissants"],["🍳","Spiegelei","Spiegeleier"],["🥣","Müsli","Müsli"],["🍞","Toast","Toasts"],["🥯","Bagel","Bagels"],["🧇","Waffel","Waffeln"],["🥞","Pfannkuchen","Pfannkuchen"],["🍌","Banane","Bananen"],["🥚","gekochtes Ei","gekochte Eier"]];
+const WE_FRUEH=[["🧇","Waffeln","Waffeln"],["🥞","Pfannkuchen","Pfannkuchen"],["🍩","Donut","Donuts"],["🧁","Muffin","Muffins"],["🍓","Erdbeeren mit Sahne","Erdbeeren mit Sahne"],["🥨","Brezel","Brezeln"]];
+const WE_ABEND=[["🍕","Pizza","Pizzas"],["🍔","Burger","Burger"],["🌭","Hotdog","Hotdogs"],["🍟","Pommes","Pommes"],["🌮","Tacos","Tacos"],["🥙","Döner","Döner"]];
 const ABEND=[["🍝","Nudeln","Nudeln"],["🍲","Eintopf","Eintöpfe"],["🥗","Salat","Salate"],["🍜","Nudelsuppe","Nudelsuppen"],["🍛","Curry","Currys"],["🥪","Sandwich","Sandwiches"],["🍕","Pizza","Pizzas"],["🌯","Wrap","Wraps"],["🥟","Teigtaschen","Teigtaschen"],["🍚","Reis mit Gemüse","Reis mit Gemüse"]];
 function osterTag(y){ const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
   return Date.UTC(y,Math.floor((h+l-7*m+114)/31)-1,((h+l-7*m+114)%31)+1)/864e5; }   // Ostersonntag als Tagesnummer
