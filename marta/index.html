@@ -603,7 +603,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-6"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-7"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2494,12 +2494,12 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
   const N=leute.length, ZAHL=["keine","eine","zwei","drei","vier"], mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=N*7;
   const MAHLZEIT=N===3?["Frühstück","Mittagessen","Abendessen"]:N===2?["Mittagessen","Abendessen"]:["Essen"], HM=mahlzeiten(t);
   const reihe2=leute.filter(p=>hat(p,t)).sort((a,b)=>((a.zeit||{})[t]||9e15)-((b.zeit||{})[t]||9e15)), offen=leute.filter(p=>!hat(p,t));   // Reihenfolge heute = wer zuerst geuebt hat
-  const heuteListe='<div style="margin-top:10px;font-size:14px;line-height:1.6;">'+MAHLZEIT.map((m,k)=>'<div><b>'+m+' '+HM[k][0]+' '+HM[k][1]+':</b> '+(reihe2[k]?esc(reihe2[k].name)+' <span style="color:#1f9d55;font-weight:900;">✓</span>':'<span style="color:var(--muted)">noch offen</span>')+'</div>').join("")+'</div>';
+  const heuteListe='<div style="margin-top:10px;font-size:14px;line-height:1.6;">'+MAHLZEIT.map((m,k)=>'<div><b>'+m+' '+(reihe2[k]?HM[k][0]+' '+HM[k][1]:'🎁')+':</b> '+(reihe2[k]?esc(reihe2[k].name)+' <span style="color:#1f9d55;font-weight:900;">✓</span>':'<span style="color:var(--muted)">Überraschung, noch offen</span>')+'</div>').join("")   /* Essen erst sichtbar, wenn jemand geuebt hat (Mike 2026-10-06) */+'</div>';
   const txt = heuteN>=N ? 'Heute hat Bobby '+(N===2?'beide':'alle '+ZAHL[N])+' Mahlzeiten bekommen. Er ist satt und glücklich!'
     : heute>0&&gesternN<N ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur '+ZAHL[gesternN]+' von '+ZAHL[N]+' Mahlzeiten':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte alle! Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
     : heuteN ? 'Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
     : 'Bobby hat Hunger! Wer bringt ihm heute das '+MAHLZEIT[0]+'?';
-  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenend-Überraschung: '+E.we[2]+'!':'Diese Woche mittags: '+E.wo[2]+' '+E.wo[0]+' <span style="font-weight:600;color:var(--muted);font-size:13px;">(am Wochenende eine Überraschung 🎁)</span>')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenende! Heute gibt es drei besondere Überraschungen 🎁':'Was bekommt Bobby heute? Wer übt, packt eine Mahlzeit aus 🎁')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
     heuteListe+'<div style="font-size:14px;color:var(--ink);margin-top:8px;">'+txt+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-top:4px;">Diese Woche '+wo+' von '+soll+' Mahlzeiten'+(wo>=soll?'. Die ganze Woche jeden Tag gefüttert, super!':'. Jeder Übungstag ist eine Mahlzeit, montags gibt es neues Essen.')+'</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
