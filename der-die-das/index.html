@@ -581,7 +581,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-2"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2521,8 +2521,17 @@ const ESSEN_PLAN={"2026-09-28":{wo:["🍊","Orange","Orangen"],we:["🍊","Orang
   "2027-07-05":{wo:["🍈", "Honigmelone", "Honigmelonen"],we:["🍢", "Spieß", "Spieße"]},
   "2027-07-12":{wo:["🫛", "Erbsenschote", "Erbsenschoten"],we:["🍧", "Wassereis", "Wassereis"]},
   "2027-07-19":{wo:["🧅", "Zwiebel", "Zwiebeln"],we:["🍦", "Eis", "Eis"]}};   // bis Sommerferien 2027, danach ESSEN reihum
-function wochenEssen(){ const t=today(), mo=t-((t+3)%7), key=new Date(mo*864e5).toISOString().slice(0,10); if(ESSEN_PLAN[key]) return ESSEN_PLAN[key];
-  const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7), n=ESSEN.length, i=((wk-wk0)%n+n)%n; return {wo:ESSEN[i], we:ESSEN[(i+6)%n]}; }
+// Nach dem Plan: jedes Jahr wieder von vorn, gleiche Kalenderwoche (Saisonales bleibt in seiner Zeit). Ostereier immer am Osterwochenende.
+const OSTER=["🥚","Osterei","Ostereier"];
+function osterTag(y){ const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
+  return Date.UTC(y,Math.floor((h+l-7*m+114)/31)-1,((h+l-7*m+114)%31)+1)/864e5; }   // Ostersonntag als Tagesnummer
+function wochenEssen(){ const t=today(), mo=t-((t+3)%7), K=d=>new Date(d*864e5).toISOString().slice(0,10);
+  const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7), n=ESSEN.length, i=((wk-wk0)%n+n)%n, liste={wo:ESSEN[i], we:ESSEN[(i+6)%n]};
+  let E=null; for(let j=0;j<12&&!E;j++) E=ESSEN_PLAN[K(mo-364*j)]||null;   // diese Woche, sonst dieselbe Woche in den Vorjahren
+  E=E||liste; const ostern=osterTag(new Date(mo*864e5).getUTCFullYear()), osterWoche=ostern>=mo&&ostern<=mo+6;
+  if(osterWoche) return {wo:E.wo, we:OSTER};
+  if(E.we[2]===OSTER[2]) return {wo:E.wo, we:liste.we};   // Ostern faellt dieses Jahr in eine andere Woche
+  return E; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
