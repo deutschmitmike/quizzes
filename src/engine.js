@@ -993,16 +993,16 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
       '<div style="font-size:15px;margin:14px 0 6px;">Gemeinsam <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
       '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
   // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
-  const f=wochenEssen(), hat=(p,d)=>(p.tage||[]).includes(d);
-  const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d);
-    return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok?'':(d<t?'':'filter:grayscale(1);opacity:.22;'))+'">'+(ok?f[0]:(d<t?'😩':f[0]))+'</span>'; };
+  const E=wochenEssen(), we=heute>=5, hat=(p,d)=>(p.tage||[]).includes(d);
+  const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d), ess=(i>=5?E.we:E.wo)[0], zu=i>=5&&!we;   // Wochenende: bis Samstag Ueberraschung (🎁)
+    return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok||d<t?'':'filter:grayscale(1);opacity:.22;')+(zu?'filter:none;opacity:.55;':'')+'">'+(ok?ess:(d<t?'😩':(zu?'🎁':ess)))+'</span>'; };
   const reihe=p=>'<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+[0,1,2,3,4,5,6].map(i=>slot(p,i)).join("")+'</span></div>';
   const mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=leute.length*7;
   const txt = heuteN>=leute.length ? 'Heute hat Bobby beide Mahlzeiten bekommen. Er ist satt und glücklich!'
     : heute>0&&gesternN<leute.length ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur eine Mahlzeit':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte '+(heuteN?'noch eine':'beide')+'!'
     : heuteN ? 'Bobby hat heute schon eine Mahlzeit. Wer bringt ihm die zweite?'
     : 'Bobby hat Hunger! Er wartet heute auf zwei Mahlzeiten: eine von '+leute.map(p=>p.name).join(', eine von ')+'.';
-  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Diese Woche gibt es: '+f[2]+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenend-Überraschung: '+E.we[2]+'!':'Diese Woche gibt es: '+E.wo[2]+' <span style="font-weight:600;color:var(--muted);font-size:13px;">(am Wochenende eine Überraschung 🎁)</span>')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
     '<div style="font-size:14px;color:var(--ink);margin-top:10px;">'+txt+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-top:4px;">Diese Woche '+wo+' von '+soll+' Mahlzeiten'+(wo>=soll?'. Die ganze Woche jeden Tag gefüttert, super!':'. Jeder Übungstag ist eine Mahlzeit, montags gibt es neues Essen.')+'</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
@@ -1011,9 +1011,19 @@ const ESSEN=[["🍊","Orange","Orangen",G_("die")],["🥨","Brezel","Brezeln",G_
   ["🍉","Melonenstück","Melonenstücke",G_("das")],["🍎","Apfel","Äpfel",G_("der")],["🥕","Karotte","Karotten",G_("die")],["🍕","Pizzastück","Pizzastücke",G_("das")],
   ["🍌","Banane","Bananen",G_("die")],["🌽","Maiskolben","Maiskolben",G_("der")],["🍓","Erdbeere","Erdbeeren",G_("die")],["🍪","Keks","Kekse",G_("der")]];
 // Die Kinder bestimmen, was Bobby naechste Woche isst: Eintrag "Montag der Woche": [Emoji, Einzahl, Mehrzahl] (Mike 2026-09-28). Ohne Eintrag: ESSEN reihum.
-const ESSEN_PLAN={"2026-09-28":["🍊","Orange","Orangen"],"2026-10-05":["🍣","Sushi","Sushi"]};
+// Mo-Fr das Essen der Woche, Sa+So eine Ueberraschung (bis Samstag nur 🎁 zu sehen). Mike 2026-10-06. Ohne Eintrag: ESSEN reihum.
+const ESSEN_PLAN={"2026-09-28":{wo:["🍊","Orange","Orangen"],we:["🍊","Orange","Orangen"]},
+  "2026-10-05":{wo:["🍣","Sushi","Sushi"],we:["🥞","Pfannkuchen","Pfannkuchen"]},
+  "2026-10-12":{wo:["🍝","Nudel","Nudeln"],we:["🍦","Eis","Eis"]},
+  "2026-10-19":{wo:["🥨","Brezel","Brezeln"],we:["🍩","Donut","Donuts"]},
+  "2026-10-26":{wo:["🌮","Taco","Tacos"],we:["🧁","Muffin","Muffins"]},
+  "2026-11-02":{wo:["🍎","Apfel","Äpfel"],we:["🍿","Popcorn","Popcorn"]},
+  "2026-11-09":{wo:["🥟","Teigtasche","Teigtaschen"],we:["🧇","Waffel","Waffeln"]},
+  "2026-11-16":{wo:["🍔","Burger","Burger"],we:["🍫","Schokolade","Schokolade"]},
+  "2026-11-23":{wo:["🍕","Pizzastück","Pizzastücke"],we:["🍪","Keks","Kekse"]},
+  "2026-11-30":{wo:["🍌","Banane","Bananen"],we:["🍰","Kuchenstück","Kuchenstücke"]}};
 function wochenEssen(){ const t=today(), mo=t-((t+3)%7), key=new Date(mo*864e5).toISOString().slice(0,10); if(ESSEN_PLAN[key]) return ESSEN_PLAN[key];
-  const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7); return ESSEN[((wk-wk0)%ESSEN.length+ESSEN.length)%ESSEN.length]; }
+  const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7), n=ESSEN.length, i=((wk-wk0)%n+n)%n; return {wo:ESSEN[i], we:ESSEN[(i+6)%n]}; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
 function syncPull(cb){ if(!SYNC_URL){ cb(false); return; } try{ fetch(SYNC_URL+LB_PATH+".json").then(r=>r.json()).then(o=>cb(o||{})).catch(()=>cb(null)); }catch(e){ cb(null); } }
 // ===== voller Lernstand online (Backup + Sync zwischen iPads), nur wenn SYNC_URL gesetzt =====
