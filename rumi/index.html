@@ -6,8 +6,8 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="der die das">
-<title>der, die, das - LEHRER</title>
+<meta name="apple-mobile-web-app-title" content="Rumi">
+<title>Deutsch - Rumi</title>
 <style>
   :root{
     --der:#2D6CDF; --die:#E0467C; --das:#1FA85C;
@@ -155,7 +155,7 @@
     <div class="top">
       <div class="badge"><span id="pointsN">1</span><small>Sterne</small></div>
     </div>
-    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> <span id="homeGreet">Hallo! Ich bin Bobby! (Lehrer-Test)</span></h1>
+    <h1 id="homeTitle"><span class="mascot" id="homeMascot" style="width:50px;height:50px;"><svg viewBox="0 0 70 62"><ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"></ellipse><rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"></rect><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"></rect><circle cx="25" cy="27" r="3" fill="#2e2014"></circle><circle cx="45" cy="27" r="3" fill="#2e2014"></circle><ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"></ellipse><path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"></path></svg></span> <span id="homeGreet">Hallo! Ich bin Bobby!</span></h1>
     <div class="critters" id="critterRow"></div>
     <div class="critternext" id="critterNext"></div>
     <p class="sub" id="homeSub"></p>
@@ -173,17 +173,6 @@
       <div id="lbList"><button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button></div>
     </div>
     <div class="stages" id="stageList"><div class="stage"><div class="num">1</div><div class="meta"><b>der, die, das</b><div>Welcher Artikel?</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">2</div><div class="meta"><b>Mehrzahl</b><div>frei ab 12 sicheren Wörtern in Stufe 1</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">3</div><div class="meta"><b>Wo oder Wohin?</b><div>frei ab 12 sicheren Wörtern in Stufe 2</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">4</div><div class="meta"><b>Dativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 3</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">5</div><div class="meta"><b>Akkusativ-Wörter</b><div>frei ab 12 sicheren Wörtern in Stufe 4</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">6</div><div class="meta"><b>Welcher Fall?</b><div>frei ab 12 sicheren Wörtern in Stufe 5</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">7</div><div class="meta"><b>er, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 6</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">8</div><div class="meta"><b>mein oder meine?</b><div>frei ab 12 sicheren Wörtern in Stufe 7</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">9</div><div class="meta"><b>sein oder ihr?</b><div>frei ab 12 sicheren Wörtern in Stufe 8</div><div class="bar"><i style="width:0%"></i></div></div></div><div class="stage locked"><div class="num">10</div><div class="meta"><b>ihn, sie, es</b><div>frei ab 12 sicheren Wörtern in Stufe 9</div><div class="bar"><i style="width:0%"></i></div></div></div></div>
-    <div class="panel" id="teacherPanel" style="margin-top:12px; border:2px dashed var(--der);">
-      <h2 style="font-size:16px; margin:0 0 4px;">Lehrer: Stufe testen</h2>
-      <div style="font-size:12px; color:var(--muted); margin:0 0 8px;">20 Karten nur aus dieser Stufe, unabhängig vom Lernstand.</div>
-      <div id="teacherBtns" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
-    </div>
-    <div class="panel" id="focusPanel" style="margin-top:12px; border:2px dashed var(--das);">
-      <h2 style="font-size:16px; margin:0 0 4px;">Lehrer: Schwerpunkt setzen</h2>
-      <div style="font-size:12px; color:var(--muted); margin:0 0 8px;">Das Thema bekommt 2 Wochen lang deutlich mehr neue Karten, bei allen Spielenden dieser App.</div>
-      <div id="focusNow" style="font-size:14px; font-weight:700; margin:0 0 8px;">lädt ...</div>
-      <div id="focusBtns" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
-    </div>
     <div class="tiny">Tipp: in Safari über Teilen „Zum Home-Bildschirm", dann öffnet es wie eine App und merkt sich den Fortschritt.</div>
   </div>
 
@@ -253,24 +242,24 @@
 
 </div>
 <script>
-// ===== Steckbrief: der, die, das (Kyana) =====
+// ===== Steckbrief: Rumi (angelegt mit neue_gruppe.py, Vorlage kyana) =====
 // Einstellungen (CFG) und Inhalte dieser Gruppe. Der Kern liegt in src/engine.js.
 const GROUP={
- "name": "der, die, das (Kyana)",
- "folder": "der-die-das",
- "key": "ddd_kyana_v2",
- "teacherKey": "ddd_kyana_lehrer_v1",
- "lbPath": "lb",
- "savePath": "save",
+ "name": "Rumi",
+ "folder": "rumi",
+ "key": "rumi_v1",
+ "teacherKey": "rumi_lehrer_v1",
+ "lbPath": "lb/__rumi",
+ "savePath": "save/__rumi",
  "mascot": true,
  "critters": true,
  "allOpen": true,
  "intros": true,
  "typedRecall": true,
  "teenPron": false,
- "weekView": false,
+ "weekView": true,
  "names": [
-  "Bobby K"
+  "Rumi"
  ],
  "allowSkip": true,
  "extraRounds": true,
@@ -284,14 +273,14 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
-  35,
-  25,
-  20
+  20,
+  15,
+  15
  ],
  "roundFull": [
-  35,
-  25,
-  20
+  20,
+  15,
+  15
  ],
  "roundStartDays": 0,
  "adjDatPrep": "mit",
@@ -356,7 +345,20 @@ const GROUP={
   "ps:Kind",
   "ps:Sonne"
  ],
+ "beispielName": "Rumi",
+ "startNur": [
+  1,
+  2
+ ],
+ "startTage": 7,
+ "anzeige": {
+  "Rumi": "Bobby R"
+ },
  "partner": [
+  {
+   "pfad": "lb/bobby_k",
+   "name": "Bobby K"
+  },
   {
    "pfad": "lb/__marta/marta",
    "name": "Bobby M"
@@ -368,149 +370,144 @@ const GROUP={
   {
    "pfad": "lb/__antonio/antonio",
    "name": "Bobby A"
-  },
-  {
-   "pfad": "lb/__rumi/rumi",
-   "name": "Bobby R"
   }
- ],
- "beispielName": "Marta"
+ ]
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
 const W=[
- {pre:"Marta setzt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Matte","Bett","Stuhl"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Matte","Bett","Stuhl"]},
- {pre:"Marta geht",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule","Stadt"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule","Stadt"]},
- {pre:"Marta legt das Buch",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Stuhl","Regal","Bett"]},{pre:"Das Buch liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Stuhl","Regal","Bett"]},
+ {pre:"Rumi setzt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Matte","Bett","Stuhl"]},{pre:"Rumi sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Matte","Bett","Stuhl"]},
+ {pre:"Rumi geht",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule","Stadt"]},{pre:"Rumi ist",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule","Stadt"]},
+ {pre:"Rumi legt das Buch",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Stuhl","Regal","Bett"]},{pre:"Das Buch liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Stuhl","Regal","Bett"]},
  {pre:"Die Katze legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Stuhl","Tisch","Bett"]},{pre:"Die Katze schläft",prep:"auf",c:"dat",h:"Wo?",pool:["Bett","Stuhl","Matte"]},
- {pre:"Marta hängt die Jacke",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank"]},{pre:"Die Jacke ist",prep:"in",c:"dat",h:"Wo?",pool:["Schrank"]},
+ {pre:"Rumi hängt die Jacke",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank"]},{pre:"Die Jacke ist",prep:"in",c:"dat",h:"Wo?",pool:["Schrank"]},
  {pre:"Der Vogel fliegt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Tisch","Schrank"]},{pre:"Der Vogel sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Baum","Tisch","Schrank"]},
- {pre:"Marta stellt das Glas",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Das Glas steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
- {pre:"Marta hängt den Zettel",prep:"an",c:"akk",h:"Wohin?",pool:["Tafel"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Tafel","Wand"]},
- {pre:"Marta geht",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tür"]},{pre:"Marta steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tür"]},
+ {pre:"Rumi stellt das Glas",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Das Glas steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
+ {pre:"Rumi hängt den Zettel",prep:"an",c:"akk",h:"Wohin?",pool:["Tafel"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Tafel","Wand"]},
+ {pre:"Rumi geht",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tür"]},{pre:"Rumi steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tür"]},
  {pre:"Die Maus kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Haus"]},{pre:"Die Maus ist",prep:"in",c:"dat",h:"Wo?",pool:["Haus"]},
- {pre:"Marta bringt den Ball",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Marta spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
- {pre:"Marta steigt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
- {pre:"Marta steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Marta sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]},
- {pre:"Marta legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Bett"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Stuhl","Bett"]},
- {pre:"Marta kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Garten","Küche","Zimmer"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Garten","Küche","Zimmer"]},
- {pre:"Marta stellt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Brücke","Wiese"]},{pre:"Marta steht",prep:"auf",c:"dat",h:"Wo?",pool:["Brücke","Wiese"]},
- {pre:"Das Boot ist",prep:"auf",c:"dat",h:"Wo?",pool:["Meer"]},{pre:"Marta klebt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},
+ {pre:"Rumi bringt den Ball",prep:"in",c:"akk",h:"Wohin?",pool:["Halle","Schule"]},{pre:"Rumi spielt",prep:"in",c:"dat",h:"Wo?",pool:["Halle","Schule"]},
+ {pre:"Rumi steigt",prep:"auf",c:"akk",h:"Wohin?",pool:["Baum","Stuhl","Tisch"]},{pre:"Die Katze hockt",prep:"auf",c:"dat",h:"Wo?",pool:["Stuhl","Tisch","Schrank"]},
+ {pre:"Rumi steigt",prep:"in",c:"akk",h:"Wohin?",pool:["Bus","Zug","Auto"]},{pre:"Rumi sitzt",prep:"in",c:"dat",h:"Wo?",pool:["Bus","Zug","Auto"]},
+ {pre:"Rumi legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Bett"]},{pre:"Rumi sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Stuhl","Bett"]},
+ {pre:"Rumi kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Garten","Küche","Zimmer"]},{pre:"Rumi ist",prep:"in",c:"dat",h:"Wo?",pool:["Garten","Küche","Zimmer"]},
+ {pre:"Rumi stellt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Brücke","Wiese"]},{pre:"Rumi steht",prep:"auf",c:"dat",h:"Wo?",pool:["Brücke","Wiese"]},
+ {pre:"Das Boot ist",prep:"auf",c:"dat",h:"Wo?",pool:["Meer"]},{pre:"Rumi klebt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},
  {pre:"Die Katze legt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Schreibtisch","Regal","Sofa"]},{pre:"Die Katze sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Schreibtisch","Regal","Sofa"]},
- {pre:"Marta geht",prep:"in",c:"akk",h:"Wohin?",pool:["Keller","Garage","Kino"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Keller","Garage","Kino"]},
- {pre:"Marta kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Kirche","Halle","Wald"]},{pre:"Marta wartet",prep:"in",c:"dat",h:"Wo?",pool:["Kirche","Halle","Wald"]},
+ {pre:"Rumi geht",prep:"in",c:"akk",h:"Wohin?",pool:["Keller","Garage","Kino"]},{pre:"Rumi ist",prep:"in",c:"dat",h:"Wo?",pool:["Keller","Garage","Kino"]},
+ {pre:"Rumi kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Kirche","Halle","Wald"]},{pre:"Rumi wartet",prep:"in",c:"dat",h:"Wo?",pool:["Kirche","Halle","Wald"]},
  {pre:"Der Vogel fliegt",prep:"auf",c:"akk",h:"Wohin?",pool:["Dach","Mauer","Turm"]},{pre:"Der Vogel sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Dach","Mauer","Turm"]},
- {pre:"Marta steigt",prep:"auf",c:"akk",h:"Wohin?",pool:["Hügel","Berg","Leiter"]},{pre:"Marta steht",prep:"auf",c:"dat",h:"Wo?",pool:["Hügel","Berg","Leiter"]},
- {pre:"Marta legt das Foto",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal","Schreibtisch"]},{pre:"Das Foto liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal","Schreibtisch"]},
- {pre:"Marta hängt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Wand","Tür"]},
- {pre:"Marta stellt den Koffer",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank","Keller","Garage"]},{pre:"Der Koffer steht",prep:"in",c:"dat",h:"Wo?",pool:["Schrank","Keller","Garage"]},
- {pre:"Marta kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Hotel","Restaurant","Museum"]},{pre:"Marta ist",prep:"in",c:"dat",h:"Wo?",pool:["Hotel","Restaurant","Museum"]},
- {pre:"Marta legt den Schlafsack",prep:"in",c:"akk",h:"Wohin?",pool:["Höhle","Zelt"]},{pre:"Marta schläft",prep:"in",c:"dat",h:"Wo?",pool:["Höhle","Zelt"]},
- {pre:"Marta setzt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Sessel","Bank","Schaukel"]},{pre:"Marta sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sessel","Bank","Schaukel"]},
- {pre:"Marta stellt die Vase",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Die Vase steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
- {pre:"Marta stellt sich",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tafel"]},{pre:"Marta steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tafel"]},
+ {pre:"Rumi steigt",prep:"auf",c:"akk",h:"Wohin?",pool:["Hügel","Berg","Leiter"]},{pre:"Rumi steht",prep:"auf",c:"dat",h:"Wo?",pool:["Hügel","Berg","Leiter"]},
+ {pre:"Rumi legt das Foto",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal","Schreibtisch"]},{pre:"Das Foto liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal","Schreibtisch"]},
+ {pre:"Rumi hängt das Bild",prep:"an",c:"akk",h:"Wohin?",pool:["Wand","Tür"]},{pre:"Das Bild hängt",prep:"an",c:"dat",h:"Wo?",pool:["Wand","Tür"]},
+ {pre:"Rumi stellt den Koffer",prep:"in",c:"akk",h:"Wohin?",pool:["Schrank","Keller","Garage"]},{pre:"Der Koffer steht",prep:"in",c:"dat",h:"Wo?",pool:["Schrank","Keller","Garage"]},
+ {pre:"Rumi kommt",prep:"in",c:"akk",h:"Wohin?",pool:["Hotel","Restaurant","Museum"]},{pre:"Rumi ist",prep:"in",c:"dat",h:"Wo?",pool:["Hotel","Restaurant","Museum"]},
+ {pre:"Rumi legt den Schlafsack",prep:"in",c:"akk",h:"Wohin?",pool:["Höhle","Zelt"]},{pre:"Rumi schläft",prep:"in",c:"dat",h:"Wo?",pool:["Höhle","Zelt"]},
+ {pre:"Rumi setzt sich",prep:"auf",c:"akk",h:"Wohin?",pool:["Sessel","Bank","Schaukel"]},{pre:"Rumi sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Sessel","Bank","Schaukel"]},
+ {pre:"Rumi stellt die Vase",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch","Regal"]},{pre:"Die Vase steht",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch","Regal"]},
+ {pre:"Rumi stellt sich",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster","Tafel"]},{pre:"Rumi steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster","Tafel"]},
  // 2026-09-28 Mike: mehr Alltagssaetze mit legen/liegen, stellen/stehen, haengen, setzen/sitzen, stecken
- {pre:"Marta legt das Heft",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch", "Schreibtisch", "Bett"]},{pre:"Das Heft liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch", "Schreibtisch", "Bett"]},
- {pre:"Marta stellt die Milch",prep:"in",c:"akk",h:"Wohin?",pool:["Kühlschrank"]},{pre:"Die Milch steht",prep:"in",c:"dat",h:"Wo?",pool:["Kühlschrank"]},
- {pre:"Marta hängt die Jacke",prep:"an",c:"akk",h:"Wohin?",pool:["Haken", "Tür"]},{pre:"Die Jacke hängt",prep:"an",c:"dat",h:"Wo?",pool:["Haken", "Tür"]},
- {pre:"Marta steckt das Handy",prep:"in",c:"akk",h:"Wohin?",pool:["Tasche", "Rucksack"]},{pre:"Das Handy steckt",prep:"in",c:"dat",h:"Wo?",pool:["Tasche", "Rucksack"]},
- {pre:"Marta setzt sich",prep:"neben",c:"akk",h:"Wohin?",pool:["Oma", "Tante", "Lehrerin"]},{pre:"Marta sitzt",prep:"neben",c:"dat",h:"Wo?",pool:["Oma", "Tante", "Lehrerin"]},
- {pre:"Marta stellt den Schulranzen",prep:"neben",c:"akk",h:"Wohin?",pool:["Tür", "Bett", "Schreibtisch"]},{pre:"Der Schulranzen steht",prep:"neben",c:"dat",h:"Wo?",pool:["Tür", "Bett", "Schreibtisch"]},
- {pre:"Marta legt die Hausschuhe",prep:"unter",c:"akk",h:"Wohin?",pool:["Bett", "Schreibtisch", "Stuhl"]},{pre:"Die Hausschuhe liegen",prep:"unter",c:"dat",h:"Wo?",pool:["Bett", "Schreibtisch", "Stuhl"]},
- {pre:"Marta hängt das Poster",prep:"über",c:"akk",h:"Wohin?",pool:["Bett", "Sofa", "Schreibtisch"]},{pre:"Das Poster hängt",prep:"über",c:"dat",h:"Wo?",pool:["Bett", "Sofa", "Schreibtisch"]},
- {pre:"Marta stellt das Fahrrad",prep:"vor",c:"akk",h:"Wohin?",pool:["Haus", "Schule", "Garage"]},{pre:"Das Fahrrad steht",prep:"vor",c:"dat",h:"Wo?",pool:["Haus", "Schule", "Garage"]},
- {pre:"Marta legt den Schlüssel",prep:"hinter",c:"akk",h:"Wohin?",pool:["Vase", "Lampe"]},{pre:"Der Schlüssel liegt",prep:"hinter",c:"dat",h:"Wo?",pool:["Vase", "Lampe"]},
- {pre:"Marta steckt den Brief",prep:"in",c:"akk",h:"Wohin?",pool:["Briefkasten"]},{pre:"Der Brief liegt",prep:"in",c:"dat",h:"Wo?",pool:["Briefkasten"]},
- {pre:"Marta legt das Brot",prep:"auf",c:"akk",h:"Wohin?",pool:["Teller"]},{pre:"Das Brot liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Teller"]},
- {pre:"Marta gießt den Saft",prep:"in",c:"akk",h:"Wohin?",pool:["Glas", "Becher", "Tasse"]},{pre:"Der Saft ist",prep:"in",c:"dat",h:"Wo?",pool:["Glas", "Becher", "Tasse"]},
- {pre:"Marta setzt die Mütze",prep:"auf",c:"akk",h:"Wohin?",pool:["Kopf"]},{pre:"Die Mütze sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Kopf"]},
- {pre:"Marta legt das Kissen",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa", "Stuhl", "Bett"]},{pre:"Das Kissen liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa", "Stuhl", "Bett"]},
- {pre:"Marta stellt die Schuhe",prep:"vor",c:"akk",h:"Wohin?",pool:["Tür"]},{pre:"Die Schuhe stehen",prep:"vor",c:"dat",h:"Wo?",pool:["Tür"]},
- {pre:"Marta wirft den Müll",prep:"in",c:"akk",h:"Wohin?",pool:["Mülleimer", "Eimer"]},{pre:"Der Müll ist",prep:"in",c:"dat",h:"Wo?",pool:["Mülleimer", "Eimer"]},
- {pre:"Marta legt das Handy",prep:"neben",c:"akk",h:"Wohin?",pool:["Bett", "Teller", "Lampe"]},{pre:"Das Handy liegt",prep:"neben",c:"dat",h:"Wo?",pool:["Bett", "Teller", "Lampe"]},
- {pre:"Marta stellt die Pflanze",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster"]},{pre:"Die Pflanze steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster"]},
- {pre:"Marta hängt den Spiegel",prep:"an",c:"akk",h:"Wohin?",pool:["Wand", "Tür"]},{pre:"Der Spiegel hängt",prep:"an",c:"dat",h:"Wo?",pool:["Wand", "Tür"]},
+ {pre:"Rumi legt das Heft",prep:"auf",c:"akk",h:"Wohin?",pool:["Tisch", "Schreibtisch", "Bett"]},{pre:"Das Heft liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Tisch", "Schreibtisch", "Bett"]},
+ {pre:"Rumi stellt die Milch",prep:"in",c:"akk",h:"Wohin?",pool:["Kühlschrank"]},{pre:"Die Milch steht",prep:"in",c:"dat",h:"Wo?",pool:["Kühlschrank"]},
+ {pre:"Rumi hängt die Jacke",prep:"an",c:"akk",h:"Wohin?",pool:["Haken", "Tür"]},{pre:"Die Jacke hängt",prep:"an",c:"dat",h:"Wo?",pool:["Haken", "Tür"]},
+ {pre:"Rumi steckt das Handy",prep:"in",c:"akk",h:"Wohin?",pool:["Tasche", "Rucksack"]},{pre:"Das Handy steckt",prep:"in",c:"dat",h:"Wo?",pool:["Tasche", "Rucksack"]},
+ {pre:"Rumi setzt sich",prep:"neben",c:"akk",h:"Wohin?",pool:["Oma", "Tante", "Lehrerin"]},{pre:"Rumi sitzt",prep:"neben",c:"dat",h:"Wo?",pool:["Oma", "Tante", "Lehrerin"]},
+ {pre:"Rumi stellt den Schulranzen",prep:"neben",c:"akk",h:"Wohin?",pool:["Tür", "Bett", "Schreibtisch"]},{pre:"Der Schulranzen steht",prep:"neben",c:"dat",h:"Wo?",pool:["Tür", "Bett", "Schreibtisch"]},
+ {pre:"Rumi legt die Hausschuhe",prep:"unter",c:"akk",h:"Wohin?",pool:["Bett", "Schreibtisch", "Stuhl"]},{pre:"Die Hausschuhe liegen",prep:"unter",c:"dat",h:"Wo?",pool:["Bett", "Schreibtisch", "Stuhl"]},
+ {pre:"Rumi hängt das Poster",prep:"über",c:"akk",h:"Wohin?",pool:["Bett", "Sofa", "Schreibtisch"]},{pre:"Das Poster hängt",prep:"über",c:"dat",h:"Wo?",pool:["Bett", "Sofa", "Schreibtisch"]},
+ {pre:"Rumi stellt das Fahrrad",prep:"vor",c:"akk",h:"Wohin?",pool:["Haus", "Schule", "Garage"]},{pre:"Das Fahrrad steht",prep:"vor",c:"dat",h:"Wo?",pool:["Haus", "Schule", "Garage"]},
+ {pre:"Rumi legt den Schlüssel",prep:"hinter",c:"akk",h:"Wohin?",pool:["Vase", "Lampe"]},{pre:"Der Schlüssel liegt",prep:"hinter",c:"dat",h:"Wo?",pool:["Vase", "Lampe"]},
+ {pre:"Rumi steckt den Brief",prep:"in",c:"akk",h:"Wohin?",pool:["Briefkasten"]},{pre:"Der Brief liegt",prep:"in",c:"dat",h:"Wo?",pool:["Briefkasten"]},
+ {pre:"Rumi legt das Brot",prep:"auf",c:"akk",h:"Wohin?",pool:["Teller"]},{pre:"Das Brot liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Teller"]},
+ {pre:"Rumi gießt den Saft",prep:"in",c:"akk",h:"Wohin?",pool:["Glas", "Becher", "Tasse"]},{pre:"Der Saft ist",prep:"in",c:"dat",h:"Wo?",pool:["Glas", "Becher", "Tasse"]},
+ {pre:"Rumi setzt die Mütze",prep:"auf",c:"akk",h:"Wohin?",pool:["Kopf"]},{pre:"Die Mütze sitzt",prep:"auf",c:"dat",h:"Wo?",pool:["Kopf"]},
+ {pre:"Rumi legt das Kissen",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa", "Stuhl", "Bett"]},{pre:"Das Kissen liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa", "Stuhl", "Bett"]},
+ {pre:"Rumi stellt die Schuhe",prep:"vor",c:"akk",h:"Wohin?",pool:["Tür"]},{pre:"Die Schuhe stehen",prep:"vor",c:"dat",h:"Wo?",pool:["Tür"]},
+ {pre:"Rumi wirft den Müll",prep:"in",c:"akk",h:"Wohin?",pool:["Mülleimer", "Eimer"]},{pre:"Der Müll ist",prep:"in",c:"dat",h:"Wo?",pool:["Mülleimer", "Eimer"]},
+ {pre:"Rumi legt das Handy",prep:"neben",c:"akk",h:"Wohin?",pool:["Bett", "Teller", "Lampe"]},{pre:"Das Handy liegt",prep:"neben",c:"dat",h:"Wo?",pool:["Bett", "Teller", "Lampe"]},
+ {pre:"Rumi stellt die Pflanze",prep:"an",c:"akk",h:"Wohin?",pool:["Fenster"]},{pre:"Die Pflanze steht",prep:"an",c:"dat",h:"Wo?",pool:["Fenster"]},
+ {pre:"Rumi hängt den Spiegel",prep:"an",c:"akk",h:"Wohin?",pool:["Wand", "Tür"]},{pre:"Der Spiegel hängt",prep:"an",c:"dat",h:"Wo?",pool:["Wand", "Tür"]},
  {pre:"Papa stellt das Auto",prep:"in",c:"akk",h:"Wohin?",pool:["Garage"]},{pre:"Das Auto steht",prep:"in",c:"dat",h:"Wo?",pool:["Garage"]},
- {pre:"Marta legt die Stifte",prep:"in",c:"akk",h:"Wohin?",pool:["Mäppchen", "Schublade"]},{pre:"Die Stifte liegen",prep:"in",c:"dat",h:"Wo?",pool:["Mäppchen", "Schublade"]},
- {pre:"Marta legt die Fernbedienung",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Tisch"]},{pre:"Die Fernbedienung liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Tisch"]},
- {pre:"Marta legt die Fernbedienung",prep:"unter",c:"akk",h:"Wohin?",pool:["Kissen"]},{pre:"Die Fernbedienung liegt",prep:"unter",c:"dat",h:"Wo?",pool:["Kissen"]}
+ {pre:"Rumi legt die Stifte",prep:"in",c:"akk",h:"Wohin?",pool:["Mäppchen", "Schublade"]},{pre:"Die Stifte liegen",prep:"in",c:"dat",h:"Wo?",pool:["Mäppchen", "Schublade"]},
+ {pre:"Rumi legt die Fernbedienung",prep:"auf",c:"akk",h:"Wohin?",pool:["Sofa","Tisch"]},{pre:"Die Fernbedienung liegt",prep:"auf",c:"dat",h:"Wo?",pool:["Sofa","Tisch"]},
+ {pre:"Rumi legt die Fernbedienung",prep:"unter",c:"akk",h:"Wohin?",pool:["Kissen"]},{pre:"Die Fernbedienung liegt",prep:"unter",c:"dat",h:"Wo?",pool:["Kissen"]}
 ];
 // Stufe 4: Dativ-Präpositionen (mit, aus, bei, zu, von) - immer Dativ
 const D=[
- {pre:"Marta spielt",prep:"mit",pool:["Ball","Hund","Katze"]},
- {pre:"Marta schreibt",prep:"mit",pool:["Stift"]},
- {pre:"Marta fährt",prep:"mit",pool:["Bus","Zug","Fahrrad","Auto"]},
+ {pre:"Rumi spielt",prep:"mit",pool:["Ball","Hund","Katze"]},
+ {pre:"Rumi schreibt",prep:"mit",pool:["Stift"]},
+ {pre:"Rumi fährt",prep:"mit",pool:["Bus","Zug","Fahrrad","Auto"]},
  {pre:"Die Maus kommt",prep:"aus",pool:["Haus","Wald"]},
- {pre:"Marta kommt",prep:"aus",pool:["Schule","Stadt","Halle"]},
- {pre:"Marta trinkt",prep:"aus",pool:["Glas"]},
- {pre:"Marta ist",prep:"bei",pool:["Oma","Opa","Mutter","Vater"]},
- {pre:"Marta sitzt",prep:"bei",pool:["Lehrer","Bruder","Schwester"]},
- {pre:"Marta geht",prep:"zu",pool:["Oma","Opa","Mutter","Vater"]},
- {pre:"Marta läuft",prep:"zu",pool:["Schule","Bus","Park"]},
+ {pre:"Rumi kommt",prep:"aus",pool:["Schule","Stadt","Halle"]},
+ {pre:"Rumi trinkt",prep:"aus",pool:["Glas"]},
+ {pre:"Rumi ist",prep:"bei",pool:["Oma","Opa","Mutter","Vater"]},
+ {pre:"Rumi sitzt",prep:"bei",pool:["Lehrer","Bruder","Schwester"]},
+ {pre:"Rumi geht",prep:"zu",pool:["Oma","Opa","Mutter","Vater"]},
+ {pre:"Rumi läuft",prep:"zu",pool:["Schule","Bus","Park"]},
  {pre:"Das Geschenk ist",prep:"von",pool:["Oma","Opa","Vater","Mutter"]},
  {pre:"Der Brief ist",prep:"von",pool:["Lehrer","Bruder","Schwester"]},
- {pre:"Marta spielt",prep:"mit",pool:["Puppe","Ball","Gitarre"]},
- {pre:"Marta fährt",prep:"mit",pool:["Boot","Schiff","Roller"]},
- {pre:"Marta kommt",prep:"aus",pool:["Küche","Garten","Zimmer"]},
- {pre:"Marta ist",prep:"bei",pool:["Tante","Oma","Opa"]},
- {pre:"Marta geht",prep:"zu",pool:["Tante","Oma","Opa"]},
+ {pre:"Rumi spielt",prep:"mit",pool:["Puppe","Ball","Gitarre"]},
+ {pre:"Rumi fährt",prep:"mit",pool:["Boot","Schiff","Roller"]},
+ {pre:"Rumi kommt",prep:"aus",pool:["Küche","Garten","Zimmer"]},
+ {pre:"Rumi ist",prep:"bei",pool:["Tante","Oma","Opa"]},
+ {pre:"Rumi geht",prep:"zu",pool:["Tante","Oma","Opa"]},
  {pre:"Das Geschenk ist",prep:"von",pool:["Tante","Oma","Opa"]},
- {pre:"Marta spielt",prep:"mit",pool:["Puppe","Trommel","Geige"]},
- {pre:"Marta schreibt",prep:"mit",pool:["Bleistift","Filzstift"]},
+ {pre:"Rumi spielt",prep:"mit",pool:["Puppe","Trommel","Geige"]},
+ {pre:"Rumi schreibt",prep:"mit",pool:["Bleistift","Filzstift"]},
  {pre:"Opa fährt",prep:"mit",pool:["Taxi","Motorrad","Roller"]},
- {pre:"Marta kommt",prep:"aus",pool:["Kino","Hotel","Museum"]},
+ {pre:"Rumi kommt",prep:"aus",pool:["Kino","Hotel","Museum"]},
  {pre:"Die Maus kommt",prep:"aus",pool:["Höhle","Keller"]},
- {pre:"Marta trinkt",prep:"aus",pool:["Flasche","Kanne","Dose"]},
- {pre:"Marta ist",prep:"bei",pool:["Arzt","Bäcker","Lehrer"]},
- {pre:"Marta wohnt",prep:"bei",pool:["Oma","Tante","Mutter"]},
- {pre:"Marta geht",prep:"zu",pool:["Arzt","Bäcker","Markt"]},
- {pre:"Marta fährt",prep:"zu",pool:["Bahnhof","Hafen","Flughafen"]},
+ {pre:"Rumi trinkt",prep:"aus",pool:["Flasche","Kanne","Dose"]},
+ {pre:"Rumi ist",prep:"bei",pool:["Arzt","Bäcker","Lehrer"]},
+ {pre:"Rumi wohnt",prep:"bei",pool:["Oma","Tante","Mutter"]},
+ {pre:"Rumi geht",prep:"zu",pool:["Arzt","Bäcker","Markt"]},
+ {pre:"Rumi fährt",prep:"zu",pool:["Bahnhof","Hafen","Flughafen"]},
  {pre:"Das Paket ist",prep:"von",pool:["Oma","Tante","Onkel"]},
  {pre:"Der Brief ist",prep:"von",pool:["Arzt","Lehrer","Nachbarin"]},
- {pre:"Marta malt",prep:"mit",pool:["Pinsel","Kreide"]},
- {pre:"Marta kommt",prep:"aus",pool:["Schule","Kirche","Bibliothek"]},
- {pre:"Marta sitzt",prep:"bei",pool:["Freund","Freundin","Bruder"]},
+ {pre:"Rumi malt",prep:"mit",pool:["Pinsel","Kreide"]},
+ {pre:"Rumi kommt",prep:"aus",pool:["Schule","Kirche","Bibliothek"]},
+ {pre:"Rumi sitzt",prep:"bei",pool:["Freund","Freundin","Bruder"]},
  {pre:"Das Geschenk ist",prep:"von",pool:["Freund","Freundin","Lehrer"]},
- {pre:"Marta fährt",prep:"mit",pool:["Schiff","Boot","Taxi"]},
- {pre:"Marta kommt",prep:"aus",pool:["Garage","Keller","Wohnung"]}
+ {pre:"Rumi fährt",prep:"mit",pool:["Schiff","Boot","Taxi"]},
+ {pre:"Rumi kommt",prep:"aus",pool:["Garage","Keller","Wohnung"]}
 ];
 // Stufe 5: Akkusativ-Präpositionen (für, ohne, durch, um, gegen) - immer Akkusativ
 const A=[
  {pre:"Das Geschenk ist",prep:"für",pool:["Opa","Oma","Mutter","Vater"]},
  {pre:"Das ist",prep:"für",pool:["Kind","Bruder","Schwester","Lehrer"]},
- {pre:"Marta kauft etwas",prep:"für",pool:["Hund","Katze","Vogel"]},
- {pre:"Marta läuft",prep:"durch",pool:["Park","Wald","Halle"]},
+ {pre:"Rumi kauft etwas",prep:"für",pool:["Hund","Katze","Vogel"]},
+ {pre:"Rumi läuft",prep:"durch",pool:["Park","Wald","Halle"]},
  {pre:"Der Hund rennt",prep:"durch",pool:["Park","Wald","Stadt"]},
- {pre:"Marta geht",prep:"ohne",pool:["Jacke","Mütze","Tasche"]},
- {pre:"Marta spielt",prep:"ohne",pool:["Ball","Schuh"]},
+ {pre:"Rumi geht",prep:"ohne",pool:["Jacke","Mütze","Tasche"]},
+ {pre:"Rumi spielt",prep:"ohne",pool:["Ball","Schuh"]},
  {pre:"Der Ball fliegt",prep:"gegen",pool:["Wand","Tür","Baum"]},
  {pre:"Das Auto fährt",prep:"gegen",pool:["Baum","Wand"]},
- {pre:"Marta läuft",prep:"um",pool:["Baum","Tisch","Haus"]},
+ {pre:"Rumi läuft",prep:"um",pool:["Baum","Tisch","Haus"]},
  {pre:"Der Hund läuft",prep:"um",pool:["Haus","Baum","Stuhl"]},
- {pre:"Marta rennt",prep:"um",pool:["Tisch","Baum"]},
+ {pre:"Rumi rennt",prep:"um",pool:["Tisch","Baum"]},
  {pre:"Das Geschenk ist",prep:"für",pool:["Tante","Bruder","Schwester"]},
- {pre:"Marta läuft",prep:"durch",pool:["Garten","Wald","Park"]},
- {pre:"Marta geht",prep:"ohne",pool:["Puppe","Tasche"]},
+ {pre:"Rumi läuft",prep:"durch",pool:["Garten","Wald","Park"]},
+ {pre:"Rumi geht",prep:"ohne",pool:["Puppe","Tasche"]},
  {pre:"Der Ball fliegt",prep:"gegen",pool:["Wand","Schrank","Baum"]},
- {pre:"Marta rennt",prep:"um",pool:["Sofa","Tisch","Baum"]},
+ {pre:"Rumi rennt",prep:"um",pool:["Sofa","Tisch","Baum"]},
  {pre:"Das Geschenk ist",prep:"für",pool:["Arzt","Lehrer","Freund"]},
- {pre:"Marta kauft etwas",prep:"für",pool:["Oma","Tante","Mutter"]},
+ {pre:"Rumi kauft etwas",prep:"für",pool:["Oma","Tante","Mutter"]},
  {pre:"Das Spielzeug ist",prep:"für",pool:["Baby","Kind","Hund"]},
- {pre:"Marta läuft",prep:"durch",pool:["Kirche","Halle","Museum"]},
+ {pre:"Rumi läuft",prep:"durch",pool:["Kirche","Halle","Museum"]},
  {pre:"Der Hund rennt",prep:"durch",pool:["Garten","Feld","Wald"]},
- {pre:"Marta geht",prep:"ohne",pool:["Jacke","Schal","Mütze"]},
- {pre:"Marta spielt",prep:"ohne",pool:["Schläger","Ball"]},
+ {pre:"Rumi geht",prep:"ohne",pool:["Jacke","Schal","Mütze"]},
+ {pre:"Rumi spielt",prep:"ohne",pool:["Schläger","Ball"]},
  {pre:"Der Ball fliegt",prep:"gegen",pool:["Mauer","Zaun","Tor"]},
  {pre:"Das Auto fährt",prep:"gegen",pool:["Zaun","Mauer","Baum"]},
- {pre:"Marta läuft",prep:"um",pool:["Haus","Garten","Hügel"]},
+ {pre:"Rumi läuft",prep:"um",pool:["Haus","Garten","Hügel"]},
  {pre:"Der Hund läuft",prep:"um",pool:["Tisch","Sofa","Stuhl"]},
  {pre:"Der Vogel fliegt",prep:"um",pool:["Brücke","Turm","Baum"]},
  {pre:"Das ist",prep:"für",pool:["Onkel","Bruder","Schwester"]},
- {pre:"Marta sucht ein Geschenk",prep:"für",pool:["Freundin","Mutter","Oma"]},
- {pre:"Marta geht",prep:"ohne",pool:["Schuh","Brille"]},
- {pre:"Marta läuft",prep:"durch",pool:["Wüste","Stadt","Höhle"]},
+ {pre:"Rumi sucht ein Geschenk",prep:"für",pool:["Freundin","Mutter","Oma"]},
+ {pre:"Rumi geht",prep:"ohne",pool:["Schuh","Brille"]},
+ {pre:"Rumi läuft",prep:"durch",pool:["Wüste","Stadt","Höhle"]},
  {pre:"Das ist",prep:"für",pool:["Lehrer","Arzt","Bäcker"]},
- {pre:"Marta geht",prep:"ohne",pool:["Hut","Mantel","Schal"]}
+ {pre:"Rumi geht",prep:"ohne",pool:["Hut","Mantel","Schal"]}
 ];
 // Stufe 7+8: ausgewählte Nomen (8 der, 8 die, 8 das) - festigen das Genus aus Stufe 1
 const EXTRA=[
@@ -518,8 +515,8 @@ const EXTRA=[
  "Katze","Blume","Lampe","Maus","Tasche","Jacke","Sonne","Tür","Banane","Uhr",
  "Buch","Auto","Haus","Bett","Fenster","Ei","Brot","Pferd","Kind","Fahrrad"];
 // Stufe 9: sein/ihr - Besitzer er -> sein, sie -> ihr; bei die-Woertern + e. Nominativ.
-const PER_ER=["der Vater","der Bruder","Opa","der Mann","der Junge"];
-const PER_SIE=["die Mutter","die Schwester","Oma","die Frau","Marta"];
+const PER_ER=["der Vater","der Bruder","Opa","der Mann","Rumi"];
+const PER_SIE=["die Mutter","die Schwester","Oma","die Frau","die Tante"];
 const N_DER=["Hund","Ball","Baum","Apfel","Fisch","Vogel","Tisch","Stuhl","Schuh","Hut","Koffer","Berg","Stern","Kuchen","Pilz","Elch","Specht","Frosch","Käfer","Schlitten","Becher","Pokal","Kiosk","Teppich","Schlüssel","Pinsel","Drachen"];
 const N_DIE=["Katze","Blume","Sonne","Lampe","Tasche","Uhr","Banane","Maus","Jacke","Tür","Brille","Ente","Kuh","Puppe","Torte","Wolke","Truhe","Lawine","Wanne","Klammer","Kerze","Feder","Muschel","Zipfelmütze","Vogelscheuche"];
 const N_DAS=["Haus","Auto","Buch","Bett","Ei","Brot","Pferd","Fahrrad","Fenster","Boot","Glas","Zelt","Kind","Gleis","Pult","Gehege","Insekt","Plätzchen","Getränk","Meerschweinchen","Schneeglöckchen","Schaufenster","Thermometer"];
@@ -603,7 +600,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  6:"Jetzt ist alles gemischt. Schau auf das kleine Wort und auf das Verb.",
  7:"der → er, die → sie, das → es. Der Hund bellt. Er bellt.",
  8:"der- und das-Wörter: mein. die-Wörter: meine. Mein Hund, meine Katze.",
- 9:"Gehört es ihm (Vater, Opa): sein. Gehört es ihr (Mutter, Oma, Marta): ihr. Bei die-Wörtern: seine, ihre.",
+ 9:"Gehört es ihm (Vater, Opa, Rumi): sein. Gehört es ihr (Mutter, Oma): ihr. Bei die-Wörtern: seine, ihre.",
  10:"den → ihn, die → sie, das → es. Ich sehe den Hund. Ich sehe ihn.",
  11:"Nach der, die, das: -e. Nach ein: -er oder -es, nach eine: -e. Ein großer Hund, ein kleines Kind, eine rote Blume.",
  12:"Beim der-Wort: den großen Hund, einen großen Hund. Sonst wie vorher.",
@@ -612,9 +609,9 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 };
 const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]};   // passt zu jedem Nomen (nicht: mit einem wilden Elch spielen)
 
-const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
+const PAKK_WHO=["Rumi"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-06-9"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-9"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";

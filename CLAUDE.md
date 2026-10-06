@@ -4,7 +4,7 @@ GitHub Pages aus Branch `main`, live unter https://deutschmitmike.github.io/quiz
 Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratchpad-Ordnern arbeiten.
 
 ## Was hier liegt
-- `elisa/`, `antonio/`: Apps für **Elisa** und **Antonio**. Erzeugt.
+- `elisa/`, `antonio/`, `rumi/`: Apps für **Elisa**, **Antonio** und **Rumi**. Erzeugt.
 - `marta/`: App für **Marta** (Kyanas Klassenkameradin). Erzeugt.
 - `der-die-das/`: App für **Kyana** (Mikes Tochter, Kind, spielt als „Bobby K“). Erzeugt, nicht von Hand ändern.
 - `mia-olivia/`: App für **Mia (12) und Olivia (15)**. Erzeugt, nicht von Hand ändern.
@@ -50,7 +50,8 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Marta: wie Kyana, ohne Chinesisch, ohne Rangliste, 25 Karten (seit 2026-10-06, vorher 20). **Sanfter Start** (Mike 2026-09-27): die ersten 7 Tage ab ihrem ersten Übungstag nur Artikel und Mehrzahl, danach automatisch alle Themen gemischt (`startNur`/`startTage` im Steckbrief; neue Gruppen bekommen das nur, wenn man es einträgt).
 - Elisa (Klassenkameradin, 2026-10-06): wie Marta (20 Karten, sanfter Start, ohne Chinesisch, keine Rangliste), heißt in der App „Bobby E“, Speicher `save/__elisa/elisa`, Link `…/quizzes/elisa/`.
 - Antonio (Klassenkamerad, 2026-10-06): wie Elisa, „Bobby A“, `save/__antonio/antonio`; Junge: in seinem Steckbrief steht er in `PER_ER` (sein), nicht `PER_SIE`. Bei neuen Jungen mit Vorlage kyana daran denken!
-- Kyana, Marta, Elisa & Antonio füttern Bobby zu viert (`partner` = Liste der anderen): Frühstück/Mittag/Nachmittagssnack/Abendessen nach Reihenfolge des Übens am Tag (`fertigZeit`), 28 Mahlzeiten pro Woche; Frühstück und Abendessen täglich wechselnd (`FRUEH`, `ABEND`), mittags das Wochenessen, am Wochenende alle drei besonders (`WE_FRUEH`, `WE_ABEND`, mittags Überraschung), offene Mahlzeit = 🍽️.
+- Rumi (Klassenkamerad, Junge, 2026-10-06): wie Antonio, „Bobby R“, `save/__rumi/rumi`.
+- Kyana, Marta, Elisa, Antonio & Rumi füttern Bobby zu fünft (`partner` = Liste der anderen; neues Kind: in ALLEN Steckbriefen ergänzen): Frühstück/Pausenbrot/Mittag/Nachmittagssnack/Abendessen nach Reihenfolge des Übens am Tag (`fertigZeit`), 35 Mahlzeiten pro Woche; Frühstück und Abendessen täglich wechselnd (`FRUEH`, `ABEND`), mittags das Wochenessen, am Wochenende alle drei besonders (`WE_FRUEH`, `WE_ABEND`, mittags Überraschung), offene Mahlzeit = 🍽️.
 - Kyana & Marta: **Wochen-Kärtchen** auf der Startseite (Mike 2026-09-28): Übungstage beider Mädchen diese Woche (ein Punkt pro Tag mit fertiger Runde, montags neu) + „Bobby hat Hunger!“: jeden Tag 2 Mahlzeiten (je eine von Bobby K und Bobby M = Übungstag), 14 pro Woche, verpasster Tag = 😩 und „Bauchweh vor Hunger“; Essen je Woche als Überraschung: Mo–Fr `wo`, Sa+So `we` (bis Samstag 🎁), `ESSEN_PLAN` in engine.js ("Montag": {wo:[Emoji, Einzahl, Mehrzahl], we:[…]}), geplant bis Sommerferien 2027 (19.07.); danach jedes Jahr wieder von vorn nach Kalenderwoche, Ostereier automatisch am Osterwochenende (`osterTag`); ohne Eintrag `ESSEN` reihum. Mia & Olivia: sachlich, je Tag grüner Haken (geübt) / rotes Kreuz (verpasst), gemeinsames Ziel 14 Tage = täglich (`wochenZiel`); keine Punkte-/Fehlervergleiche. Steckbrief `partner` (Pfad zum lb-Eintrag der anderen, Anzeigename), `anzeige` (Marta heißt in der App „Bobby M“, intern bleibt „Marta“ = Speicher `save/__marta/marta`).
 - Mia & Olivia: kein Maskottchen, alle Themen gleichzeitig (gewichtet), eine Runde pro Tag (25 Karten, ab 2026-10-11 automatisch 30: `roundFullAb` im Steckbrief), sichere Karten werden getippt, Vergleich mit der Vorwoche statt Rangliste, Anmeldung nur über die Knöpfe „Ich bin Mia/Olivia“.
 

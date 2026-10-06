@@ -357,6 +357,10 @@ const GROUP={
   {
    "pfad": "lb/__antonio/antonio",
    "name": "Bobby A"
+  },
+  {
+   "pfad": "lb/__rumi/rumi",
+   "name": "Bobby R"
   }
  ],
  "beispielName": "Marta"
@@ -599,7 +603,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-8"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-9"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2482,14 +2486,15 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
     let fr=FL[m(d,FL.length)]; if(fr[0]===mittag[0]) fr=FL[m(d+1,FL.length)];
     let ab=AL[m(d*3+1,AL.length)]; if(ab[0]===mittag[0]||ab[0]===fr[0]) ab=AL[m(d*3+2,AL.length)];
     const SL=wend?WE_SNACK:SNACK; let sn=SL[m(d*5+2,SL.length)]; if([fr[0],mittag[0],ab[0]].includes(sn[0])) sn=SL[m(d*5+3,SL.length)];
-    return N0>=4?[fr,mittag,sn,ab]:N0===3?[fr,mittag,ab]:N0===2?[mittag,ab]:[mittag]; };   // jede Mahlzeit etwas anderes (Mike 2026-10-06)
+    let vs=SL[m(d*7+5,SL.length)]; if([fr[0],mittag[0],ab[0],sn[0]].includes(vs[0])) vs=SL[m(d*7+6,SL.length)]; if([fr[0],mittag[0],ab[0],sn[0]].includes(vs[0])) vs=SL[m(d*7+1,SL.length)];
+    return N0>=5?[fr,vs,mittag,sn,ab]:N0>=4?[fr,mittag,sn,ab]:N0===3?[fr,mittag,ab]:N0===2?[mittag,ab]:[mittag]; };   // jede Mahlzeit etwas anderes (Mike 2026-10-06)
   const rang=(p,d)=>leute.filter(q=>hat(q,d)).sort((a,b)=>(((a.zeit||{})[d]||9e15)-((b.zeit||{})[d]||9e15))||(leute.indexOf(a)-leute.indexOf(b))).indexOf(p);   // wer zuerst uebt, bringt das Fruehstueck
   const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d), zu=i>=5&&!we, M=mahlzeiten(d);   // Wochenende: bis Samstag Ueberraschung (🎁)
     const zeichen=ok?(M[rang(p,d)]||M[M.length-1])[0]:(d<t?'😩':(zu?'🎁':'🍽️'));
     return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok||d<t?'':(zu?'opacity:.55;':'filter:grayscale(1);opacity:.3;'))+'">'+zeichen+'</span>'; };
   const reihe=p=>'<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+[0,1,2,3,4,5,6].map(i=>slot(p,i)).join("")+'</span></div>';
-  const N=leute.length, ZAHL=["keine","eine","zwei","drei","vier"], mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=N*7;
-  const MAHLZEIT=N>=4?["Frühstück","Mittagessen","Nachmittagssnack","Abendessen"]:N===3?["Frühstück","Mittagessen","Abendessen"]:N===2?["Mittagessen","Abendessen"]:["Essen"], HM=mahlzeiten(t);
+  const N=leute.length, ZAHL=["keine","eine","zwei","drei","vier","fünf","sechs"], mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=N*7;
+  const MAHLZEIT=N>=5?["Frühstück","Pausenbrot","Mittagessen","Nachmittagssnack","Abendessen"]:N>=4?["Frühstück","Mittagessen","Nachmittagssnack","Abendessen"]:N===3?["Frühstück","Mittagessen","Abendessen"]:N===2?["Mittagessen","Abendessen"]:["Essen"], HM=mahlzeiten(t);
   const reihe2=leute.filter(p=>hat(p,t)).sort((a,b)=>((a.zeit||{})[t]||9e15)-((b.zeit||{})[t]||9e15)), offen=leute.filter(p=>!hat(p,t));   // Reihenfolge heute = wer zuerst geuebt hat
   const heuteListe='<div style="margin-top:10px;font-size:14px;line-height:1.6;">'+MAHLZEIT.map((m,k)=>'<div><b>'+m+' '+(reihe2[k]?HM[k][0]+' '+HM[k][1]:'🎁')+':</b> '+(reihe2[k]?esc(reihe2[k].name)+' <span style="color:#1f9d55;font-weight:900;">✓</span>':'<span style="color:var(--muted)">Überraschung, noch offen</span>')+'</div>').join("")   /* Essen erst sichtbar, wenn jemand geuebt hat (Mike 2026-10-06) */+'</div>';
   const txt = heuteN>=N ? 'Heute hat Bobby '+(N===2?'beide':'alle '+ZAHL[N])+' Mahlzeiten bekommen. Er ist satt und glücklich!'
