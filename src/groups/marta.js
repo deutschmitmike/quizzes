@@ -127,7 +127,19 @@ const GROUP={
  "anzeige": {
   "Marta": "Bobby M"
  },
- "beispielName": "Kyana"
+ "beispielName": "Kyana",
+ "namenRunde": {
+  "maedchen": [
+   "Kyana",
+   "Marta",
+   "Elisa"
+  ],
+  "jungen": [
+   "Antonio",
+   "Rumi"
+  ],
+  "basis": "Kyana"
+ }
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig

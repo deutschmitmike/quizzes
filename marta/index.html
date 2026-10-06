@@ -371,7 +371,19 @@ const GROUP={
  "anzeige": {
   "Marta": "Bobby M"
  },
- "beispielName": "Kyana"
+ "beispielName": "Kyana",
+ "namenRunde": {
+  "maedchen": [
+   "Kyana",
+   "Marta",
+   "Elisa"
+  ],
+  "jungen": [
+   "Antonio",
+   "Rumi"
+  ],
+  "basis": "Kyana"
+ }
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // Stufe 3: jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig
@@ -611,7 +623,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-9"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-06-10"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1139,13 +1151,15 @@ function fullSent(d){ const m=/<div class="sentence"[^>]*>([\s\S]*?)<\/div>/.exe
 function nameRe(n,g){ return new RegExp("\\b"+n+"(?=s?\\b)",g?"g":""); }
 // CFG.nameMap (neue Gruppen mit Vorlage Mia & Olivia): Beispielnamen fest ersetzen, z. B. {"Mia":"Ana","Olivia":"Bo"}, alle Namen gleichzeitig.
 const nameAlt=m=>new RegExp("\\b("+Object.keys(m).map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?=s?\\b)","g");
-function nameSwap(d){ if(!d) return d; let m=null; const p=S&&S.playerName;
-  if(CFG.nameMap&&Object.keys(CFG.nameMap).length) m=CFG.nameMap;
+function nameSwap(d,it){ if(!d) return d; let m=null; const p=S&&S.playerName;
+  if(CFG.namenRunde&&CFG.namenRunde.basis){ const R=CFG.namenRunde, pool=it&&it.kind==="poss3"?(it.gp==="er"?R.jungen:R.maedchen):R.maedchen.concat(R.jungen);   // alle Klassenkameraden abwechselnd in den Saetzen (Mike 2026-10-06); sein/ihr passend zum Geschlecht
+    const n=pool[Math.floor(Math.random()*pool.length)]; if(n!==R.basis) m={[R.basis]:n}; }
+  else if(CFG.nameMap&&Object.keys(CFG.nameMap).length) m=CFG.nameMap;
   else if(CFG.nameSwap&&p&&CFG.nameSwap[p]) m={[p]:CFG.nameSwap[p]};
   if(!m) return d; const txt=JSON.stringify(d), ks=Object.keys(m);
   if(!ks.some(n=>nameRe(n).test(txt))) return d;
-  if(!CFG.nameMap&&ks.some(n=>nameRe(m[n]).test(txt))) return d;   // Mia & Olivia: Karten mit beiden Namen bleiben (Mike)
-  if(!CFG.nameMap&&/Jahre alt|(wird|wirst|werde|ist|bist|bin) ((im|nächste) \w+ )?(zwölf|dreizehn|vierzehn|fünfzehn|sechzehn|siebzehn)\b/.test(txt)) return d;   // Altersangaben passen nur zur echten Person
+  if(!CFG.nameMap&&!CFG.namenRunde&&ks.some(n=>nameRe(m[n]).test(txt))) return d;   // Mia & Olivia: Karten mit beiden Namen bleiben (Mike)
+  if(!CFG.nameMap&&!CFG.namenRunde&&/Jahre alt|(wird|wirst|werde|ist|bist|bin) ((im|nächste) \w+ )?(zwölf|dreizehn|vierzehn|fünfzehn|sechzehn|siebzehn)\b/.test(txt)) return d;   // Altersangaben passen nur zur echten Person
   const re=nameAlt(m), f=x=>typeof x==="string"?x.replace(re,n=>m[n]):x, o={};
   for(const k in d){ const v=d[k]; o[k]=Array.isArray(v)?v.map(f):(k==="tiles"&&v)?Object.assign({},v,{fixed:f(v.fixed),tiles:v.tiles.map(f)}):f(v); }
   o._orig=d; o._sw=m; return o; }
@@ -2869,7 +2883,7 @@ const PRE={};   // schon vorgeladene Fotos
 function preloadNext(){ try{ queue.slice(1,3).forEach(q=>{ const u=IMGS[q.word]||IMGS[q.w]; if(u&&!PRE[u]){ PRE[u]=1; const im=new Image(); im.src=u; } }); }catch(e){} }   // naechste Karten: Foto sofort da, auch bei schwachem Netz
 function renderCurrent(){
   shownAt=Date.now(); answeredAt=0;
-  const it=current, d=nameSwap(cardData(it)); curD=d; helpUsed=false;
+  const it=current, d=nameSwap(cardData(it),it); curD=d; helpUsed=false;
   const box=document.getElementById("promptBox"), opts=document.getElementById("opts"), fb=document.getElementById("fb");
   fb.textContent=""; fb.className="feedback"; opts.innerHTML=""; box.innerHTML=d.prompt; preloadNext();
   const bx=(S.cards[it.id]&&S.cards[it.id].box)||0;
