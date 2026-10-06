@@ -4,6 +4,7 @@ GitHub Pages aus Branch `main`, live unter https://deutschmitmike.github.io/quiz
 Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratchpad-Ordnern arbeiten.
 
 ## Was hier liegt
+- `elisa/`: App für **Elisa**. Erzeugt.
 - `marta/`: App für **Marta** (Kyanas Klassenkameradin). Erzeugt.
 - `der-die-das/`: App für **Kyana** (Mikes Tochter, Kind, spielt als „Bobby K“). Erzeugt, nicht von Hand ändern.
 - `mia-olivia/`: App für **Mia (12) und Olivia (15)**. Erzeugt, nicht von Hand ändern.
@@ -47,6 +48,8 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Mia & Olivia: **reflexive Verben (23) und Konjunktiv II (24) sind raus** (Mike, 2026-09-27; Daten und Übersetzungen bleiben in `src/data` für später, wieder einschalten = Stufe in `STAGES`, `topicGroups`/`topicWeights` und `focusOpts` des Steckbriefs + Präfix aus `src/tests/entfernt.txt` entfernen). Stufennummern dürfen Lücken haben (`MAX_STAGE`, `stageName`).
 - Keine Mehrzahl-Karten für Wörter ohne echten Plural (Geld, Luft, Honig, Gemüse …; `OHNE_PL` in engine.js, Mike 2026-09-27). Säfte, Tees, Weine, Limonaden, Cremes bleiben. Einzelne Karten entfernen: `p:Wort$` in `src/tests/entfernt.txt` (`$` = genau diese Karte).
 - Marta: wie Kyana, ohne Chinesisch, ohne Rangliste, 25 Karten (seit 2026-10-06, vorher 20). **Sanfter Start** (Mike 2026-09-27): die ersten 7 Tage ab ihrem ersten Übungstag nur Artikel und Mehrzahl, danach automatisch alle Themen gemischt (`startNur`/`startTage` im Steckbrief; neue Gruppen bekommen das nur, wenn man es einträgt).
+- Elisa (Klassenkameradin, 2026-10-06): wie Marta (20 Karten, sanfter Start, ohne Chinesisch, keine Rangliste), heißt in der App „Bobby E“, Speicher `save/__elisa/elisa`, Link `…/quizzes/elisa/`.
+- Kyana, Marta & Elisa füttern Bobby zu dritt (`partner` = Liste der anderen beiden): Frühstück/Mittag/Abendessen nach Reihenfolge des Übens am Tag (`fertigZeit`), 21 Mahlzeiten pro Woche.
 - Kyana & Marta: **Wochen-Kärtchen** auf der Startseite (Mike 2026-09-28): Übungstage beider Mädchen diese Woche (ein Punkt pro Tag mit fertiger Runde, montags neu) + „Bobby hat Hunger!“: jeden Tag 2 Mahlzeiten (je eine von Bobby K und Bobby M = Übungstag), 14 pro Woche, verpasster Tag = 😩 und „Bauchweh vor Hunger“; Essen je Woche als Überraschung: Mo–Fr `wo`, Sa+So `we` (bis Samstag 🎁), `ESSEN_PLAN` in engine.js ("Montag": {wo:[Emoji, Einzahl, Mehrzahl], we:[…]}), geplant bis Sommerferien 2027 (19.07.); danach jedes Jahr wieder von vorn nach Kalenderwoche, Ostereier automatisch am Osterwochenende (`osterTag`); ohne Eintrag `ESSEN` reihum. Mia & Olivia: sachlich, je Tag grüner Haken (geübt) / rotes Kreuz (verpasst), gemeinsames Ziel 14 Tage = täglich (`wochenZiel`); keine Punkte-/Fehlervergleiche. Steckbrief `partner` (Pfad zum lb-Eintrag der anderen, Anzeigename), `anzeige` (Marta heißt in der App „Bobby M“, intern bleibt „Marta“ = Speicher `save/__marta/marta`).
 - Mia & Olivia: kein Maskottchen, alle Themen gleichzeitig (gewichtet), eine Runde pro Tag (25 Karten, ab 2026-10-11 automatisch 30: `roundFullAb` im Steckbrief), sichere Karten werden getippt, Vergleich mit der Vorwoche statt Rangliste, Anmeldung nur über die Knöpfe „Ich bin Mia/Olivia“.
 

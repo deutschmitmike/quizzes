@@ -339,8 +339,22 @@ const GROUP={
   2
  ],
  "sound": false,
- "ohneKarten": ["po:Sonne","po:Kind","ps:Kind","ps:Sonne"],
- "partner": {"pfad":"lb/__marta/marta","name":"Bobby M"},
+ "ohneKarten": [
+  "po:Sonne",
+  "po:Kind",
+  "ps:Kind",
+  "ps:Sonne"
+ ],
+ "partner": [
+  {
+   "pfad": "lb/__marta/marta",
+   "name": "Bobby M"
+  },
+  {
+   "pfad": "lb/__elisa/elisa",
+   "name": "Bobby E"
+  }
+ ],
  "beispielName": "Marta"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
@@ -2443,7 +2457,7 @@ function nameKey(n){ return (n||"").trim().toLowerCase().replace(/[.#$\[\]\/\s]+
 function esc(s){ return (s||"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])); }
 function lbEntry(){ let prog=0; for(const id in S.cards){ prog+=Math.min(S.cards[id].box,3)/3; }
   return {name:(S.playerName||"?"), pct:Math.round(100*prog/ITEMS.length), days:(S.streak||0),
-    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length, sterne:(S.points||0), fertig:uebTage().slice(-14), ts:Date.now()}; }
+    sicher:Object.keys(S.cards).filter(id=>S.cards[id].box>=SICHER_BOX).length, sterne:(S.points||0), fertig:uebTage().slice(-14), fertigZeit:S.fertigZeit||{}, ts:Date.now()}; }
 function uebTage(){ const f=(S.fertig||[]).slice(); if(!f.length&&S.lastDay!=null) f.push(S.lastDay); return [...new Set(f)].sort((a,b)=>a-b); }   // Tage mit fertig gespielter Runde
 const zeigName=n=>(CFG.anzeige&&CFG.anzeige[n])||n;   // Anzeigename (Marta heisst in der App "Bobby M")
 // Wochen-Kaertchen (CFG.partner, Kyana & Marta): wer hat diese Woche geuebt? Ein Punkt pro Tag, montags neu. Dazu ein gemeinsames Ziel.
@@ -2463,13 +2477,16 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
   const slot=(p,i)=>{ const d=mo+i, ok=hat(p,d), ess=(i>=5?E.we:E.wo)[0], zu=i>=5&&!we;   // Wochenende: bis Samstag Ueberraschung (🎁)
     return '<span style="width:26px;text-align:center;font-size:21px;line-height:26px;'+(ok||d<t?'':'filter:grayscale(1);opacity:.22;')+(zu?'filter:none;opacity:.55;':'')+'">'+(ok?ess:(d<t?'😩':(zu?'🎁':ess)))+'</span>'; };
   const reihe=p=>'<div style="display:flex;align-items:center;gap:8px;margin:2px 0;"><b style="min-width:74px;font-size:14px;">'+esc(p.name)+'</b><span style="display:flex;gap:4px;">'+[0,1,2,3,4,5,6].map(i=>slot(p,i)).join("")+'</span></div>';
-  const mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=leute.length*7;
-  const txt = heuteN>=leute.length ? 'Heute hat Bobby beide Mahlzeiten bekommen. Er ist satt und glücklich!'
-    : heute>0&&gesternN<leute.length ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur eine Mahlzeit':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte '+(heuteN?'noch eine':'beide')+'!'
-    : heuteN ? 'Bobby hat heute schon eine Mahlzeit. Wer bringt ihm die zweite?'
-    : 'Bobby hat Hunger! Er wartet heute auf zwei Mahlzeiten: eine von '+leute.map(p=>p.name).join(', eine von ')+'.';
+  const N=leute.length, ZAHL=["keine","eine","zwei","drei","vier"], mahl=d=>leute.filter(p=>hat(p,d)).length, heuteN=mahl(t), gesternN=mahl(t-1), wo=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), soll=N*7;
+  const MAHLZEIT=N===3?["Frühstück","Mittagessen","Abendessen"]:N===2?["Mittagessen","Abendessen"]:["Essen"];
+  const reihe2=leute.filter(p=>hat(p,t)).sort((a,b)=>((a.zeit||{})[t]||9e15)-((b.zeit||{})[t]||9e15)), offen=leute.filter(p=>!hat(p,t));   // Reihenfolge heute = wer zuerst geuebt hat
+  const heuteListe='<div style="margin-top:10px;font-size:14px;line-height:1.6;">'+MAHLZEIT.map((m,k)=>'<div><b>'+m+':</b> '+(reihe2[k]?esc(reihe2[k].name)+' <span style="color:#1f9d55;font-weight:900;">✓</span>':'<span style="color:var(--muted)">noch offen</span>')+'</div>').join("")+'</div>';
+  const txt = heuteN>=N ? 'Heute hat Bobby '+(N===2?'beide':'alle '+ZAHL[N])+' Mahlzeiten bekommen. Er ist satt und glücklich!'
+    : heute>0&&gesternN<N ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur '+ZAHL[gesternN]+' von '+N+' Mahlzeiten':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte alle! Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
+    : heuteN ? 'Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
+    : 'Bobby hat Hunger! Wer bringt ihm heute das '+MAHLZEIT[0]+'?';
   return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenend-Überraschung: '+E.we[2]+'!':'Diese Woche gibt es: '+E.wo[2]+' <span style="font-weight:600;color:var(--muted);font-size:13px;">(am Wochenende eine Überraschung 🎁)</span>')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
-    '<div style="font-size:14px;color:var(--ink);margin-top:10px;">'+txt+'</div>'+
+    heuteListe+'<div style="font-size:14px;color:var(--ink);margin-top:8px;">'+txt+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-top:4px;">Diese Woche '+wo+' von '+soll+' Mahlzeiten'+(wo>=soll?'. Die ganze Woche jeden Tag gefüttert, super!':'. Jeder Übungstag ist eine Mahlzeit, montags gibt es neues Essen.')+'</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
 const G_=g=>({der:{kein:"keinen",ersten:"den ersten"},die:{kein:"keine",ersten:"die erste"},das:{kein:"kein",ersten:"das erste"}})[g];
@@ -2570,10 +2587,10 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   if(!S.playerName){ list.innerHTML='<button class="btn" id="lbJoinNow" style="background:var(--der);color:#fff;padding:12px;font-size:15px;width:100%;">Beim gemeinsamen Ziel mitmachen</button>';
     const jn=document.getElementById("lbJoinNow"); if(jn) jn.onclick=()=>show("welcome"); return; }
   syncPush(); list.innerHTML='<div style="color:var(--muted);font-size:13px;">lädt ...</div>';
-  if(CFG.partner){ const ich={name:zeigName(S.playerName), tage:uebTage()}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
+  if(CFG.partner){ const PART=[].concat(CFG.partner), ich={name:zeigName(S.playerName), tage:uebTage(), zeit:S.fertigZeit||{}}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
     const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Bobby hat Hunger!";
-    list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:[]}]);
-    try{ fetch(SYNC_URL+CFG.partner.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ list.innerHTML=wochenKarte([ich,{name:CFG.partner.name,tage:(e&&e.fertig)||[]}]); }).catch(()=>{}); }catch(e){}
+    const andere=PART.map(p=>({name:p.name,tage:[],zeit:{}})); list.innerHTML=wochenKarte([ich].concat(andere));
+    PART.forEach((p,k)=>{ try{ fetch(SYNC_URL+p.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ andere[k]={name:p.name,tage:(e&&e.fertig)||[],zeit:(e&&e.fertigZeit)||{}}; list.innerHTML=wochenKarte([ich].concat(andere)); }).catch(()=>{}); }catch(e){} });
     return; }
   if(CFG.wochenZiel){ const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Wochenziel"; const ps=document.getElementById("playerScores"); if(ps&&CFG.weekView) ps.innerHTML=weekHtml();   // Geschwister in einer Gruppe (Mia & Olivia)
     const leute=o=>(CFG.names||[S.playerName]).map(n=>({name:n, tage:n===S.playerName?uebTage():(((o||{})[nameKey(n)]||{}).fertig||[])}));
@@ -2956,7 +2973,8 @@ let sessionDay=null;   // Tag, an dem die Runde begann (Runde ueber Mitternacht 
 function finishSession(){
   const t=sessionDay!=null&&sessionDay<=today()?sessionDay:today(); sessionDay=null; const prevStreak=S.streak||0;
   if(!stufenTest){ if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
-    S.lastDay=t; S.best=S.streak; S.resume=null; S.fertig=[...new Set((S.fertig||[]).filter(d=>d>t-14).concat([t]))]; }
+    S.lastDay=t; S.best=S.streak; S.resume=null; S.fertig=[...new Set((S.fertig||[]).filter(d=>d>t-14).concat([t]))];
+    const fz={}; Object.entries(S.fertigZeit||{}).forEach(([d,z])=>{ if(+d>t-14) fz[d]=z; }); if(!fz[t]) fz[t]=Date.now(); S.fertigZeit=fz; }   // wer zuerst uebt, bringt das Fruehstueck
   stufenTest=false;
   S.medals=S.medals||[]; let medalNew=null;
   MILESTONES.forEach(m=>{ if(S.streak>=m && S.medals.indexOf(m)<0){ S.medals.push(m); medalNew=m; } });
