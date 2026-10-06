@@ -862,7 +862,7 @@ function cardData(it){
   if(x.kurz){ const k=o=>o==="auf das"?"aufs":o; options=options.map(k); if(correct==="auf das") correct="aufs"; }   // umgangssprachlich normal: aufs Klo
   const satz=it.stage===3||(it.stage===6&&x.wechsel), ganz=o=>x.pre+" "+o+" "+w+".";   // Wo/Wohin: ganze Saetze als Antworten, damit das Verb mitgelesen wird (Mike 2026-09-28)
   return {prompt:'<div class="sentence">'+x.pre+' <span class="blank">?</span> '+w+'.</div><div class="scaffold" style="margin-top:10px;">('+x.prep+' …)</div>',
-    options:satz?options.map(ganz):options, correct:satz?ganz(correct):correct, fills:[correct], scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule+(correct!==x.prep+" "+art(w,cc)?" ("+x.prep+" "+art(w,cc)+" = "+correct+")":""), speak:correct+" "+w, blankFill:true, w:w, typed:[...new Set([correct,x.prep+" "+art(w,cc),art(w,cc)].concat(MERGE2[x.prep+" "+art(w,cc)]||[]).concat(satz?[ganz(correct)]:[]))], typedHint:x.prep+" + Artikel"};
+    options:satz?options.map(ganz):options, correct:satz?ganz(correct):correct, fills:[correct], scaffold:scaf, explain:"Merke: "+G[w]+" "+w+". "+rule+(correct!==x.prep+" "+art(w,cc)?" ("+x.prep+" "+art(w,cc)+" = "+correct+")":""), speak:correct+" "+w, blankFill:true, w:w, typed:(T=>[...new Set(T.concat(T.map(v=>v+" "+w)))])([correct,x.prep+" "+art(w,cc),art(w,cc)].concat(MERGE2[x.prep+" "+art(w,cc)]||[])).concat(satz?[ganz(correct)]:[]), typedHint:x.prep+" + Artikel"};   /* auch mit Nomen: "auf dem Tisch" */
 }
 function pakkWho(w){ const i=Math.max(0,EXTRA.indexOf(w)); return PAKK_WHO[i%PAKK_WHO.length]+" "+PAKK_VERB[Math.floor(i/2)%PAKK_VERB.length]; }
 function spk(text){return "";}  // Vorlese-Dreieck in der Frage entfernt (kein Tipp mehr)
@@ -1021,7 +1021,40 @@ const ESSEN_PLAN={"2026-09-28":{wo:["🍊","Orange","Orangen"],we:["🍊","Orang
   "2026-11-09":{wo:["🥟","Teigtasche","Teigtaschen"],we:["🧇","Waffel","Waffeln"]},
   "2026-11-16":{wo:["🍔","Burger","Burger"],we:["🍫","Schokolade","Schokolade"]},
   "2026-11-23":{wo:["🍕","Pizzastück","Pizzastücke"],we:["🍪","Keks","Kekse"]},
-  "2026-11-30":{wo:["🍌","Banane","Bananen"],we:["🍰","Kuchenstück","Kuchenstücke"]}};
+  "2026-11-30":{wo:["🍌","Banane","Bananen"],we:["🍰","Kuchenstück","Kuchenstücke"]},
+  "2026-12-07":{wo:["🌰", "Kastanie", "Kastanien"],we:["🎂", "Torte", "Torten"]},
+  "2026-12-14":{wo:["🥕", "Karotte", "Karotten"],we:["🍬", "Bonbon", "Bonbons"]},
+  "2026-12-21":{wo:["🍗", "Hähnchenkeule", "Hähnchenkeulen"],we:["🥧", "Apfelkuchen", "Apfelkuchen"]},
+  "2026-12-28":{wo:["🥐", "Croissant", "Croissants"],we:["🍭", "Lutscher", "Lutscher"]},
+  "2027-01-04":{wo:["🍇", "Traube", "Trauben"],we:["🍮", "Pudding", "Puddings"]},
+  "2027-01-11":{wo:["🍜", "Nudelsuppe", "Nudelsuppen"],we:["🍨", "Eisbecher", "Eisbecher"]},
+  "2027-01-18":{wo:["🥔", "Kartoffel", "Kartoffeln"],we:["🍟", "Pommes", "Pommes"]},
+  "2027-01-25":{wo:["🍓", "Erdbeere", "Erdbeeren"],we:["🧋", "Bubble Tea", "Bubble Teas"]},
+  "2027-02-01":{wo:["🍙", "Reisbällchen", "Reisbällchen"],we:["🍡", "Mochi", "Mochis"]},
+  "2027-02-08":{wo:["🥒", "Gurke", "Gurken"],we:["🥠", "Glückskeks", "Glückskekse"]},
+  "2027-02-15":{wo:["🍐", "Birne", "Birnen"],we:["🌭", "Hotdog", "Hotdogs"]},
+  "2027-02-22":{wo:["🥝", "Kiwi", "Kiwis"],we:["🥙", "Döner", "Döner"]},
+  "2027-03-01":{wo:["🍅", "Tomate", "Tomaten"],we:["🍘", "Reiscracker", "Reiscracker"]},
+  "2027-03-08":{wo:["🥦", "Brokkoli", "Brokkoli"],we:["🥜", "Erdnuss", "Erdnüsse"]},
+  "2027-03-15":{wo:["🍠", "Süßkartoffel", "Süßkartoffeln"],we:["🍒", "Kirsche", "Kirschen"]},
+  "2027-03-22":{wo:["🫑", "Paprika", "Paprikas"],we:["🥚", "Osterei", "Ostereier"]},
+  "2027-03-29":{wo:["🍄", "Pilz", "Pilze"],we:["🥯", "Bagel", "Bagels"]},
+  "2027-04-05":{wo:["🥬", "Salatblatt", "Salatblätter"],we:["🍤", "Garnele", "Garnelen"]},
+  "2027-04-12":{wo:["🍆", "Aubergine", "Auberginen"],we:["🍱", "Bento", "Bentos"]},
+  "2027-04-19":{wo:["🥑", "Avocado", "Avocados"],we:["🌯", "Wrap", "Wraps"]},
+  "2027-04-26":{wo:["🥗", "Salat", "Salate"],we:["🍉", "Melonenstück", "Melonenstücke"]},
+  "2027-05-03":{wo:["🍛", "Curry", "Currys"],we:["🫐", "Blaubeere", "Blaubeeren"]},
+  "2027-05-10":{wo:["🍞", "Brotscheibe", "Brotscheiben"],we:["🍳", "Spiegelei", "Spiegeleier"]},
+  "2027-05-17":{wo:["🥖", "Baguette", "Baguettes"],we:["🍍", "Ananasstück", "Ananasstücke"]},
+  "2027-05-24":{wo:["🧀", "Käsestück", "Käsestücke"],we:["🥭", "Mango", "Mangos"]},
+  "2027-05-31":{wo:["🥪", "Sandwich", "Sandwiches"],we:["🍯", "Honigbrot", "Honigbrote"]},
+  "2027-06-07":{wo:["🌽", "Maiskolben", "Maiskolben"],we:["🥥", "Kokosnuss", "Kokosnüsse"]},
+  "2027-06-14":{wo:["🍋", "Zitrone", "Zitronen"],we:["🧃", "Saftpäckchen", "Saftpäckchen"]},
+  "2027-06-21":{wo:["🧆", "Falafel", "Falafel"],we:["🫕", "Käsefondue", "Käsefondue"]},
+  "2027-06-28":{wo:["🍑", "Pfirsich", "Pfirsiche"],we:["🥤", "Milchshake", "Milchshakes"]},
+  "2027-07-05":{wo:["🍈", "Honigmelone", "Honigmelonen"],we:["🍢", "Spieß", "Spieße"]},
+  "2027-07-12":{wo:["🫛", "Erbsenschote", "Erbsenschoten"],we:["🍧", "Wassereis", "Wassereis"]},
+  "2027-07-19":{wo:["🧅", "Zwiebel", "Zwiebeln"],we:["🍦", "Eis", "Eis"]}};   // bis Sommerferien 2027, danach ESSEN reihum
 function wochenEssen(){ const t=today(), mo=t-((t+3)%7), key=new Date(mo*864e5).toISOString().slice(0,10); if(ESSEN_PLAN[key]) return ESSEN_PLAN[key];
   const wk=Math.floor((t+3)/7), wk0=Math.floor((Date.UTC(2026,8,28)/864e5+3)/7), n=ESSEN.length, i=((wk-wk0)%n+n)%n; return {wo:ESSEN[i], we:ESSEN[(i+6)%n]}; }
 function syncPush(){ if(!SYNC_URL||!S.playerName) return; try{ fetch(SYNC_URL+LB_PATH+"/"+nameKey(S.playerName)+".json",{method:"PUT",body:JSON.stringify(lbEntry())}).catch(()=>{}); }catch(e){} }
@@ -1325,7 +1358,7 @@ function renderCurrent(){
     const inp=document.createElement("input"); inp.type="text"; inp.maxLength=5; inp.placeholder="der / die / das"; inp.setAttribute("autocapitalize","off"); inp.setAttribute("autocomplete","off");
     inp.style.cssText="border:2px solid var(--der); border-radius:14px; padding:12px; font-family:inherit; font-size:22px; text-align:center; width:190px;";
     const b=document.createElement("button"); b.className="ctlbtn weiter"; b.style.padding="12px 18px"; b.textContent="Prüfen";
-    const go=()=>{ const v=inp.value.trim().toLowerCase().split(/\s+/)[0]; if(!v) return; finishRecall(v===d.correct||(d.auch||[]).includes(v), d, it); };
+    const go=()=>{ const v=inp.value.trim().toLowerCase().split(/\s+/)[0]; if(!v) return; letzteEingabe=inp.value.trim(); finishRecall(v===d.correct||(d.auch||[]).includes(v), d, it); };
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     row.appendChild(inp); row.appendChild(b); opts.appendChild(row);
     setTimeout(()=>{ try{inp.focus();}catch(e){} },60);
@@ -1348,7 +1381,7 @@ function renderCurrent(){
     const inp=document.createElement("input"); inp.type="text"; inp.placeholder=d.typedHint||"Antwort"; ["autocapitalize","autocomplete","autocorrect"].forEach(a=>inp.setAttribute(a,"off")); inp.setAttribute("spellcheck","false");
     inp.style.cssText="border:2px solid var(--der); border-radius:14px; padding:12px; font-family:inherit; font-size:20px; text-align:center; width:min(100%,300px);";
     const b=document.createElement("button"); b.className="ctlbtn weiter"; b.style.padding="12px 18px"; b.textContent="Prüfen";
-    const go=()=>{ if(!inp.value.trim()) return; finishRecall(d.typed.some(x=>normAns(x)===normAns(inp.value)), d, it); };   /* keine Tippfehler-Toleranz (Mike 2026-09-27): exakt wie die Loesung */
+    const go=()=>{ if(!inp.value.trim()) return; letzteEingabe=inp.value.trim(); finishRecall(d.typed.some(x=>normAns(x)===normAns(inp.value)), d, it); };   /* keine Tippfehler-Toleranz (Mike 2026-09-27): exakt wie die Loesung */
     b.onclick=go; inp.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
     const um=document.createElement("div"); um.style.cssText="display:flex; gap:6px; justify-content:center; width:100%; margin-top:8px;";
     ["ä","ö","ü","ß"].forEach(ch=>{ const k=document.createElement("button"); k.className="ctlbtn"; k.textContent=ch;
@@ -1394,11 +1427,12 @@ function answer(btn,chosen,d,it){
     });
   }
 }
+let letzteEingabe="";   // getippte Antwort, wird bei Fehler angezeigt
 function finishRecall(right,d,it){ if(!answeredAt) answeredAt=Date.now();                          // Tipp-Modus: Ergebnis + Weiter (wie answer, aber ohne Knopf-Markierung)
   const fb=document.getElementById("fb"); document.getElementById("opts").innerHTML=""; if(d.blankFill) fillBlanks(d);
   if(right){ fb.textContent=PRAISE[Math.floor(Math.random()*PRAISE.length)]; fb.className="feedback ok"; beep(true); setMascot("playMascot","happy",true); }
-  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+(d.auch?" (auch: "+d.auch.join(", ")+")":"")+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
-  pending={d,it,right}; say(d.speak); fb.insertAdjacentHTML("beforeend", zhHtml(it,d));
+  else { fb.innerHTML=GENTLE[Math.floor(Math.random()*GENTLE.length)]+" Richtig ist: "+d.correct+(d.auch?" (auch: "+d.auch.join(", ")+")":"")+(letzteEingabe?'<span class="why">Du hast geschrieben: „'+esc(letzteEingabe)+'“</span>':'')+'<span class="why">'+d.explain+'</span>'; fb.className="feedback bad"; beep(false); setMascot("playMascot","oops"); }
+  pending={d,it,right}; say(d.speak); fb.insertAdjacentHTML("beforeend", zhHtml(it,d)); letzteEingabe="";
   const ctl=document.createElement("div"); ctl.className="ctl";
   const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
   fb.appendChild(ctl);
