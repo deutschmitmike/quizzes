@@ -109,6 +109,10 @@ const GROUP={
   {
    "pfad": "lb/__elisa/elisa",
    "name": "Bobby E"
+  },
+  {
+   "pfad": "lb/__antonio/antonio",
+   "name": "Bobby A"
   }
  ],
  "beispielName": "Marta"
