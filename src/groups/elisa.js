@@ -106,7 +106,7 @@ const GROUP={
   1,
   2
  ],
- "startTage": 7,
+ "startTage": 21,
  "anzeige": {
   "Elisa": "Bobby E"
  },
