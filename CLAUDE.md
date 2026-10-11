@@ -60,6 +60,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - FSRS ist getestet (`src/experimente/`). Mit Standardwerten ist es 1 bis 6 % schlechter, sinnvoll erst mit echten Daten und trainierten Parametern.
 - Noch nicht fällige Karten (Extrarunden, Auffüllen) zählen nicht als Wiederholung (nur Stern). Abgebrochene Runden werden in allen Gruppen fortgesetzt (mit Fehlern und Zähler); falsch getippte Antworten warten auf „Weiter“.
 - Cloud: ein Stand mit weniger Karten ersetzt nie einen mit mehr; „Alles zurücksetzen“ setzt `resetAt`, das gilt dann auf allen Geräten.
+- Lehrer-Schwerpunkt (Mike 2026-10-11): jede Runde mindestens 4 Karten des Themas (`FOCUS_MIN`), auch bei Rückstau; erst neue Karten des Themas, ist es durch, bald fällige; dafür fallen die am wenigsten dringenden anderen Karten weg. Vorher steuerte er nur die neuen Karten und wirkte bei Kyana (1 bis 3 neue pro Runde) kaum.
 - `node src/tests/sim_effekt.js <seite>` misst die Effektivität mit einem Lerner, der vergisst. Der größte Hebel ist die Übungszeit (Rundengröße).
 
 ## Außerhalb des Repos

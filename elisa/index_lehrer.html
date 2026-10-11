@@ -634,7 +634,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elisa"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-11-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-11-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2453,7 +2453,7 @@ function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedal
 const SYNC_URL=CFG.teacher?"":"https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";  // Firebase (Lehrerversion: keine Cloud)
 const LB_PATH=CFG.lbPath, SAVE_PATH=CFG.savePath;  // Firebase-Pfade je Gruppe (Kyana: lb/save, Mia & Olivia: Unterordner)
 const FOCUS_PATH=CFG.lbPath+"/_focus", DB_BASE="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";   // Lehrer-Schwerpunkt (liegt in lb/, Rangliste ignoriert Schluessel mit _)
-let FOCUS=null;
+let FOCUS=null; const FOCUS_MIN=4;   // Schwerpunkt: so viele Karten des Themas mindestens pro Runde
 const RESET_PW="loeschen123";  // Eltern-Passwort fuer "Alles zuruecksetzen" (hier aenderbar)
 const MILESTONES=[3,7,14,30,60,100];
 const WORD_MILESTONES=[20,50,100,150];
@@ -2861,6 +2861,18 @@ function startSession(mode){
     const dueCapped=due.slice(0,MAX_SESSION-MIN_NEW);               // Wiederholungen zuerst (gut für unregelmäßiges Spielen)
     const room=Math.max(0,MAX_SESSION-dueCapped.length);
     queue=dueCapped.concat(neu.slice(0,room));                       // neue nur, wenn nach den Wiederholungen Platz bleibt
+    if(FOCUS){   // Lehrer-Schwerpunkt: jede Runde mindestens FOCUS_MIN Karten des Themas, auch bei Rueckstau (sonst steuert er nur die wenigen neuen Karten; Mike 2026-10-11)
+      const fs=+FOCUS.stage, inQ=new Set(queue.map(q=>q.id)), hat=queue.filter(q=>q.stage===fs).length;
+      if(hat<FOCUS_MIN && STAGES.some(x=>x.id===fs) && (CFG.allOpen||fs<=S.unlocked)){
+        const frisch=ITEMS.filter(it=>it.stage===fs&&!S.cards[it.id]);
+        if(fs===1||fs===2) frisch.sort((a,b)=>nounKey(a)-nounKey(b)); else shuffle(frisch);   // Nomen: haeufigste zuerst
+        const bald=ITEMS.filter(it=>it.stage===fs&&S.cards[it.id]&&!inQ.has(it.id)).sort((a,b)=>S.cards[a.id].due-S.cards[b.id].due);   // ist das Thema durch: bald faellige als Extra-Uebung
+        const dazu=frisch.concat(bald).slice(0,FOCUS_MIN-hat);
+        let frei=Math.max(0,MAX_SESSION-queue.length);
+        for(let i=queue.length-1;i>=0&&frei<dazu.length;i--) if(queue[i].stage!==fs){ queue.splice(i,1); frei++; }   // Platz: hinten stehen die am wenigsten dringenden, sie kommen beim naechsten Mal
+        queue=queue.concat(dazu.slice(0,frei));
+      }
+    }
     if(queue.length<TARGET_SESSION){                                 // immer auf ~TARGET auffuellen: noch-nicht-faellige Karten als Extra-Wiederholung, bald faellige zuerst
       const inQ=new Set(queue.map(q=>q.id));
       const extra=ITEMS.filter(it=>S.cards[it.id]&&it.stage<=S.unlocked&&!inQ.has(it.id))
