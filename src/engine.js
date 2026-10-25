@@ -766,10 +766,10 @@ function genusHint(w){const g=G[w];
 // Artikel|Wort|Plural ("-" = keine Mehrzahl-Karte)|中文|weitere richtige Antworten (mit Artikel, durch ; getrennt)
 // ABK|Kurzform|Langform|中文|weitere richtige Langformen. Karten-IDs: b:Wort (Bedeutung), g:Wort, p:Wort, ab:Kurzform.
 const FACH=[]; { let th=0; `%%FACH%%`.split("\n").forEach(l=>{ l=l.trim(); if(!l) return; const m=/^##\s*(\d+)/.exec(l); if(m){ th=+m[1]; return; } if(l[0]==="#") return;
-  const f=l.split("|").map(s=>s.trim()), alt=(f[4]||"").split(";").map(s=>s.trim()).filter(Boolean);
+  const f=l.split("|").map(s=>s.trim()), alle=(f[4]||"").split(";").map(s=>s.trim()).filter(Boolean), alt=alle.filter(s=>!/^Pl\. /.test(s)), plAlt=alle.filter(s=>/^Pl\. /.test(s)).map(s=>s.slice(4));   // "Pl. die …" = weitere richtige Mehrzahl
   const nur=f[5]==="A";   // nur Auswahl, nicht tippen (Jason: Fugen -n-/-en-/-e-/-s- nicht selbst bilden)
-  if(f[0]==="ABK") FACH.push({abk:true,th,kurz:f[1],lang:f[2],zh:f[3],alt,nur}); else FACH.push({th,art:f[0],w:f[1],pl:f[2]==="-"?"":f[2],zh:f[3],alt,nur}); }); }
-const FACH_NUR=new Set(FACH.filter(x=>x.nur&&!x.abk).map(x=>x.w));
+  if(f[0]==="ABK") FACH.push({abk:true,th,kurz:f[1],lang:f[2],zh:f[3],alt,nur}); else FACH.push({th,art:f[0],w:f[1],pl:f[2]==="-"?"":f[2],zh:f[3],alt,plAlt,nur}); }); }
+const FACH_NUR=new Set(FACH.filter(x=>x.nur&&!x.abk).map(x=>x.w)), FACH_PL2={}; FACH.forEach(x=>{ if(x.plAlt&&x.plAlt.length) FACH_PL2[x.w]=x.plAlt; });
 if(FACH.length){ [G,P,ZH_N,NRANK,IMGS].forEach(o=>{ for(const k in o) delete o[k]; });   // kein Kinderwortschatz, keine Fotos, keine Kinder-Bedeutungen
   FACH.forEach((x,i)=>{ if(x.abk) return; G[x.w]=x.art; if(x.pl) P[x.w]=x.pl; ZH_N[x.w]=x.zh; NRANK[x.w]=i; }); }
 function fachItems(){ const o=[]; FACH.forEach(x=>{ if(x.abk){ o.push({id:"ab:"+x.kurz,stage:x.th,kind:"abk",word:x.kurz,x}); return; }
@@ -787,7 +787,7 @@ function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&
     explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"}; }
 function abkCard(it){ const x=it.x, andere=shuffle(FACH.filter(y=>y.abk&&y.lang!==x.lang)).slice(0,2).map(y=>y.lang);
   return {prompt:'<div class="hint">Wofür steht die Abkürzung?</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word">'+esc(x.kurz)+'</div>',
-    options:shuffle([x.lang].concat(andere)), correct:x.lang, scaffold:"", explain:x.kurz+" = "+x.lang+" ("+x.zh+")"+(x.alt.length?". Auch richtig: "+x.alt.join(", "):"")+".", speak:x.lang, typed:x.nur?undefined:[x.lang].concat(x.alt), typedHint:"Anfang: "+x.lang.charAt(0)+"…"}; }
+    options:shuffle([x.lang].concat(andere)), correct:x.lang, scaffold:"", explain:x.kurz+" = "+x.lang+" ("+x.zh+")"+(x.alt.length?". Auch richtig: "+x.alt.join(", "):"")+".", speak:x.lang, typed:x.nur?undefined:[x.lang].concat(x.alt), typedHint:"ohne Artikel, Anfang: "+x.lang.charAt(0)+"…"}; }
 function buildItems(){if(FACH.length) return fachItems();
   const items=[];
   Object.keys(G).forEach(w=>items.push({id:"g:"+w,stage:1,kind:"genus",word:w,answer:G[w]}));
@@ -826,7 +826,7 @@ function cardData(it){
   if(it.kind==="plural"){
     return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+G[it.word]+" "+it.word+spk(G[it.word]+" "+it.word)+'</div>',
       options:plOpts(it.word), correct:"die "+P[it.word], scaffold:umlautTip(it.word,P[it.word]),
-      explain:"Die Mehrzahl ist „die "+P[it.word]+"“."+(PL2[it.word]?" Auch richtig: die "+PL2[it.word].join(", die ")+".":""), speak:"die "+P[it.word], typed:FACH_NUR.has(it.word)?undefined:["die "+P[it.word],P[it.word]].concat((PL2[it.word]||[]).flatMap(x=>["die "+x,x])), typedHint:"z. B. die Bälle"};
+      explain:"Die Mehrzahl ist „die "+P[it.word]+"“."+(PL2[it.word]?" Auch richtig: die "+PL2[it.word].join(", die ")+".":""), speak:"die "+P[it.word], typed:FACH_NUR.has(it.word)?undefined:["die "+P[it.word],P[it.word]].concat((PL2[it.word]||[]).flatMap(x=>["die "+x,x])).concat((FACH_PL2[it.word]||[]).flatMap(x=>[x,x.replace(/^die /,"")])), typedHint:"z. B. die Bälle"};
   }
   if(it.kind==="pron"){const g=G[it.word]; const corr=g==="der"?"er":g==="die"?"sie":"es";
     return {prompt:'<div class="hint">Welches Wort passt?</div><div class="word">'+g+" "+it.word+spk(g+" "+it.word)+'</div><div class="sentence" style="margin-top:10px">→ <span class="blank">?</span> ist da.</div>',
