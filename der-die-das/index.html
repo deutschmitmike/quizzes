@@ -615,7 +615,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-25-6"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-25-7"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2278,10 +2278,11 @@ function fachItems(){ const o=[]; FACH.forEach(x=>{ if(x.abk){ o.push({id:"ab:"+
 function fachThema(it){ const s=STAGES.find(x=>x.id===it.stage); return s?s.name:""; }
 const zhKern=s=>s.replace(/（[^）]*）/g,"");
 function fachNah(a,b){ const A=a.w.toLowerCase(), B=b.w.toLowerCase(), za=zhKern(a.zh), zb=zhKern(b.zh);   // nie zusammen in einer Auswahl: Teilwort (Ion/Anion), gleiches Chinesisch (莫耳/莫耳數),
-  if(A.includes(B)||B.includes(A)||za.includes(zb)||zb.includes(za)) return true;                       // Zusatzantwort des anderen, Paare aus dem Steckbrief (fachNichtZusammen)
-  if(a.alt.concat(b.alt).some(s=>{ const w=s.split(" ").slice(1).join(" ").toLowerCase(); return w===A||w===B; })) return true;
+  if(A.includes(B)||B.includes(A)||(za&&zb&&(za.includes(zb)||zb.includes(za)))) return true;                       // Zusatzantwort des anderen, Paare aus dem Steckbrief (fachNichtZusammen)
+  const altW=s=>s.split(" ").slice(1).join(" ").toLowerCase();
+  if(a.alt.some(s=>altW(s)===B)||b.alt.some(s=>altW(s)===A)) return true;
   return (CFG.fachNichtZusammen||[]).some(p=>p.includes(a.w)&&p.includes(b.w)); }
-function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&&!fachNah(x,y), gleich=FACH.filter(y=>ok(y)&&y.th===x.th), pool=gleich.length?gleich:FACH.filter(ok), o=rnd(pool);
+function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&&!fachNah(x,y), gleich=FACH.filter(y=>ok(y)&&y.th===x.th), pool=gleich.length?gleich:FACH.filter(ok), o=rnd(pool.length?pool:FACH.filter(y=>!y.abk&&y.w!==x.w));
   return {prompt:'<div class="hint">Wie heißt das auf Deutsch?</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word" lang="zh-Hant">'+esc(x.zh)+'</div>',
     options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art))+" "+x.w, o.art+" "+o.w]), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
     explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"}; }
