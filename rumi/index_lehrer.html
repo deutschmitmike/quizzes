@@ -634,7 +634,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Rumi"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-25-3"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-25-4"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2980,7 +2980,7 @@ function answer(btn,chosen,d,it){
     const ctl=document.createElement("div"); ctl.className="ctl";
     const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
     fb.appendChild(ctl);
-    advTimer=setTimeout(commitNext, CFG.weiterMs||1000);   // weiterMs: Elenore 2000 (englische Bedeutung laenger lesbar)
+    if(CFG.autoWeiter!==false) advTimer=setTimeout(commitNext, CFG.weiterMs||1000);   // autoWeiter:false (Elenore, Mike 2026-10-25): auch bei richtig erst per Weiter-Knopf, damit die englische Bedeutung in Ruhe lesbar ist
   } else {
     // aktive Korrektur: falsch Angetipptes sperren, den richtigen markieren – erst der bewusste Tipp darauf führt weiter (kein Auto-Sprung, kein Wegklicken)
     btn.classList.add("wrong");
@@ -3002,7 +3002,7 @@ function finishRecall(right,d,it){ if(!answeredAt) answeredAt=Date.now();       
   const ctl=document.createElement("div"); ctl.className="ctl";
   const nb=document.createElement("button"); nb.className="ctlbtn weiter"; nb.textContent="Weiter ›"; nb.onclick=commitNext; ctl.appendChild(nb);
   fb.appendChild(ctl);
-  if(right) advTimer=setTimeout(commitNext, CFG.weiterMs||1000);   // falsch: in Ruhe lesen, weiter erst per Knopf (wie bei den Auswahlkarten)
+  if(right&&CFG.autoWeiter!==false) advTimer=setTimeout(commitNext, CFG.weiterMs||1000);   // falsch: in Ruhe lesen, weiter erst per Knopf (wie bei den Auswahlkarten)
 }
 function commitNext(){
   if(!pending) return; const {d,it,right}=pending; pending=null;
