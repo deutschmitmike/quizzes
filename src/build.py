@@ -20,6 +20,58 @@ built = []
 WEG = [l.split("#")[0].strip() for l in open(os.path.join(SRC, "tests", "entfernt.txt"), encoding="utf-8").read().split("\n")] if os.path.exists(os.path.join(SRC, "tests", "entfernt.txt")) else []
 WEG = [w for w in WEG if w]   # entfernte Themen: Lehrer-Uebersicht zaehlt sie nicht ("[ordner] id" = nur diese App)
 def weg_fuer(ordner): return [re.sub(r"^\[[^\]]+\]\s*", "", w) for w in WEG if not w.startswith("[") or w.startswith("[" + ordner + "]")]
+# Fachwortschatz einer Gruppe (Steckbrief "fach": "<datei>" -> src/data/<datei>.txt, Platzhalter %%FACH%% im Kern; Jason, 2026-10-25)
+def fach_daten(cfg, g):
+    name = cfg.get("fach")
+    if not name: return ""
+    # "fachPfad": Datei ausserhalb des oeffentlichen Repos (Jason: Folieninhalte, nur in ~/Unterricht); sonst src/data/<fach>.txt
+    f = os.path.expanduser(cfg["fachPfad"]) if cfg.get("fachPfad") else os.path.join(SRC, "data", name + ".txt")
+    if not os.path.exists(f): sys.exit("FEHLER: %s fehlt (Gruppe %s). BUILD NICHT VEROEFFENTLICHEN." % (f, g))
+    if cfg.get("fachPfad") and not cfg.get("passwort"): sys.exit("FEHLER: private Daten (fachPfad) nur auf Seiten mit Passwort (Gruppe %s)." % g)
+    t = open(f, encoding="utf-8").read().strip()
+    if "`" in t or "${" in t: sys.exit("FEHLER: verbotenes Zeichen (` oder ${) in src/data/%s.txt" % name)
+    ids, th = set(), None
+    for n, l in enumerate(t.split("\n"), 1):
+        l = l.strip()
+        if not l or (l.startswith("#") and not l.startswith("##")): continue
+        if l.startswith("##"): th = l; continue
+        f6 = [x.strip() for x in l.split("|")]
+        if len(f6) != 6 or not th: sys.exit("FEHLER: src/data/%s.txt Zeile %d: genau 6 Felder unter einer ## Themenzeile noetig: %s" % (name, n, l))
+        if f6[0] != "ABK" and f6[0] not in ("der", "die", "das"): sys.exit("FEHLER: src/data/%s.txt Zeile %d: Artikel %s" % (name, n, f6[0]))
+        if re.search(r"[.$#\[\]/]", f6[1]): sys.exit("FEHLER: src/data/%s.txt Zeile %d: Zeichen . $ # [ ] / im Wort (Firebase-Schluessel): %s" % (name, n, f6[1]))
+        if re.search(r"[,\-\u2013\u2014<>|.?!:;()]", f6[3]) or not re.search(r"[\u4e00-\u9fff]", f6[3]): sys.exit("FEHLER: src/data/%s.txt Zeile %d: Chinesisch mit falschen Zeichen: %s" % (name, n, f6[3]))
+        cid = ("ab:" if f6[0] == "ABK" else "b:") + f6[1]
+        if cid in ids: sys.exit("FEHLER: src/data/%s.txt Zeile %d: %s doppelt" % (name, n, f6[1]))
+        ids.add(cid)
+    alt = subprocess.run(["git", "show", "HEAD:./" + os.path.basename(f)], cwd=os.path.dirname(f), capture_output=True, text=True)
+    if alt.returncode == 0:   # kein Wort darf verschwinden (Karten-IDs = Lernstand); absichtlich entfernt nur mit "[ordner] b:Wort$" in entfernt.txt
+        weg = weg_fuer(cfg["folder"])
+        altids = {("ab:" if x.split("|")[0].strip() == "ABK" else "b:") + x.split("|")[1].strip() for x in alt.stdout.split("\n") if x.count("|") == 5 and not x.startswith("#")}
+        fehlt = [i for i in altids - ids if not any((w.endswith("$") and i == w[:-1]) or (not w.endswith("$") and i.startswith(w)) for w in weg)]
+        if fehlt: sys.exit("FEHLER: Woerter aus src/data/%s.txt verschwunden (Lernstand ginge verloren): %s. BUILD NICHT VEROEFFENTLICHEN." % (name, ", ".join(sorted(fehlt)[:8])))
+    return t
+# Seiten mit Passwort (Steckbrief "passwort": true, z. B. Jason): nach den Tests mit StatiCrypt verschluesseln, auch wenn die Tests scheitern.
+# Passwort liegt ausserhalb aller Repos: ~/Desktop/claude cowork/passwoerter/<ordner>.txt; StatiCrypt in ~/Unterricht/tools/node_modules.
+# Fehlt etwas, bricht der Build ab, damit nie eine unverschluesselte Seite veroeffentlicht wird.
+geschuetzt = []
+def verschluesseln():
+    if not geschuetzt: return
+    sc = os.path.expanduser("~/Unterricht/tools/node_modules/.bin/staticrypt")
+    if not os.path.exists(sc): sys.exit("FEHLER: StatiCrypt fehlt (cd ~/Unterricht/tools && npm install --no-save staticrypt@3.5.4). BUILD NICHT VEROEFFENTLICHEN.")
+    for page, cfg in geschuetzt:
+        pf = os.path.expanduser("~/Desktop/claude cowork/passwoerter/%s.txt" % cfg["folder"])
+        if not os.path.exists(pf): sys.exit("FEHLER: Passwortdatei %s fehlt. BUILD NICHT VEROEFFENTLICHEN." % pf)
+        if not re.fullmatch(r"[0-9a-f]{32}", cfg.get("passwortSalt", "")): sys.exit("FEHLER: passwortSalt im Steckbrief %s fehlt." % cfg["folder"])
+        env = dict(os.environ, STATICRYPT_PASSWORD=open(pf, encoding="utf-8").read().strip())
+        full = os.path.join(REPO, page)
+        r = subprocess.run([sc, full, "-d", os.path.dirname(full), "-c", "false", "--short", "--salt", cfg["passwortSalt"], "--remember", "60",
+            "--template-title", "Deutsch - " + cfg["name"], "--template-instructions", "請輸入密碼 · Passwort eingeben", "--template-placeholder", "Passwort",
+            "--template-button", "Öffnen", "--template-remember", "記住我 · Angemeldet bleiben", "--template-error", "密碼錯誤 · Falsches Passwort",
+            "--template-color-primary", "#EA5206", "--template-color-secondary", "#F2884B"], cwd=REPO, env=env, capture_output=True, text=True)
+        txt = open(full, encoding="utf-8").read()
+        if r.returncode != 0 or "staticrypt" not in txt.lower() or "const CFG=" in txt:
+            sys.exit("FEHLER: Verschluesseln von %s fehlgeschlagen: %s BUILD NICHT VEROEFFENTLICHEN." % (page, (r.stderr or r.stdout)[-300:]))
+        print("%s verschluesselt" % page)
 # Speicher-Schluessel, Firebase-Pfade und Ordner: je Gruppe eindeutig und nie geaendert (sonst geht Lernstand verloren)
 FEST = ["key", "teacherKey", "lbPath", "savePath", "folder"]
 cfgs = {g: json.loads(open(os.path.join(SRC, "groups", g + ".js"), encoding="utf-8").read().split("const GROUP=", 1)[1].split(";\n", 1)[0]) for g in GROUPS}
@@ -45,9 +97,11 @@ for g in GROUPS:
         if shell.count("%%SCRIPT%%") != 1: sys.exit("FEHLER: Platzhalter in " + shell_name)
         eng_g = re.sub(r"%%DATA:(zh_\w+)%%", lambda m: _data(m, bool(cfg.get("zh"))), engine)
         eng_g = re.sub(r"%%DATA:(en_\w+)%%", lambda m: _data(m) if cfg.get("en") else "", eng_g)   # englische Bedeutungen nur fuer Gruppen mit "en" (Elenore)
+        eng_g = eng_g.replace("%%FACH%%", fach_daten(cfg, g))
         script = gjs + "\nconst CFG=Object.assign({},GROUP,{teacher:%s, build:%s});\n" % ("true" if teacher else "false", json.dumps(build)) + eng_g
         open(os.path.join(out, page), "w", encoding="utf-8").write(shell.replace("%%SCRIPT%%", script))
         built.append(os.path.join(cfg["folder"], page))
+        if cfg.get("passwort"): geschuetzt.append((os.path.join(cfg["folder"], page), cfg))
     open(os.path.join(out, "version.json"), "w").write('{"build":"%s"}\n' % build)
     stages = [[int(i), n] for i, n in re.findall(r'\{id:(\d+),name:"([^"]+)"', gjs)]
     meta.append({"id": g, "name": cfg["name"], "folder": cfg["folder"], "lbPath": cfg["lbPath"], "savePath": cfg["savePath"],
@@ -64,4 +118,6 @@ if "--no-tests" not in sys.argv:
     print("Tests laufen ...", flush=True)
     r = subprocess.run(["node", os.path.join(SRC, "tests", "run_all.js")] + built, cwd=REPO)
     if r.returncode != 0:
+        verschluesseln()
         sys.exit("\nBUILD NICHT VEROEFFENTLICHEN: Tests fehlgeschlagen (Details oben).")
+verschluesseln()

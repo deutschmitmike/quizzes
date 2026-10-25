@@ -12,6 +12,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt je Gruppe setzen). Erzeugt.
 - `src/`: **Quelle der gemeinsamen App** (ein Kern, ein Steckbrief pro Gruppe), siehe `src/LIESMICH.md`.
 - `index.html` + `finden-gefallen/`: älterer Präpositions-Drill (React), **nicht** Teil der gemeinsamen App.
+- `jason/`: App für **Jason** (Student Chemische Technik, HM München, schwaches B2, liest Chinesisch). Fachwortschatz aus seinen Vorlesungsfolien, **Seite mit Passwort verschlüsselt** (StatiCrypt). Erzeugt. Siehe Abschnitt „jason/“ unten.
 - `english/`: **Kyla Speaks**, Englisch-Sprech-App für **Kyla** (Erwachsene, kein Deutsch, Angst vor dem Sprechen, iPhone). Eigene kleine App, **nicht** Teil des Deutsch-Kerns; von Hand gepflegt, kein build.py. Siehe Abschnitt unten.
 
 ## Arbeitsablauf (immer so)
@@ -85,3 +86,10 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Inhalte: IDs (`b…`, `m…`, `q…`, `s…`) nie ändern, nur anhängen. `lv` = Stufe. „Satz bauen“ = **Mehrfachauswahl mit 4 ganzen Sätzen, die sich an DERSELBEN Stelle unterscheiden** (Mike 2026-10-02; sonst wäre der richtige per Mehrheit erratbar): `MC` in data.js je Stück [richtig, falsch, falsch, falsch], die App wählt ein Stück und baut daraus die 4 Sätze. Jede falsche Option muss mit richtigen Nachbarn falsch sein, auch umgangssprachlich und britisch. Falsch getippte werden rot, sie tippt selbst das Richtige, danach spricht sie den Satz verdeckt aus dem Gedächtnis. Ohne `MC`-Eintrag Kärtchen (`alt`).
 - Mit Claude korrigieren: `node ~/Desktop/claude\ cowork/kyla-englisch/saetze.js offen` zeigt offene Sätze, Claude schlägt Korrekturen vor, nach Mikes OK `… saetze.js eintragen <datei.json>`.
 
+## jason/ (Fachwortschatz mit Passwort, seit 2026-10-25)
+- Wörter, Folieninhalte und später Bilder liegen **nur privat** in `~/Unterricht/schueler/jason/app/jason_fach.txt` (Steckbrief `fachPfad`). **Nie** nach `src/data/` oder sonst ins öffentliche Repo kopieren; ins Repo kommt nur die verschlüsselte `jason/index.html` und `index_lehrer.html`. build.py bricht ab, wenn eine Gruppe mit `fachPfad` kein `passwort` hat.
+- Format im Kopf der Datei und von `FACH` in engine.js: `## 31 Thema`, dann `Artikel|Wort|Plural|中文|weitere richtige Antworten|A` (A = nur Auswahl: Jason bildet Komposita mit Fuge -n-/-en-/-e-/-s- noch nicht selbst; -s- nach -ung/-heit/-keit/-ion/-tät ist erlaubt) und `ABK|Kurzform|Langform|中文||A`. Karten-IDs `b:Wort`, `g:Wort`, `p:Wort`, `ab:Kurzform`: Wörter nie umbenennen oder löschen (build.py prüft gegen den letzten Commit in ~/Unterricht; entfernen nur mit `[jason] b:Wort$` in entfernt.txt).
+- Themen = Vorlesungen (Stufen 31 bis 38, `focusOpts`), Lehrer-Schwerpunkt zieht eine Vorlesung vor. In einer Auswahl stehen nie zwei nahe Wörter zusammen (`fachNah` in engine.js, Paare in `fachNichtZusammen` im Steckbrief).
+- Verschlüsselung: build.py verschlüsselt nach den Tests (auch wenn sie scheitern) mit `~/Unterricht/tools/node_modules/.bin/staticrypt` (3.5.4) und dem Passwort aus `~/Desktop/claude cowork/passwoerter/jason.txt`; Salt `passwortSalt` im Steckbrief nie ändern (sonst gilt „Angemeldet bleiben“ nicht mehr). Fehlt eins davon, bricht der Build ab. Der Vergleich „Karten verschwunden“ für jason/index.html meldet nur einen Hinweis (die Seite im Commit ist verschlüsselt); dafür prüft build.py die Wörterliste.
+- Testen nur lokal mit `index_lehrer.html` über `python3 -m http.server` (ohne Cloud); dazu braucht man das Passwort.
+- Wochenbericht und Backup lesen Firebase (`save/__jason`), nicht die Seite; der Wochenbericht, der die Seite ausführt, kann Jasons verschlüsselte Seite nicht laden.
