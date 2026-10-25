@@ -311,43 +311,15 @@ const GROUP={
   ],
   [
    [
-    3,
-    4,
-    5
-   ],
-   [
-    6
-   ]
-  ],
-  [
-   [
     7,
-    8,
-    9,
-    10
-   ]
-  ],
-  [
-   [
-    11
-   ],
-   [
-    12
-   ],
-   [
-    13
-   ],
-   [
-    14
+    8
    ]
   ]
  ],
  "topicWeights": [
   3,
-  1,
   2,
-  1,
-  2
+  1
  ],
  "sound": false,
  "ohneKarten": [
@@ -568,21 +540,11 @@ const NADJ={
  Schaufenster:["groß","breit","hell","bunt","sauber"],
  Thermometer:["klein","lang","dünn","kaputt"]
 };
-const STAGES=[
+const STAGES=[   // Elenore (1. Klasse): nur Artikel, Mehrzahl, er/sie/es, mein/meine (Mike 2026-10-25); weitere Themen spaeter wieder aufnehmen
  {id:1,name:"der, die, das",desc:"Welcher Artikel?"},
  {id:2,name:"Mehrzahl",desc:"einer oder viele?"},
- {id:3,name:"Wo oder Wohin?",desc:"in, auf, an"},
- {id:4,name:"Dativ-Wörter",desc:"mit, aus, bei, zu, von"},
- {id:5,name:"Akkusativ-Wörter",desc:"für, ohne, durch, um, gegen"},
- {id:6,name:"Welcher Fall?",desc:"alle kleinen Wörter gemischt"},
  {id:7,name:"er, sie, es",desc:"Wörter ersetzen"},
- {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"},
- {id:9,name:"sein oder ihr?",desc:"wem gehört es?"},
- {id:10,name:"ihn, sie, es",desc:"das Nomen ersetzen"},
- {id:11,name:"Adjektive: der oder ein?",desc:"Nominativ: der große, ein großer"},
- {id:12,name:"Adjektive im Akkusativ",desc:"den und einen großen ..."},
- {id:13,name:"Adjektive im Dativ",desc:"mit dem, mit einem: immer -en"},
- {id:14,name:"Adjektive gemischt",desc:"alle Artikel, alle Fälle"}
+ {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"}
 ];
 const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze mit Beispiel
  2:"Mehrzahl heißt: mehr als eins. Der Artikel ist dann immer die: der Ball → die Bälle.",
@@ -603,7 +565,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elenore"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-25-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-25-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -3939,7 +3901,7 @@ function buildItems(){const items=[];
     if(v.irr&&pratSents(v).length) items.push({id:"pt:"+v.inf,stage:16,kind:"prat",word:v.inf}); });
   topicItems().forEach(it=>items.push(it));   // Stufe 17+ (nur Stufen, die die Gruppe hat)   // Stufe 17-20
   return items;}
-const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id));   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
+const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id)&&STAGES.some(x=>x.id===it.stage));   // nur Themen, die im Steckbrief stehen (Elenore: 1, 2, 7, 8)   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
 // liefert {prompt(html), options[], correct, explain, speak}
 function cardData(it){

@@ -56,43 +56,15 @@ const GROUP={
   ],
   [
    [
-    3,
-    4,
-    5
-   ],
-   [
-    6
-   ]
-  ],
-  [
-   [
     7,
-    8,
-    9,
-    10
-   ]
-  ],
-  [
-   [
-    11
-   ],
-   [
-    12
-   ],
-   [
-    13
-   ],
-   [
-    14
+    8
    ]
   ]
  ],
  "topicWeights": [
   3,
-  1,
   2,
-  1,
-  2
+  1
  ],
  "sound": false,
  "ohneKarten": [
@@ -313,21 +285,11 @@ const NADJ={
  Schaufenster:["groß","breit","hell","bunt","sauber"],
  Thermometer:["klein","lang","dünn","kaputt"]
 };
-const STAGES=[
+const STAGES=[   // Elenore (1. Klasse): nur Artikel, Mehrzahl, er/sie/es, mein/meine (Mike 2026-10-25); weitere Themen spaeter wieder aufnehmen
  {id:1,name:"der, die, das",desc:"Welcher Artikel?"},
  {id:2,name:"Mehrzahl",desc:"einer oder viele?"},
- {id:3,name:"Wo oder Wohin?",desc:"in, auf, an"},
- {id:4,name:"Dativ-Wörter",desc:"mit, aus, bei, zu, von"},
- {id:5,name:"Akkusativ-Wörter",desc:"für, ohne, durch, um, gegen"},
- {id:6,name:"Welcher Fall?",desc:"alle kleinen Wörter gemischt"},
  {id:7,name:"er, sie, es",desc:"Wörter ersetzen"},
- {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"},
- {id:9,name:"sein oder ihr?",desc:"wem gehört es?"},
- {id:10,name:"ihn, sie, es",desc:"das Nomen ersetzen"},
- {id:11,name:"Adjektive: der oder ein?",desc:"Nominativ: der große, ein großer"},
- {id:12,name:"Adjektive im Akkusativ",desc:"den und einen großen ..."},
- {id:13,name:"Adjektive im Dativ",desc:"mit dem, mit einem: immer -en"},
- {id:14,name:"Adjektive gemischt",desc:"alle Artikel, alle Fälle"}
+ {id:8,name:"mein oder meine?",desc:"der/das → mein, die → meine"}
 ];
 const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze mit Beispiel
  2:"Mehrzahl heißt: mehr als eins. Der Artikel ist dann immer die: der Ball → die Bälle.",

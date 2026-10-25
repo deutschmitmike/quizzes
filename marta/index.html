@@ -623,7 +623,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-25-1"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-25-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2288,7 +2288,7 @@ function buildItems(){const items=[];
     if(v.irr&&pratSents(v).length) items.push({id:"pt:"+v.inf,stage:16,kind:"prat",word:v.inf}); });
   topicItems().forEach(it=>items.push(it));   // Stufe 17+ (nur Stufen, die die Gruppe hat)   // Stufe 17-20
   return items;}
-const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id));   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
+const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id)&&STAGES.some(x=>x.id===it.stage));   // nur Themen, die im Steckbrief stehen (Elenore: 1, 2, 7, 8)   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
 // liefert {prompt(html), options[], correct, explain, speak}
 function cardData(it){
