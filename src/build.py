@@ -14,7 +14,7 @@ def _data(m, zh=True):
     t = open(f, encoding="utf-8").read().strip()
     if "`" in t or "${" in t: sys.exit("FEHLER: verbotenes Zeichen (` oder ${) in src/data/%s.txt" % m.group(1))
     return t
-engine = re.sub(r"%%DATA:((?!zh_)\w+)%%", _data, engine)   # zh_* erst je Gruppe (unten)
+engine = re.sub(r"%%DATA:((?!zh_|en_)\w+)%%", _data, engine)   # zh_*/en_* erst je Gruppe (unten)
 meta = []
 built = []
 WEG = [l.split("#")[0].strip() for l in open(os.path.join(SRC, "tests", "entfernt.txt"), encoding="utf-8").read().split("\n")] if os.path.exists(os.path.join(SRC, "tests", "entfernt.txt")) else []
@@ -44,6 +44,7 @@ for g in GROUPS:
         shell = open(os.path.join(SRC, "groups", shell_name), encoding="utf-8").read()
         if shell.count("%%SCRIPT%%") != 1: sys.exit("FEHLER: Platzhalter in " + shell_name)
         eng_g = re.sub(r"%%DATA:(zh_\w+)%%", lambda m: _data(m, bool(cfg.get("zh"))), engine)
+        eng_g = re.sub(r"%%DATA:(en_\w+)%%", lambda m: _data(m) if cfg.get("en") else "", eng_g)   # englische Bedeutungen nur fuer Gruppen mit "en" (Elenore)
         script = gjs + "\nconst CFG=Object.assign({},GROUP,{teacher:%s, build:%s});\n" % ("true" if teacher else "false", json.dumps(build)) + eng_g
         open(os.path.join(out, page), "w", encoding="utf-8").write(shell.replace("%%SCRIPT%%", script))
         built.append(os.path.join(cfg["folder"], page))
