@@ -80,6 +80,9 @@ const GROUP={
  ],
  "startTage": 7,
  "en": true,
+ "bildZuerst": true,
+ "vorneOhneBild": ["Mama","Papa","Vater","Mutter","Bruder","Schwester","Oma","Opa","Tante","Onkel","Freund","Freundin","Tag","Nacht","Morgen","Abend","Woche","Jahr","Monat","Montag","Freitag","Samstag","Sonntag","Sommer","Winter","Wetter","Wind","Name","Spiel","Lied","Musik","Film","Klasse","Pause","Aufgabe","Frage","Antwort","Wort","Geschichte","Zahl","Farbe","Tier","Monster","Laptop","Kopfhörer"],
+ "weiterMs": 2000,
  "partner": []
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
