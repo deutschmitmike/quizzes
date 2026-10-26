@@ -9,7 +9,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `marta/`: App für **Marta** (Kyanas Klassenkameradin). Erzeugt.
 - `der-die-das/`: App für **Kyana** (Mikes Tochter, Kind, spielt als „Bobby K“). Erzeugt, nicht von Hand ändern.
 - `mia-olivia/`: App für **Mia (12) und Olivia (15)**. Erzeugt, nicht von Hand ändern.
-- `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt je Gruppe setzen). Erzeugt. `lehrer/?g=<gruppe>` zeigt nur diese Gruppe, ohne Schüler-Link (für Kollegen; Julian bekommt `lehrer/?g=elinor`, Mike 2026-10-26).
+- `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt je Gruppe setzen). Erzeugt. `lehrer/?g=<gruppe>` zeigt nur diese Gruppe, ohne Schüler-Link, dafür mit Detailansicht je Kind (Übungstagebuch der letzten 4 Wochen mit Uhrzeit, Karten, Trefferquote und falschen Wörtern; Themen gesehen/sicher/wackelig; Wortlisten). Für Kollegen; Julian bekommt `lehrer/?g=elinor` (Mike 2026-10-26).
 - `src/`: **Quelle der gemeinsamen App** (ein Kern, ein Steckbrief pro Gruppe), siehe `src/LIESMICH.md`.
 - `index.html` + `finden-gefallen/`: älterer Präpositions-Drill (React), **nicht** Teil der gemeinsamen App.
 - `jason/`: App für **Jason** (Student Chemische Technik, HM München, schwaches B2, liest Chinesisch). Fachwortschatz aus seinen Vorlesungsfolien, **Seite mit Passwort verschlüsselt** (StatiCrypt). Erzeugt. Siehe Abschnitt „jason/“ unten.
