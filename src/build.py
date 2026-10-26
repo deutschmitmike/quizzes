@@ -96,7 +96,7 @@ for g in GROUPS:
         shell = open(os.path.join(SRC, "groups", shell_name), encoding="utf-8").read()
         if shell.count("%%SCRIPT%%") != 1: sys.exit("FEHLER: Platzhalter in " + shell_name)
         eng_g = re.sub(r"%%DATA:(zh_\w+)%%", lambda m: _data(m, bool(cfg.get("zh"))), engine)
-        eng_g = re.sub(r"%%DATA:(en_\w+)%%", lambda m: _data(m) if cfg.get("en") else "", eng_g)   # englische Bedeutungen nur fuer Gruppen mit "en" (Elenore)
+        eng_g = re.sub(r"%%DATA:(en_\w+)%%", lambda m: _data(m) if cfg.get("en") else "", eng_g)   # englische Bedeutungen nur fuer Gruppen mit "en" (Elinor)
         eng_g = eng_g.replace("%%FACH%%", fach_daten(cfg, g))
         script = gjs + "\nconst CFG=Object.assign({},GROUP,{teacher:%s, build:%s});\n" % ("true" if teacher else "false", json.dumps(build)) + eng_g
         open(os.path.join(out, page), "w", encoding="utf-8").write(shell.replace("%%SCRIPT%%", script))

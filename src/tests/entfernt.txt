@@ -98,12 +98,12 @@ p:Schoß$
 # 2026-09-27: Strom, Mittag ohne Mehrzahl-Karte
 p:Strom$
 p:Mittag$
-# 2026-10-25 Mike: Elenore (1. Klasse) vorerst nur Artikel, Mehrzahl, er/sie/es, mein/meine
-[elenore] w:
-[elenore] wk:
-[elenore] d:
-[elenore] a:
-[elenore] m:
-[elenore] ps:
-[elenore] pa:
-[elenore] adj:
+# 2026-10-25 Mike: Elinor (1. Klasse) vorerst nur Artikel, Mehrzahl, er/sie/es, mein/meine
+[elinor] w:
+[elinor] wk:
+[elinor] d:
+[elinor] a:
+[elinor] m:
+[elinor] ps:
+[elinor] pa:
+[elinor] adj:
