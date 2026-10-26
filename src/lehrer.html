@@ -22,15 +22,19 @@
   .prob{margin-top:6px; font-size:13px; color:var(--muted);} .empty{color:var(--muted); font-size:14px;}
 </style></head>
 <body><main>
-<h1>Lehrer-Übersicht</h1>
-<p class="sub">Alle Schüler aller Gruppen. Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.</p>
+<h1 id="titel">Lehrer-Übersicht</h1>
+<p class="sub" id="untertitel">Alle Schüler aller Gruppen. Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.</p>
 <div id="root">lädt ...</div>
-<div class="group"><h2>Kyla · Englisch</h2><div class="links"><a href="../english/lehrer.html">Sätze ansehen und korrigieren</a><a href="../english/">Kylas App</a></div></div>
+<div class="group" id="kyla"><h2>Kyla · Englisch</h2><div class="links"><a href="../english/lehrer.html">Sätze ansehen und korrigieren</a><a href="../english/">Kylas App</a></div></div>
 </main>
 <script>
 "use strict";
 const META=%%META%%;
 const DB="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";
+// ?g=<gruppe>: nur diese Gruppe zeigen (Link fuer Kollegen, z. B. Julian: lehrer/?g=elinor; Mike 2026-10-26)
+const NUR=new URLSearchParams(location.search).get("g"), GRUPPEN=NUR?META.filter(g=>g.id===NUR||g.folder===NUR):META;
+if(NUR){ const k=document.getElementById("kyla"); if(k) k.remove(); document.getElementById("titel").textContent="Lehrer-Übersicht"+(GRUPPEN[0]?": "+GRUPPEN[0].name:"");
+  document.getElementById("untertitel").textContent=GRUPPEN.length?"Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.":"Diese Gruppe gibt es nicht."; }
 const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
 const esc=s=>String(s==null?"":s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
 const KIND={b:"Bedeutung",ab:"Abkürzung",g:"Artikel",p:"Plural",w:"Wo/Wohin",d:"Dativ",a:"Akkusativ",m:"Fall gemischt",pr:"er/sie/es",po:"mein/meine",ps:"sein/ihr",pa:"ihn/sie/es",adj:"Adjektiv",pf:"Perfekt",pt:"Präteritum",vp:"Präsens",vm:"Modalverb",ns:"Nebensatz",ko:"Komparativ",t21:"Satzbau",t22:"mir/mich",t23:"reflexiv",t24:"Konjunktiv II",t25:"Relativsatz"};
@@ -60,7 +64,7 @@ async function holeSaves(p){ const j=async u=>(await fetch(DB+u+(u.includes("?")
   const keys=Object.keys((await j("save.json?shallow=true"))||{}).filter(k=>!k.startsWith("__")), o={};
   await Promise.all(keys.map(async k=>{ o[k]=await j("save/"+encodeURIComponent(k)+".json"); })); return o; }
 async function load(){ const root=document.getElementById("root"); let html="";
-  for(const g of META){ let saves={}, fo=null;
+  for(const g of GRUPPEN){ let saves={}, fo=null;
     try{ saves=await holeSaves(g.savePath); fo=await (await fetch(DB+g.lbPath+"/_focus.json?t="+Date.now())).json(); }catch(e){ html+='<div class="group"><h2>'+esc(g.name)+'</h2><p class="empty">gerade offline</p></div>'; continue; }
     const kids=Object.values(saves).filter(S=>S&&S.cards&&S.playerName).sort((a,b)=>(b.lastDay||0)-(a.lastDay||0));
     html+='<div class="group"><h2>'+esc(g.name)+'</h2><div class="links"><a href="../'+g.folder+'/">Schüler-Link</a><a href="../'+g.folder+'/index_lehrer.html">Lehrerversion (Stufen testen)</a></div>'
