@@ -664,7 +664,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-28-7"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-28-8"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9152,7 +9152,7 @@ function bobbyKoerper(z){ const zu=z==="schlaeft", u=++bobN;   // ganzer Bobby f
     +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
     +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
     +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'>'+bobbyKopf(z,u)+'</g></g></svg>'; }
-let tamaFrisch=false, tamaAlt=false, tamaDemo=null, tamaGruppe=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard), null = laedt, "fehlt" = nicht ladbar
+let tamaFrisch=false, tamaAlt=false, tamaDemo=null, tamaGruppe=null, tamaTag=null, holeOffen=false;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard), null = laedt, "fehlt" = nicht ladbar; tamaTag: Tag der Daten
 function bobbyLeute(){ return [{tage:uebTage(),zeit:S.fertigZeit||{}}].concat(Array.isArray(tamaGruppe)?tamaGruppe.slice(1):[]); }   // eigene Tage immer frisch
 function bobbyLage(){ const t=today(), leute=bobbyLeute(), N=leute.length, hat=(p,d)=>(p.tage||[]).includes(d);
   const heuteN=leute.filter(p=>hat(p,t)).length, gesternN=leute.filter(p=>hat(p,t-1)).length, aktiv=leute.some(p=>(p.tage||[]).some(d=>d<t-1));
@@ -9164,7 +9164,8 @@ function bobbyZustand(){ if(tamaDemo) return tamaDemo; const L=bobbyLage(), h=ne
   if(L.heuteN>0) return "wartet";
   return L.bauchweh?"traurig":"hunger"; }
 function tamaAn(){ return CFG.mascot&&CFG.tamagotchi!==false; }   // alle Apps mit Bobby (Mike 2026-10-28)
-function tamaZeigen(){ if(!tamaAn()) return; const h1=document.getElementById("homeTitle"); if(!h1||!h1.parentNode) return;
+function tamaZeigen(){ try{ tamaMalen(); }catch(e){} }   // ein Fehler bei Bobby darf die Startseite nie aufhalten
+function tamaMalen(){ if(!tamaAn()) return; const h1=document.getElementById("homeTitle"); if(!h1||!h1.parentNode) return;
   if(!document.getElementById("tamaCss")){ const st=document.createElement("style"); st.id="tamaCss"; st.textContent=TAMA_CSS; document.head.appendChild(st); }
   let b=document.getElementById("tama"); if(!b){ b=document.createElement("div"); b.id="tama"; h1.parentNode.insertBefore(b,h1.nextSibling);
     b.onclick=()=>{ const bob=b.querySelector(".bob"), z=bobbyZustand(); if(!bob||z==="schlaeft") return;   // schlafend nicht stoeren
@@ -9177,7 +9178,9 @@ function tamaZeigen(){ if(!tamaAn()) return; const h1=document.getElementById("h
   const hm=document.getElementById("homeMascot"); if(hm) hm.style.display="none";
   const t=today(), h=new Date().getHours(), nacht=h>=20||h<6;
   const himmel='<div class="sonne"></div>'+(nacht?[[20,20],[60,40],[120,18],[160,52],[90,60]].map(([x,y])=>'<i class="stern" style="left:'+x+'px;top:'+y+'px"></i>').join(""):"")+'<div class="teich"></div>';
-  if(!tamaDemo&&!tamaGruppe&&SYNC_URL&&S.playerName&&[].concat(CFG.partner||[]).length){   // Gruppen-Apps: Wiese gleich zeigen (nichts springt), Bobby erst mit den Daten der anderen
+  const alt=Array.isArray(tamaGruppe)&&tamaTag!==t;   // Daten der anderen von gestern: neu laden, solange Wiese
+  if(alt&&!holeOffen&&SYNC_URL&&S.playerName&&CFG.partner){ const home=document.getElementById("home"); holePartner(home&&home.classList.contains("on")?document.getElementById("lbList"):null); }
+  if(!tamaDemo&&(!tamaGruppe||alt)&&SYNC_URL&&S.playerName&&[].concat(CFG.partner||[]).length){   // Gruppen-Apps: Wiese gleich zeigen (nichts springt), Bobby erst mit den Daten der anderen
     if(b.dataset.sig!=="leer"+nacht){ b.dataset.sig="leer"+nacht; b.dataset.bl=""; b.className="tama"+(nacht?" nacht":""); b.innerHTML=himmel; } return; }
   const z=bobbyZustand(), home=document.getElementById("home");
   const PN=[].concat(CFG.partner||[]).length;
@@ -9192,10 +9195,10 @@ function tamaZeigen(){ if(!tamaAn()) return; const h1=document.getElementById("h
     +(z==="schlaeft"?'<span class="zz">Z</span><span class="zz b">Z</span><span class="zz c">Z</span>':"")+(z==="satt"||z==="danke"?'<span class="herz">❤️</span><span class="herz b">❤️</span>':"");
   if(z==="isst"){ const e=b.querySelector(".essen"), m=b.querySelector(".maul"); if(e&&m){ const r1=e.getBoundingClientRect(), r2=m.getBoundingClientRect();
       e.style.setProperty("--dx",Math.round(r2.left-r1.left-r1.width/2)+"px"); e.style.setProperty("--dy",Math.round(r2.top-r1.top-r1.height/2)+"px"); e.style.animation="tamaFlieg 1.1s ease-in forwards"; }   // Flug erst nach dem Ziel starten (aeltere iPads)
-    setTimeout(()=>{ if(!tamaFrisch&&!tamaDemo) return; tamaFrisch=false; if(tamaDemo==="isst") tamaDemo="satt"; tamaZeigen(); },4200); } }
+    const echt=!tamaDemo; setTimeout(()=>{ if(echt){ if(!tamaFrisch) return; tamaFrisch=false; } else { if(tamaDemo!=="isst") return; tamaDemo="satt"; } tamaZeigen(); },4200); } }   // Demo und echtes Essen getrennt
 // Bobby bleibt aktuell: zurueck in die App (neue Daten der anderen) und jede Minute (Abend, Mitternacht)
-document.addEventListener("visibilitychange",()=>{ if(document.visibilityState!=="visible"||!tamaAn()) return; tamaZeigen();
-  if(SYNC_URL&&S.playerName&&CFG.partner){ const home=document.getElementById("home"); holePartner(home&&home.classList.contains("on")?document.getElementById("lbList"):null); } });   // nur lesen, kein Hochladen
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState!=="visible"||!tamaAn()) return; const n=holeNr; tamaZeigen();
+  if(SYNC_URL&&S.playerName&&CFG.partner&&holeNr===n){ const home=document.getElementById("home"); holePartner(home&&home.classList.contains("on")?document.getElementById("lbList"):null); } });   // nur lesen, kein Hochladen
 if(typeof setInterval==="function") setInterval(()=>{ if(document.visibilityState==="visible"&&tamaAn()&&document.getElementById("tama")) tamaZeigen(); },60000);   // Testumgebung hat kein setInterval
 function setMascot(id,mood,bounce){const el=document.getElementById(id); if(!el)return; el.innerHTML=mascotSvg(mood);
   if(bounce){ el.classList.remove("bounce"); void el.offsetWidth; el.classList.add("bounce"); }}
@@ -9358,11 +9361,11 @@ let holeNr=0;   // nur der neueste Abruf zaehlt
 function holePartner(list){ const nr=++holeNr, PART=[].concat(CFG.partner||[]), ich={name:zeigName(S.playerName), tage:uebTage(), zeit:S.fertigZeit||{}};
   const andere=PART.map((p,k)=>Array.isArray(tamaGruppe)&&tamaGruppe[k+1]&&tamaGruppe[k+1].name===p.name?tamaGruppe[k+1]:{name:p.name,tage:[],zeit:{}});
   const zeig=()=>{ try{ if(list&&nr===holeNr) list.innerHTML=wochenKarte([ich].concat(andere)); }catch(e){} }; zeig();
-  if(!PART.length){ tamaGruppe=[ich]; tamaAlt=false; tamaZeigen(); return; }   // allein (Elinor)
-  let da=0, gut=0, zu=false; const fertig=(alle)=>{ if(zu||(!alle&&++da<PART.length)) return; zu=true; if(nr!==holeNr) return;   // spaetestens nach 6 s, nur einmal
-    if(gut===PART.length||Array.isArray(tamaGruppe)) tamaGruppe=[ich].concat(andere); else tamaGruppe="fehlt"; tamaAlt=false; tamaZeigen(); };   // Ladefehler: fuer die anderen bleiben die alten Daten
-  setTimeout(()=>fertig(true),6000);
-  PART.forEach((p,k)=>{ try{ fetch(SYNC_URL+p.pfad+".json?t="+Date.now()).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(e=>{ if(e&&e.error) throw 0; if(zu||nr!==holeNr) return; andere[k]={name:p.name,tage:(e&&e.fertig)||[],zeit:(e&&e.fertigZeit)||{}}; gut++; zeig(); }).catch(()=>{}).then(()=>fertig()); }catch(e){ fertig(); } }); }
+  if(!PART.length){ tamaGruppe=[ich]; tamaTag=today(); holeOffen=false; tamaAlt=false; tamaZeigen(); return; }   // allein (Elinor)
+  let da=0, gut=0, zu=false; const fertig=(alle)=>{ if(zu||(!alle&&++da<PART.length)) return; zu=true; if(nr!==holeNr) return; holeOffen=false;   // spaetestens nach 6 s, nur einmal
+    if(gut===PART.length||Array.isArray(tamaGruppe)) { tamaGruppe=[ich].concat(andere); tamaTag=today(); } else tamaGruppe="fehlt"; tamaAlt=false; tamaZeigen(); };   // Ladefehler: fuer die anderen bleiben die alten Daten
+  holeOffen=true; setTimeout(()=>fertig(true),6000);
+  PART.forEach((p,k)=>{ try{ fetch(SYNC_URL+p.pfad+".json?t="+Date.now()).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(e=>{ if(e&&e.error) throw 0; if(zu||nr!==holeNr) return; andere[k]={name:p.name,tage:e&&e.fertig&&typeof e.fertig==="object"?Object.values(e.fertig).map(Number).filter(d=>Number.isFinite(d)&&d>0):[],zeit:e&&e.fertigZeit&&typeof e.fertigZeit==="object"?e.fertigZeit:{}}; gut++; zeig(); }).catch(()=>{}).then(()=>fertig()); }catch(e){ fertig(); } }); }
 function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if(!panel) return;
   if(!SYNC_URL){ panel.style.display="none"; return; }
   panel.style.display="block"; const list=document.getElementById("lbList");
@@ -9767,7 +9770,7 @@ let sessionDay=null;   // Tag, an dem die Runde begann (Runde ueber Mitternacht 
 function finishSession(){
   const t=sessionDay!=null&&sessionDay<=today()?sessionDay:today(); sessionDay=null; const prevStreak=S.streak||0;
   if(!stufenTest){ if(S.lastDay!==t){ S.streak=(S.streak||0)+1; }            // ein neuer Übungstag, wächst immer, kein Zurücksetzen
-    tamaFrisch=true; tamaAlt=true;   // Bobby isst beim naechsten Blick auf die Startseite, mit frisch geladenen Daten der anderen
+    if(t===today()){ tamaFrisch=true; tamaAlt=true; }   // Bobby isst beim naechsten Blick auf die Startseite, mit frisch geladenen Daten der anderen
     S.lastDay=t; S.best=S.streak; S.resume=null; S.fertig=[...new Set((S.fertig||[]).filter(d=>d>t-14).concat([t]))];
     const fz={}; Object.entries(S.fertigZeit||{}).forEach(([d,z])=>{ if(+d>t-14) fz[d]=z; }); if(!fz[t]) fz[t]=Date.now(); S.fertigZeit=fz; }   // wer zuerst uebt, bringt das Fruehstueck
   stufenTest=false;
