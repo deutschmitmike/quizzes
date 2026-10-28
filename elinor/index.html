@@ -557,7 +557,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elinor"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-3"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-4"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -4134,7 +4134,6 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 @keyframes tamaAtem{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.035)}}
 @keyframes tamaBlinz{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes tamaOhr{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(-14deg)}94%{transform:rotate(6deg)}}
-@keyframes tamaWackel{0%,100%{transform:rotate(0)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
 @keyframes tamaKau{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.35)}}
 @keyframes tamaFlieg{0%{transform:translate(0,0) scale(1)}100%{transform:translate(var(--dx,60px),var(--dy,-20px)) scale(.4);opacity:0}}
 @keyframes tamaHuepf{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}70%{transform:translateY(0)}85%{transform:translateY(-6px)}}
@@ -4144,10 +4143,35 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .atem{transform-origin:100px 132px;transform-box:view-box;animation:tamaAtem 3.2s ease-in-out infinite;}
 .tama .augen{transform-box:fill-box;transform-origin:center;animation:tamaBlinz 4.5s infinite;}
 .tama .ohrL{transform-box:fill-box;transform-origin:bottom center;animation:tamaOhr 7s infinite;}
-.tama.schlaeft .atem{animation-duration:5s;}
-.tama.hunger .atem{animation:tamaAtem 3.2s ease-in-out infinite,tamaWackel .5s 3 1s;}
+.tama.schlaeft .atem{animation:tamaAtem 5s ease-in-out infinite;}
+.tama .kopf{transform-box:view-box;transform-origin:88px 72px;}
+.tama .bob svg{transform-origin:50% 95%;}
 .tama .kau{transform-box:fill-box;transform-origin:center;}
-.tama.isst .kau{animation:tamaKau .35s 7 1.2s;}
+.tama .bein{transform-box:fill-box;transform-origin:top center;}
+.tama.hunger .bob svg{animation:tamaUngeduld 4s ease-in-out infinite;}
+.tama.hunger .kopf{animation:tamaSchnupper 2.4s ease-in-out infinite;}
+.tama.hunger .kau{animation:tamaKau 1.2s ease-in-out infinite;}
+.tama.hunger .b1{animation:tamaScharr 4s ease-in-out infinite;}
+.tama.isst .kopf{animation:tamaKnabber .7s ease-in-out infinite;}
+.tama.isst .kau{animation:tamaKau .35s infinite;}
+.tama.isst .ohrL{animation:tamaOhr 1s infinite;}
+.tama.satt .bob svg{animation:tamaSchaukel 2.6s ease-in-out infinite;}
+.tama.satt .kopf{animation:tamaNicken 2.6s ease-in-out infinite;}
+.tama.satt .b1,.tama.satt .b3{animation:tamaTrippel 1.3s ease-in-out infinite;}
+.tama.satt .b2,.tama.satt .b4{animation:tamaTrippel 1.3s ease-in-out .65s infinite;}
+.tama.schlaeft .kopf{animation:tamaSchlafkopf 5s ease-in-out infinite;}
+.tama.traurig .kopf{animation:tamaHaengen 5s ease-in-out infinite;}
+.tama.traurig .atem{animation:tamaSeufzer 5s ease-in-out infinite;}
+@keyframes tamaUngeduld{0%,70%,100%{transform:rotate(0)}74%{transform:rotate(-2deg)}78%{transform:rotate(2deg)}82%{transform:rotate(-2deg)}86%{transform:rotate(1.5deg)}90%{transform:rotate(0)}}
+@keyframes tamaSchnupper{0%,100%{transform:rotate(0)}30%{transform:rotate(-9deg)}40%{transform:rotate(-6deg)}50%{transform:rotate(-9deg)}60%{transform:rotate(-6deg)}75%{transform:rotate(0)}}
+@keyframes tamaScharr{0%,40%,100%{transform:translateY(0) rotate(0)}45%{transform:translateY(-5px) rotate(14deg)}52%{transform:translateY(0) rotate(0)}57%{transform:translateY(-5px) rotate(14deg)}64%{transform:translateY(0) rotate(0)}}
+@keyframes tamaKnabber{0%,100%{transform:rotate(0)}50%{transform:rotate(-5deg)}}
+@keyframes tamaSchaukel{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(-3px) rotate(-1.5deg)}75%{transform:translateX(3px) rotate(1.5deg)}}
+@keyframes tamaNicken{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg)}}
+@keyframes tamaTrippel{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+@keyframes tamaSchlafkopf{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.8px)}}
+@keyframes tamaHaengen{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(-8deg) translateY(2px)}}
+@keyframes tamaSeufzer{0%,100%{transform:scaleY(1)}20%{transform:scaleY(1.05)}45%{transform:scaleY(.97)}}
 .tama.isst .essen{animation:tamaFlieg 1.1s ease-in forwards;}
 .tama .huepf{animation:tamaHuepf .7s;}
 .tama .traene{transform-box:fill-box;animation:tamaTraene 1.8s infinite;}
@@ -4161,25 +4185,25 @@ function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", 
   const mund=z==="isst"?'<ellipse class="kau" cx="14" cy="86" rx="5.5" ry="3.6" fill="#3d2616"/>'
     :froh?'<path d="M7 83 q8 6 17 1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
     :trau?'<path d="M7 88 q8 -4.5 17 -1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
-    :z==="hunger"?'<ellipse cx="14" cy="86" rx="4.5" ry="3.4" fill="#3d2616"/>'
+    :z==="hunger"?'<ellipse class="kau" cx="14" cy="86" rx="4.5" ry="3.4" fill="#3d2616"/>'
     :'<path d="M7 84 q7 3.5 15 2" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>';
-  const bein=(x,f)=>'<rect x="'+x+'" y="104" width="17" height="27" rx="7.5" fill="'+f+'"/><ellipse cx="'+(x+6)+'" cy="131" rx="10.5" ry="3.8" fill="#4a3120"/>';
+  const bein=(x,f,k)=>'<g class="bein '+k+'"><rect x="'+x+'" y="104" width="17" height="27" rx="7.5" fill="'+f+'"/><ellipse cx="'+(x+6)+'" cy="131" rx="10.5" ry="3.8" fill="#4a3120"/></g>';
   return '<svg viewBox="0 0 200 140"><defs>'
     +'<linearGradient id="bobFell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f5530"/><stop offset=".55" stop-color="#a0713f"/><stop offset="1" stop-color="#b68957"/></linearGradient>'
     +'<linearGradient id="bobKopf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5c34"/><stop offset=".6" stop-color="#a77845"/><stop offset="1" stop-color="#b48756"/></linearGradient>'
     +'<clipPath id="bobKopfClip"><path d="'+KP+'"/></clipPath></defs>'
     +'<ellipse cx="106" cy="134" rx="86" ry="5.5" fill="rgba(0,0,0,.14)"/>'
     +'<g class="atem">'+(zu?'<g transform="translate(0,12)">'+'<ellipse cx="74" cy="119" rx="13" ry="4.5" fill="#4a3120"/>'   // schlaeft: liegt, Beine eingeklappt, Pfote vorne
-      :bein(94,"#6e4a2a")+bein(170,"#6e4a2a")+bein(74,"#8d6038")+bein(150,"#8d6038"))                       // Beine hinten (dunkler) und vorne
+      :bein(94,"#6e4a2a","b2")+bein(170,"#6e4a2a","b4")+bein(74,"#8d6038","b1")+bein(150,"#8d6038","b3"))                       // Beine hinten (dunkler) und vorne
     +'<path d="M60 76 C74 56 118 46 156 50 C182 53 196 76 193 99 C191 113 178 119 156 120 C130 123 112 123 94 121 C74 119 60 111 58 97 Z" fill="url(#bobFell)"/>'
     +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
     +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
-    +(zu?'</g>':'')+'<g class="kopf"'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
+    +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'><g class="kopf"><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
     +'<ellipse cx="9" cy="68" rx="10" ry="15" fill="#5e3d22" opacity=".3" clip-path="url(#bobKopfClip)"/>'                                // dunkle Schnauze
     +'<path d="M10 59 q-2.5 3 -0.5 7.5" stroke="#22140a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'                       // Nasenloch
     +'<g class="ohrL"><ellipse cx="73" cy="47" rx="6.5" ry="7.5" fill="#7a5230" transform="rotate(-12 73 47)"/><ellipse cx="73" cy="48" rx="3.2" ry="4.2" fill="#4a3120" transform="rotate(-12 73 48)"/></g>'
     +'<g class="augen">'+auge+'</g>'+(trau?'<path class="traene" d="M45 66 q-3.2 5 0 7.5 q3.2 -2.5 0 -7.5 Z" fill="#7fd0ff" stroke="#fff" stroke-width=".8"/>':'')
-    +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g></g></svg>'; }
+    +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g></g></g></svg>'; }
 let tamaFrisch=false, tamaDemo=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst, danach satt
 function bobbyZustand(){ if(tamaDemo) return tamaDemo; const t=today(), tage=uebTage(), h=new Date().getHours();
   if(tage.includes(t)) return tamaFrisch?"isst":(h>=20||h<6?"schlaeft":"satt");
