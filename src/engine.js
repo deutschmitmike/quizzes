@@ -1014,16 +1014,16 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .teller{position:absolute;left:18px;bottom:16px;font-size:34px;}
 .tama .essen{position:absolute;left:24px;bottom:30px;font-size:30px;}
 .tama .blase{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:#fff;border-radius:14px;padding:6px 12px;font-weight:800;font-size:15px;color:#1F2A44;box-shadow:0 2px 6px rgba(0,0,0,.12);white-space:nowrap;}
-.tama .zz{position:absolute;left:58%;top:40px;font-weight:900;color:#fff;font-size:18px;animation:tamaZ 3s infinite;}
+.tama .zz{position:absolute;left:calc(50% - 40px);top:40px;font-weight:900;color:#fff;font-size:18px;animation:tamaZ 3s infinite;}
 .tama .zz.b{animation-delay:1s;font-size:14px;} .tama .zz.c{animation-delay:2s;font-size:11px;}
-.tama .herz{position:absolute;left:56%;top:60px;font-size:18px;animation:tamaHerz 2.6s infinite;} .tama .herz.b{left:40%;animation-delay:1.3s;}
+.tama .herz{position:absolute;left:calc(50% - 30px);top:60px;font-size:18px;animation:tamaHerz 2.6s infinite;} .tama .herz.b{left:calc(50% - 70px);animation-delay:1.3s;}
 .tama .stern{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;}
 @keyframes tamaAtem{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.035)}}
 @keyframes tamaBlinz{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes tamaOhr{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(-14deg)}94%{transform:rotate(6deg)}}
 @keyframes tamaWackel{0%,100%{transform:rotate(0)}25%{transform:rotate(-2deg)}75%{transform:rotate(2deg)}}
 @keyframes tamaKau{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.35)}}
-@keyframes tamaFlieg{0%{transform:translate(0,0) scale(1)}100%{transform:translate(118px,-28px) scale(.4);opacity:0}}
+@keyframes tamaFlieg{0%{transform:translate(0,0) scale(1)}100%{transform:translate(var(--dx,60px),var(--dy,-20px)) scale(.4);opacity:0}}
 @keyframes tamaHuepf{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}70%{transform:translateY(0)}85%{transform:translateY(-6px)}}
 @keyframes tamaZ{0%{transform:translate(0,0);opacity:0}20%{opacity:1}100%{transform:translate(26px,-40px);opacity:0}}
 @keyframes tamaHerz{0%{transform:translate(0,0) scale(.6);opacity:0}25%{opacity:1}100%{transform:translate(8px,-46px) scale(1.1);opacity:0}}
@@ -1038,24 +1038,33 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .huepf{animation:tamaHuepf .7s;}
 .tama .traene{transform-box:fill-box;animation:tamaTraene 1.8s infinite;}
 .tamaDemo{flex-shrink:0;display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 12px;} .tamaDemo button{border:none;border-radius:10px;padding:6px 10px;font:inherit;font-size:13px;font-weight:700;background:#e7ebf5;color:#1F2A44;}`;
-function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", trau=z==="traurig";
-  const auge=x=>zu?'<path d="M'+(x-4)+' 27 q4 3 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
-    :froh?'<path d="M'+(x-4)+' 27 q4 -4.5 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
-    :'<circle cx="'+x+'" cy="27" r="3.2" fill="#2e2014"/><circle cx="'+(x+1)+'" cy="26" r="1" fill="#fff"/>';
-  const brauen=trau?'<path d="M20 22 l9 -3" stroke="#5a3d22" stroke-width="2.4" stroke-linecap="round"/><path d="M50 22 l-9 -3" stroke="#5a3d22" stroke-width="2.4" stroke-linecap="round"/>':'';
-  const mund=z==="isst"?'<ellipse class="kau" cx="35" cy="50" rx="5" ry="3.4" fill="#5a3d22"/>'
-    :froh?'<path d="M29 49 q6 5 12 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>'
-    :trau?'<path d="M30 52 q5 -4 10 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>'
-    :z==="hunger"?'<ellipse cx="35" cy="51" rx="3.2" ry="2.6" fill="#5a3d22"/>'
-    :'<path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
-  const kopf='<g transform="translate(47,-4) scale(1.5)"><ellipse class="ohrL" cx="16" cy="14" rx="5" ry="4.5" fill="#7a5230"/><ellipse cx="54" cy="14" rx="5" ry="4.5" fill="#7a5230"/>'
-    +'<rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"/><rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"/>'
-    +'<g class="augen">'+auge(25)+auge(45)+'</g>'+brauen+(trau?'<ellipse class="traene" cx="47" cy="33" rx="1.8" ry="2.8" fill="#6cc4ff"/>':'')
-    +'<ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/>'+mund+'</g>';
-  return '<svg viewBox="0 0 200 140"><ellipse cx="100" cy="134" rx="70" ry="6" fill="rgba(0,0,0,.12)"/>'
-    +'<g class="atem"><ellipse cx="100" cy="106" rx="76" ry="29" fill="#A47A4A"/><ellipse cx="100" cy="114" rx="44" ry="15" fill="#B88C59"/>'
-    +'<ellipse cx="50" cy="130" rx="9" ry="5.5" fill="#7a5230"/><ellipse cx="78" cy="132" rx="9" ry="5.5" fill="#7a5230"/><ellipse cx="122" cy="132" rx="9" ry="5.5" fill="#7a5230"/><ellipse cx="150" cy="130" rx="9" ry="5.5" fill="#7a5230"/>'
-    +kopf+'</g></svg>'; }
+function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", trau=z==="traurig";   // Seitenansicht wie ein echtes Wasserschwein, Kopf links (zum Teller)
+  const KP="M91 64 C86 52 78 46 66 45 L28 50 C15 51 7 57 6 67 L6 81 C6 90 12 95 22 96 L58 99 C77 100 91 92 91 76 Z";
+  const auge=zu?'<path d="M42 61 q4.5 3.5 9 0" stroke="#2a1a0e" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :trau?'<circle cx="46.5" cy="62" r="3.8" fill="#2a1a0e"/><path d="M42.2 60.6 a4.4 4.4 0 0 1 8.8 0 Z" fill="#96673b"/><path d="M41.6 60.6 h9.8" stroke="#2a1a0e" stroke-width="2" stroke-linecap="round"/>'
+    :froh?'<path d="M42 62 q4.5 -5 9 0" stroke="#2a1a0e" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :'<circle cx="46.5" cy="61" r="3.8" fill="#2a1a0e"/><circle cx="47.8" cy="59.6" r="1.3" fill="#fff"/>';
+  const mund=z==="isst"?'<ellipse class="kau" cx="14" cy="86" rx="5.5" ry="3.6" fill="#3d2616"/>'
+    :froh?'<path d="M7 83 q8 6 17 1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
+    :trau?'<path d="M7 88 q8 -4.5 17 -1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
+    :z==="hunger"?'<ellipse cx="14" cy="86" rx="4.5" ry="3.4" fill="#3d2616"/>'
+    :'<path d="M7 84 q7 3.5 15 2" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>';
+  const bein=(x,f)=>'<rect x="'+x+'" y="104" width="17" height="27" rx="7.5" fill="'+f+'"/><ellipse cx="'+(x+6)+'" cy="131" rx="10.5" ry="3.8" fill="#4a3120"/>';
+  return '<svg viewBox="0 0 200 140"><defs>'
+    +'<linearGradient id="bobFell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f5530"/><stop offset=".55" stop-color="#a0713f"/><stop offset="1" stop-color="#b68957"/></linearGradient>'
+    +'<linearGradient id="bobKopf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5c34"/><stop offset=".6" stop-color="#a77845"/><stop offset="1" stop-color="#b48756"/></linearGradient>'
+    +'<clipPath id="bobKopfClip"><path d="'+KP+'"/></clipPath></defs>'
+    +'<ellipse cx="106" cy="134" rx="86" ry="5.5" fill="rgba(0,0,0,.14)"/>'
+    +'<g class="atem">'+bein(94,"#6e4a2a")+bein(170,"#6e4a2a")+bein(74,"#8d6038")+bein(150,"#8d6038")                       // Beine hinten (dunkler) und vorne
+    +'<path d="M60 76 C74 56 118 46 156 50 C182 53 196 76 193 99 C191 113 178 119 156 120 C130 123 112 123 94 121 C74 119 60 111 58 97 Z" fill="url(#bobFell)"/>'
+    +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
+    +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
+    +'<g class="kopf"><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
+    +'<ellipse cx="9" cy="68" rx="10" ry="15" fill="#5e3d22" opacity=".3" clip-path="url(#bobKopfClip)"/>'                                // dunkle Schnauze
+    +'<path d="M10 59 q-2.5 3 -0.5 7.5" stroke="#22140a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'                       // Nasenloch
+    +'<g class="ohrL"><ellipse cx="73" cy="47" rx="6.5" ry="7.5" fill="#7a5230" transform="rotate(-12 73 47)"/><ellipse cx="73" cy="48" rx="3.2" ry="4.2" fill="#4a3120" transform="rotate(-12 73 48)"/></g>'
+    +'<g class="augen">'+auge+'</g>'+(trau?'<path class="traene" d="M45 66 q-3.2 5 0 7.5 q3.2 -2.5 0 -7.5 Z" fill="#7fd0ff" stroke="#fff" stroke-width=".8"/>':'')
+    +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g></g></svg>'; }
 let tamaFrisch=false, tamaDemo=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst, danach satt
 function bobbyZustand(){ if(tamaDemo) return tamaDemo; const t=today(), tage=uebTage(), h=new Date().getHours();
   if(tage.includes(t)) return tamaFrisch?"isst":(h>=20||h<6?"schlaeft":"satt");
@@ -1077,6 +1086,8 @@ function tamaZeigen(){ if(!tamaAn()) return; const h1=document.getElementById("h
     +'<div class="teich"></div>'+(z==="hunger"||z==="traurig"?'<div class="teller">🍽️</div>':"")+(z==="isst"?'<div class="essen">'+essen+'</div>':"")
     +'<div class="bob">'+bobbyKoerper(z)+'</div>'+(BL?'<div class="blase">'+BL+'</div>':"")
     +(nacht?'<span class="zz">Z</span><span class="zz b">Z</span><span class="zz c">Z</span>':"")+(z==="satt"?'<span class="herz">❤️</span><span class="herz b">❤️</span>':"");
+  if(z==="isst"){ const e=b.querySelector(".essen"), m=b.querySelector(".maul"); if(e&&m){ const r1=e.getBoundingClientRect(), r2=m.getBoundingClientRect();
+      e.style.setProperty("--dx",Math.round(r2.left-r1.left-r1.width/2)+"px"); e.style.setProperty("--dy",Math.round(r2.top-r1.top-r1.height/2)+"px"); } }
   if(z==="isst") setTimeout(()=>{ tamaFrisch=false; if(tamaDemo==="isst") tamaDemo="satt"; tamaZeigen(); },4200); }
 function setMascot(id,mood,bounce){const el=document.getElementById(id); if(!el)return; el.innerHTML=mascotSvg(mood);
   if(bounce){ el.classList.remove("bounce"); void el.offsetWidth; el.classList.add("bounce"); }}
