@@ -1,6 +1,7 @@
 // ===== Steckbrief: der, die, das (Kyana) =====
 // Einstellungen (CFG) und Inhalte dieser Gruppe. Der Kern liegt in src/engine.js.
 const GROUP={
+ "tamagotchi": "lehrer",
  "name": "der, die, das (Kyana)",
  "folder": "der-die-das",
  "key": "ddd_kyana_v2",
