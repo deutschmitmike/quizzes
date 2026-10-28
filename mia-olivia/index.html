@@ -653,7 +653,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-2"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -9076,7 +9076,7 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .teller{position:absolute;left:18px;bottom:16px;font-size:34px;}
 .tama .essen{position:absolute;left:24px;bottom:30px;font-size:30px;}
 .tama .blase{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:#fff;border-radius:14px;padding:6px 12px;font-weight:800;font-size:15px;color:#1F2A44;box-shadow:0 2px 6px rgba(0,0,0,.12);white-space:nowrap;}
-.tama .zz{position:absolute;left:calc(50% - 40px);top:40px;font-weight:900;color:#fff;font-size:18px;animation:tamaZ 3s infinite;}
+.tama .zz{position:absolute;left:calc(50% - 50px);top:72px;font-weight:900;color:#fff;font-size:18px;animation:tamaZ 3s infinite;}
 .tama .zz.b{animation-delay:1s;font-size:14px;} .tama .zz.c{animation-delay:2s;font-size:11px;}
 .tama .herz{position:absolute;left:calc(50% - 30px);top:60px;font-size:18px;animation:tamaHerz 2.6s infinite;} .tama .herz.b{left:calc(50% - 70px);animation-delay:1.3s;}
 .tama .stern{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;}
@@ -9093,6 +9093,7 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .atem{transform-origin:100px 132px;transform-box:view-box;animation:tamaAtem 3.2s ease-in-out infinite;}
 .tama .augen{transform-box:fill-box;transform-origin:center;animation:tamaBlinz 4.5s infinite;}
 .tama .ohrL{transform-box:fill-box;transform-origin:bottom center;animation:tamaOhr 7s infinite;}
+.tama.schlaeft .atem{animation-duration:5s;}
 .tama.hunger .atem{animation:tamaAtem 3.2s ease-in-out infinite,tamaWackel .5s 3 1s;}
 .tama .kau{transform-box:fill-box;transform-origin:center;}
 .tama.isst .kau{animation:tamaKau .35s 7 1.2s;}
@@ -9117,11 +9118,12 @@ function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", 
     +'<linearGradient id="bobKopf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5c34"/><stop offset=".6" stop-color="#a77845"/><stop offset="1" stop-color="#b48756"/></linearGradient>'
     +'<clipPath id="bobKopfClip"><path d="'+KP+'"/></clipPath></defs>'
     +'<ellipse cx="106" cy="134" rx="86" ry="5.5" fill="rgba(0,0,0,.14)"/>'
-    +'<g class="atem">'+bein(94,"#6e4a2a")+bein(170,"#6e4a2a")+bein(74,"#8d6038")+bein(150,"#8d6038")                       // Beine hinten (dunkler) und vorne
+    +'<g class="atem">'+(zu?'<g transform="translate(0,12)">'+'<ellipse cx="74" cy="119" rx="13" ry="4.5" fill="#4a3120"/>'   // schlaeft: liegt, Beine eingeklappt, Pfote vorne
+      :bein(94,"#6e4a2a")+bein(170,"#6e4a2a")+bein(74,"#8d6038")+bein(150,"#8d6038"))                       // Beine hinten (dunkler) und vorne
     +'<path d="M60 76 C74 56 118 46 156 50 C182 53 196 76 193 99 C191 113 178 119 156 120 C130 123 112 123 94 121 C74 119 60 111 58 97 Z" fill="url(#bobFell)"/>'
     +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
     +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
-    +'<g class="kopf"><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
+    +(zu?'</g>':'')+'<g class="kopf"'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
     +'<ellipse cx="9" cy="68" rx="10" ry="15" fill="#5e3d22" opacity=".3" clip-path="url(#bobKopfClip)"/>'                                // dunkle Schnauze
     +'<path d="M10 59 q-2.5 3 -0.5 7.5" stroke="#22140a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'                       // Nasenloch
     +'<g class="ohrL"><ellipse cx="73" cy="47" rx="6.5" ry="7.5" fill="#7a5230" transform="rotate(-12 73 47)"/><ellipse cx="73" cy="48" rx="3.2" ry="4.2" fill="#4a3120" transform="rotate(-12 73 48)"/></g>'
