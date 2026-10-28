@@ -557,7 +557,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elinor"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-5"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-28-6"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -4094,26 +4094,9 @@ function medalSvg(m,kind){const g=kind==="teal"?["#7BD8C9","#2BA89A","#0d6b5e","
 function tage(n){return n===1?"Tag":"Tage";}
 const PRAISE=CFG.praise;
 const GENTLE=["Fast!","Gleich nochmal!","Kein Problem!","Nicht ganz!"];
-function mascotSvg(mood){
-  let eyes,mouth;
-  if(mood==="happy"||mood==="cheer"){
-    eyes='<path d="M21 26 q4 -4.5 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M41 26 q4 -4.5 8 0" stroke="#2e2014" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
-    mouth='<path d="M29 49 q6 5 12 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
-  } else if(mood==="oops"){
-    eyes='<circle cx="25" cy="27" r="3" fill="#2e2014"/><circle cx="45" cy="27" r="3" fill="#2e2014"/>';
-    mouth='<path d="M31 51 q4 -3 8 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
-  } else {
-    eyes='<circle cx="25" cy="27" r="3" fill="#2e2014"/><circle cx="45" cy="27" r="3" fill="#2e2014"/>';
-    mouth='<path d="M32 50 q3 2 6 0" fill="none" stroke="#5a3d22" stroke-width="2.6" stroke-linecap="round"/>';
-  }
-  return '<svg viewBox="0 0 70 62">'
-    +'<ellipse cx="17" cy="15" rx="7" ry="6" fill="#8a6038"/><ellipse cx="53" cy="15" rx="7" ry="6" fill="#8a6038"/>'        // Ohren
-    +'<rect x="9" y="11" width="52" height="46" rx="21" fill="#B98F5E"/>'                                                     // Kopf
-    +'<rect x="20" y="35" width="30" height="21" rx="10.5" fill="#A47A4A"/>'                                                  // Schnauze
-    +eyes
-    +'<ellipse cx="30" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/><ellipse cx="40" cy="43" rx="1.8" ry="2.6" fill="#3a2614"/>' // Nasenlöcher
-    +mouth
-    +'</svg>';
+function mascotSvg(mood){   // kleiner Bobby (Begruessung, beim Ueben, Ende): Kopf und Schultern im Stil des Tamagotchi-Bobby (Mike 2026-10-28)
+  const z=mood==="happy"||mood==="cheer"?"satt":mood==="oops"?"oops":"", u=++bobN;
+  return '<svg viewBox="0 30 100 82"><defs>'+bobbyDefs(u)+'</defs><path d="M58 82 C66 62 82 53 94 55 C100 66 100 96 93 107 C80 112 66 110 58 100 Z" fill="url(#bobFell'+u+')"/>'+bobbyKopf(z,u)+'</svg>';   // Schulter rund auslaufend
 }
 // ===== Bobby als Tamagotchi (Entwurf, Mike 2026-10-28): ganzer Koerper in einer kleinen Szene, Stimmung aus den eigenen Uebungstagen.
 // CFG.tamagotchi: "lehrer" = nur in der Lehrerversion (zum Anschauen), true = ueberall. Bobby stirbt nie und wird nie krank, hoechstens hungrig oder traurig.
@@ -4176,34 +4159,40 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .huepf{animation:tamaHuepf .7s;}
 .tama .traene{transform-box:fill-box;animation:tamaTraene 1.8s infinite;}
 .tamaDemo{flex-shrink:0;display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 12px;} .tamaDemo button{border:none;border-radius:10px;padding:6px 10px;font:inherit;font-size:13px;font-weight:700;background:#e7ebf5;color:#1F2A44;}`;
-function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", trau=z==="traurig";   // Seitenansicht wie ein echtes Wasserschwein, Kopf links (zum Teller)
-  const KP="M91 64 C86 52 78 46 66 45 L28 50 C15 51 7 57 6 67 L6 81 C6 90 12 95 22 96 L58 99 C77 100 91 92 91 76 Z";
+let bobN=0;   // eigene ids pro Bild: gleiche ids in mehreren SVGs (auch versteckten) brechen Verlaeufe
+const BOB_KP="M91 64 C86 52 78 46 66 45 L28 50 C15 51 7 57 6 67 L6 81 C6 90 12 95 22 96 L58 99 C77 100 91 92 91 76 Z";   // Kopf
+const BOB_LEIB="M60 76 C74 56 118 46 156 50 C182 53 196 76 193 99 C191 113 178 119 156 120 C130 123 112 123 94 121 C74 119 60 111 58 97 Z";
+function bobbyDefs(u){ return '<linearGradient id="bobFell'+u+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f5530"/><stop offset=".55" stop-color="#a0713f"/><stop offset="1" stop-color="#b68957"/></linearGradient>'
+    +'<linearGradient id="bobKopf'+u+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5c34"/><stop offset=".6" stop-color="#a77845"/><stop offset="1" stop-color="#b48756"/></linearGradient>'
+    +'<clipPath id="bobKopfClip'+u+'"><path d="'+BOB_KP+'"/></clipPath>'; }
+function bobbyKopf(z,u){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", trau=z==="traurig";   // Seitenansicht wie ein echtes Wasserschwein, Kopf links
   const auge=zu?'<path d="M42 61 q4.5 3.5 9 0" stroke="#2a1a0e" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
     :trau?'<circle cx="46.5" cy="62" r="3.8" fill="#2a1a0e"/><path d="M42.2 60.6 a4.4 4.4 0 0 1 8.8 0 Z" fill="#96673b"/><path d="M41.6 60.6 h9.8" stroke="#2a1a0e" stroke-width="2" stroke-linecap="round"/>'
     :froh?'<path d="M42 62 q4.5 -5 9 0" stroke="#2a1a0e" stroke-width="2.6" fill="none" stroke-linecap="round"/>'
+    :z==="oops"?'<circle cx="46.5" cy="61" r="4.4" fill="#2a1a0e"/><circle cx="48" cy="59.4" r="1.5" fill="#fff"/><path d="M41 53.5 q5 -3 11 0" stroke="#4a3120" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
     :'<circle cx="46.5" cy="61" r="3.8" fill="#2a1a0e"/><circle cx="47.8" cy="59.6" r="1.3" fill="#fff"/>';
   const mund=z==="isst"?'<ellipse class="kau" cx="14" cy="86" rx="5.5" ry="3.6" fill="#3d2616"/>'
     :froh?'<path d="M7 83 q8 6 17 1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
     :trau?'<path d="M7 88 q8 -4.5 17 -1" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>'
     :z==="hunger"?'<ellipse class="kau" cx="14" cy="86" rx="4.5" ry="3.4" fill="#3d2616"/>'
+    :z==="oops"?'<ellipse cx="14" cy="86" rx="3.4" ry="3" fill="#3d2616"/>'
     :'<path d="M7 84 q7 3.5 15 2" fill="none" stroke="#3d2616" stroke-width="2.3" stroke-linecap="round"/>';
-  const bein=(x,f,k)=>'<g class="bein '+k+'"><rect x="'+x+'" y="104" width="17" height="27" rx="7.5" fill="'+f+'"/><ellipse cx="'+(x+6)+'" cy="131" rx="10.5" ry="3.8" fill="#4a3120"/></g>';
-  return '<svg viewBox="0 0 200 140"><defs>'
-    +'<linearGradient id="bobFell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7f5530"/><stop offset=".55" stop-color="#a0713f"/><stop offset="1" stop-color="#b68957"/></linearGradient>'
-    +'<linearGradient id="bobKopf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a5c34"/><stop offset=".6" stop-color="#a77845"/><stop offset="1" stop-color="#b48756"/></linearGradient>'
-    +'<clipPath id="bobKopfClip"><path d="'+KP+'"/></clipPath></defs>'
-    +'<ellipse cx="106" cy="134" rx="86" ry="5.5" fill="rgba(0,0,0,.14)"/>'
-    +'<g class="atem">'+(zu?'<g transform="translate(0,12)">'+'<ellipse cx="74" cy="119" rx="13" ry="4.5" fill="#4a3120"/>'   // schlaeft: liegt, Beine eingeklappt, Pfote vorne
-      :bein(94,"#6e4a2a","b2")+bein(170,"#6e4a2a","b4")+bein(74,"#8d6038","b1")+bein(150,"#8d6038","b3"))                       // Beine hinten (dunkler) und vorne
-    +'<path d="M60 76 C74 56 118 46 156 50 C182 53 196 76 193 99 C191 113 178 119 156 120 C130 123 112 123 94 121 C74 119 60 111 58 97 Z" fill="url(#bobFell)"/>'
-    +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
-    +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
-    +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'><g class="kopf"><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+KP+'" fill="url(#bobKopf)"/>'
-    +'<ellipse cx="9" cy="68" rx="10" ry="15" fill="#5e3d22" opacity=".3" clip-path="url(#bobKopfClip)"/>'                                // dunkle Schnauze
+  return '<g class="kopf"><ellipse cx="83" cy="50" rx="5" ry="6" fill="#5e3d22"/><path d="'+BOB_KP+'" fill="url(#bobKopf'+u+')"/>'
+    +'<ellipse cx="9" cy="68" rx="10" ry="15" fill="#5e3d22" opacity=".3" clip-path="url(#bobKopfClip'+u+')"/>'                          // dunkle Schnauze
     +'<path d="M10 59 q-2.5 3 -0.5 7.5" stroke="#22140a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'                       // Nasenloch
     +'<g class="ohrL"><ellipse cx="73" cy="47" rx="6.5" ry="7.5" fill="#7a5230" transform="rotate(-12 73 47)"/><ellipse cx="73" cy="48" rx="3.2" ry="4.2" fill="#4a3120" transform="rotate(-12 73 48)"/></g>'
     +'<g class="augen">'+auge+'</g>'+(trau?'<path class="traene" d="M45 66 q-3.2 5 0 7.5 q3.2 -2.5 0 -7.5 Z" fill="#7fd0ff" stroke="#fff" stroke-width=".8"/>':'')
-    +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g></g></g></svg>'; }
+    +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g>'; }
+function bobbyKoerper(z){ const zu=z==="schlaeft", u=++bobN;   // ganzer Bobby fuer die Tamagotchi-Szene, Kopf links (zum Teller)
+  const bein=(x,f,k)=>'<g class="bein '+k+'"><rect x="'+x+'" y="104" width="17" height="27" rx="7.5" fill="'+f+'"/><ellipse cx="'+(x+6)+'" cy="131" rx="10.5" ry="3.8" fill="#4a3120"/></g>';
+  return '<svg viewBox="0 0 200 140"><defs>'+bobbyDefs(u)+'</defs>'
+    +'<ellipse cx="106" cy="134" rx="86" ry="5.5" fill="rgba(0,0,0,.14)"/>'
+    +'<g class="atem">'+(zu?'<g transform="translate(0,12)">'+'<ellipse cx="74" cy="119" rx="13" ry="4.5" fill="#4a3120"/>'   // schlaeft: liegt, Beine eingeklappt, Pfote vorne
+      :bein(94,"#6e4a2a","b2")+bein(170,"#6e4a2a","b4")+bein(74,"#8d6038","b1")+bein(150,"#8d6038","b3"))                       // Beine hinten (dunkler) und vorne
+    +'<path d="'+BOB_LEIB+'" fill="url(#bobFell'+u+')"/>'
+    +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
+    +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
+    +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'>'+bobbyKopf(z,u)+'</g></g></svg>'; }
 let tamaFrisch=false, tamaDemo=null, tamaGruppe=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard)
 function bobbyLage(){ const t=today(), leute=[{tage:uebTage()}].concat((tamaGruppe||[]).slice(1)), N=leute.length, hat=(p,d)=>(p.tage||[]).includes(d);
   const heuteN=leute.filter(p=>hat(p,t)).length, gesternN=leute.filter(p=>hat(p,t-1)).length, aktiv=leute.some(p=>(p.tage||[]).some(d=>d<t-1));
