@@ -634,7 +634,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Rumi"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-28-4"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-28-5"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2610,30 +2610,37 @@ function bobbyKoerper(z){ const zu=z==="schlaeft", froh=z==="satt"||z==="isst", 
     +'<g class="ohrL"><ellipse cx="73" cy="47" rx="6.5" ry="7.5" fill="#7a5230" transform="rotate(-12 73 47)"/><ellipse cx="73" cy="48" rx="3.2" ry="4.2" fill="#4a3120" transform="rotate(-12 73 48)"/></g>'
     +'<g class="augen">'+auge+'</g>'+(trau?'<path class="traene" d="M45 66 q-3.2 5 0 7.5 q3.2 -2.5 0 -7.5 Z" fill="#7fd0ff" stroke="#fff" stroke-width=".8"/>':'')
     +mund+'<circle class="maul" cx="14" cy="86" r=".5" fill="none"/></g></g></g></svg>'; }
-let tamaFrisch=false, tamaDemo=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst, danach satt
-function bobbyZustand(){ if(tamaDemo) return tamaDemo; const t=today(), tage=uebTage(), h=new Date().getHours();
-  if(tage.includes(t)) return tamaFrisch?"isst":(h>=20||h<6?"schlaeft":"satt");
-  return tage.some(d=>d<t-1)&&!tage.includes(t-1)?"traurig":"hunger"; }
-function tamaAn(){ return CFG.mascot&&(CFG.tamagotchi===true||(CFG.tamagotchi==="lehrer"&&CFG.teacher)); }
-function tamaZeigen(){ if(!tamaAn()) return; const h1=document.getElementById("homeTitle"); if(!h1||!h1.parentNode) return;
+let tamaFrisch=false, tamaDemo=null, tamaGruppe=null;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard)
+function bobbyLage(){ const t=today(), leute=[{tage:uebTage()}].concat((tamaGruppe||[]).slice(1)), N=leute.length, hat=(p,d)=>(p.tage||[]).includes(d);
+  const heuteN=leute.filter(p=>hat(p,t)).length, gesternN=leute.filter(p=>hat(p,t-1)).length, aktiv=leute.some(p=>(p.tage||[]).some(d=>d<t-1));
+  return {N, heuteN, offen:N-heuteN, ich:uebTage().includes(t), bauchweh:(t+3)%7>0&&aktiv&&gesternN<N}; }   // wie der Text unter der Wochenkarte: Bauchweh nicht am Montag
+function bobbyZustand(){ if(tamaDemo) return tamaDemo; const L=bobbyLage(), h=new Date().getHours();
+  if(L.ich&&tamaFrisch) return "isst";
+  if(L.offen<=0) return h>=20||h<6?"schlaeft":"satt";   // satt erst, wenn alle gefuettert haben
+  if(L.heuteN>0) return "wartet";
+  return L.bauchweh?"traurig":"hunger"; }
+function tamaAn(){ return CFG.mascot&&CFG.tamagotchi!==false; }   // alle Apps mit Bobby (Mike 2026-10-28)
+function tamaZeigen(){ if(!tamaAn()) return; if(!tamaDemo&&!tamaGruppe&&SYNC_URL&&[].concat(CFG.partner||[]).length) return; const h1=document.getElementById("homeTitle"); if(!h1||!h1.parentNode) return;   // Gruppen-Apps: erst zeigen, wenn die Daten der anderen da sind
   if(!document.getElementById("tamaCss")){ const st=document.createElement("style"); st.id="tamaCss"; st.textContent=TAMA_CSS; document.head.appendChild(st); }
   let b=document.getElementById("tama"); if(!b){ b=document.createElement("div"); b.id="tama"; h1.parentNode.insertBefore(b,h1.nextSibling);
     b.onclick=()=>{ const bob=b.querySelector(".bob"); if(!bob) return; bob.classList.remove("huepf"); void bob.offsetWidth; bob.classList.add("huepf");
       const bl=b.querySelector(".blase"), z=bobbyZustand(); if(bl&&z!=="schlaeft") bl.textContent=["Hihi!","Das kitzelt!","Quiek!","Noch mal!"][Math.floor(Math.random()*4)]; };
     if(CFG.teacher){ const d=document.createElement("div"); d.className="tamaDemo";
-      [["","echt"],["hunger","Hunger"],["isst","isst"],["satt","satt"],["schlaeft","schläft"],["traurig","traurig"]].forEach(([z,n])=>{ const k=document.createElement("button"); k.textContent=n; k.onclick=()=>{ tamaDemo=z||null; tamaZeigen(); }; d.appendChild(k); });
+      [["","echt"],["hunger","Hunger"],["wartet","wartet"],["isst","isst"],["satt","satt"],["schlaeft","schläft"],["traurig","traurig"]].forEach(([z,n])=>{ const k=document.createElement("button"); k.textContent=n; k.onclick=()=>{ tamaDemo=z||null; tamaZeigen(); }; d.appendChild(k); });
       b.parentNode.insertBefore(d,b.nextSibling); } }
   const hm=document.getElementById("homeMascot"); if(hm) hm.style.display="none";
   const z=bobbyZustand(), E=wochenEssen(), we=((today()+3)%7)>=5, essen=(we?E.we:E.wo)[0], nacht=z==="schlaeft";
-  const BL={hunger:"Ich habe Hunger!",isst:"Mmm, lecker!",satt:"Ich bin satt!",traurig:"Gestern hatte ich Bauchweh.",schlaeft:""}[z];
-  b.className="tama "+z+(nacht?" nacht":"");
+  const ZW=["keine","eine","zwei","drei","vier","fünf"], of=Math.max(1,tamaDemo==="wartet"?2:bobbyLage().offen);
+  const BL={hunger:"Ich habe Hunger!",wartet:"Noch "+(ZW[of]||of)+(of===1?" Mahlzeit":" Mahlzeiten")+", dann bin ich satt!",isst:"Mmm, lecker!",satt:"Ich bin satt!",traurig:"Gestern hatte ich Bauchweh.",schlaeft:""}[z];
+  if(b.dataset.sig===z+BL) return; b.dataset.sig=z+BL;   // nichts neu zeichnen, wenn sich nichts geaendert hat (Daten der anderen kommen nach)
+  b.className="tama "+(z==="wartet"?"hunger wartet":z)+(nacht?" nacht":"");
   b.innerHTML='<div class="sonne"></div>'+(nacht?[[20,20],[60,40],[120,18],[160,52],[90,60]].map(([x,y])=>'<i class="stern" style="left:'+x+'px;top:'+y+'px"></i>').join(""):"")
-    +'<div class="teich"></div>'+(z==="hunger"||z==="traurig"?'<div class="teller">🍽️</div>':"")+(z==="isst"?'<div class="essen">'+essen+'</div>':"")
+    +'<div class="teich"></div>'+(z==="hunger"||z==="wartet"||z==="traurig"?'<div class="teller">🍽️</div>':"")+(z==="isst"?'<div class="essen">'+essen+'</div>':"")
     +'<div class="bob">'+bobbyKoerper(z)+'</div>'+(BL?'<div class="blase">'+BL+'</div>':"")
     +(nacht?'<span class="zz">Z</span><span class="zz b">Z</span><span class="zz c">Z</span>':"")+(z==="satt"?'<span class="herz">❤️</span><span class="herz b">❤️</span>':"");
   if(z==="isst"){ const e=b.querySelector(".essen"), m=b.querySelector(".maul"); if(e&&m){ const r1=e.getBoundingClientRect(), r2=m.getBoundingClientRect();
       e.style.setProperty("--dx",Math.round(r2.left-r1.left-r1.width/2)+"px"); e.style.setProperty("--dy",Math.round(r2.top-r1.top-r1.height/2)+"px"); } }
-  if(z==="isst") setTimeout(()=>{ tamaFrisch=false; if(tamaDemo==="isst") tamaDemo="satt"; tamaZeigen(); },4200); }
+  if(z==="isst") setTimeout(()=>{ if(!tamaFrisch&&!tamaDemo) return; tamaFrisch=false; if(tamaDemo==="isst") tamaDemo="satt"; tamaZeigen(); },4200); }
 function setMascot(id,mood,bounce){const el=document.getElementById(id); if(!el)return; el.innerHTML=mascotSvg(mood);
   if(bounce){ el.classList.remove("bounce"); void el.offsetWidth; el.classList.add("bounce"); }}
 function confetti(n){const c=document.getElementById("confetti"); if(!c)return; c.innerHTML="";
@@ -2796,7 +2803,9 @@ function renderLeaderboard(){ const panel=document.getElementById("lbPanel"); if
   if(CFG.partner){ const PART=[].concat(CFG.partner), ich={name:zeigName(S.playerName), tage:uebTage(), zeit:S.fertigZeit||{}}, ps=document.getElementById("playerScores"); if(ps) ps.innerHTML=CFG.weekView?weekHtml():"";
     const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Bobby hat Hunger!";
     const andere=PART.map(p=>({name:p.name,tage:[],zeit:{}})); list.innerHTML=wochenKarte([ich].concat(andere));
-    PART.forEach((p,k)=>{ try{ fetch(SYNC_URL+p.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ andere[k]={name:p.name,tage:(e&&e.fertig)||[],zeit:(e&&e.fertigZeit)||{}}; list.innerHTML=wochenKarte([ich].concat(andere)); }).catch(()=>{}); }catch(e){} });
+    if(!PART.length){ tamaGruppe=[ich]; tamaZeigen(); }   // allein (Elinor)
+    let da=0; PART.forEach((p,k)=>{ try{ fetch(SYNC_URL+p.pfad+".json?t="+Date.now()).then(r=>r.json()).then(e=>{ andere[k]={name:p.name,tage:(e&&e.fertig)||[],zeit:(e&&e.fertigZeit)||{}}; list.innerHTML=wochenKarte([ich].concat(andere)); }).catch(()=>{})
+      .then(()=>{ if(++da===PART.length){ tamaGruppe=[ich].concat(andere); tamaZeigen(); } }); }catch(e){} });   // Tamagotchi erst mit allen Daten, sonst kurz falsch "hungrig"
     return; }
   if(CFG.wochenZiel){ const h2=panel.querySelector&&panel.querySelector("h2"); if(h2) h2.textContent="Wochenziel"; const ps=document.getElementById("playerScores"); if(ps&&CFG.weekView) ps.innerHTML=weekHtml();   // Geschwister in einer Gruppe (Mia & Olivia)
     const leute=o=>(CFG.names||[S.playerName]).map(n=>({name:n, tage:n===S.playerName?uebTage():(((o||{})[nameKey(n)]||{}).fertig||[])}));
