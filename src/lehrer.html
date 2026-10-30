@@ -24,6 +24,8 @@
   .detail table{width:100%; border-collapse:collapse; font-size:13px;} .detail th,.detail td{text-align:left; padding:5px 6px; border-bottom:1px solid #eef0f6; vertical-align:top;}
   .detail th{color:var(--muted); font-weight:700;} .detail .num{text-align:right; white-space:nowrap;} .detail tr.nicht td{color:var(--warn);}
   .detail .words{font-size:13px; line-height:1.6;} .detail details{margin-top:6px; font-size:13px;} .detail .hint{color:var(--muted); font-size:12px; margin:4px 0 0;}
+  .chat .tag{display:flex; align-items:center; gap:8px; margin:0 0 10px; font-weight:700;} .chat .m{display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-bottom:1px solid #eef0f6; font-size:14px;}
+  .chat .m .wer{font-weight:800; min-width:64px;} .chat .m .zt{color:var(--muted); font-size:12px; min-width:40px;} .chat .m .tx{flex:1; overflow-wrap:anywhere;} .chat .m button{padding:4px 8px; font-size:12px;}
 </style></head>
 <body><main>
 <h1 id="titel">Lehrer-Übersicht</h1>
@@ -40,7 +42,7 @@ const NUR=new URLSearchParams(location.search).get("g"), GRUPPEN=NUR?META.filter
 if(NUR){ const k=document.getElementById("kyla"); if(k) k.remove(); document.getElementById("titel").textContent="Lehrer-Übersicht"+(GRUPPEN[0]?": "+GRUPPEN[0].name:"");
   document.getElementById("untertitel").textContent=GRUPPEN.length?"Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.":"Diese Gruppe gibt es nicht."; }
 const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
-const esc=s=>String(s==null?"":s).replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+const esc=s=>String(s==null?"":s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
 const KIND={b:"Bedeutung",ab:"Abkürzung",g:"Artikel",p:"Plural",w:"Wo/Wohin",d:"Dativ",a:"Akkusativ",m:"Fall gemischt",pr:"er/sie/es",po:"mein/meine",ps:"sein/ihr",pa:"ihn/sie/es",adj:"Adjektiv",pf:"Perfekt",pt:"Präteritum",vp:"Präsens",vm:"Modalverb",ns:"Nebensatz",ko:"Komparativ",t21:"Satzbau",t22:"mir/mich",t23:"reflexiv",t24:"Konjunktiv II",t25:"Relativsatz"};
 function label(id){ const p=id.split(":"), k=p[0], t=KIND[k]||k;
   if(/^t\d+$/.test(k)) return t+"-Satz";   // Satzkarten: ID ist eine Pruefsumme
@@ -101,5 +103,21 @@ async function load(){ const root=document.getElementById("root"); let html="";
     try{ if(s) await fetch(url,{method:"PUT",body:JSON.stringify({stage:s,name:b.dataset.n,until:today()+14})}); else await fetch(url,{method:"DELETE"}); load(); }
     catch(e){ alert("Speichern hat nicht geklappt."); } }); }
 load();
+// Klassen-Chat (Mike 2026-10-30): alle Tage ansehen, einzelne Nachrichten loeschen. Die Kinder sehen nur den heutigen Tag. Nicht im Kollegen-Link (?g=).
+const CHATS=[...new Set(META.map(g=>g.chat&&g.chat.pfad).filter(Boolean))];
+async function chatLaden(pfad,box,tag){ const j=async u=>{ const r=await fetch(DB+u+(u.includes("?")?"&":"?")+"t="+Date.now()); if(!r.ok) throw 0; return r.json(); };
+  let tage=[], o={};
+  try{ tage=Object.keys((await j(pfad+".json?shallow=true"))||{}).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
+    if(tag==null) tag=tage.length?tage[tage.length-1]:today(); o=(await j(pfad+"/"+tag+".json"))||{}; }catch(e){ box.innerHTML='<p class="empty">gerade offline</p>'; return; }
+  const i=tage.indexOf(tag), vor=i>0?tage[i-1]:(i<0?tage.filter(d=>d<tag).pop():null), nach=i>=0?(i<tage.length-1?tage[i+1]:null):(tage.find(d=>d>tag)??null);
+  const ms=Object.entries(o).filter(([k,m])=>m&&typeof m==="object").sort((a,b)=>(+a[1].z||0)-(+b[1].z||0));
+  box.innerHTML='<div class="tag"><button data-d="'+(vor==null?"":vor)+'"'+(vor==null?" disabled":"")+'>‹</button>'+tagTxt(tag)+(tag===today()?" (heute)":"")+' · '+ms.length+(ms.length===1?' Nachricht':' Nachrichten')+'<button data-d="'+(nach==null?"":nach)+'"'+(nach==null?" disabled":"")+'>›</button></div>'
+    +(ms.length?ms.map(([k,m])=>'<div class="m"><span class="zt">'+(m.z?uhr(+m.z):"")+'</span><span class="wer">'+esc(m.n)+'</span><span class="tx">'+esc(m.t)+'</span><button data-k="'+esc(k)+'">löschen</button></div>').join(""):'<p class="empty">An diesem Tag hat niemand geschrieben.</p>');
+  box.querySelectorAll("button[data-d]").forEach(b=>b.onclick=()=>{ if(b.dataset.d!=="") chatLaden(pfad,box,+b.dataset.d); });
+  box.querySelectorAll("button[data-k]").forEach(b=>b.onclick=async()=>{ if(!confirm("Diese Nachricht für alle löschen?")) return;
+    try{ const r=await fetch(DB+pfad+"/"+tag+"/"+encodeURIComponent(b.dataset.k)+".json",{method:"DELETE"}); if(!r.ok) throw 0; chatLaden(pfad,box,tag); }catch(e){ alert("Löschen hat nicht geklappt."); } }); }
+if(!NUR) CHATS.forEach(pfad=>{ const namen=META.filter(g=>g.chat&&g.chat.pfad===pfad).map(g=>g.chat.name).join(", ");
+  const d=document.createElement("div"); d.className="group chat"; d.innerHTML='<h2>Klassen-Chat</h2><div class="links" style="color:var(--muted)">'+esc(namen)+'</div><div class="box">lädt ...</div>';
+  const k=document.getElementById("kyla"); k.parentNode.insertBefore(d,k); chatLaden(pfad,d.querySelector(".box")); });
 </script>
 </body></html>

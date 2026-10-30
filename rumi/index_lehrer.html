@@ -365,6 +365,7 @@ const GROUP={
  "anzeige": {
   "Rumi": "Bobby R"
  },
+ "chat": {"pfad": "save/__chat_klasse", "name": "Rumi"},
  "partner": [
   {
    "pfad": "lb/bobby_k",
@@ -634,7 +635,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Rumi"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-28-8"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-10-30-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2802,6 +2803,53 @@ function tryJoin(n){ n=(n||"").trim(); if(!n) return; const key=nameKey(n);   //
       else { const inp=document.getElementById("lbNameInput"); if(inp){ inp.value=""; inp.focus(); } }
     } else lbPickName(n);
   }); }
+// Klassen-Chat (CFG.chat, Mike 2026-10-30): Kyana, Marta, Elisa, Antonio, Rumi. Frei tippen, Emojis ok. Schreiben erst nach der ersten fertigen Runde des Tages und nur bis 20 Uhr, lesen immer.
+// Pro Tag ein Zweig (CFG.chat.pfad/<today()>): die Kinder laden nur den heutigen (um Mitternacht leer), Mike sieht in lehrer/ alle Tage und kann loeschen.
+const CHAT_CSS=`#chat h2{font-size:17px;margin:0 0 8px;} .chatListe{max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:2px 0 6px;-webkit-overflow-scrolling:touch;}
+.chatM{max-width:82%;align-self:flex-start;background:#eef1f7;border-radius:14px 14px 14px 4px;padding:7px 11px;font-size:15px;line-height:1.35;overflow-wrap:anywhere;}
+.chatM.ich{align-self:flex-end;background:var(--der);color:#fff;border-radius:14px 14px 4px 14px;} .chatM b{display:block;font-size:12px;color:var(--muted);margin-bottom:1px;}
+.chatM .z{font-size:11px;opacity:.6;margin-left:6px;} .chatLeer{color:var(--muted);font-size:14px;padding:4px 0;}
+.chatFuss{margin-top:6px;} .chatFuss .hin{color:var(--muted);font-size:13px;margin:0 0 6px;} .chatZeile{display:flex;gap:6px;}
+.chatZeile input{flex:1;min-width:0;font:inherit;font-size:16px;padding:10px 12px;border:2px solid #e3e7f0;border-radius:12px;background:#fff;color:var(--ink);}
+.chatZeile button{flex:0 0 auto;font:inherit;font-size:15px;font-weight:800;border:none;border-radius:12px;padding:0 14px;background:var(--der);color:#fff;} .chatZeile button:disabled{opacity:.5;}
+.chatFehler{color:#c0392b;font-size:13px;margin-top:4px;}`;
+let chatNachr=null, chatTag=null, chatNr=0, chatLetzt=0;   // chatNachr: null = laedt, "fehlt" = nicht ladbar, sonst Liste
+function chatAn(){ return !!(CFG.chat&&CFG.chat.pfad&&CFG.chat.name&&SYNC_URL&&S.playerName); }
+function chatLage(){ return new Date().getHours()>=20?"zu":!uebTage().includes(today())?"spielen":"offen"; }
+function chatUrl(t){ return SYNC_URL+CFG.chat.pfad+"/"+t+".json"; }
+function chatZeigen(){ try{ chatMalen(); }catch(e){} }   // ein Fehler im Chat darf die Startseite nie aufhalten
+function chatMalen(){ if(!chatAn()) return; const lb=document.getElementById("lbPanel"); if(!lb||!lb.parentNode) return;
+  if(!document.getElementById("chatCss")){ const st=document.createElement("style"); st.id="chatCss"; st.textContent=CHAT_CSS; document.head.appendChild(st); }
+  let c=document.getElementById("chat"); if(!c){ c=document.createElement("div"); c.className="panel"; c.id="chat"; c.style.marginTop="12px";
+    c.innerHTML='<h2>Klassen-Chat 💬</h2><div class="chatListe" id="chatListe"></div><div class="chatFuss" id="chatFuss"></div>'; lb.parentNode.insertBefore(c,lb.nextSibling); }
+  const t=today(); if(chatTag!==t){ chatTag=t; chatNachr=null; chatHolen(); }   // neuer Tag: leerer Chat
+  const li=document.getElementById("chatListe"), unten=li.scrollHeight-li.scrollTop-li.clientHeight<30, ich=CFG.chat.name;
+  const uhr=z=>{ const d=new Date(z); return d.getHours()+":"+String(d.getMinutes()).padStart(2,"0"); };
+  const html=chatNachr===null?'<div class="chatLeer">lädt ...</div>':chatNachr==="fehlt"?'<div class="chatLeer">Der Chat lädt gerade nicht. Versuch es später noch einmal.</div>'
+    :!chatNachr.length?'<div class="chatLeer">Heute hat noch niemand geschrieben.</div>'
+    :chatNachr.map(m=>'<div class="chatM'+(m.n===ich?' ich':'')+'">'+(m.n===ich?'':'<b>'+esc(m.n)+'</b>')+esc(m.t)+(m.z?'<span class="z">'+uhr(m.z)+'</span>':'')+'</div>').join("");
+  if(li.dataset.h!==html){ li.dataset.h=html; li.innerHTML=html; if(unten||!li.dataset.da){ li.scrollTop=li.scrollHeight; li.dataset.da="1"; } }
+  const f=document.getElementById("chatFuss"), lage=chatLage(); if(f.dataset.lage===lage) return; f.dataset.lage=lage;
+  if(lage!=="offen"){ f.innerHTML='<p class="hin">'+(lage==="spielen"?"Spiel zuerst eine Runde, dann kannst du schreiben.":"Ab 20 Uhr ist der Chat zu. Bis morgen!")+'</p>'; return; }
+  f.innerHTML='<p class="hin">Wir schreiben auf Deutsch.</p><div class="chatZeile"><input id="chatEin" type="text" maxlength="200" enterkeyhint="send" autocomplete="off" placeholder="Schreib etwas ..."><button id="chatLos">Senden</button></div><div class="chatFehler" id="chatFehler"></div>';
+  document.getElementById("chatLos").onclick=chatSenden;
+  document.getElementById("chatEin").onkeydown=e=>{ if(e.key==="Enter"&&!e.isComposing&&e.keyCode!==229){ e.preventDefault(); chatSenden(); } }; }
+function chatHolen(){ if(!chatAn()) return; const nr=++chatNr, t=today();
+  try{ fetch(chatUrl(t)+"?t="+Date.now()).then(r=>{ if(!r.ok) throw 0; return r.json(); }).then(o=>{ if(nr!==chatNr||t!==chatTag) return;
+      chatNachr=Object.entries(o&&typeof o==="object"?o:{}).map(([id,m])=>m&&typeof m==="object"?{id,n:String(m.n||"").slice(0,20),t:String(m.t||"").slice(0,300),z:+m.z||0}:null).filter(m=>m&&m.t).sort((a,b)=>a.z-b.z);
+      chatZeigen(); }).catch(()=>{ if(nr===chatNr&&chatNachr===null){ chatNachr="fehlt"; chatZeigen(); } }); }catch(e){} }
+function chatSenden(){ const ein=document.getElementById("chatEin"), los=document.getElementById("chatLos"), fe=document.getElementById("chatFehler"); if(!ein||!los||los.disabled) return;
+  const txt=ein.value.trim().slice(0,200); if(!txt) return; if(chatTag!==today()) chatZeigen();   // nach Mitternacht erst den neuen Tag zeigen
+  if(chatLage()!=="offen"){ chatZeigen(); return; }   // inzwischen 20 Uhr
+  if(Date.now()-chatLetzt<3000) return; chatLetzt=Date.now();   // nicht im Sekundentakt
+  los.disabled=true; if(fe) fe.textContent="";
+  try{ fetch(chatUrl(today()),{method:"POST",body:JSON.stringify({n:CFG.chat.name,t:txt,z:Date.now()})}).then(r=>{ if(!r.ok) throw 0; if(ein.value.trim()===txt) ein.value=""; chatHolen(); })
+      .catch(()=>{ chatLetzt=0; const x=document.getElementById("chatFehler"); if(x) x.textContent="Senden hat nicht geklappt. Versuch es noch einmal."; })
+      .then(()=>{ los.disabled=false; }); }catch(e){ los.disabled=false; } }
+if(typeof setInterval==="function") setInterval(()=>{ const home=document.getElementById("home");
+  if(document.visibilityState==="visible"&&home&&home.classList.contains("on")&&document.getElementById("chat")){ const t0=chatTag; chatZeigen(); if(chatTag===t0) chatHolen(); } },10000);   // neue Nachrichten, 20 Uhr
+document.addEventListener("visibilitychange",()=>{ const home=document.getElementById("home");   // zurueck in die App: gleich aktuell (nach Mitternacht leer)
+  if(document.visibilityState==="visible"&&home&&home.classList.contains("on")&&document.getElementById("chat")){ const t0=chatTag; chatZeigen(); if(chatTag===t0) chatHolen(); } });
 // Wer Bobby mit fuettert (CFG.partner): Tage der anderen holen, Wochenkarte (list) und Tamagotchi aktualisieren. Startet mit den zuletzt geladenen Daten.
 let holeNr=0;   // nur der neueste Abruf zaehlt
 function holePartner(list){ const nr=++holeNr, PART=[].concat(CFG.partner||[]), ich={name:zeigName(S.playerName), tage:uebTage(), zeit:S.fertigZeit||{}};
@@ -3324,6 +3372,7 @@ function renderHome(){
   const tb=document.getElementById("teacherBtns");
   if(tb && !tb.children.length){ STAGES.forEach(st=>{ const b=document.createElement("button"); b.className="btn"; b.style.cssText="flex:0 0 auto; padding:8px 13px; font-size:15px; background:#eef1f7; color:var(--ink);"; b.textContent=st.id; b.title=st.name; b.onclick=()=>startStageTest(st.id); tb.appendChild(b); }); }
   renderLeaderboard();
+  chatZeigen(); if(chatAn()&&chatNachr!==null) chatHolen();   // beim Zurueck auf die Startseite neu laden
 }
 // Kyana-Gruppe liegt direkt in save/: nur ihre Spielstaende laden, nicht die Unterordner anderer Gruppen (save/__…, z. B. Kylas Tonaufnahmen)
 function holeAlleSaves(){ if(SAVE_PATH!=="save") return fetch(SYNC_URL+SAVE_PATH+".json").then(r=>r.json());

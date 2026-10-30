@@ -105,7 +105,7 @@ for g in GROUPS:
     open(os.path.join(out, "version.json"), "w").write('{"build":"%s"}\n' % build)
     stages = [[int(i), n] for i, n in re.findall(r'\{id:(\d+),name:"([^"]+)"', gjs)]
     meta.append({"id": g, "name": cfg["name"], "folder": cfg["folder"], "lbPath": cfg["lbPath"], "savePath": cfg["savePath"],
-                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1], "weg": weg_fuer(cfg["folder"])})
+                 "focusOpts": cfg.get("focusOpts") or [x for x in stages if x[0] > 1], "weg": weg_fuer(cfg["folder"]), "chat": cfg.get("chat")})
     print("%-12s -> %s/ (Build %s)" % (g, cfg["folder"], build))
 # gemeinsame Lehrer-Uebersicht fuer alle Gruppen
 os.makedirs(os.path.join(REPO, "lehrer"), exist_ok=True)

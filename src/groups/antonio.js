@@ -110,6 +110,7 @@ const GROUP={
  "anzeige": {
   "Antonio": "Bobby A"
  },
+ "chat": {"pfad": "save/__chat_klasse", "name": "Antonio"},
  "partner": [
   {
    "pfad": "lb/bobby_k",
