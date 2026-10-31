@@ -28,14 +28,14 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
+  60,
   40,
-  30,
-  30
+  45
  ],
  "roundFull": [
+  60,
   40,
-  30,
-  30
+  45
  ],
  "roundStartDays": 7,
  "adjDatPrep": "von",
