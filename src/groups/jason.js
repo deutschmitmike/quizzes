@@ -436,6 +436,26 @@ const GROUP={
    "Maßangabe",
    "Maßzahl",
    "Bemaßung"
+  ],
+  [
+   "Baeyer-Spannung",
+   "Winkelspannung"
+  ],
+  [
+   "Pitzer-Spannung",
+   "Torsionsspannung"
+  ],
+  [
+   "London-Kraft",
+   "Van-der-Waals-Kraft"
+  ],
+  [
+   "Pitzer-Spannung",
+   "Konformationsspannung"
+  ],
+  [
+   "Baeyer-Spannung",
+   "Ringspannung"
   ]
  ],
  "fachPfad": "~/Unterricht/schueler/jason/app/jason_fach.txt"
