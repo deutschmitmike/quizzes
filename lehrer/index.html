@@ -39,7 +39,7 @@ const META=[{"id": "antonio", "name": "Antonio", "folder": "antonio", "lbPath": 
 const DB="https://ddd-spiel-default-rtdb.europe-west1.firebasedatabase.app/";
 // ?g=<gruppe>: nur diese Gruppe zeigen (Link fuer Kollegen, z. B. Julian: lehrer/?g=elinor; Mike 2026-10-26); ohne Schueler-Link, damit niemand als das Kind in die echte Datenbank uebt
 const NUR=new URLSearchParams(location.search).get("g"), NURL=NUR?NUR.split(",").map(s=>s.trim()).filter(Boolean):[], GRUPPEN=NUR?META.filter(g=>NURL.includes(g.id)||NURL.includes(g.folder)):META;   // ?g=elinor,jason: mehrere Gruppen (Julians Schueler, Mike 2026-10-31)
-if(NUR){ const k=document.getElementById("kyla"); if(k) k.remove(); document.getElementById("titel").textContent="Lehrer-Übersicht"+(GRUPPEN[0]?": "+GRUPPEN[0].name:"");
+if(NUR){ const k=document.getElementById("kyla"); if(k) k.remove(); document.getElementById("titel").textContent="Lehrer-Übersicht"+(GRUPPEN.length?": "+GRUPPEN.map(g=>g.name).join(", "):"");
   document.getElementById("untertitel").textContent=GRUPPEN.length?"Daten aus der Online-Sicherung, Stand beim Öffnen der Seite.":"Diese Gruppe gibt es nicht."; }
 const today=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/86400000);
 const esc=s=>String(s==null?"":s).replace(/[<>&"]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c]));
