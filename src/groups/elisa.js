@@ -34,11 +34,12 @@ const GROUP={
   15
  ],
  "roundFull": [
-  20,
+  25,
   15,
-  15
+  20
  ],
  "roundStartDays": 0,
+ "roundFullAb": "2026-11-07",
  "adjDatPrep": "mit",
  "cardWord": "Wörter",
  "focusOpts": null,
