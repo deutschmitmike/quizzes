@@ -9,7 +9,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `marta/`: App für **Marta** (Kyanas Klassenkameradin). Erzeugt.
 - `der-die-das/`: App für **Kyana** (Mikes Tochter, Kind, spielt als „Bobby K“). Erzeugt, nicht von Hand ändern.
 - `mia-olivia/`: App für **Mia (12) und Olivia (15)**. Erzeugt, nicht von Hand ändern.
-- `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt je Gruppe setzen). Erzeugt. `lehrer/?g=<gruppe>` zeigt nur diese Gruppe, ohne Schüler-Link, dafür mit Detailansicht je Kind (Übungstagebuch der letzten 4 Wochen mit Uhrzeit, Karten, Trefferquote und falschen Wörtern; Themen gesehen/sicher/wackelig; Wortlisten). Für Kollegen; Julian bekommt `lehrer/?g=elinor` (Mike 2026-10-26).
+- `lehrer/`: Lehrer-Übersicht aller Schüler (Schwerpunkt wird nur angezeigt). Erzeugt. `lehrer/?g=<gruppe>` zeigt nur diese Gruppe, ohne Schüler-Link, dafür mit Detailansicht je Kind (Übungstagebuch der letzten 4 Wochen mit Uhrzeit, Karten, Trefferquote und falschen Wörtern; Themen gesehen/sicher/wackelig; Wortlisten). Für Kollegen; Julian bekommt `lehrer/?g=elinor` (Mike 2026-10-26).
 - `src/`: **Quelle der gemeinsamen App** (ein Kern, ein Steckbrief pro Gruppe), siehe `src/LIESMICH.md`.
 - `index.html` + `finden-gefallen/`: älterer Präpositions-Drill (React), **nicht** Teil der gemeinsamen App.
 - `jason/`: App für **Jason** (Student Chemische Technik, HM München, schwaches B2, liest Chinesisch). Fachwortschatz aus seinen Vorlesungsfolien, **Seite mit Passwort verschlüsselt** (StatiCrypt). Erzeugt. Siehe Abschnitt „jason/“ unten.
@@ -65,6 +65,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - FSRS ist getestet (`src/experimente/`). Mit Standardwerten ist es 1 bis 6 % schlechter, sinnvoll erst mit echten Daten und trainierten Parametern.
 - Noch nicht fällige Karten (Extrarunden, Auffüllen) zählen nicht als Wiederholung (nur Stern). Abgebrochene Runden werden in allen Gruppen fortgesetzt (mit Fehlern und Zähler); falsch getippte Antworten warten auf „Weiter“.
 - Cloud: ein Stand mit weniger Karten ersetzt nie einen mit mehr; „Alles zurücksetzen“ setzt `resetAt`, das gilt dann auf allen Geräten.
+- **Schwerpunkte setzt nur Mike über Claude Code** (Mike 2026-10-31): Lehrer-Übersicht und Lehrerversionen zeigen ihn nur an, keine Knöpfe mehr (Julian hatte bei Elinor versehentlich einen gesetzt). Setzen: `PUT` nach `<lbPath>/_focus.json` mit `{stage, name, until: today()+14}` (Tag als Zahl seit 1970, Themennummern aus `focusOpts`/`STAGES`), entfernen: `DELETE`. Nur auf Mikes ausdrückliche Bitte.
 - Lehrer-Schwerpunkt (Mike 2026-10-11): jede Runde mindestens 4 Karten des Themas (`FOCUS_MIN`), auch bei Rückstau; erst neue Karten des Themas, ist es durch, bald fällige; dafür fallen die am wenigsten dringenden anderen Karten weg. Vorher steuerte er nur die neuen Karten und wirkte bei Kyana (1 bis 3 neue pro Runde) kaum.
 - `node src/tests/sim_effekt.js <seite>` misst die Effektivität mit einem Lerner, der vergisst. Der größte Hebel ist die Übungszeit (Rundengröße).
 
