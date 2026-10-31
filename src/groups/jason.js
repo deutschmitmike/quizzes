@@ -458,7 +458,10 @@ const GROUP={
    "Ringspannung"
   ]
  ],
- "fachPfad": "~/Unterricht/schueler/jason/app/jason_fach.txt"
+ "fachPfad": "~/Unterricht/schueler/jason/app/jason_fach.txt",
+ "wochenZiel": 7,
+ "uiZh": true,
+ "fachAudio": "audio/"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
 // jeder Rahmen hat einen Nomen-Pool, das Wort wechselt -> Regel statt Satz auswendig

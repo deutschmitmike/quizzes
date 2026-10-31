@@ -616,7 +616,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Marta"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-31-4"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-10-31-5"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2284,11 +2284,11 @@ function fachNah(a,b){ const A=a.w.toLowerCase(), B=b.w.toLowerCase(), za=zhKern
   if(a.alt.some(s=>altW(s)===B)||b.alt.some(s=>altW(s)===A)) return true;
   return (CFG.fachNichtZusammen||[]).some(p=>p.includes(a.w)&&p.includes(b.w)); }
 function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&&!fachNah(x,y), gleich=FACH.filter(y=>ok(y)&&y.th===x.th), pool=gleich.length?gleich:FACH.filter(ok), o=rnd(pool.length?pool:FACH.filter(y=>!y.abk&&y.w!==x.w));
-  return {prompt:'<div class="hint">Wie heißt das auf Deutsch?</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word" lang="zh-Hant">'+esc(x.zh)+'</div>',
+  return {prompt:'<div class="hint">Wie heißt das auf Deutsch?'+(CFG.uiZh?'<br><small>德文怎麼說？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word" lang="zh-Hant">'+esc(x.zh)+'</div>',
     options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art))+" "+x.w, o.art+" "+o.w]), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
-    explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"}; }
+    explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"+(CFG.uiZh?"（加冠詞）":"")}; }
 function abkCard(it){ const x=it.x, andere=shuffle(FACH.filter(y=>y.abk&&y.lang!==x.lang)).slice(0,2).map(y=>y.lang);
-  return {prompt:'<div class="hint">Wofür steht die Abkürzung?</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word">'+esc(x.kurz)+'</div>',
+  return {prompt:'<div class="hint">Wofür steht die Abkürzung?'+(CFG.uiZh?'<br><small>這個縮寫代表什麼？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word">'+esc(x.kurz)+'</div>',
     options:shuffle([x.lang].concat(andere)), correct:x.lang, scaffold:"", explain:x.kurz+" = "+x.lang+" ("+x.zh+")"+(x.alt.length?". Auch richtig: "+x.alt.join(", "):"")+".", speak:x.lang, typed:x.nur?undefined:[x.lang].concat(x.alt), typedHint:"ohne Artikel, Anfang: "+x.lang.charAt(0)+"…"}; }
 function buildItems(){if(FACH.length) return fachItems();
   const items=[];
@@ -2321,12 +2321,12 @@ function cardData(it){
   if(CFG.teenPron && /^(pron|poss|poss3|pakk)$/.test(it.kind)) return pronCard(it);   // Stufe 7-10: Alltagsnomen, wechselnde Saetze
   if(/^(pres|modal|nsatz|komp|order|cloze)$/.test(it.kind)) return topicCard(it);   // Stufe 17-20
   if(it.kind==="genus"){
-    return {prompt:'<div class="hint">Welcher Artikel?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+it.word+spk(it.word)+'</div>',
+    return {prompt:'<div class="hint">Welcher Artikel?'+(CFG.uiZh?'<br><small>哪一個冠詞？</small>':'')+'</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+it.word+spk(it.word)+'</div>',
       options:shuffle(["der","die","das"]), correct:G[it.word], auch:G2[it.word]?[G2[it.word]]:null, scaffold:genusHint(it.word),
       explain:genusHint(it.word)||("Merk dir: "+G[it.word]+" "+it.word+"."), speak:G[it.word]+" "+it.word};
   }
   if(it.kind==="plural"){
-    return {prompt:'<div class="hint">Wie heißt die Mehrzahl?</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+G[it.word]+" "+it.word+spk(G[it.word]+" "+it.word)+'</div>',
+    return {prompt:'<div class="hint">Wie heißt die Mehrzahl?'+(CFG.uiZh?'<br><small>複數是什麼？</small>':'')+'</div>'+(IMGS[it.word]?'<img class="wordimg" src="'+IMGS[it.word]+'" alt="" loading="lazy">':'')+'<div class="word">'+G[it.word]+" "+it.word+spk(G[it.word]+" "+it.word)+'</div>',
       options:plOpts(it.word), correct:"die "+P[it.word], scaffold:umlautTip(it.word,P[it.word]),
       explain:"Die Mehrzahl ist „die "+P[it.word]+"“."+(PL2[it.word]?" Auch richtig: die "+PL2[it.word].join(", die ")+".":""), speak:"die "+P[it.word], typed:FACH_NUR.has(it.word)?undefined:["die "+P[it.word],P[it.word]].concat((PL2[it.word]||[]).flatMap(x=>["die "+x,x])).concat((FACH_PL2[it.word]||[]).flatMap(x=>[x,x.replace(/^die /,"")])), typedHint:"z. B. die Bälle"};
   }
@@ -2662,7 +2662,7 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
   const zus=leute.reduce((s,p)=>s+dieseWoche(p.tage).length,0), ziel=CFG.wochenZiel||10, rest=Math.max(0,ziel-zus);
   if(sachlich){ const pct=Math.min(100,Math.round(100*zus/ziel));   // Mia & Olivia: ohne Maskottchen, ganz normal
     return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">Übungstage diese Woche</div>'+kopf+leute.map(zeile).join("")+
-      '<div style="font-size:15px;margin:14px 0 6px;">Gemeinsam <b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
+      '<div style="font-size:15px;margin:14px 0 6px;">'+(leute.length>1?'Gemeinsam ':'')+'<b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
       '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
   // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
   const E=wochenEssen(), we=heute>=5, hat=(p,d)=>(p.tage||[]).includes(d), N0=leute.length;
@@ -2892,7 +2892,10 @@ function checkUnlock(){let ch=null; for(let i=0;i<STAGES.length-1;i++){ const s=
 // ================= Sprachausgabe =================
 let deVoice=null;
 function loadVoices(){ try{ if(!window.speechSynthesis) return; const vs=speechSynthesis.getVoices(); deVoice=vs.find(v=>/de[-_]/i.test(v.lang))||deVoice; }catch(e){} }
-function say(text){ if(!CFG.sound||S.mute||!text) return;   /* Ton aus (Mike 2026-09-26): Schalter sound im Steckbrief */ try{ if(!window.speechSynthesis) return;
+function fnv(s){ let h=0x811c9dc5; for(const b of new TextEncoder().encode(s)){ h^=b; h=Math.imul(h,0x01000193)>>>0; } return h.toString(16).padStart(8,"0"); }   // Dateiname der Audiodatei (gleich wie audio_erzeugen.py)
+let fachTon=null;
+function say(text){ if(CFG.fachAudio&&text&&!S.mute){ try{ if(fachTon) fachTon.pause(); fachTon=new Audio(CFG.fachAudio+fnv(text)+".mp3"); fachTon.play().catch(()=>{}); }catch(e){} return; }   // Jason: Aussprache aus ElevenLabs-Dateien (Mike 2026-10-31), sonst wie bisher
+  if(!CFG.sound||S.mute||!text) return;   /* Ton aus (Mike 2026-09-26): Schalter sound im Steckbrief */ try{ if(!window.speechSynthesis) return;
   const u=new SpeechSynthesisUtterance(text); u.lang="de-DE"; u.rate=0.9; if(deVoice)u.voice=deVoice;
   speechSynthesis.cancel(); speechSynthesis.speak(u);}catch(e){} }
 loadVoices(); try{ if(window.speechSynthesis) speechSynthesis.onvoiceschanged=loadVoices; }catch(e){}

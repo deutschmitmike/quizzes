@@ -251,4 +251,29 @@
 %%SCRIPT%%</script>
 
 
+<style>.zhui{display:block;font-size:.72em;font-weight:600;opacity:.75;margin-top:2px;}</style>
+<script>
+/* Jason: Bedienung zweisprachig, Deutsch oben, Chinesisch klein darunter (Mike 2026-10-31). Antwortknoepfe (.opt) und Eingaben bleiben unveraendert. */
+(function(){
+  var EX={"Hallo!":"你好！","Wer bist du?":"你是誰？","Los geht's":"開始","Übungstage":"練習天數","Heute starten und den ersten Übungstag holen.":"今天開始，完成第一個練習日。",
+    "Sterne":"星星","Heute üben":"今天練習","Wochenziel":"每週目標","‹ zurück":"返回","heute":"今天","Runde geschafft!":"這一回合完成了！","Tage in Folge":"連續天數","Zurück":"返回",
+    "Prüfen":"檢查","Weiter ›":"繼續","Fast!":"差一點！","Runde fortsetzen":"繼續這一回合","Übungstage diese Woche":"本週練習天數","Perfekte Runde! Alles auf Anhieb richtig.":"完美！全部一次答對。",
+    "Ein Wort ist sicher, wenn es nach mindestens 4 Tagen Pause noch richtig ist.":"一個字隔四天以上仍答對，就算熟練。","Für Eltern und Lehrer":"給老師","Fortschritt":"學習進度",
+    "Schwere Wörter (auf diesem Gerät)":"難字（這台裝置）","Fortschritt sichern":"備份進度","Neu anfangen":"重新開始","Alles zurücksetzen":"全部重設","Als Datei sichern":"存成檔案",
+    "Verstanden, los!":"了解，開始！","Wörter aus der Vorlesung":"課堂單字","sicher":"熟練","Stufe testen":"測試單元",
+    "Tipp: in Safari über Teilen „Zum Home-Bildschirm\", dann öffnet es wie eine App und merkt sich den Fortschritt.":"小提示：在瀏覽器點「分享」，選「加入主畫面」，就能像應用程式一樣打開。"};
+  var RX=[[/^Noch (\d+) Wörter? bis zum nächsten Stern$/,"還差 $1 個字拿到下一顆星"],[/^Hallo (.+)!$/,"你好，$1！"],[/^Du hast diese Woche (\d+) Tage? geübt\.$/,"你這週練習了 $1 天。"],
+    [/^Noch (\d+) Tage? bis zum Wochenziel\. Die Woche beginnt am Montag neu\.$/,"離每週目標還差 $1 天，每週一重新計算。"],[/^Wochenziel erreicht\. Gut gemacht! Die Woche beginnt am Montag neu\.$/,"達成每週目標了，做得好！每週一重新計算。"],
+    [/^(\d+) von (\d+) Übungstagen$/,"$2 天中練習了 $1 天"],[/^Fast! Tippe auf die richtige Lösung:\s*$/,"差一點！請點正確答案："],[/^Diese Woche: ([+-]?\d+) sichere Wörter(.*)$/,"本週熟練字數 $1"],[/^Neue Wörter aus der Vorlesung „(.+)“\. Tippe Nomen immer mit Artikel: der Stoff\.$/,"這堂課的新單字。名詞一律連同冠詞輸入，例如 der Stoff。"],[/^Neu: (.+)$/,"新單元"],[/^Noch (\d+) Wörter, dann sind (\d+) sicher$/,"再練 $1 個字，就有 $2 個字熟練"]];
+  function zh(s){ var t=s.trim(); if(!t) return null; if(EX[t]) return EX[t]; for(var i=0;i<RX.length;i++){ if(RX[i][0].test(t)) return t.replace(RX[i][0],RX[i][1]); } return null; }
+  function walk(n){ if(n.nodeType===3){ var p=n.parentNode; if(!p||p.classList&&p.classList.contains("zhui")) return; if(p.closest&&p.closest(".opt,input,textarea,.zhui,script,style")) return;
+      if(p.nextSibling&&p.nextSibling.classList&&p.nextSibling.classList.contains("zhui")) return; var z=zh(n.nodeValue); if(!z) return;
+      var s=document.createElement("span"); s.className="zhui"; s.lang="zh-Hant"; s.textContent=z; if(n.nextSibling) p.insertBefore(s,n.nextSibling); else p.appendChild(s); return; }
+    if(n.nodeType===1&&!n.classList.contains("zhui")) for(var c=n.firstChild;c;c=c.nextSibling) walk(c); }
+  function run(){ walk(document.body); }
+  new MutationObserver(function(ms){ ms.forEach(function(m){ m.addedNodes.forEach(walk); if(m.type==="characterData") walk(m.target); }); }).observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+  if(document.readyState!=="loading") run(); else document.addEventListener("DOMContentLoaded",run);
+})();
+</script>
+
 </body></html>
