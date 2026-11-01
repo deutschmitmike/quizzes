@@ -107,6 +107,7 @@ const GROUP={
   "ps:Sonne"
  ],
  "chat": {"pfad": "save/__chat_klasse", "name": "Marta"},
+ "wahl": {"pfad": "save/__chat_klasse_wahl", "name": "Marta"},
  "partner": [
   {
    "pfad": "lb/bobby_k",

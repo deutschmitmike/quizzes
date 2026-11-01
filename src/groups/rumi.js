@@ -113,6 +113,7 @@ const GROUP={
   "Rumi": "Bobby R"
  },
  "chat": {"pfad": "save/__chat_klasse", "name": "Rumi"},
+ "wahl": {"pfad": "save/__chat_klasse_wahl", "name": "Rumi"},
  "partner": [
   {
    "pfad": "lb/bobby_k",

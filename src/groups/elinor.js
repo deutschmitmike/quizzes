@@ -83,6 +83,7 @@ const GROUP={
  "bildZuerst": true,
  "vorneOhneBild": ["Mama","Papa","Vater","Mutter","Bruder","Schwester","Oma","Opa","Tante","Onkel","Freund","Freundin","Tag","Nacht","Morgen","Abend","Woche","Jahr","Monat","Montag","Freitag","Samstag","Sonntag","Sommer","Winter","Wetter","Wind","Name","Spiel","Lied","Musik","Film","Klasse","Pause","Aufgabe","Frage","Antwort","Wort","Geschichte","Zahl","Farbe","Tier","Monster","Laptop","Kopfhörer"],
  "autoWeiter": false,
+ "wahl": {"pfad": "save/__wahl_elinor", "name": "Elinor"},
  "partner": []
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ

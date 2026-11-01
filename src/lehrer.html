@@ -112,6 +112,17 @@ async function chatLaden(pfad,box,tag){ const j=async u=>{ const r=await fetch(D
   box.querySelectorAll("button[data-d]").forEach(b=>b.onclick=()=>{ if(b.dataset.d!=="") chatLaden(pfad,box,+b.dataset.d); });
   box.querySelectorAll("button[data-k]").forEach(b=>b.onclick=async()=>{ if(!confirm("Diese Nachricht für alle löschen?")) return;
     try{ const r=await fetch(DB+pfad+"/"+tag+"/"+encodeURIComponent(b.dataset.k)+".json",{method:"DELETE"}); if(!r.ok) throw 0; chatLaden(pfad,box,tag); }catch(e){ alert("Löschen hat nicht geklappt."); } }); }
+// Abstimmung „Was bekommt Bobby naechste Woche?“ (Mike 2026-11-01): Stimmen dieser Woche je Ding und Kind (nur Anzeige)
+const WAHLEN=[...new Set(META.map(g=>g.wahl&&g.wahl.pfad).filter(Boolean))];
+async function wahlLaden(pfad,box){ const t=today(), W=t-((t+3)%7);
+  try{ const r=await fetch(DB+pfad+"/"+W+".json?t="+Date.now()); if(!r.ok) throw 0; const o=(await r.json())||{}, n={};
+    Object.entries(o).forEach(([wer,p])=>{ if(p&&typeof p==="object") Object.values(p).slice(0,7).forEach(id=>{ if(typeof id!=="string") return; const k=id; (n[k]=n[k]||{})[wer]=((n[k]||{})[wer]||0)+1; }); });
+    const zeilen=Object.entries(n).map(([id,w])=>[id,Object.values(w).reduce((a,b)=>a+b,0),w]).sort((a,b)=>b[1]-a[1]);
+    box.innerHTML=zeilen.length?zeilen.map(([id,s,w])=>'<div class="m"><span class="wer">'+esc(id)+'</span><span class="tx">'+s+(s===1?' Stimme':' Stimmen')+' ('+Object.entries(w).map(([k,v])=>esc(k)+' '+v).join(", ")+')</span></div>').join(""):'<p class="empty">Diese Woche hat noch niemand abgestimmt.</p>'; }
+  catch(e){ box.innerHTML='<p class="empty">gerade offline</p>'; } }
+if(!NUR) WAHLEN.forEach(pfad=>{ const namen=META.filter(g=>g.wahl&&g.wahl.pfad===pfad).map(g=>g.wahl.name).join(", ");
+  const d=document.createElement("div"); d.className="group chat"; d.innerHTML='<h2>Bobbys Abstimmung (für nächste Woche)</h2><div class="links" style="color:var(--muted)">'+esc(namen)+'</div><div class="box">lädt ...</div>';
+  const k=document.getElementById("kyla"); k.parentNode.insertBefore(d,k); wahlLaden(pfad,d.querySelector(".box")); });
 if(!NUR) CHATS.forEach(pfad=>{ const namen=META.filter(g=>g.chat&&g.chat.pfad===pfad).map(g=>g.chat.name).join(", ");
   const d=document.createElement("div"); d.className="group chat"; d.innerHTML='<h2>Klassen-Chat</h2><div class="links" style="color:var(--muted)">'+esc(namen)+'</div><div class="box">lädt ...</div>';
   const k=document.getElementById("kyla"); k.parentNode.insertBefore(d,k); chatLaden(pfad,d.querySelector(".box")); });
