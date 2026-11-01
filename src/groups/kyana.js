@@ -29,12 +29,12 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
-  35,
+  40,
   25,
   20
  ],
  "roundFull": [
-  35,
+  40,
   25,
   20
  ],

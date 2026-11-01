@@ -1,6 +1,7 @@
 // ===== Steckbrief: Jason (angelegt mit neue_gruppe.py, Vorlage mia-olivia; Fachwortschatz aus ~/Unterricht/schueler/jason/app/jason_fach.txt (privat, nie in dieses Repo), Seite mit Passwort, Mike 2026-10-25) =====
 // Einstellungen (CFG) und Inhalte dieser Gruppe. Der Kern liegt in src/engine.js.
 const GROUP={
+ "antworten4": true,
  "name": "Jason",
  "folder": "jason",
  "key": "jason_v1",

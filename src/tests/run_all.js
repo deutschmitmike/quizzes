@@ -33,6 +33,7 @@ for (const rel of process.argv.slice(2)) {
     const txt = [d.prompt, d.explain, (d.options || []).join("|"), d.correct].join(" ");
     if (!d.options || !d.options.includes(d.correct)) fail(name, it.id + ": richtige Loesung fehlt in den Optionen");
     if (d.options && new Set(d.options).size !== d.options.length) fail(name, it.id + ": doppelte Optionen " + d.options.join("/"));
+    if (X.CFG.antworten4 && /^(bed|abk|plural)$/.test(it.kind) && d.options && d.options.length !== 4) warn(name, it.id + ": " + d.options.length + " statt 4 Antworten");   // Jason (Mike 2026-11-01)
     if (/undefined|NaN|\[object/.test(txt)) fail(name, it.id + ": kaputter Text: " + txt.slice(0, 120));
     if (EMO.test(txt)) fail(name, it.id + ": Emoji auf der Karte");
     if (d.fills) { const nb = (d.prompt.match(/class="blank"/g) || []).length; if (d.fills.length !== nb) fail(name, it.id + ": Luecken " + nb + " / Fuellungen " + d.fills.length); }

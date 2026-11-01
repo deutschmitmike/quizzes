@@ -627,7 +627,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Rumi"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-01-2"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-01-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2264,7 +2264,7 @@ function plOpts(w){const pl=P[w]; const cand=[];
   if(deUml(pl)!==pl) cand.push(deUml(pl));            // Umlaut-Falle zuerst (Bälle vs Balle)
   [w, w+"e", w+"en", w+"er", w+"s"].forEach(x=>cand.push(x));
   const c=[...new Set(cand.filter(x=>x!==pl&&!(PL2[w]||[]).includes(x)))];
-  return shuffle([pl,c[0],c[1]].filter(Boolean)).map(x=>"die "+x);}
+  return shuffle([pl].concat(c.slice(0,CFG.antworten4?3:2)).filter(Boolean)).map(x=>"die "+x);}   // antworten4 (Jason, Mike 2026-11-01): 4 statt 3 Antworten
 const G2={Bonbon:"der",Laptop:"das",Lasso:"der",Poster:"der",Sandwich:"der",Schnipsel:"das",Puzzle:"der",Baguette:"die",Navi:"der",Tablet:"der",Display:"der",Filter:"das",Dschungel:"das",Paprika:"der",Fremde:"die",Juwel:"der"};   // Duden: zweiter Artikel auch richtig
 function genusHint(w){const g=G[w];
   if(G2[w]) return "Beides geht: "+g+" oder "+G2[w]+" "+w+".";
@@ -2296,9 +2296,9 @@ function fachNah(a,b){ const A=a.w.toLowerCase(), B=b.w.toLowerCase(), za=zhKern
   return (CFG.fachNichtZusammen||[]).some(p=>p.includes(a.w)&&p.includes(b.w)); }
 function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&&!fachNah(x,y), gleich=FACH.filter(y=>ok(y)&&y.th===x.th), pool=gleich.length?gleich:FACH.filter(ok), o=rnd(pool.length?pool:FACH.filter(y=>!y.abk&&y.w!==x.w));
   return {prompt:'<div class="hint">Wie heißt das auf Deutsch?'+(CFG.uiZh?'<br><small>德文怎麼說？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word" lang="zh-Hant">'+esc(x.zh)+'</div>',
-    options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art))+" "+x.w, o.art+" "+o.w]), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
+    options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art))+" "+x.w, o.art+" "+o.w].concat(CFG.antworten4?(()=>{ const p2=pool.filter(y=>y.w!==o.w&&!fachNah(o,y)), q=p2.length?rnd(p2):null; return q?[q.art+" "+q.w]:[]; })():[])), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
     explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"+(CFG.uiZh?"（加冠詞）":"")}; }
-function abkCard(it){ const x=it.x, andere=shuffle(FACH.filter(y=>y.abk&&y.lang!==x.lang)).slice(0,2).map(y=>y.lang);
+function abkCard(it){ const x=it.x, andere=shuffle(FACH.filter(y=>y.abk&&y.lang!==x.lang)).slice(0,CFG.antworten4?3:2).map(y=>y.lang);
   return {prompt:'<div class="hint">Wofür steht die Abkürzung?'+(CFG.uiZh?'<br><small>這個縮寫代表什麼？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word">'+esc(x.kurz)+'</div>',
     options:shuffle([x.lang].concat(andere)), correct:x.lang, scaffold:"", explain:x.kurz+" = "+x.lang+" ("+x.zh+")"+(x.alt.length?". Auch richtig: "+x.alt.join(", "):"")+".", speak:x.lang, typed:x.nur?undefined:[x.lang].concat(x.alt), typedHint:"ohne Artikel, Anfang: "+x.lang.charAt(0)+"…"}; }
 function buildItems(){if(FACH.length) return fachItems();
