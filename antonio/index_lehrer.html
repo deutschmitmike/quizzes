@@ -637,7 +637,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Antonio"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-01-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-01-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2484,7 +2484,7 @@ const RUNDE_START=CFG.roundStart, RUNDE_VOLL=CFG.roundFull, RUNDE_START_TAGE=CFG
 function startPhase(){ if(!CFG.startNur||CFG.teacher) return null;   // startNur/startTage im Steckbrief: die ersten startTage Tage ab dem ersten Uebungstag nur diese Stufen, danach alles gemischt
   const b=Object.values(S.cards).map(c=>c.born).filter(x=>x!=null); return !b.length||today()-Math.min(...b)<(CFG.startTage||7) ? CFG.startNur : null; }
 function rundeSetzen(){ const ab=CFG.roundFullAb?Math.floor(Date.UTC(+CFG.roundFullAb.slice(0,4),+CFG.roundFullAb.slice(5,7)-1,+CFG.roundFullAb.slice(8,10))/86400000):null;   // roundFullAb: ab diesem Datum volle Runde (sonst nach Uebungstagen)
-  const r=(ab!=null ? today()>=ab : ((S&&S.streak)||0)>=RUNDE_START_TAGE) ? RUNDE_VOLL : RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2];
+  const voll=ab!=null ? today()>=ab : ((S&&S.streak)||0)>=RUNDE_START_TAGE, pn=CFG.rundeProName&&S&&CFG.rundeProName[S.playerName], r=voll?(pn||RUNDE_VOLL):RUNDE_START; MAX_SESSION=r[0]; NEW_PER_DAY=NEW_PER_SESSION=r[1]; TARGET_SESSION=r[2];   // rundeProName: volle Runde fuer einzelne Kinder anders (Olivia 35, Mike 2026-11-01)
   if(!((S&&S.streak)||0)) NEW_PER_DAY=NEW_PER_SESSION=MAX_SESSION; }   // allererster Uebungstag: noch nichts zu wiederholen -> volle Runde aus neuen Karten
 const DEFAULTS={streak:0,best:0,lastDay:null,points:0,unlocked:1,mute:false,freeze:0,crittersSeen:1};
 function fresh(){return Object.assign({cards:{},seenIntro:{},medals:[],wordMedals:[],stats:{attempts:0,firstRight:0},playerName:"",playerId:Math.random().toString(36).slice(2,9)},DEFAULTS);}

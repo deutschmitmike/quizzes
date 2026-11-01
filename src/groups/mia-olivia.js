@@ -197,6 +197,7 @@ const GROUP={
   "Mia": "Olivia",
   "Olivia": "Mia"
  },
+ "rundeProName": {"Olivia": [35, 25, 20]},
  "roundFullAb": "2026-10-11"
 };
 // Stufe 3: Wechselpräpositionen (in/auf/an) - Wo? = Dativ, Wohin? = Akkusativ
