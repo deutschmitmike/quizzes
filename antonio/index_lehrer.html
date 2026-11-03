@@ -637,7 +637,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Antonio"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-01-3"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-03-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2509,7 +2509,7 @@ function mascotSvg(mood){   // kleiner Bobby (Begruessung, beim Ueben, Ende): Ko
 }
 // ===== Bobby als Tamagotchi (Mike 2026-10-28): ganzer Koerper in einer kleinen Szene, Stimmung aus den Uebungstagen aller, die ihn fuettern.
 // In allen Apps mit CFG.mascot, abschalten mit CFG.tamagotchi=false. Bobby stirbt nie und wird nie krank, hoechstens hungrig oder traurig.
-const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius:20px;overflow:hidden;margin:4px 0 12px;background:linear-gradient(#bfe6ff 0 58%,#8fd17a 58% 100%);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
+const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius:20px;overflow:hidden;-webkit-mask-image:-webkit-radial-gradient(white,black);margin:4px 0 12px;background:linear-gradient(#bfe6ff 0 58%,#8fd17a 58% 100%);cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
 .tama.nacht{background:linear-gradient(#1d2a55 0 58%,#2f6b45 58% 100%);}
 .tama .sonne{position:absolute;right:22px;top:16px;width:34px;height:34px;border-radius:50%;background:#ffd34d;box-shadow:0 0 18px #ffe58a;}
 .tama.nacht .sonne{background:#f4f1d0;box-shadow:0 0 14px #f4f1d0;}
@@ -2524,6 +2524,17 @@ const TAMA_CSS=`.tama{position:relative;height:200px;flex-shrink:0;border-radius
 .tama .zz.b{animation-delay:1s;font-size:14px;} .tama .zz.c{animation-delay:2s;font-size:11px;}
 .tama .herz{position:absolute;left:calc(50% - 30px);top:60px;font-size:18px;animation:tamaHerz 2.6s infinite;} .tama .herz.b{left:calc(50% - 70px);animation-delay:1.3s;}
 .tama .stern{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;}
+.tama.zeit-morgen{background:linear-gradient(#a9d4f5 0,#ffd2a6 58%,#8fd17a 58% 100%);} .tama.zeit-abend{background:linear-gradient(#6b5fa8 0,#ff9e6b 58%,#6fae5e 58% 100%);}
+.tama.zeit-morgen .sonne{top:62px;background:#ffc04d;box-shadow:0 0 18px #ffd27a;} .tama.zeit-abend .sonne{top:66px;background:#ff8a3d;box-shadow:0 0 18px #ffb07a;}
+.tama.wetter-regen{background:linear-gradient(#9fb0c2 0 58%,#7fae70 58% 100%);} .tama.wetter-regen.zeit-morgen,.tama.wetter-regen.zeit-abend{background:linear-gradient(#7f8ea3 0 58%,#6b9a5f 58% 100%);} .tama.wetter-regen.nacht{background:linear-gradient(#232a3a 0 58%,#2a5a3c 58% 100%);}
+.tama.wetter-schnee{background:linear-gradient(#cfd8e3 0 58%,#f4f7fb 58% 100%);} .tama.wetter-schnee.zeit-morgen,.tama.wetter-schnee.zeit-abend{background:linear-gradient(#a9b3c8 0 58%,#e6ebf3 58% 100%);} .tama.wetter-schnee.nacht{background:linear-gradient(#26304a 0 58%,#c4cfdf 58% 100%);}
+.tama.wetter-schnee .teich{background:#cfe6f2;}
+.tama .wolke{position:absolute;height:24px;border-radius:14px;background:#eef2f6;} .tama .wolke::before{content:"";position:absolute;left:14px;top:-12px;width:30px;height:28px;border-radius:50%;background:inherit;}
+.tama .wolke.w1{right:14px;top:16px;width:78px;} .tama .wolke.w2{right:74px;top:36px;width:56px;opacity:.85;} .tama.wetter-regen .wolke{background:#c5ced8;} .tama.nacht .wolke{background:#4a5468;}
+.tama .tropfen{position:absolute;top:-14px;width:2px;height:11px;border-radius:1px;background:rgba(40,70,120,.45);animation:tamaRegen .9s linear infinite;} .tama.nacht .tropfen{background:rgba(200,215,240,.5);}
+.tama .flocke{position:absolute;top:-8px;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.9;animation:tamaSchnee 6s linear infinite;}
+@keyframes tamaRegen{to{transform:translate(-8px,214px)}} @media (prefers-reduced-motion:reduce){.tama .tropfen,.tama .flocke{display:none;}}
+@keyframes tamaSchnee{0%{transform:translate(0,0)}50%{transform:translate(10px,105px)}100%{transform:translate(-4px,212px)}}
 @keyframes tamaAtem{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.035)}}
 @keyframes tamaBlinz{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes tamaOhr{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(-14deg)}94%{transform:rotate(6deg)}}
@@ -2626,7 +2637,7 @@ function bobbyKoerper(z,ding){ const zu=z==="schlaeft", u=++bobN;   // ganzer Bo
     +'<path d="M152 119 C140 103 146 80 168 72" fill="none" stroke="#5e3d22" stroke-width="2" opacity=".22" stroke-linecap="round"/>'   // Oberschenkel
     +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
     +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'>'+bobbyKopf(z,u,ding)+'</g></g></svg>'; }
-let tamaDemoDing=null, tamaFrisch=false, tamaAlt=false, tamaDemo=null, tamaGruppe=null, tamaTag=null, holeOffen=false;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard), null = laedt, "fehlt" = nicht ladbar; tamaTag: Tag der Daten
+let tamaDemoZeit=null, tamaDemoWetter=null, tamaDemoDing=null, tamaFrisch=false, tamaAlt=false, tamaDemo=null, tamaGruppe=null, tamaTag=null, holeOffen=false;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard), null = laedt, "fehlt" = nicht ladbar; tamaTag: Tag der Daten
 function bobbyLeute(){ return [{tage:uebTage(),zeit:S.fertigZeit||{}}].concat(Array.isArray(tamaGruppe)?tamaGruppe.slice(1):[]); }   // eigene Tage immer frisch
 function bobbyLage(){ const t=today(), leute=bobbyLeute(), N=leute.length, hat=(p,d)=>(p.tage||[]).includes(d);
   const heuteN=leute.filter(p=>hat(p,t)).length, gesternN=leute.filter(p=>hat(p,t-1)).length, aktiv=leute.some(p=>(p.tage||[]).some(d=>d<t-1));
@@ -2641,6 +2652,20 @@ function tamaDanke(b,D,t,z){ const hm=document.getElementById("home"), bl=b.quer
   if(!D||tamaDemo||tamaDemoDing||!bl||z==="isst"||!hm||!hm.classList.contains("on")) return; const wk=KEY+"_bobbyDing", w=String(wocheMo(t)); let neu=false;
   try{ neu=localStorage.getItem(wk)!==w; if(neu) localStorage.setItem(wk,w); }catch(e){}
   if(neu){ bl.textContent="Danke für "+D[2]+"!"; clearTimeout(b.tTap); b.tTap=setTimeout(()=>{ const x=b.querySelector(".blase"); if(x) x.textContent=b.dataset.bl||""; },4000); } }
+// Tageszeit und Wetter (Mike 2026-11-03): hell/dunkel nach Sonnenauf- und -untergang am Ort des Geraets (Zeitzone), Wetter je Tag fuer alle gleich
+const TAMA_ORTE={"Europe/Lisbon":[38.7,-9.1],"Europe/Berlin":[52.5,13.4],"Europe/Vienna":[48.2,16.4],"Europe/Zurich":[47.4,8.5],"Europe/London":[51.5,-0.1],"Europe/Madrid":[40.4,-3.7],"Europe/Paris":[48.9,2.4],"Europe/Amsterdam":[52.4,4.9],"Europe/Brussels":[50.8,4.4],"Europe/Luxembourg":[49.6,6.1],"Europe/Rome":[41.9,12.5],"Europe/Copenhagen":[55.7,12.6],"Europe/Stockholm":[59.3,18.1],"Europe/Warsaw":[52.2,21],"Atlantic/Madeira":[32.7,-16.9],"Atlantic/Azores":[37.7,-25.7],
+  "America/New_York":[40.7,-74],"America/Chicago":[41.9,-87.6],"America/Denver":[39.7,-105],"America/Los_Angeles":[34.1,-118.2],"America/Toronto":[43.7,-79.4],"America/Vancouver":[49.3,-123.1],
+  "Asia/Taipei":[25,121.5],"Asia/Hong_Kong":[22.3,114.2],"Asia/Macau":[22.2,113.5],"Asia/Shanghai":[31.2,121.5]};
+function tamaOrt(){ let tz=""; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""; }catch(e){} if(TAMA_ORTE[tz]) return TAMA_ORTE[tz];
+  const j=new Date().getFullYear(), a=new Date(j,0,1).getTimezoneOffset(), b=new Date(j,6,1).getTimezoneOffset(); return [a<b?-35:a>b?45:20,-Math.max(a,b)/4]; }   // unbekannte Zone: Laenge aus der Winterzeit; Sommerzeit im Januar = Suedhalbkugel, keine Sommerzeit = eher Tropen
+function tamaZeit(){ if(tamaDemoZeit) return tamaDemoZeit; const jetzt=new Date(), o=tamaOrt(), R=Math.PI/180, n=Math.floor((jetzt-new Date(jetzt.getFullYear(),0,0))/86400000), g=2*Math.PI/365*(n-1);
+  const eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g));
+  const de=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+  const ha=Math.acos(Math.max(-1,Math.min(1,Math.cos(90.833*R)/(Math.cos(o[0]*R)*Math.cos(de))-Math.tan(o[0]*R)*Math.tan(de))))/R, off=-jetzt.getTimezoneOffset();
+  const auf=720-4*(o[1]+ha)-eq+off, unter=720-4*(o[1]-ha)-eq+off, m=jetzt.getHours()*60+jetzt.getMinutes();   // Minuten des Tages, Ortszeit
+  return m<auf-30||m>unter+30?"nacht":m<auf+45?"morgen":m>unter-45?"abend":"tag"; }
+function tamaWetter(){ if(tamaDemoWetter) return tamaDemoWetter; const mo=new Date().getMonth(); let h=Math.imul(today()^0x5bd1e995,0x85ebca6b); h^=h>>>13; h=Math.imul(h,0xc2b2ae35); h^=h>>>16;
+  const u=(h>>>0)/4294967296, S=mo<2||mo===11?.3:0, N=[.2,.2,.3,.3,.25,.15,.1,.1,.2,.3,.35,.2][mo]; return u<S?"schnee":u<S+N?"regen":"sonne"; }   // Schnee nur Dezember bis Februar
 function tamaAn(){ return CFG.mascot&&CFG.tamagotchi!==false; }   // alle Apps mit Bobby (Mike 2026-10-28)
 function tamaZeigen(){ try{ tamaMalen(); }catch(e){} }   // ein Fehler bei Bobby darf die Startseite nie aufhalten
 function tamaMalen(){ if(!tamaAn()) return; const h1=document.getElementById("homeTitle"); if(!h1||!h1.parentNode) return;
@@ -2648,28 +2673,33 @@ function tamaMalen(){ if(!tamaAn()) return; const h1=document.getElementById("ho
   let b=document.getElementById("tama"); if(!b){ b=document.createElement("div"); b.id="tama"; h1.parentNode.insertBefore(b,h1.nextSibling);
     b.onclick=()=>{ const bob=b.querySelector(".bob"), z=bobbyZustand(); if(!bob||z==="schlaeft") return;   // schlafend nicht stoeren
       bob.classList.remove("huepf"); void bob.offsetWidth; bob.classList.add("huepf");
-      const bl=b.querySelector(".blase"), SP=z==="traurig"?["Streichelst du mich?","Danke, das tut gut."]:["Hihi!","Das kitzelt!","Quiek!","Noch mal!"];
+      const bl=b.querySelector(".blase"), SP=z==="traurig"?["Streichelst du mich?","Danke, das tut gut."]:["Hihi!","Das kitzelt!","Quiek!","Noch mal!"].concat({regen:["Es regnet!","Ich mag Regen!"],schnee:["Es schneit!","Schnee! Juhu!"]}[b.dataset.wetter]||[]);
       if(bl){ bl.textContent=SP[Math.floor(Math.random()*SP.length)]; clearTimeout(b.tTap); b.tTap=setTimeout(()=>{ const x=b.querySelector(".blase"); if(x) x.textContent=b.dataset.bl||""; },1600); } };   // danach wieder der eigentliche Satz
     if(CFG.teacher){ const d=document.createElement("div"); d.className="tamaDemo";
       [["","echt"],["hunger","Hunger"],["wartet","wartet"],["isst","isst"],["satt","satt"],["schlaeft","schläft"],["traurig","traurig"]].forEach(([z,n])=>{ const k=document.createElement("button"); k.textContent=n; k.onclick=()=>{ tamaDemo=z||null; tamaZeigen(); }; d.appendChild(k); });
       const sel=document.createElement("select"); sel.innerHTML='<option value="">Ding: echt</option>'+BOBBY_DINGE.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join("");
       sel.onchange=()=>{ tamaDemoDing=sel.value||null; tamaZeigen(); }; d.appendChild(sel);
+      [["Zeit",[["morgen","Morgen"],["tag","Tag"],["abend","Abend"],["nacht","Nacht"]],v=>{ tamaDemoZeit=v; }],["Wetter",[["sonne","Sonne"],["regen","Regen"],["schnee","Schnee"]],v=>{ tamaDemoWetter=v; }]].forEach(([n,o,f])=>{
+        const s2=document.createElement("select"); s2.innerHTML='<option value="">'+n+': echt</option>'+o.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join(""); s2.onchange=()=>{ f(s2.value||null); tamaZeigen(); }; d.appendChild(s2); });
       b.parentNode.insertBefore(d,b.nextSibling); } }
   const hm=document.getElementById("homeMascot"); if(hm) hm.style.display="none";
-  const t=today(), h=new Date().getHours(), nacht=h>=20||h<6;
-  const himmel='<div class="sonne"></div>'+(nacht?[[20,20],[60,40],[120,18],[160,52],[90,60]].map(([x,y])=>'<i class="stern" style="left:'+x+'px;top:'+y+'px"></i>').join(""):"")+'<div class="teich"></div>';
+  const t=today(), z0=tamaZeit(), zeit=z0==="tag"&&!tamaDemoZeit&&bobbyZustand()==="schlaeft"?(new Date().getHours()<12?"morgen":"abend"):z0, wetter=tamaWetter(), nacht=zeit==="nacht", HK=" zeit-"+zeit+" wetter-"+wetter+(nacht?" nacht":"");   // HK: Klassen fuer Himmel und Wetter
+  const zf=x=>{ const v=Math.sin(x)*43758.5453; return v-Math.floor(v); }, fall=(k,n,s)=>Array.from({length:n},(_,i)=>'<i class="'+k+'" style="left:'+(1+(i+zf(i*12.9898+t))*98/n).toFixed(1)+'%;animation-delay:-'+(zf(i*78.233+t)*s).toFixed(2)+'s"></i>').join("");   // gleichmaessig verteilt, schon im Fallen, Plaetze fest pro Tag (nichts springt beim Neuzeichnen)
+  const himmel=(wetter==="sonne"?'<div class="sonne"></div>'+(nacht?[[20,20],[60,40],[120,18],[160,52],[90,60]].map(([x,y])=>'<i class="stern" style="left:'+x+'px;top:'+y+'px"></i>').join(""):""):'<div class="wolke w1"></div><div class="wolke w2"></div>')
+    +'<div class="teich"></div>'+(wetter==="regen"?fall("tropfen",24,.9):wetter==="schnee"?fall("flocke",18,6):"");   // Regen und Schnee hinter Bobby und der Sprechblase
+  b.dataset.wetter=wetter;
   const alt=Array.isArray(tamaGruppe)&&tamaTag!==t;   // Daten der anderen von gestern: neu laden, solange Wiese
   if(alt&&!holeOffen&&SYNC_URL&&S.playerName&&CFG.partner){ const home=document.getElementById("home"); holePartner(home&&home.classList.contains("on")?document.getElementById("lbList"):null); }
   if(!tamaDemo&&(!tamaGruppe||alt)&&SYNC_URL&&S.playerName&&[].concat(CFG.partner||[]).length){   // Gruppen-Apps: Wiese gleich zeigen (nichts springt), Bobby erst mit den Daten der anderen
-    if(b.dataset.sig!=="leer"+nacht){ b.dataset.sig="leer"+nacht; b.dataset.bl=""; b.className="tama"+(nacht?" nacht":""); b.innerHTML=himmel; } return; }
+    if(b.dataset.sig!=="leer"+HK){ b.dataset.sig="leer"+HK; b.dataset.bl=""; b.className="tama"+HK; b.innerHTML=himmel; } return; }
   const z=bobbyZustand(), home=document.getElementById("home");
   const PN=[].concat(CFG.partner||[]).length;
   if(z==="isst"&&((home&&!home.classList.contains("on"))||(tamaAlt&&SYNC_URL&&S.playerName&&PN))) return;   // Bobby isst erst, wenn das Kind zuschaut und die Daten der anderen frisch sind (richtige Mahlzeit)
   const ZW=["keine","eine","zwei","drei","vier","fünf"], of=Math.max(1,tamaDemo==="wartet"?2:bobbyLage().offen);
   const BL={hunger:"Ich habe Hunger!",wartet:"Noch "+(ZW[of]||of)+(of===1?" Mahlzeit":" Mahlzeiten")+", dann bin ich satt!",isst:"Mmm, lecker!",satt:"Ich bin satt!",danke:"Danke für das Essen!",traurig:"Gestern hatte ich Bauchweh.",schlaeft:""}[z];
-  const ding=tamaDing(), D=DING[ding]; if(b.dataset.sig===z+BL+nacht+ding){ tamaDanke(b,D,t,z); return; } b.dataset.sig=z+BL+nacht+ding; b.dataset.bl=BL;   // nichts neu zeichnen, wenn sich nichts geaendert hat
+  const ding=tamaDing(), D=DING[ding]; if(b.dataset.sig===z+BL+HK+ding){ tamaDanke(b,D,t,z); return; } b.dataset.sig=z+BL+HK+ding; b.dataset.bl=BL;   // nichts neu zeichnen, wenn sich nichts geaendert hat
   let essen=""; if(z==="isst"){ const L=bobbyLeute(), M=mahlzeitenAm(t,Math.max(L.length,1+PN)); essen=(M[rangAm(L,L[0],t)]||M[M.length-1])[0]; }   // genau das Essen, das das Kind laut Wochenkarte gebracht hat
-  b.className="tama "+(z==="wartet"?"hunger wartet":z==="danke"?"satt danke":z)+(nacht?" nacht":"")+(D&&D[4]==="kopf"&&DING_KOPF[ding][0]?" mitHut":"");   // Hut: Sprechblase rechts davon
+  b.className="tama "+(z==="wartet"?"hunger wartet":z==="danke"?"satt danke":z)+HK+(D&&D[4]==="kopf"&&DING_KOPF[ding][0]?" mitHut":"");   // Hut: Sprechblase rechts davon
   b.innerHTML=himmel+(z==="hunger"||z==="wartet"||z==="traurig"?'<div class="teller">🍽️</div>':"")+(z==="isst"?'<div class="essen">'+essen+'</div>':"")
     +(D&&D[4]!=="kopf"?'<div class="ding ort-'+D[4]+'">'+D[5]+'</div>':"")+'<div class="bob">'+bobbyKoerper(z,ding)+'</div>'+(BL?'<div class="blase">'+BL+'</div>':"")
     +(z==="schlaeft"?'<span class="zz">Z</span><span class="zz b">Z</span><span class="zz c">Z</span>':"")+(z==="satt"||z==="danke"?'<span class="herz">❤️</span><span class="herz b">❤️</span>':"");
