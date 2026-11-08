@@ -635,7 +635,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-03-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-08-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2636,7 +2636,8 @@ function bobbyKoerper(z,ding){ const zu=z==="schlaeft", u=++bobN;   // ganzer Bo
     +'<path d="M96 57 l6 -2.5 M114 52 l6 -1.5 M132 50 l6 -.8 M150 50.5 l6 .4 M168 54 l5 1.5 M178 62 l4 2.5" stroke="#5e3d22" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>'
     +(zu?'</g>':'')+'<g'+(zu?' transform="translate(4,25) rotate(-7 88 72)"':'')+'>'+bobbyKopf(z,u,ding)+'</g></g></svg>'; }
 let tamaDemoZeit=null, tamaDemoWetter=null, tamaDemoDing=null, tamaFrisch=false, tamaAlt=false, tamaDemo=null, tamaGruppe=null, tamaTag=null, holeOffen=false;   // tamaFrisch: Runde gerade fertig -> Bobby isst; tamaGruppe: alle, die Bobby fuettern (aus renderLeaderboard), null = laedt, "fehlt" = nicht ladbar; tamaTag: Tag der Daten
-function bobbyLeute(){ return [{tage:uebTage(),zeit:S.fertigZeit||{}}].concat(Array.isArray(tamaGruppe)?tamaGruppe.slice(1):[]); }   // eigene Tage immer frisch
+function bobbyAktiv(leute){ const t=today(); return leute.filter((p,i)=>i===0||(p.tage||[]).some(d=>d>=t-7&&d<=t)); }   // Bobby zaehlt nur, wer in den letzten 7 Tagen geuebt hat (Mike 2026-11-08: Antonio und Rumi spielen nie); leute[0] = das Kind selbst, zaehlt immer
+function bobbyLeute(){ return bobbyAktiv([{tage:uebTage(),zeit:S.fertigZeit||{}}].concat(Array.isArray(tamaGruppe)?tamaGruppe.slice(1):[])); }   // eigene Tage immer frisch
 function bobbyLage(){ const t=today(), leute=bobbyLeute(), N=leute.length, hat=(p,d)=>(p.tage||[]).includes(d);
   const heuteN=leute.filter(p=>hat(p,t)).length, gesternN=leute.filter(p=>hat(p,t-1)).length, aktiv=leute.some(p=>(p.tage||[]).some(d=>d<t-1));
   return {N, heuteN, offen:N-heuteN, ich:uebTage().includes(t), bauchweh:(t+3)%7>0&&aktiv&&gesternN<N}; }   // wie der Text unter der Wochenkarte: Bauchweh nicht am Montag
@@ -2696,7 +2697,7 @@ function tamaMalen(){ if(!tamaAn()) return; const h1=document.getElementById("ho
   const ZW=["keine","eine","zwei","drei","vier","fünf"], of=Math.max(1,tamaDemo==="wartet"?2:bobbyLage().offen);
   const BL={hunger:"Ich habe Hunger!",wartet:"Noch "+(ZW[of]||of)+(of===1?" Mahlzeit":" Mahlzeiten")+", dann bin ich satt!",isst:"Mmm, lecker!",satt:"Ich bin satt!",danke:"Danke für das Essen!",traurig:"Gestern hatte ich Bauchweh.",schlaeft:""}[z];
   const ding=tamaDing(), D=DING[ding]; if(b.dataset.sig===z+BL+HK+ding){ tamaDanke(b,D,t,z); return; } b.dataset.sig=z+BL+HK+ding; b.dataset.bl=BL;   // nichts neu zeichnen, wenn sich nichts geaendert hat
-  let essen=""; if(z==="isst"){ const L=bobbyLeute(), M=mahlzeitenAm(t,Math.max(L.length,1+PN)); essen=(M[rangAm(L,L[0],t)]||M[M.length-1])[0]; }   // genau das Essen, das das Kind laut Wochenkarte gebracht hat
+  let essen=""; if(z==="isst"){ const L=bobbyLeute(), M=mahlzeitenAm(t,Array.isArray(tamaGruppe)?L.length:1+PN); essen=(M[rangAm(L,L[0],t)]||M[M.length-1])[0]; }   // genau das Essen, das das Kind laut Wochenkarte gebracht hat
   b.className="tama "+(z==="wartet"?"hunger wartet":z==="danke"?"satt danke":z)+HK+(D&&D[4]==="kopf"&&DING_KOPF[ding][0]?" mitHut":"");   // Hut: Sprechblase rechts davon
   b.innerHTML=himmel+(z==="hunger"||z==="wartet"||z==="traurig"?'<div class="teller">🍽️</div>':"")+(z==="isst"?'<div class="essen">'+essen+'</div>':"")
     +(D&&D[4]!=="kopf"?'<div class="ding ort-'+D[4]+'">'+D[5]+'</div>':"")+'<div class="bob">'+bobbyKoerper(z,ding)+'</div>'+(BL?'<div class="blase">'+BL+'</div>':"")
@@ -2746,6 +2747,7 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
       '<div style="font-size:15px;margin:14px 0 6px;">'+(leute.length>1?'Gemeinsam ':'')+'<b>'+zus+'</b> von '+ziel+' Übungstagen</div><div class="bigbar"><i style="width:'+pct+'%"></i></div>'+
       '<div style="font-size:13px;color:var(--muted);margin-top:5px;">'+(zus>=ziel?'Wochenziel erreicht. Gut gemacht!':'Noch '+rest+(rest===1?' Tag':' Tage')+' bis zum Wochenziel.')+' Die Woche beginnt am Montag neu.</div>'; }
   // Kyana & Marta: Bobby will jeden Tag zwei Mahlzeiten, eine von jeder (Mike 2026-09-28). Verpasster Tag: Bauchweh.
+  leute=bobbyAktiv(leute);   // wer 7 Tage nicht geuebt hat, steht nicht auf der Karte und bekommt keine Mahlzeit
   const E=wochenEssen(), we=heute>=5, hat=(p,d)=>(p.tage||[]).includes(d), N0=leute.length;
   const mahlzeiten=d=>mahlzeitenAm(d,N0);
   const rang=(p,d)=>rangAm(leute,p,d);   // wer zuerst uebt, bringt das Fruehstueck
@@ -2763,7 +2765,7 @@ function wochenKarte(leute,sachlich){ const T=["Mo","Di","Mi","Do","Fr","Sa","So
     : heute>0&&aktiv&&gesternN<N ? 'Oh nein! Gestern hat Bobby '+(gesternN?'nur '+ZAHL[gesternN]+' von '+ZAHL[N]+' Mahlzeiten':'gar nichts')+' bekommen und hatte Bauchweh vor Hunger. Heute bitte alle! Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
     : heuteN ? 'Bobby wartet noch auf: '+offen.map(p=>p.name).join(', ')+'.'
     : 'Bobby hat Hunger! Wer bringt ihm heute das '+MAHLZEIT[0]+'?';
-  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenende! Heute gibt es drei besondere Überraschungen 🎁':'Was bekommt Bobby heute? Wer übt, packt eine Mahlzeit aus 🎁')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
+  return '<div style="font-size:15px;font-weight:800;margin-bottom:6px;">'+(we?'Wochenende! Heute gibt es '+(N===1?'eine besondere Überraschung':(ZAHL[N]||N)+' besondere Überraschungen')+' 🎁':'Was bekommt Bobby heute? Wer übt, packt eine Mahlzeit aus 🎁')+'</div>'+kopf.replace(/width:22px/g,'width:26px')+leute.map(reihe).join("")+
     heuteListe+'<div style="font-size:14px;color:var(--ink);margin-top:8px;">'+txt+'</div>'+
     '<div style="font-size:12px;color:var(--muted);margin-top:4px;">Diese Woche '+wo+' von '+soll+' Mahlzeiten'+(wo>=soll?'. Die ganze Woche jeden Tag gefüttert, super!':'. Jeder Übungstag ist eine Mahlzeit, montags gibt es neues Essen.')+'</div>'; }
 // Jede Woche ein anderes Essen fuer Bobby (Wasserschwein), Start 2026-09-28 mit Orangen (Mike)
