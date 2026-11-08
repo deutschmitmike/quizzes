@@ -627,7 +627,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Antonio"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-08-1"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-08-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2325,8 +2325,26 @@ function buildItems(){if(FACH.length) return fachItems();
   return items;}
 const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id)&&STAGES.some(x=>x.id===it.stage));   // nur Themen, die im Steckbrief stehen (Elinor: 1, 2, 7, 8)   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
+// Merkhilfen fuer Problemwoerter (Wochenbericht 2026-11-08: Karten mit ueber 15 offenen Fehlerpunkten), Karten-ID -> ein Satz, steht nach einer falschen Antwort unter der Erklaerung
+const MERKHILFE={
+  "g:Diktat":"Tipp: das Diktat wie das Heft, in das du es schreibst.",
+  "g:Bibliothek":"Tipp: Die Bibliothek ist dasselbe wie die Bücherei, und Wörter auf -erei sind die.",
+  "g:Ufer":"Tipp: Das Ufer liegt am Wasser, und beide sind das.",
+  "g:Nadel":"Tipp: die Nadel wie die Schere, beide brauchst du beim Nähen.",
+  "g:Flughafen":"Tipp: Meist bestimmt der letzte Teil des Wortes den Artikel: der Hafen, also der Flughafen.",
+  "w:22:Baum":"Tipp: Wer steigt, ist erst unten und dann oben. Das ist eine Wohin-Frage, also auf den Baum.",
+  "a:27:Sofa":"Tipp: Bei das-Wörtern ändert sich der Artikel nach um nicht: um das Sofa.",
+  "g:Abend":"Tipp: Die Tageszeiten sind der: der Morgen, der Mittag, der Abend. Aber: die Nacht.",
+  "g:Morgen":"Tipp: Die Tageszeiten sind der: der Morgen, der Mittag, der Abend. Aber: die Nacht.",
+  "g:Ort":"Tipp: der Ort wie der Park.",
+  "g:Land":"Tipp: das Land wie das Feld.",
+  "g:Ordnung":"Tipp: wie die Zeitung und die Übung.",
+  "g:Vater":"Tipp: Wörter für einen Mann oder Jungen sind fast immer der: der Vater, der Bruder, der Opa.",
+  "adj:11:nom:i:Kopfhörer:laut":"Tipp: Wörter für Geräte auf -er sind meist der, wie der Fernseher. Also: ein lauter Kopfhörer."
+};
 // liefert {prompt(html), options[], correct, explain, speak}
-function cardData(it){
+function cardData(it){ const d=cardData0(it); if(d&&MERKHILFE[it.id]) d.explain=(d.explain?d.explain+" ":"")+MERKHILFE[it.id]; return d; }
+function cardData0(it){
   if(it.kind==="bed") return bedCard(it); if(it.kind==="abk") return abkCard(it);   // Fachwortschatz (CFG.fach)
   if(it.kind==="perf"||it.kind==="prat") return verbCard(it);
   if(CFG.teenPron && /^(pron|poss|poss3|pakk)$/.test(it.kind)) return pronCard(it);   // Stufe 7-10: Alltagsnomen, wechselnde Saetze
