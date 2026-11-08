@@ -73,6 +73,10 @@ const GROUP={
   [
    38,
    "Toxikologie"
+  ],
+  [
+   39,
+   "Labor und Praktikum"
   ]
  ],
  "zh": true,
@@ -116,6 +120,11 @@ const GROUP={
    [
     38
    ]
+  ],
+  [
+   [
+    39
+   ]
   ]
  ],
  "topicWeights": [
@@ -126,7 +135,8 @@ const GROUP={
   1,
   1,
   1,
-  1
+  1,
+  2
  ],
  "sound": false,
  "beispielName": null,
@@ -634,7 +644,8 @@ const STAGES=[   // Jason: je Vorlesung ein Thema mit Bedeutung, Artikel, Plural
  {id:35,name:"Mathematik",desc:"Wörter aus der Vorlesung"},
  {id:36,name:"Recht und Chemikalien",desc:"Wörter aus der Vorlesung"},
  {id:37,name:"Arbeitsschutz",desc:"Wörter aus der Vorlesung"},
- {id:38,name:"Toxikologie",desc:"Wörter aus der Vorlesung"}
+ {id:38,name:"Toxikologie",desc:"Wörter aus der Vorlesung"},
+ {id:39,name:"Labor und Praktikum",desc:"Wörter aus dem Deutschunterricht"}
 ];
 const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze
  31:"Neue Wörter aus der Vorlesung „Chemie: Stoffe und Reaktionen“. Tippe Nomen immer mit Artikel: der Stoff.",
@@ -644,7 +655,8 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze
  35:"Neue Wörter aus der Vorlesung „Mathematik“. Tippe Nomen immer mit Artikel: der Stoff.",
  36:"Neue Wörter aus der Vorlesung „Recht und Chemikalien“. Tippe Nomen immer mit Artikel: der Stoff.",
  37:"Neue Wörter aus der Vorlesung „Arbeitsschutz“. Tippe Nomen immer mit Artikel: der Stoff.",
- 38:"Neue Wörter aus der Vorlesung „Toxikologie“. Tippe Nomen immer mit Artikel: der Stoff."
+ 38:"Neue Wörter aus der Vorlesung „Toxikologie“. Tippe Nomen immer mit Artikel: der Stoff.",
+ 39:"Neue Wörter aus dem Unterricht: Labor und Praktikum. Tippe Nomen immer mit Artikel: der Stoff."
 };
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
