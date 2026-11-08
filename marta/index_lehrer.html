@@ -635,7 +635,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-08-2"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-08-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -3630,12 +3630,19 @@ const APP_BUILD=CFG.build;   // kommt aus src/build.py (eine Nummer fuer alle Gr
 (function(){ try{ const t=document.createElement("div"); t.textContent="v"+APP_BUILD;   // sichtbare Versionsnummer unten rechts
   t.style.cssText="position:fixed;bottom:4px;right:7px;font-size:10px;color:#9aa2b1;z-index:60;pointer-events:none;font-family:inherit;"; document.body.appendChild(t); }catch(e){} })();
 (function(){ try{
-  fetch("version.json?cb="+Date.now(),{cache:"no-store"})
-    .then(r=>r.ok?r.json():null)
-    .then(v=>{ if(!v||!v.build||v.build===APP_BUILD) return;
-      const flag=CFG.key+"_upd_"+v.build; if(sessionStorage.getItem(flag)) return;   // nur 1x pro Sitzung -> keine Reload-Schleife
-      sessionStorage.setItem(flag,"1"); location.replace(location.pathname+"?v="+encodeURIComponent(v.build)); })
-    .catch(()=>{});
+  /* beim Oeffnen pruefen, und jedes Mal, wenn die App wieder in den Vordergrund kommt (Mike 2026-11-08).
+     Im Vordergrund nur neu laden, wenn gerade keine Runde laeuft. */
+  let letzte=0;
+  function pruefe(beimStart){ const jetzt=Date.now(); if(!beimStart&&jetzt-letzte<60000) return; letzte=jetzt;
+    fetch("version.json?cb="+jetzt,{cache:"no-store"})
+      .then(r=>r.ok?r.json():null)
+      .then(v=>{ if(!v||!v.build||v.build===APP_BUILD) return;
+        if(!beimStart){ const pl=document.getElementById("play"); if(pl&&pl.classList.contains("on")) return; }
+        const flag=CFG.key+"_upd_"+v.build; if(sessionStorage.getItem(flag)) return;   // nur 1x pro Sitzung -> keine Reload-Schleife
+        sessionStorage.setItem(flag,"1"); location.replace(location.pathname+"?v="+encodeURIComponent(v.build)); })
+      .catch(()=>{}); }
+  pruefe(true);
+  document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") pruefe(false); });
 }catch(e){} })();
 </script>
 
