@@ -636,7 +636,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elisa"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-08-4"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-09-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -2349,7 +2349,12 @@ const MERKHILFE={
   "g:Land":"Tipp: das Land wie das Feld.",
   "g:Ordnung":"Tipp: wie die Zeitung und die Übung.",
   "g:Vater":"Tipp: Wörter für einen Mann oder Jungen sind fast immer der: der Vater, der Bruder, der Opa.",
-  "adj:11:nom:i:Kopfhörer:laut":"Tipp: Wörter für Geräte auf -er sind meist der, wie der Fernseher. Also: ein lauter Kopfhörer."
+  "adj:11:nom:i:Kopfhörer:laut":"Tipp: Wörter für Geräte auf -er sind meist der, wie der Fernseher. Also: ein lauter Kopfhörer.",
+  // Wochenbericht 2026-11-09
+  "g:Gott":"Tipp: der Gott wie der König.",
+  "g:Weg":"Tipp: der Weg wie der Garten.",
+  "g:Zeit":"Tipp: die Zeit wie die Uhr.",
+  "g:Welt":"Tipp: die Welt wie die Erde."
 };
 // liefert {prompt(html), options[], correct, explain, speak}
 function cardData(it){ const d=cardData0(it); if(d&&MERKHILFE[it.id]) d.explain=(d.explain?d.explain+" ":"")+MERKHILFE[it.id]; return d; }
