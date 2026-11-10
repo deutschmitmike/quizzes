@@ -28,12 +28,12 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
+  35,
   25,
-  20,
-  18
+  20
  ],
  "roundFull": [
-  30,
+  35,
   25,
   20
  ],
@@ -76,6 +76,10 @@ const GROUP={
   [
    23,
    "Reflexive Verben"
+  ],
+  [
+   19,
+   "Nebensätze"
   ],
   [
    40,
@@ -142,6 +146,11 @@ const GROUP={
   ],
   [
    [
+    19
+   ]
+  ],
+  [
+   [
     40
    ]
   ]
@@ -155,6 +164,7 @@ const GROUP={
   2,
   2,
   1,
+  2,
   2,
   2
  ],
@@ -184,7 +194,35 @@ const GROUP={
   "t23:188qp1b",
   "t23:a7gtlm",
   "t23:1t699d4",
-  "t23:y03fu4"
+  "t23:y03fu4",
+  "ns:57",
+  "ns:58",
+  "ns:59",
+  "ns:60",
+  "ns:61",
+  "ns:62",
+  "ns:63",
+  "ns:64",
+  "ns:65",
+  "ns:66",
+  "ns:67",
+  "ns:68",
+  "ns:69",
+  "ns:70",
+  "ns:71",
+  "ns:72",
+  "ns:73",
+  "ns:74",
+  "ns:75",
+  "ns:76",
+  "ns:77",
+  "ns:78",
+  "ns:79",
+  "ns:80",
+  "ns:81",
+  "ns:82",
+  "ns:83",
+  "ns:84"
  ],
  "fach": "lillian_unterricht",
  "fachDazu": true,
@@ -196,6 +234,26 @@ const GROUP={
   [
    "Kleid",
    "Rock"
+  ],
+  [
+   "Schrank",
+   "Kommode"
+  ],
+  [
+   "Regal",
+   "Bücherregal"
+  ],
+  [
+   "Fernseher",
+   "Fernsehen"
+  ],
+  [
+   "Lampe",
+   "Licht"
+  ],
+  [
+   "Schrank",
+   "Kleiderschrank"
   ]
  ]
 };
@@ -375,6 +433,7 @@ const STAGES=[
  {id:15,name:"Perfekt",desc:"haben oder sein + Partizip II"},
  {id:17,name:"Präsens",desc:"ich fahre, du fährst, er fährt"},
  {id:18,name:"Modalverben",desc:"können, müssen, wollen, dürfen ..."},
+ {id:19,name:"Nebensätze",desc:"weil, dass, wenn: Verb am Ende"},
  {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
  {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
  {id:23,name:"sich",desc:"ich freue mich, du beeilst dich"},
@@ -398,7 +457,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  16:"Präteritum: gehen → ging (neuer Vokal), haben → hatte, können → konnte (-te). ich und er ohne Endung, wir gingen.",
  17:"Präsens: ich -e, du -st, er -t. Manche starken Verben ändern bei du und er den Vokal: du fährst.",
  18:"Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.",
- 19:"Nach weil, dass, wenn, obwohl, ob steht das Verb am Ende: …, weil ich krank bin.",
+ 19:"Nach weil, dass und wenn steht das Verb am Ende: …, weil ich krank bin.",
  20:"Komparativ: -er, oft mit Umlaut: alt → älter als. Superlativ: am ältesten.",
  21:"Im Hauptsatz steht das Verb immer an Position 2: Morgen gehe ich ins Kino.",
  22:"helfen, danken, gefallen, mit, bei … → Dativ: mir, dir. sehen, fragen, für, ohne … → Akkusativ: mich, dich.",

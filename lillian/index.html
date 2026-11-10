@@ -268,12 +268,12 @@ const GROUP={
   "Perfekt!"
  ],
  "roundStart": [
+  35,
   25,
-  20,
-  18
+  20
  ],
  "roundFull": [
-  30,
+  35,
   25,
   20
  ],
@@ -316,6 +316,10 @@ const GROUP={
   [
    23,
    "Reflexive Verben"
+  ],
+  [
+   19,
+   "Nebensätze"
   ],
   [
    40,
@@ -382,6 +386,11 @@ const GROUP={
   ],
   [
    [
+    19
+   ]
+  ],
+  [
+   [
     40
    ]
   ]
@@ -395,6 +404,7 @@ const GROUP={
   2,
   2,
   1,
+  2,
   2,
   2
  ],
@@ -424,7 +434,35 @@ const GROUP={
   "t23:188qp1b",
   "t23:a7gtlm",
   "t23:1t699d4",
-  "t23:y03fu4"
+  "t23:y03fu4",
+  "ns:57",
+  "ns:58",
+  "ns:59",
+  "ns:60",
+  "ns:61",
+  "ns:62",
+  "ns:63",
+  "ns:64",
+  "ns:65",
+  "ns:66",
+  "ns:67",
+  "ns:68",
+  "ns:69",
+  "ns:70",
+  "ns:71",
+  "ns:72",
+  "ns:73",
+  "ns:74",
+  "ns:75",
+  "ns:76",
+  "ns:77",
+  "ns:78",
+  "ns:79",
+  "ns:80",
+  "ns:81",
+  "ns:82",
+  "ns:83",
+  "ns:84"
  ],
  "fach": "lillian_unterricht",
  "fachDazu": true,
@@ -436,6 +474,26 @@ const GROUP={
   [
    "Kleid",
    "Rock"
+  ],
+  [
+   "Schrank",
+   "Kommode"
+  ],
+  [
+   "Regal",
+   "Bücherregal"
+  ],
+  [
+   "Fernseher",
+   "Fernsehen"
+  ],
+  [
+   "Lampe",
+   "Licht"
+  ],
+  [
+   "Schrank",
+   "Kleiderschrank"
   ]
  ]
 };
@@ -615,6 +673,7 @@ const STAGES=[
  {id:15,name:"Perfekt",desc:"haben oder sein + Partizip II"},
  {id:17,name:"Präsens",desc:"ich fahre, du fährst, er fährt"},
  {id:18,name:"Modalverben",desc:"können, müssen, wollen, dürfen ..."},
+ {id:19,name:"Nebensätze",desc:"weil, dass, wenn: Verb am Ende"},
  {id:21,name:"Satzbau",desc:"Verb an Position 2: Morgen gehe ich ..."},
  {id:22,name:"mir oder mich?",desc:"Pronomen im Dativ und Akkusativ"},
  {id:23,name:"sich",desc:"ich freue mich, du beeilst dich"},
@@ -638,7 +697,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  16:"Präteritum: gehen → ging (neuer Vokal), haben → hatte, können → konnte (-te). ich und er ohne Endung, wir gingen.",
  17:"Präsens: ich -e, du -st, er -t. Manche starken Verben ändern bei du und er den Vokal: du fährst.",
  18:"Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.",
- 19:"Nach weil, dass, wenn, obwohl, ob steht das Verb am Ende: …, weil ich krank bin.",
+ 19:"Nach weil, dass und wenn steht das Verb am Ende: …, weil ich krank bin.",
  20:"Komparativ: -er, oft mit Umlaut: alt → älter als. Superlativ: am ältesten.",
  21:"Im Hauptsatz steht das Verb immer an Position 2: Morgen gehe ich ins Kino.",
  22:"helfen, danken, gefallen, mit, bei … → Dativ: mir, dir. sehen, fragen, für, ohne … → Akkusativ: mich, dich.",
@@ -648,7 +707,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-10-2"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-10-3"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8854,7 +8913,7 @@ der|Fernseher|Fernseher|電視機||
 das|Sofa|Sofas|沙發||
 der|Stuhl|Stühle|椅子||
 der|Schrank|Schränke|櫃子||
-die|Spülmaschine|Spülmaschinen|洗碗機||
+die|Spülmaschine|Spülmaschinen|洗碗機|der Geschirrspüler|
 der|Krimi|Krimis|偵探小說||
 die|Apotheke|Apotheken|藥局||
 die|Frisur|Frisuren|髮型||
@@ -8880,7 +8939,446 @@ der|Stau|Staus|塞車||
 der|Lärm|-|噪音||
 die|Heizung|Heizungen|暖氣||
 der|Vermieter|Vermieter|房東||
-das|Geschenk|Geschenke|禮物||`.split("\n").forEach(l=>{ l=l.trim(); if(!l) return; const m=/^##\s*(\d+)/.exec(l); if(m){ th=+m[1]; return; } if(l[0]==="#") return;
+das|Geschenk|Geschenke|禮物||
+# Aus dem Tab „Lillian 2025“ (Mike, 10.11.2026): erst Wörter mit eigener Übersetzung, dann Wörter aus dem Grundwortschatz der App
+der|Deutschlehrer|Deutschlehrer|德文老師||
+der|Verkäufer|Verkäufer|店員||
+die|Schülerin|Schülerinnen|中小學生（女）||
+die|Studentin|Studentinnen|女大學生||
+die|Ingenieurin|Ingenieurinnen|女工程師||
+der|Hausmann|Hausmänner|家庭主夫||
+die|Krankenpflegerin|Krankenpflegerinnen|女護理師|die Krankenschwester|
+der|Führerschein|Führerscheine|駕照||
+der|Reisepass|Reisepässe|護照||
+der|Personalausweis|Personalausweise|身分證||
+der|Schülerausweis|Schülerausweise|學生證||
+die|Fahrkarte|Fahrkarten|車票|das Ticket;der Fahrschein|
+das|Wechselgeld|-|找的零錢||
+das|Ziel|Ziele|目的地||
+die|Klimaanlage|Klimaanlagen|冷氣||
+die|Grammatik|-|文法||
+das|Doppelzimmer|Doppelzimmer|雙人房||
+das|Zentrum|Zentren|市中心|die Innenstadt|
+das|Internet|-|網路||
+das|Schwimmbad|Schwimmbäder|游泳池||
+das|Bier|Biere|啤酒||
+die|Tomatensuppe|Tomatensuppen|番茄湯||
+der|Döner|Döner|沙威瑪||
+der|Käsekuchen|Käsekuchen|起司蛋糕||
+die|Metzgerei|Metzgereien|肉店||
+der|Fußballplatz|Fußballplätze|足球場||
+der|Kindergarten|Kindergärten|幼兒園||
+das|Poloshirt|Poloshirts|Polo 衫||
+die|Sonnenbrille|Sonnenbrillen|太陽眼鏡||
+die|Jogginghose|Jogginghosen|運動褲||
+die|Bootstour|Bootstouren|遊船行程|die Bootsfahrt|
+die|Gastfamilie|Gastfamilien|寄宿家庭||
+das|Seniorenheim|Seniorenheime|安養院|das Altersheim|
+die|Sehenswürdigkeit|Sehenswürdigkeiten|景點||
+der|Sprachkurs|Sprachkurse|語言課||
+die|Schulklasse|Schulklassen|班級|die Klasse|
+die|Stadtrundfahrt|Stadtrundfahrten|市區觀光||
+das|Souvenir|Souvenirs|紀念品||
+der|Fernsehturm|Fernsehtürme|電視塔||
+der|Vorschlag|Vorschläge|建議||
+der|Handball|Handbälle|手球||
+die|Wahrheit|-|真相，實話||
+die|Freizeit|-|空閒時間||
+der|Rap|-|饒舌||
+die|Klassik|-|古典音樂||
+der|Fußballspieler|Fußballspieler|足球員||
+die|Fußballspielerin|Fußballspielerinnen|女足球員||
+die|Musikerin|Musikerinnen|女音樂家||
+die|Informatikerin|Informatikerinnen|女資訊工程師||
+der|Skifahrer|Skifahrer|滑雪者||
+der|Sportlehrer|Sportlehrer|體育老師||
+der|Vorname|Vornamen|名字（不含姓）||
+der|Familienname|Familiennamen|姓|der Nachname|
+der|Wohnort|Wohnorte|居住地||
+das|Alter|-|年齡||
+der|Traumberuf|Traumberufe|夢想的職業||
+die|Mannschaft|Mannschaften|球隊||
+der|Tanzkurs|Tanzkurse|舞蹈課||
+der|Tänzer|Tänzer|舞者||
+die|Tänzerin|Tänzerinnen|女舞者||
+die|Herkunft|-|出身||
+der|Kontakt|Kontakte|聯絡||
+der|Hip-Hop|-|嘻哈||
+das|Einzelkind|Einzelkinder|獨生子女||
+die|Hausaufgabe|Hausaufgaben|作業||
+das|Fernsehen|-|電視（節目）||
+das|Prozent|-|百分比||
+der|Spanischkurs|Spanischkurse|西班牙文課||
+das|Rockkonzert|Rockkonzerte|搖滾演唱會||
+die|Chorprobe|Chorproben|合唱團練習||
+das|Fußballspiel|Fußballspiele|足球比賽||
+der|Musikkurs|Musikkurse|音樂課||
+das|Tischtennisturnier|Tischtennisturniere|桌球錦標賽||
+die|Pizzeria|Pizzerien|披薩店|Pl. die Pizzerias|
+der|Tennisclub|Tennisclubs|網球俱樂部||
+die|Eisdiele|Eisdielen|冰淇淋店||
+das|Fitnesszentrum|Fitnesszentren|健身房|das Fitnessstudio|
+der|Jugendclub|Jugendclubs|青少年俱樂部||
+die|Musikschule|Musikschulen|音樂學校||
+das|Problem|Probleme|麻煩，難題||
+die|Trainerin|Trainerinnen|女教練||
+der|Trainer|Trainer|教練||
+die|Diele|Dielen|玄關|der Flur|
+das|Forum|Foren|論壇||
+die|Bassgitarre|Bassgitarren|貝斯||
+das|Einkaufszentrum|Einkaufszentren|購物中心||
+die|E-Mail-Adresse|E-Mail-Adressen|電子郵件地址||
+die|Sprachschule|Sprachschulen|語言學校||
+die|Fremdsprache|Fremdsprachen|外語||
+die|Disco|Discos|舞廳，夜店|die Disko|
+der|Tischfußball|-|桌上足球||
+die|Fahrradtour|Fahrradtouren|騎腳踏車旅行||
+der|Treffpunkt|Treffpunkte|集合地點||
+der|Goldfisch|Goldfische|金魚||
+die|Italienerin|Italienerinnen|義大利人（女）||
+der|Italiener|Italiener|義大利人|die Italienerin|
+die|Kassiererin|Kassiererinnen|女收銀員||
+der|Kassierer|Kassierer|收銀員|die Kassiererin|
+der|Kanarienvogel|Kanarienvögel|金絲雀||
+der|Stammbaum|Stammbäume|家譜||
+die|Österreicherin|Österreicherinnen|奧地利人（女）||
+der|Österreicher|Österreicher|奧地利人|die Österreicherin|
+die|Französin|Französinnen|法國人（女）||
+der|Franzose|Franzosen|法國人|die Französin|
+der|Türke|Türken|土耳其人|die Türkin|
+die|Türkin|Türkinnen|土耳其人（女）||
+der|Schweizer|Schweizer|瑞士人|die Schweizerin|
+die|Schweizerin|Schweizerinnen|瑞士人（女）||
+der|Brasilianer|Brasilianer|巴西人|die Brasilianerin|
+die|Brasilianerin|Brasilianerinnen|巴西人（女）||
+der|Grieche|Griechen|希臘人|die Griechin|
+die|Griechin|Griechinnen|希臘人（女）||
+die|Nationalität|Nationalitäten|國籍||
+der|Beruf|Berufe|職業||
+der|Architekt|Architekten|建築師||
+die|Architektin|Architektinnen|女建築師||
+die|Kellnerin|Kellnerinnen|女服務生||
+die|Friseurin|Friseurinnen|女美髮師||
+die|Übersetzerin|Übersetzerinnen|女翻譯員||
+der|Übersetzer|Übersetzer|翻譯員||
+der|Fußballverein|Fußballvereine|足球俱樂部||
+der|Zwillingsbruder|Zwillingsbrüder|雙胞胎兄弟||
+der|Manager|Manager|經理||
+die|Managerin|Managerinnen|女經理||
+die|Telefonnummer|Telefonnummern|電話號碼||
+der|Halbbruder|Halbbrüder|同父異母或同母異父的兄弟||
+der|Stiefvater|Stiefväter|繼父||
+der|Liebling|Lieblinge|最愛||
+der|Minirock|Miniröcke|迷你裙||
+der|Kleiderschrank|Kleiderschränke|衣櫃|der Schrank|
+der|Hunger|-|肚子餓||
+der|Hamburger|Hamburger|漢堡|der Burger|
+die|Entschuldigung|Entschuldigungen|道歉||
+die|Bratwurst|Bratwürste|德國烤香腸||
+die|Currywurst|Currywürste|咖哩香腸||
+das|Schinkenbrot|Schinkenbrote|火腿麵包||
+die|Portion|Portionen|一份||
+die|Cola|Colas|可樂||
+der|Apfelsaft|Apfelsäfte|蘋果汁||
+der|Espresso|Espressos|濃縮咖啡||
+die|Kleidung|-|衣服||
+die|Größe|Größen|尺寸||
+das|Schnäppchen|Schnäppchen|便宜貨||
+der|Gruß|Grüße|問候||
+die|Anzeige|Anzeigen|廣告|die Werbung|
+das|Fastfoodrestaurant|Fastfoodrestaurants|速食店||
+der|Tourist|Touristen|觀光客||
+die|Überraschung|Überraschungen|驚喜||
+die|Vegetarierin|Vegetarierinnen|女素食者||
+der|Quadratmeter|Quadratmeter|平方公尺||
+die|Gegend|Gegenden|地區||
+das|Arbeitszimmer|Arbeitszimmer|書房||
+die|Fußgängerzone|Fußgängerzonen|行人徒步區||
+das|Gästezimmer|Gästezimmer|客房||
+die|Miete|Mieten|房租||
+das|Reihenhaus|Reihenhäuser|連棟透天||
+der|Stadtrand|Stadtränder|市郊||
+die|Verbindung|Verbindungen|交通接駁||
+die|Innenstadt|Innenstädte|市中心|das Zentrum|
+die|U-Bahn-Station|U-Bahn-Stationen|捷運站||
+das|Kinderzimmer|Kinderzimmer|兒童房||
+das|Bücherregal|Bücherregale|書架|das Regal|
+der|Geschirrspüler|Geschirrspüler|洗碗機|die Spülmaschine|
+die|Stehlampe|Stehlampen|立燈||
+der|Esstisch|Esstische|餐桌||
+das|Einfamilienhaus|Einfamilienhäuser|獨棟住宅||
+die|Mietwohnung|Mietwohnungen|租的公寓||
+das|Hochhaus|Hochhäuser|高樓||
+der|Meter|Meter|公尺||
+die|Neuigkeit|Neuigkeiten|新消息||
+das|Stockbett|Stockbetten|雙層床||
+der|Frühstücksraum|Frühstücksräume|早餐室||
+die|Lage|Lagen|位置||
+der|Mitarbeiter|Mitarbeiter|員工||
+die|Mitarbeiterin|Mitarbeiterinnen|女員工||
+die|Minibar|Minibars|房間小冰箱||
+die|Atmosphäre|-|氣氛||
+die|Kundin|Kundinnen|女顧客||
+die|Ferienwohnung|Ferienwohnungen|度假公寓||
+die|WG|WGs|合租公寓||
+die|Lösung|Lösungen|解答||
+die|Badewanne|Badewannen|浴缸|die Wanne|
+die|Uni|Unis|大學|die Universität|
+der|Arzt|Ärzte|醫生||
+der|Polizist|Polizisten|警察||
+das|Jahr|Jahre|年||
+der|Monat|Monate|月||
+der|Tag|Tage|天，白天||
+die|Woche|Wochen|星期||
+die|Stunde|Stunden|小時，一堂課||
+die|Minute|Minuten|分鐘||
+die|Sekunde|Sekunden|秒||
+das|Licht|Lichter|光，燈光||
+das|Gemüse|-|蔬菜||
+das|Frühstück|-|早餐||
+der|Balkon|Balkone|陽台|Pl. die Balkons|
+das|Restaurant|Restaurants|餐廳||
+der|Kopf|Köpfe|頭||
+der|Bauch|Bäuche|肚子||
+das|Auge|Augen|眼睛||
+die|Nase|Nasen|鼻子||
+der|Mund|Münder|嘴巴||
+die|Brust|Brüste|胸部||
+der|Magen|Mägen|胃||
+das|Bein|Beine|腿||
+der|Fuß|Füße|腳||
+das|Ohr|Ohren|耳朵||
+der|Hals|Hälse|脖子，喉嚨||
+der|Nacken|Nacken|後頸||
+der|Rücken|Rücken|背||
+der|Finger|Finger|手指||
+die|Hand|Hände|手||
+der|Arm|Arme|手臂||
+der|Zahn|Zähne|牙齒||
+das|Knie|Knie|膝蓋||
+der|Stift|Stifte|筆||
+die|Tasse|Tassen|杯子||
+das|Bett|Betten|床||
+der|Kuchen|Kuchen|蛋糕||
+der|Computer|Computer|電腦||
+das|Handy|Handys|手機||
+das|Buch|Bücher|書||
+die|Tochter|Töchter|女兒||
+die|Frau|Frauen|女人，太太||
+die|Schwester|Schwestern|姊姊，妹妹||
+der|Bruder|Brüder|哥哥，弟弟||
+der|Onkel|Onkel|叔叔，舅舅||
+der|Vater|Väter|爸爸||
+das|Kind|Kinder|小孩||
+das|Radio|Radios|收音機||
+die|Pizza|Pizzas|披薩|Pl. die Pizzen|
+die|Suppe|Suppen|湯||
+der|Wein|Weine|葡萄酒||
+das|Brot|Brote|麵包||
+die|Brezel|Brezeln|德國結||
+die|Wurst|Würste|香腸||
+der|Salat|Salate|沙拉，生菜||
+der|Käse|-|起司||
+das|Hähnchen|Hähnchen|雞肉，烤雞|das Hühnchen|
+das|Brötchen|Brötchen|小麵包||
+die|Salami|Salamis|義式臘腸||
+das|Ei|Eier|蛋||
+der|Mantel|Mäntel|大衣||
+das|Flugzeug|Flugzeuge|飛機||
+der|Zug|Züge|火車||
+das|Auto|Autos|汽車||
+die|Straßenbahn|Straßenbahnen|路面電車||
+die|U-Bahn|U-Bahnen|捷運||
+die|S-Bahn|S-Bahnen|市郊電車||
+das|Taxi|Taxis|計程車||
+der|Bus|Busse|公車||
+das|Fahrrad|Fahrräder|腳踏車||
+der|Bahnhof|Bahnhöfe|火車站||
+das|Museum|Museen|博物館||
+das|Kino|Kinos|電影院||
+die|Post|-|郵局，郵件||
+die|Tankstelle|Tankstellen|加油站||
+das|Hotel|Hotels|飯店||
+der|Supermarkt|Supermärkte|超市||
+die|Schule|Schulen|學校||
+die|Ampel|Ampeln|紅綠燈||
+das|Haus|Häuser|房子||
+der|Platz|Plätze|廣場，位子||
+die|Jacke|Jacken|外套||
+die|Kappe|Kappen|鴨舌帽||
+die|Jeans|-|牛仔褲||
+die|Mütze|Mützen|毛帽||
+das|T-Shirt|T-Shirts|T恤||
+der|Schuh|Schuhe|鞋子||
+das|Hemd|Hemden|襯衫||
+der|Stiefel|Stiefel|靴子||
+die|Krawatte|Krawatten|領帶||
+der|Gürtel|Gürtel|皮帶||
+die|Uhr|Uhren|時鐘，手錶||
+die|Hose|Hosen|褲子||
+der|Hut|Hüte|有帽簷的帽子||
+der|Anzug|Anzüge|西裝||
+die|Socke|Socken|襪子||
+der|Schal|Schals|圍巾||
+die|Bluse|Blusen|女襯衫||
+die|Tasche|Taschen|手提包，口袋||
+die|Drogerie|Drogerien|藥妝店||
+die|Wohnung|Wohnungen|公寓||
+der|Unfall|Unfälle|意外||
+das|Wetter|-|天氣||
+das|Fieber|-|發燒||
+die|Tablette|Tabletten|藥片||
+das|Rezept|Rezepte|食譜，處方||
+das|Thermometer|Thermometer|溫度計||
+die|Schulter|Schultern|肩膀||
+das|Tennis|-|網球||
+der|Fußball|Fußbälle|足球||
+die|Wand|Wände|牆壁||
+der|Tisch|Tische|桌子||
+die|Kommode|Kommoden|五斗櫃||
+die|Pflanze|Pflanzen|植物||
+das|Kissen|Kissen|枕頭，抱枕||
+der|Brief|Briefe|信||
+das|Wasser|-|水||
+das|Fenster|Fenster|窗戶||
+die|Tür|Türen|門||
+die|Küche|Küchen|廚房||
+das|Bad|Bäder|浴室|das Badezimmer|
+das|Badezimmer|Badezimmer|浴室|das Bad|
+die|Stadt|Städte|城市||
+das|Dorf|Dörfer|村莊||
+der|Park|Parks|公園||
+der|Markt|Märkte|市場||
+die|Straße|Straßen|街道||
+die|Brücke|Brücken|橋||
+der|Lehrer|Lehrer|老師||
+der|Schüler|Schüler|中小學生|die Schülerin|
+das|Geld|-|錢||
+der|Hund|Hunde|狗||
+die|Katze|Katzen|貓||
+der|Vogel|Vögel|鳥||
+der|Regen|-|雨||
+die|Sonne|-|太陽||
+der|Wind|-|風||
+die|Zeit|Zeiten|時間||
+der|Freund|Freunde|朋友，男朋友||
+die|Familie|Familien|家庭||
+der|Apfel|Äpfel|蘋果||
+die|Banane|Bananen|香蕉||
+der|Kaffee|-|咖啡||
+der|Tee|-|茶||
+der|Herr|Herren|先生||
+die|Adresse|Adressen|地址||
+die|Pause|Pausen|休息，下課||
+die|Freundin|Freundinnen|女性朋友，女朋友||
+das|Gymnasium|Gymnasien|文理中學||
+die|Musik|-|音樂||
+die|Gitarre|Gitarren|吉他||
+die|Nähe|-|附近||
+das|Hobby|Hobbys|興趣，嗜好||
+die|Klasse|Klassen|班級，年級|die Schulklasse|
+der|Junge|Jungen|男孩||
+das|Mädchen|Mädchen|女孩||
+der|Fan|Fans|粉絲||
+das|Haar|Haare|頭髮||
+der|Nachmittag|Nachmittage|下午||
+der|Volleyball|-|排球||
+die|Frage|Fragen|提問（要回答的問題）||
+die|Zeitung|Zeitungen|報紙||
+das|Café|Cafés|咖啡廳||
+der|Film|Filme|電影||
+die|Party|Partys|派對||
+das|Konzert|Konzerte|音樂會||
+das|Essen|-|食物||
+der|Abend|Abende|晚上||
+die|Idee|Ideen|點子||
+die|E-Mail|E-Mails|電子郵件|die Mail|
+die|Welt|-|世界||
+das|Keyboard|Keyboards|電子琴，鍵盤||
+die|Torte|Torten|鮮奶油蛋糕||
+das|Bild|Bilder|圖片，圖畫||
+der|Garten|Gärten|花園||
+die|Oma|Omas|奶奶，外婆||
+der|Opa|Opas|爺爺，外公||
+das|Tier|Tiere|動物||
+der|Streit|-|吵架||
+die|Person|Personen|人|der Mensch|
+das|Kaninchen|Kaninchen|兔子||
+der|Hamster|Hamster|倉鼠||
+die|Schildkröte|Schildkröten|烏龜||
+die|Sprache|Sprachen|語言||
+das|Wort|Wörter|單字||
+der|Cousin|Cousins|表兄弟，堂兄弟||
+der|Sohn|Söhne|兒子||
+die|Tante|Tanten|阿姨，姑姑||
+die|Cousine|Cousinen|表姊妹，堂姊妹||
+das|Land|Länder|國家，鄉下||
+der|Mann|Männer|男人，丈夫||
+die|Lehrerin|Lehrerinnen|女老師||
+die|Ärztin|Ärztinnen|女醫生||
+der|Kellner|Kellner|服務生||
+der|Ingenieur|Ingenieure|工程師||
+der|Friseur|Friseure|美髮師||
+die|Arbeit|Arbeiten|工作||
+der|Urlaub|Urlaube|假期||
+die|Verkäuferin|Verkäuferinnen|女店員||
+das|Wörterbuch|Wörterbücher|字典||
+die|Bank|Bänke|長椅||
+das|Top|Tops|背心||
+der|Anorak|Anoraks|防風外套||
+das|Sweatshirt|Sweatshirts|運動衫||
+die|Farbe|Farben|顏色||
+der|Burger|Burger|漢堡|der Hamburger|
+die|Speise|Speisen|菜餚||
+das|Getränk|Getränke|飲料||
+das|Mineralwasser|-|礦泉水||
+die|Sahne|-|鮮奶油||
+das|Stück|-|一塊，一片||
+der|Flug|Flüge|飛行，航班||
+das|Ticket|Tickets|票||
+das|Medikament|Medikamente|藥||
+die|Marke|Marken|品牌，郵票||
+der|Preis|Preise|價格，獎品||
+der|Zucker|-|糖||
+der|Vegetarier|Vegetarier|素食者||
+das|Fett|Fette|脂肪||
+die|Tomate|Tomaten|番茄||
+der|Saft|Säfte|果汁||
+der|Durst|-|口渴||
+der|Senf|-|黃芥末醬||
+das|Schlafzimmer|Schlafzimmer|臥室||
+das|Zimmer|Zimmer|房間||
+das|Wohnzimmer|Wohnzimmer|客廳||
+die|Toilette|Toiletten|廁所||
+das|Stockwerk|Stockwerke|樓層||
+der|Nachbar|Nachbarn|鄰居||
+die|Nachbarin|Nachbarinnen|女鄰居||
+die|Terrasse|Terrassen|露台||
+die|Dusche|Duschen|淋浴||
+die|Wanne|Wannen|浴缸|die Badewanne|
+der|Lift|Lifte|電梯|der Aufzug|
+der|Keller|Keller|地下室||
+die|Garage|Garagen|車庫||
+der|Student|Studenten|大學生||
+die|Mikrowelle|Mikrowellen|微波爐||
+der|Kühlschrank|Kühlschränke|冰箱||
+der|Schreibtisch|Schreibtische|書桌||
+der|Sessel|Sessel|單人沙發||
+das|Regal|Regale|架子||
+das|Skelett|Skelette|骨骼||
+das|Holz|-|木頭||
+die|Blume|Blumen|花||
+der|Bauer|Bauern|農夫||
+die|Kuh|Kühe|母牛||
+das|Büro|Büros|辦公室||
+das|Video|Videos|影片||
+der|Kunde|Kunden|顧客，客人||
+das|Telefon|Telefone|電話||
+die|Villa|Villen|別墅||
+der|Juli|-|七月||
+der|Juni|-|六月||
+der|August|-|八月||
+der|Gott|Götter|神||`.split("\n").forEach(l=>{ l=l.trim(); if(!l) return; const m=/^##\s*(\d+)/.exec(l); if(m){ th=+m[1]; return; } if(l[0]==="#") return;
   const f=l.split("|").map(s=>s.trim()), alle=(f[4]||"").split(";").map(s=>s.trim()).filter(Boolean), alt=alle.filter(s=>!/^Pl\. /.test(s)), plAlt=alle.filter(s=>/^Pl\. /.test(s)).map(s=>s.slice(4));   // "Pl. die …" = weitere richtige Mehrzahl
   const nur=f[5]==="A";   // nur Auswahl, nicht tippen (Jason: Fugen -n-/-en-/-e-/-s- nicht selbst bilden)
   if(f[0]==="ABK") FACH.push({abk:true,th,kurz:f[1],lang:f[2],zh:f[3],alt,nur}); else FACH.push({th,art:f[0],w:f[1],pl:f[2]==="-"?"":f[2],zh:f[3],alt,plAlt,nur}); }); }
@@ -10253,8 +10751,8 @@ const APP_BUILD=CFG.build;   // kommt aus src/build.py (eine Nummer fuer alle Gr
 <script>
 /* Lillian: Bedienung und Erklärungen zweisprachig, Deutsch oben, Chinesisch klein darunter (Mike 2026-11-10). Quelle: ~/Unterricht/_arbeit/2026-11-10_Lillian_App/zh_ui.py. Antwortknöpfe (.opt) und Eingaben bleiben unverändert. */
 (function(){
-  var EX={"Hallo!": "你好！", "Wer bist du?": "你是誰？", "Los geht's": "開始", "Übungstage": "練習天數", "Übungstag": "練習天數", "Heute starten und den ersten Übungstag holen.": "今天開始，完成第一個練習日。", "Sterne": "星星", "Heute üben": "今天練習", "Runde fortsetzen": "繼續這一回合", "‹ zurück": "返回", "Zurück": "返回", "heute": "今天", "Runde geschafft!": "這一回合完成了！", "Tage in Folge": "連續天數", "Prüfen": "檢查", "Weiter ›": "繼續", "Verstanden, los!": "了解，開始！", "Nochmal üben (freiwillig)": "再練一次（自由選擇）", "Heute geschafft! Komm morgen wieder.": "今天完成了！明天再來。", "Spielerin wechseln": "換人", "Noch nichts geübt.": "還沒有練習。", "Perfekte Runde! Alles auf Anhieb richtig.": "完美！全部一次答對。", "Für Eltern und Lehrer": "給家長和老師", "Fortschritt": "學習進度", "Fortschritt sichern": "備份進度", "Neu anfangen": "重新開始", "Alles zurücksetzen": "全部重設", "Als Datei sichern": "存成檔案", "Aus Datei laden": "從檔案載入", "Schwere Wörter (auf diesem Gerät)": "難記的單字（這台裝置）", "sicher": "熟練", "Ein Wort ist sicher, wenn es nach mindestens 4 Tagen Pause noch richtig ist.": "一個單字隔四天以上仍答對，就算熟練。", "Tipp: in Safari über Teilen „Zum Home-Bildschirm“, dann öffnet es wie eine App und merkt sich den Fortschritt.": "小提示：在 Safari 點「分享」，選「加入主畫面」，就能像應用程式一樣打開，也會記住進度。", "Super!": "很棒！", "Richtig!": "答對了！", "Klasse!": "很好！", "Stark!": "厲害！", "Genau!": "沒錯！", "Perfekt!": "完美！", "Zu schnell geraten? Lies die Karte in Ruhe.": "是不是答太快了？慢慢讀題目。", "er, sie oder es?": "er、sie 還是 es？", "mein oder meine?": "mein 還是 meine？", "sein oder ihr?": "sein 還是 ihr？", "ihn, sie oder es?": "ihn、sie 還是 es？", "Perfekt: haben oder sein?": "完成式：用 haben 還是 sein？", "Welcher Satz ist richtig?": "哪一句是對的？", "Welches Pronomen?": "哪一個代名詞？", "Welches Reflexivpronomen?": "哪一個反身代名詞？", "Präsens": "現在式", "Modalverb": "情態動詞", "Aus dem Unterricht": "上課學過的單字", "der, die, das": "冠詞 der、die、das", "Welcher Artikel?": "哪一個冠詞？", "Plural": "複數", "Wo oder wohin?": "Wo 還是 wohin？", "Wechselpräpositionen: in, auf, an": "雙向介系詞：in、auf、an", "Präpositionen mit Dativ": "接 Dativ 的介系詞", "Präpositionen mit Akkusativ": "接 Akkusativ 的介系詞", "Welcher Fall?": "哪一格？", "alle Präpositionen gemischt": "所有介系詞混合練習", "er, sie, es": "代名詞 er、sie、es", "Nomen durch Pronomen ersetzen": "用代名詞代替名詞", "wem gehört es?": "這是誰的？", "ihn, sie, es": "代名詞 ihn、sie、es", "Pronomen im Akkusativ": "Akkusativ 的代名詞", "Perfekt": "完成式", "haben oder sein + Partizip II": "haben 或 sein 加過去分詞", "Modalverben": "情態動詞", "Satzbau": "句子結構", "Verb an Position 2: Morgen gehe ich ...": "動詞在第二位：Morgen gehe ich ...", "mir oder mich?": "mir 還是 mich？", "Pronomen im Dativ und Akkusativ": "Dativ 和 Akkusativ 的代名詞", "sich": "反身代名詞 sich", "Wörter aus deinen Stunden": "你上課學過的單字", "Im Plural ist der Artikel immer die. Die Endung lernst du mit jedem Wort: der Ball → die Bälle.": "複數的冠詞一律是 die。複數字尾要跟著每個字一起記：der Ball → die Bälle。", "Wo? (Ort) → Dativ: auf dem Tisch. Wohin? (Bewegung) → Akkusativ: auf den Tisch. Das Verb verrät es.": "Wo?（在哪裡）用 Dativ：auf dem Tisch。Wohin?（移動到哪裡）用 Akkusativ：auf den Tisch。看動詞就知道。", "mit, aus, bei, zu, von → immer Dativ: dem, der, dem. Oft verschmolzen: zum, zur, vom, beim.": "mit、aus、bei、zu、von 後面一律接 Dativ：dem、der、dem。常常會和冠詞合在一起：zum、zur、vom、beim。", "für, ohne, durch, um, gegen → immer Akkusativ. Nur der ändert sich: der → den.": "für、ohne、durch、um、gegen 後面一律接 Akkusativ。只有 der 會變：der → den。", "Jetzt ist alles gemischt: Präposition und Verb entscheiden, Dativ oder Akkusativ.": "現在全部混在一起：看介系詞和動詞，決定用 Dativ 還是 Akkusativ。", "Pronomen statt Nomen: der → er, die → sie, das → es.": "用代名詞代替名詞：der → er、die → sie、das → es。", "der- und das-Wörter: mein. die-Wörter: meine. Mein Handy, meine Jacke.": "der 和 das 的字用 mein，die 的字用 meine：mein Handy、meine Jacke。", "Gehört es ihm: sein. Gehört es ihr: ihr. Bei die-Wörtern kommt -e dazu: seine, ihre.": "是他的就用 sein，是她的就用 ihr。die 的字要加 -e：seine、ihre。", "Im Akkusativ: den → ihn, die → sie, das → es. Ich suche den Laptop. Ich suche ihn.": "Akkusativ：den → ihn、die → sie、das → es。Ich suche den Laptop. Ich suche ihn.", "Perfekt: haben oder sein an Position 2, das Partizip am Ende. Bewegung und Veränderung meist mit sein: Ich bin gegangen.": "完成式：haben 或 sein 放第二位，過去分詞放句尾。移動和變化大多用 sein：Ich bin gegangen.", "Präsens: ich -e, du -st, er -t. Manche starken Verben ändern bei du und er den Vokal: du fährst.": "現在式：ich 加 -e，du 加 -st，er 加 -t。有些強變化動詞在 du 和 er 會換母音：du fährst。", "Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.": "情態動詞放第二位，原形動詞放句尾。ich 和 er 沒有字尾：ich kann、er muss。", "Im Hauptsatz steht das Verb immer an Position 2: Morgen gehe ich ins Kino.": "主要子句裡，動詞一定在第二位：Morgen gehe ich ins Kino.", "helfen, danken, gefallen, mit, bei … → Dativ: mir, dir. sehen, fragen, für, ohne … → Akkusativ: mich, dich.": "helfen、danken、gefallen、mit、bei 等接 Dativ：mir、dir。sehen、fragen、für、ohne 等接 Akkusativ：mich、dich。", "Ich freue mich, du freust dich, wir freuen uns, ihr freut euch. Bei er, sie, es, sie (Plural) und Sie steht immer sich: Er freut sich.": "Ich freue mich, du freust dich, wir freuen uns, ihr freut euch。er、sie、es、sie（複數）和 Sie 一律用 sich：Er freut sich.", "Aber: die Nacht.": "但是：die Nacht。", "Auch bei „es gibt“ steht das Verb auf Position 2: „gibt es“.": "es gibt 也一樣，動詞在第二位：gibt es。", "Auch bei „es“ (das Mädchen) heißt es sich.": "es（das Mädchen）也用 sich。", "Auch bei „es“ heißt das Reflexivpronomen sich.": "es 的反身代名詞也是 sich。", "Auch im Plural heißt es in der 3. Person sich.": "第三人稱複數也用 sich。", "Auch mit dem Objekt vorne steht das Verb „liebe“ auf Position 2.": "受詞放在前面時，動詞 liebe 還是在第二位。", "Auch nach einem kurzen Wort wie „Jetzt“ steht das Verb auf Position 2.": "就算前面只是 Jetzt 這種短字，動詞也在第二位。", "Auch wenn das Objekt „Den Film“ vorne steht, bleibt das Verb auf Position 2.": "受詞 Den Film 放在前面，動詞還是在第二位。", "Bei Ja/Nein-Fragen steht das Verb auf Position 1.": "是非問句的動詞在第一位。", "Bei Ja/Nein-Fragen steht das Verb „Habt“ auf Position 1.": "是非問句的動詞 Habt 在第一位。", "Bei der Höflichkeitsform „Sie“ heißt das Reflexivpronomen sich, klein geschrieben.": "禮貌用法 Sie 的反身代名詞是 sich，要小寫。", "Bei „Sie“ heißt das Reflexivpronomen sich.": "Sie 的反身代名詞是 sich。", "Bei „Sie“ steht als Reflexivpronomen sich.": "Sie 的反身代名詞是 sich。", "Bei „ihr“ heißt das Reflexivpronomen euch, auch mit Objekt.": "ihr 的反身代名詞是 euch，後面有受詞也一樣。", "Bei „ihr“ heißt das Reflexivpronomen euch.": "ihr 的反身代名詞是 euch。", "Bei „wir“ heißt das Reflexivpronomen uns.": "wir 的反身代名詞是 uns。", "Bewegung (Ortswechsel) oder Veränderung (ohne Akkusativ): sein.": "移動（換地方）或變化（沒有 Akkusativ 受詞）：用 sein。", "Bewegung (wohin) oder Ruhe (wo)?": "是移動（wohin）還是停在原地（wo）？", "Da bewegt sich etwas hin.": "表示有東西移動到那裡。", "Da bewegt sich nichts, es ist schon da.": "沒有移動，東西已經在那裡。", "Das Hilfsverb „haben“ steht auf Position 2, „gespielt“ am Satzende.": "助動詞 haben 在第二位，gespielt 在句尾。", "Das Modalverb „kann“ steht auf Position 2, „kommen“ am Satzende.": "情態動詞 kann 在第二位，kommen 在句尾。", "Das Modalverb „muss“ steht auf Position 2, der Infinitiv „aufräumen“ am Ende.": "情態動詞 muss 在第二位，原形動詞 aufräumen 在句尾。", "Das Modalverb „möchte“ steht auf Position 2, der Infinitiv „kaufen“ am Ende.": "情態動詞 möchte 在第二位，原形動詞 kaufen 在句尾。", "Das Objekt steht auf Position 1, das Verb „mag“ trotzdem auf Position 2.": "受詞在第一位，動詞 mag 還是在第二位。", "Das Objekt „Mathe“ steht vorne, das Verb „finde“ auf Position 2.": "受詞 Mathe 放在前面，動詞 finde 在第二位。", "Das Objekt „Pizza“ ist Position 1, danach kommt direkt das Verb „isst“.": "受詞 Pizza 在第一位，後面直接接動詞 isst。", "Das Verb steht an Position 2, auch wenn der Satz mit „Morgen“ beginnt.": "句子用 Morgen 開頭，動詞也在第二位。", "Das Verb „schreiben“ steht auf Position 2, das Subjekt „wir“ danach.": "動詞 schreiben 在第二位，主詞 wir 在它後面。", "Das Verb „steht“ kommt auf Position 2, „auf“ geht ans Satzende.": "動詞 steht 在第二位，auf 放到句尾。", "Das Verb „wohnt“ steht direkt nach dem Fragewort „Wo“.": "動詞 wohnt 緊接在疑問詞 Wo 後面。", "Die Ja/Nein-Frage beginnt mit dem Verb „Kommt“, „mit“ steht am Ende.": "這個是非問句用動詞 Kommt 開頭，mit 在句尾。", "Die Ortsangabe ist Position 1, danach folgt das Verb „wartet“.": "地點在第一位，後面接動詞 wartet。", "Die Ortsangabe „Im Park“ ist Position 1, das Verb „spielen“ folgt direkt.": "地點 Im Park 在第一位，動詞 spielen 緊接在後。", "Die Zeitangabe ist Position 1, danach kommt sofort „trifft“.": "時間在第一位，後面馬上接 trifft。", "Die Zeitangabe steht auf Position 1, das Verb „trinkt“ auf Position 2.": "時間在第一位，動詞 trinkt 在第二位。", "Die meisten Verben: haben (auch mit Akkusativ: etwas legen, ändern, anfangen).": "大部分動詞用 haben。有 Akkusativ 受詞時也用 haben：etwas legen、ändern、anfangen。", "Im Hauptsatz steht das Verb auf Position 2, nicht am Ende.": "主要子句的動詞在第二位，不放句尾。", "Im Hauptsatz steht das konjugierte Verb an Position 2.": "主要子句裡，變化過的動詞在第二位。", "Im Perfekt steht „habe“ auf Position 2 und das Partizip „gesehen“ am Ende.": "完成式裡，habe 在第二位，過去分詞 gesehen 在句尾。", "Im Perfekt steht „hat“ auf Position 2 und „gelernt“ am Ende.": "完成式裡，hat 在第二位，gelernt 在句尾。", "In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).": "是非問句的動詞放最前面（第一位）。", "In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).": "W 問句的動詞緊接在疑問詞後面（第二位）。", "In W-Fragen steht das Verb direkt nach dem Fragewort auf Position 2.": "W 問句的動詞緊接在疑問詞後面，在第二位。", "In der 3. Person Singular heißt es sich: Lillian freut sich.": "第三人稱單數用 sich：Lillian freut sich。", "In der 3. Person heißt das Reflexivpronomen immer sich.": "第三人稱的反身代名詞一律是 sich。", "In der 3. Person heißt das Reflexivpronomen sich.": "第三人稱的反身代名詞是 sich。", "In der 3. Person heißt es sich, auch mit Objekt.": "第三人稱用 sich，後面有受詞也一樣。", "In der Ja/Nein-Frage steht „Kannst“ auf Position 1, „helfen“ am Ende.": "這個是非問句裡，Kannst 在第一位，helfen 在句尾。", "In einer Ja/Nein-Frage steht das Verb ganz vorne.": "是非問句的動詞放最前面。", "Lies das Verb.": "看動詞。", "Wohin?": "Wohin?（移動到哪裡）", "Wo?": "Wo?（在哪裡）", "Lies das kleine Wort: mit, aus, bei, zu, von → Dativ.": "看介系詞：mit、aus、bei、zu、von 接 Dativ。", "Nach dem Fragewort „Was“ kommt sofort das Verb „machst“.": "疑問詞 Was 後面馬上接動詞 machst。", "Nach dem Fragewort „Wie“ steht das Verb auf Position 2.": "疑問詞 Wie 後面的動詞在第二位。", "Nach dem Fragewort „Wo“ kommt direkt das Verb „kauft“.": "疑問詞 Wo 後面直接接動詞 kauft。", "Nach dem Objekt „Dieses Spiel“ kommt sofort das Verb „kennt“.": "受詞 Dieses Spiel 後面馬上接動詞 kennt。", "Nach der Ortsangabe steht das Verb „habe“ auf Position 2, nicht am Ende.": "地點後面，動詞 habe 在第二位，不放句尾。", "Nach der Ortsangabe steht das Verb „tragen“ auf Position 2.": "地點後面，動詞 tragen 在第二位。", "Nach der Zeitangabe „Im Sommer“ kommt zuerst das Verb, dann das Subjekt.": "時間 Im Sommer 後面先接動詞，再接主詞。", "Nach für, ohne, durch, um, gegen kommt der Akkusativ.": "für、ohne、durch、um、gegen 後面接 Akkusativ。", "Nach mit, aus, bei, zu, von kommt der Dativ.": "mit、aus、bei、zu、von 後面接 Dativ。", "Nach „Am Montag“ steht das Verb „haben“, erst dann kommt „wir“.": "Am Montag 後面先接動詞 haben，然後才是 wir。", "Nach „Außerdem“ folgt sofort das Verb, dann das Subjekt „ich“.": "Außerdem 後面馬上接動詞，再接主詞 ich。", "Nach „Danach“ steht das Verb „spielt“ auf Position 2.": "Danach 後面，動詞 spielt 在第二位。", "Nach „Darum“ steht das Verb auf Position 2, dann das Subjekt.": "Darum 後面，動詞在第二位，再接主詞。", "Nach „Deshalb“ kommt „muss“, der Infinitiv „aufstehen“ steht am Ende.": "Deshalb 後面接 muss，原形動詞 aufstehen 在句尾。", "Nach „Deshalb“ steht das Verb auf Position 2, das Subjekt folgt danach.": "Deshalb 後面，動詞在第二位，主詞在動詞後面。", "Nach „Im Bus“ kommt das Verb „hört“, dann das Subjekt.": "Im Bus 後面接動詞 hört，再接主詞。", "Nach „In Deutschland“ steht das Verb, dann das Subjekt „viele Leute“.": "In Deutschland 後面接動詞，再接主詞 viele Leute。", "Nach „Nächste Woche“ steht das Verb „hat“ auf Position 2.": "Nächste Woche 後面，動詞 hat 在第二位。", "Nach „Warum“ kommt zuerst das Verb, dann das Subjekt.": "Warum 後面先接動詞，再接主詞。", "Nach „mit“ steht der Dativ, bei „es“ heißt das ihm.": "mit 後面接 Dativ，es 的 Dativ 是 ihm。", "Nach „mit“ steht der Dativ, im Plural heißt das ihnen.": "mit 後面接 Dativ，複數的 Dativ 是 ihnen。", "Ohne weiteres Objekt steht der Akkusativ: mich.": "沒有其他受詞時用 Akkusativ：mich。", "Manche starken Verben ändern bei du und er den Vokal (fahren: du fährst).": "有些強變化動詞在 du 和 er 會換母音（fahren：du fährst）。", "Tipp: Das Ufer liegt am Wasser, und beide sind das.": "小提示：das Ufer 在 das Wasser 旁邊，兩個都是 das。", "Tipp: Die Bibliothek ist dasselbe wie die Bücherei, und Wörter auf -erei sind die.": "小提示：Bibliothek 和 Bücherei 意思一樣，-erei 結尾的字是 die。", "Tipp: Die Tageszeiten sind der: der Morgen, der Mittag, der Abend.": "小提示：一天中的時段是 der：der Morgen、der Mittag、der Abend。", "Tipp: Meist bestimmt der letzte Teil des Wortes den Artikel: der Hafen, also der Flughafen.": "小提示：冠詞通常由字的最後一部分決定：der Hafen，所以是 der Flughafen。", "Tipp: Wörter für einen Mann oder Jungen sind fast immer der: der Vater, der Bruder, der Opa.": "小提示：指男人或男孩的字幾乎都是 der：der Vater、der Bruder、der Opa。", "Tipp: das Diktat wie das Heft.": "小提示：das Diktat 跟 das Heft 的冠詞一樣。", "Du schreibst das Diktat ins Heft.": "你把聽寫寫在 Heft 裡。", "Tipp: das Land wie das Feld.": "小提示：das Land 跟 das Feld 的冠詞一樣。", "Tipp: der Gott wie der König.": "小提示：der Gott 跟 der König 的冠詞一樣。", "Tipp: der Ort wie der Park.": "小提示：der Ort 跟 der Park 的冠詞一樣。", "Tipp: der Weg wie der Garten.": "小提示：der Weg 跟 der Garten 的冠詞一樣。", "Tipp: die Nadel wie die Schere, beide brauchst du beim Nähen.": "小提示：die Nadel 跟 die Schere 的冠詞一樣，縫東西時兩個都要用。", "Tipp: die Welt wie die Erde.": "小提示：die Welt 跟 die Erde 的冠詞一樣。", "Tipp: die Zeit wie die Uhr.": "小提示：die Zeit 跟 die Uhr 的冠詞一樣。", "Tipp: wie die Zeitung und die Übung.": "小提示：跟 die Zeitung 和 die Übung 的冠詞一樣。", "Trennbares Verb ohne ge (ausprobiert, wie probiert).": "分離動詞，不加 ge（ausprobiert，跟 probiert 一樣）。", "Trennbares Verb ohne ge (vorbereitet, wie bereitet).": "分離動詞，不加 ge（vorbereitet，跟 bereitet 一樣）。", "Viele Wörter auf -e sind die.": "很多 -e 結尾的字是 die。", "Viele Wörter auf -er sind der.": "很多 -er 結尾的字是 der。", "Wörter auf -chen sind immer das.": "-chen 結尾的字一律是 das。", "Wörter auf -ung sind die.": "-ung 結尾的字是 die。", "danken verlangt den Dativ, im Plural ihnen.": "danken 要接 Dativ，複數是 ihnen。", "für, ohne, durch, um, gegen → Akkusativ.": "für、ohne、durch、um、gegen 接 Akkusativ。", "für, ohne, durch, um, gegen → immer die Akkusativ-Form": "für、ohne、durch、um、gegen 一律用 Akkusativ 的形式", "geben + Person: Das Baby steht im Dativ, also ihm.": "geben 加人：das Baby 用 Dativ，所以是 ihm。", "geben + Person: Die Person steht im Dativ, im Plural ihnen.": "geben 加人：人用 Dativ，複數是 ihnen。", "gefallen verlangt den Dativ, im Plural ihnen.": "gefallen 要接 Dativ，複數是 ihnen。", "gehören steht immer mit Dativ: mir.": "gehören 一律接 Dativ：mir。", "glauben + Person verlangt den Dativ: mir.": "glauben 加人要接 Dativ：mir。", "helfen verlangt den Dativ, im Plural ihnen.": "helfen 要接 Dativ，複數是 ihnen。", "kaufen für eine Person: Die Person steht im Dativ, also ihr.": "kaufen 幫人買東西：人用 Dativ，所以是 ihr。", "mit, aus, bei, zu, von → immer die Dativ-Form": "mit、aus、bei、zu、von 一律用 Dativ 的形式", "passieren, geschehen, gelingen, begegnen: mit sein.": "passieren、geschehen、gelingen、begegnen：用 sein。", "sein und bleiben: immer mit sein.": "sein 和 bleiben：一律用 sein。", "sich vorstellen im Sinn von „seinen Namen sagen“: Akkusativ, also mich.": "sich vorstellen 是「自我介紹」的意思時用 Akkusativ，所以是 mich。", "sich etwas ansehen: Bei „wir“ heißt es uns.": "sich etwas ansehen：wir 用 uns。", "„Das steht dir gut“ hat den Dativ: dir.": "Das steht dir gut 要用 Dativ：dir。", "„Ist dir kalt?“ steht mit Dativ: dir.": "Ist dir kalt? 要用 Dativ：dir。", "„Wie geht es ...?“ steht mit Dativ: dir.": "Wie geht es ...? 要用 Dativ：dir。", "„stehen“ im Sinn von „gut aussehen“ verlangt den Dativ: ihr.": "stehen 是「好看、適合」的意思時，要接 Dativ：ihr。", "„warten auf“ verlangt den Akkusativ: dich.": "warten auf 要接 Akkusativ：dich。", "„Heute Abend“ zählt als ein Satzteil, das Verb steht direkt danach.": "Heute Abend 算一個句子成分，動詞緊接在後。", "„Wie lange“ zählt als Position 1, danach steht das Verb.": "Wie lange 算第一位，後面接動詞。", "„Mit wem“ ist ein Satzteil auf Position 1, danach kommt das Verb.": "Mit wem 是一個句子成分，在第一位，後面接動詞。", "„Nach der Schule“ ist ein Satzteil auf Position 1, danach folgt direkt das Verb.": "Nach der Schule 是一個句子成分，在第一位，後面直接接動詞。", "„Manchmal“ ist Position 1, das Verb muss direkt danach kommen.": "Manchmal 在第一位，動詞一定要緊接在後。", "„Vor dem Unterricht“ ist Position 1, das Verb steht auf Position 2.": "Vor dem Unterricht 在第一位，動詞在第二位。", "„Oft“ ist Position 1, das Verb „sehen“ steht auf Position 2 und „fern“ am Ende.": "Oft 在第一位，動詞 sehen 在第二位，fern 在句尾。", "„Zum Glück“ ist Position 1, danach kommt „hat“, und „gefunden“ steht am Ende.": "Zum Glück 在第一位，後面接 hat，gefunden 在句尾。", "„Heute“ ist Position 1, danach kommt sofort das Verb „spielt“ und dann „Lillian“.": "Heute 在第一位，後面馬上接動詞 spielt，然後是 Lillian。", "„Hast“ steht auf Position 1, das Partizip „gemacht“ am Ende.": "Hast 在第一位，過去分詞 gemacht 在句尾。", "„hast“ steht nach dem Fragewort auf Position 2, „gemacht“ am Ende.": "hast 在疑問詞後面的第二位，gemacht 在句尾。", "Fast!": "差一點！", "Gleich nochmal!": "再試一次！", "Kein Problem!": "沒關係！", "Nicht ganz!": "不太對！", "Tippe auf die richtige Lösung:": "請點正確答案：", "Wie heißt die Mehrzahl?": "複數是什麼？", "Wie heißt das auf Deutsch?": "德文怎麼說？", "Lies die Karte in Ruhe.": "慢慢讀題目。", "Zu schnell geraten?": "是不是答太快了？", "Ein paar üben wir morgen weiter.": "有幾個明天再繼續練。", "Wochenziel": "每週目標", "lädt ...": "載入中……"};
-  var RX=[[/^(der|die|das|den) \S+ → (er|sie|es|ihn)\.$/,null],[/^Die Mehrzahl ist „die (.+)“\.$/,"複數是 die $1。"],[/^Merke?( dir)?: (der|die|das) (.+)\.$/,"記住：$2 $3。"],[/^Es heißt (mein|meine) (.+) \((der|die|das) (.+)\)\.$/,"要用 $1 $2（$3 $4）。"],[/^Beides geht: (\S+) oder (\S+) (.+)\.$/,"兩個都可以：$1 或 $2 $3。"],[/^Auch richtig: (.+)\.$/,"也對：$1。"],[/^Trennbares Verb: ge steht in der Mitte \((\S+)\)\.$/,"分離動詞：ge 放在中間（$1）。"],[/^(.+): (er|sie) → (sein|ihr), also „(.+)“ \((.+)\)\.$/,"$1：$2 → $3，所以是 $4（$5）。"],[/^(\S+) verlangt den (Dativ|Akkusativ): (\S+)\.$/,"$1 要接 $2：$3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), höflich: (\S+)\.$/,"$1 要接 $2，禮貌用法是 $3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), in der Höflichkeitsform: (\S+)\.$/,"$1 要接 $2，禮貌用法是 $3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), im Plural (\S+)\.$/,"$1 要接 $2，複數是 $3。"],[/^(\S+) steht immer mit Dativ: (\S+)\.$/,"$1 一律接 Dativ：$2。"],[/^(\S+) \+ Person: Die Person steht im Dativ, also (\S+)\.$/,"$1 加人：人用 Dativ，所以是 $2。"],[/^Nach „(\S+)“ steht immer der (Dativ|Akkusativ): (\S+)\.$/,"$1 後面一律接 $2：$3。"],[/^Nach „(\S+)“ steht der (Dativ|Akkusativ), höflich: (\S+)\.$/,"$1 後面接 $2，禮貌用法是 $3。"],[/^Tipp: (\S+) wird (\S+)\.$/,"小提示：$1 變成 $2。"],[/^Wohin\? Da bewegt sich etwas hin\.$/,"Wohin?：表示有東西移動到那裡。"],[/^Wo\? Da bewegt sich nichts, es ist schon da\.$/,"Wo?：沒有移動，東西已經在那裡。"],[/^Kein ge- bei be-, ver-, er-, ent-, emp-, zer- \((\S+)\)\.$/,"be-、ver-、er-、ent-、emp-、zer- 開頭的動詞不加 ge-（$1）。"],[/^Verben auf -ieren: kein ge- \((\S+)\)\.$/,"-ieren 結尾的動詞不加 ge-（$1）。"],[/^Dieses Verb ist nicht trennbar: kein ge- \((\S+)\)\.$/,"這個動詞不可分，不加 ge-（$1）。"],[/^\((\S+) (das|dem|der) = (\S+)\)$/,"（$1 $2 = $3）"],[/^(\S+), (\S+ ?\S*, )?(hat|ist) (.+)\.$/,null],[/^(\S+): ich (.+)\.$/,null],[/^„(\S+)“ steht auf Position 2, das Partizip „(\S+)“ (am Ende|am Satzende|ganz am Ende)\.$/,"$1 在第二位，過去分詞 $2 在句尾。"],[/^„(\S+)“ steht auf Position 2, (der Infinitiv )?„(\S+)“ (ganz )?am Ende\.$/,"$1 在第二位，$3 在句尾。"],[/^Das Modalverb „(\S+)“ steht auf Position 2, „(\S+)“ am Ende\.$/,"情態動詞 $1 在第二位，$2 在句尾。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, (?:deshalb )?(?:steht|kommt) „(\S+)“ vor „(.+)“\.$/,"$1 在第一位，所以 $2 放在 $3 前面。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, deshalb kommt das Verb vor „(.+)“\.$/,"$1 在第一位，所以動詞放在 $2 前面。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, das Verb „(\S+)“ (?:folgt direkt|folgt sofort|steht direkt danach|muss direkt danach kommen)\.$/,"$1 在第一位，動詞 $2 緊接在後。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, danach kommt sofort (?:das Verb )?„(\S+)“\.$/,"$1 在第一位，後面馬上接 $2。"],[/^„(.+)“ steht vorne, deshalb kommt „(\S+)“ vor dem Subjekt\.$/,"$1 放在前面，所以 $2 放在主詞前面。"],[/^„(.+)“ steht vorne, deshalb kommt das Verb vor „(.+)“\.$/,"$1 放在前面，所以動詞放在 $2 前面。"],[/^„(.+)“ steht vorne, das Verb „(\S+)“ auf Position 2\.$/,"$1 放在前面，動詞 $2 在第二位。"],[/^sich .+: .+\.$/,null],[/^… .+$/,null],[/^.*….*$/,null],[/^Richtig ist: (.+)$/,"正確答案是：$1"],[/^Du hast geschrieben: „(.*)“$/,"你寫的是：「$1」"],[/^Du hast (\d+) Karten geübt, (\d+) auf Anhieb richtig\.$/,"你練習了 $1 張卡片，其中 $2 張一次就答對。"],[/^Noch (\d+) (?:Wort|Wörter), dann sind (\d+) sicher$/,"再練熟 $1 個單字，熟練的單字就有 $2 個"],[/^Noch (\d+) (?:Wort|Wörter) bis zum nächsten Stern$/,"還差 $1 個單字就能拿到下一顆星"],[/^Diese Woche: ([+-]?\d+) sichere Wörter( \(letzte Woche ([+-]?\d+)\))?$/,"本週熟練的單字 $1 個"],[/^Neu: (.+)$/,"新單元：$1"],[/^Hallo (.+)!$/,"你好，$1！"],[/^Ich bin (.+)$/,"我是 $1"]];
+  var EX={"Hallo!": "你好！", "Wer bist du?": "你是誰？", "Los geht's": "開始", "Übungstage": "練習天數", "Übungstag": "練習天數", "Heute starten und den ersten Übungstag holen.": "今天開始，完成第一個練習日。", "Sterne": "星星", "Heute üben": "今天練習", "Runde fortsetzen": "繼續這一回合", "‹ zurück": "返回", "Zurück": "返回", "heute": "今天", "Runde geschafft!": "這一回合完成了！", "Tage in Folge": "連續天數", "Prüfen": "檢查", "Weiter ›": "繼續", "Verstanden, los!": "了解，開始！", "Nochmal üben (freiwillig)": "再練一次（自由選擇）", "Heute geschafft! Komm morgen wieder.": "今天完成了！明天再來。", "Spielerin wechseln": "換人", "Noch nichts geübt.": "還沒有練習。", "Perfekte Runde! Alles auf Anhieb richtig.": "完美！全部一次答對。", "Für Eltern und Lehrer": "給家長和老師", "Fortschritt": "學習進度", "Fortschritt sichern": "備份進度", "Neu anfangen": "重新開始", "Alles zurücksetzen": "全部重設", "Als Datei sichern": "存成檔案", "Aus Datei laden": "從檔案載入", "Schwere Wörter (auf diesem Gerät)": "難記的單字（這台裝置）", "sicher": "熟練", "Ein Wort ist sicher, wenn es nach mindestens 4 Tagen Pause noch richtig ist.": "一個單字隔四天以上仍答對，就算熟練。", "Tipp: in Safari über Teilen „Zum Home-Bildschirm“, dann öffnet es wie eine App und merkt sich den Fortschritt.": "小提示：在 Safari 點「分享」，選「加入主畫面」，就能像應用程式一樣打開，也會記住進度。", "Super!": "很棒！", "Richtig!": "答對了！", "Klasse!": "很好！", "Stark!": "厲害！", "Genau!": "沒錯！", "Perfekt!": "完美！", "Zu schnell geraten? Lies die Karte in Ruhe.": "是不是答太快了？慢慢讀題目。", "er, sie oder es?": "er、sie 還是 es？", "mein oder meine?": "mein 還是 meine？", "sein oder ihr?": "sein 還是 ihr？", "ihn, sie oder es?": "ihn、sie 還是 es？", "Perfekt: haben oder sein?": "完成式：用 haben 還是 sein？", "Welcher Satz ist richtig?": "哪一句是對的？", "Welches Pronomen?": "哪一個代名詞？", "Welches Reflexivpronomen?": "哪一個反身代名詞？", "Präsens": "現在式", "Modalverb": "情態動詞", "Aus dem Unterricht": "上課學過的單字", "der, die, das": "冠詞 der、die、das", "Welcher Artikel?": "哪一個冠詞？", "Plural": "複數", "Wo oder wohin?": "Wo 還是 wohin？", "Wechselpräpositionen: in, auf, an": "雙向介系詞：in、auf、an", "Präpositionen mit Dativ": "接 Dativ 的介系詞", "Präpositionen mit Akkusativ": "接 Akkusativ 的介系詞", "Welcher Fall?": "哪一格？", "alle Präpositionen gemischt": "所有介系詞混合練習", "er, sie, es": "代名詞 er、sie、es", "Nomen durch Pronomen ersetzen": "用代名詞代替名詞", "wem gehört es?": "這是誰的？", "ihn, sie, es": "代名詞 ihn、sie、es", "Pronomen im Akkusativ": "Akkusativ 的代名詞", "Perfekt": "完成式", "haben oder sein + Partizip II": "haben 或 sein 加過去分詞", "Modalverben": "情態動詞", "Satzbau": "句子結構", "Verb an Position 2: Morgen gehe ich ...": "動詞在第二位：Morgen gehe ich ...", "mir oder mich?": "mir 還是 mich？", "Pronomen im Dativ und Akkusativ": "Dativ 和 Akkusativ 的代名詞", "sich": "反身代名詞 sich", "Wörter aus deinen Stunden": "你上課學過的單字", "Nebensätze": "從屬子句", "weil, dass, wenn: Verb am Ende": "weil、dass、wenn: 動詞放句尾", "Welche Wortstellung ist richtig?": "哪一種詞序是對的？", "Nach weil, dass und wenn steht das Verb am Ende: …, weil ich krank bin.": "weil、dass 和 wenn 後面的子句，動詞放在句尾：…, weil ich krank bin.", "Im Plural ist der Artikel immer die. Die Endung lernst du mit jedem Wort: der Ball → die Bälle.": "複數的冠詞一律是 die。複數字尾要跟著每個字一起記：der Ball → die Bälle。", "Wo? (Ort) → Dativ: auf dem Tisch. Wohin? (Bewegung) → Akkusativ: auf den Tisch. Das Verb verrät es.": "Wo?（在哪裡）用 Dativ：auf dem Tisch。Wohin?（移動到哪裡）用 Akkusativ：auf den Tisch。看動詞就知道。", "mit, aus, bei, zu, von → immer Dativ: dem, der, dem. Oft verschmolzen: zum, zur, vom, beim.": "mit、aus、bei、zu、von 後面一律接 Dativ：dem、der、dem。常常會和冠詞合在一起：zum、zur、vom、beim。", "für, ohne, durch, um, gegen → immer Akkusativ. Nur der ändert sich: der → den.": "für、ohne、durch、um、gegen 後面一律接 Akkusativ。只有 der 會變：der → den。", "Jetzt ist alles gemischt: Präposition und Verb entscheiden, Dativ oder Akkusativ.": "現在全部混在一起：看介系詞和動詞，決定用 Dativ 還是 Akkusativ。", "Pronomen statt Nomen: der → er, die → sie, das → es.": "用代名詞代替名詞：der → er、die → sie、das → es。", "der- und das-Wörter: mein. die-Wörter: meine. Mein Handy, meine Jacke.": "der 和 das 的字用 mein，die 的字用 meine：mein Handy、meine Jacke。", "Gehört es ihm: sein. Gehört es ihr: ihr. Bei die-Wörtern kommt -e dazu: seine, ihre.": "是他的就用 sein，是她的就用 ihr。die 的字要加 -e：seine、ihre。", "Im Akkusativ: den → ihn, die → sie, das → es. Ich suche den Laptop. Ich suche ihn.": "Akkusativ：den → ihn、die → sie、das → es。Ich suche den Laptop. Ich suche ihn.", "Perfekt: haben oder sein an Position 2, das Partizip am Ende. Bewegung und Veränderung meist mit sein: Ich bin gegangen.": "完成式：haben 或 sein 放第二位，過去分詞放句尾。移動和變化大多用 sein：Ich bin gegangen.", "Präsens: ich -e, du -st, er -t. Manche starken Verben ändern bei du und er den Vokal: du fährst.": "現在式：ich 加 -e，du 加 -st，er 加 -t。有些強變化動詞在 du 和 er 會換母音：du fährst。", "Modalverb an Position 2, Infinitiv am Ende. ich und er ohne Endung: ich kann, er muss.": "情態動詞放第二位，原形動詞放句尾。ich 和 er 沒有字尾：ich kann、er muss。", "Im Hauptsatz steht das Verb immer an Position 2: Morgen gehe ich ins Kino.": "主要子句裡，動詞一定在第二位：Morgen gehe ich ins Kino.", "helfen, danken, gefallen, mit, bei … → Dativ: mir, dir. sehen, fragen, für, ohne … → Akkusativ: mich, dich.": "helfen、danken、gefallen、mit、bei 等接 Dativ：mir、dir。sehen、fragen、für、ohne 等接 Akkusativ：mich、dich。", "Ich freue mich, du freust dich, wir freuen uns, ihr freut euch. Bei er, sie, es, sie (Plural) und Sie steht immer sich: Er freut sich.": "Ich freue mich, du freust dich, wir freuen uns, ihr freut euch。er、sie、es、sie（複數）和 Sie 一律用 sich：Er freut sich.", "Aber: die Nacht.": "但是：die Nacht。", "Auch bei „es gibt“ steht das Verb auf Position 2: „gibt es“.": "es gibt 也一樣，動詞在第二位：gibt es。", "Auch bei „es“ (das Mädchen) heißt es sich.": "es（das Mädchen）也用 sich。", "Auch bei „es“ heißt das Reflexivpronomen sich.": "es 的反身代名詞也是 sich。", "Auch im Plural heißt es in der 3. Person sich.": "第三人稱複數也用 sich。", "Auch mit dem Objekt vorne steht das Verb „liebe“ auf Position 2.": "受詞放在前面時，動詞 liebe 還是在第二位。", "Auch nach einem kurzen Wort wie „Jetzt“ steht das Verb auf Position 2.": "就算前面只是 Jetzt 這種短字，動詞也在第二位。", "Auch wenn das Objekt „Den Film“ vorne steht, bleibt das Verb auf Position 2.": "受詞 Den Film 放在前面，動詞還是在第二位。", "Bei Ja/Nein-Fragen steht das Verb auf Position 1.": "是非問句的動詞在第一位。", "Bei Ja/Nein-Fragen steht das Verb „Habt“ auf Position 1.": "是非問句的動詞 Habt 在第一位。", "Bei der Höflichkeitsform „Sie“ heißt das Reflexivpronomen sich, klein geschrieben.": "禮貌用法 Sie 的反身代名詞是 sich，要小寫。", "Bei „Sie“ heißt das Reflexivpronomen sich.": "Sie 的反身代名詞是 sich。", "Bei „Sie“ steht als Reflexivpronomen sich.": "Sie 的反身代名詞是 sich。", "Bei „ihr“ heißt das Reflexivpronomen euch, auch mit Objekt.": "ihr 的反身代名詞是 euch，後面有受詞也一樣。", "Bei „ihr“ heißt das Reflexivpronomen euch.": "ihr 的反身代名詞是 euch。", "Bei „wir“ heißt das Reflexivpronomen uns.": "wir 的反身代名詞是 uns。", "Bewegung (Ortswechsel) oder Veränderung (ohne Akkusativ): sein.": "移動（換地方）或變化（沒有 Akkusativ 受詞）：用 sein。", "Bewegung (wohin) oder Ruhe (wo)?": "是移動（wohin）還是停在原地（wo）？", "Da bewegt sich etwas hin.": "表示有東西移動到那裡。", "Da bewegt sich nichts, es ist schon da.": "沒有移動，東西已經在那裡。", "Das Hilfsverb „haben“ steht auf Position 2, „gespielt“ am Satzende.": "助動詞 haben 在第二位，gespielt 在句尾。", "Das Modalverb „kann“ steht auf Position 2, „kommen“ am Satzende.": "情態動詞 kann 在第二位，kommen 在句尾。", "Das Modalverb „muss“ steht auf Position 2, der Infinitiv „aufräumen“ am Ende.": "情態動詞 muss 在第二位，原形動詞 aufräumen 在句尾。", "Das Modalverb „möchte“ steht auf Position 2, der Infinitiv „kaufen“ am Ende.": "情態動詞 möchte 在第二位，原形動詞 kaufen 在句尾。", "Das Objekt steht auf Position 1, das Verb „mag“ trotzdem auf Position 2.": "受詞在第一位，動詞 mag 還是在第二位。", "Das Objekt „Mathe“ steht vorne, das Verb „finde“ auf Position 2.": "受詞 Mathe 放在前面，動詞 finde 在第二位。", "Das Objekt „Pizza“ ist Position 1, danach kommt direkt das Verb „isst“.": "受詞 Pizza 在第一位，後面直接接動詞 isst。", "Das Verb steht an Position 2, auch wenn der Satz mit „Morgen“ beginnt.": "句子用 Morgen 開頭，動詞也在第二位。", "Das Verb „schreiben“ steht auf Position 2, das Subjekt „wir“ danach.": "動詞 schreiben 在第二位，主詞 wir 在它後面。", "Das Verb „steht“ kommt auf Position 2, „auf“ geht ans Satzende.": "動詞 steht 在第二位，auf 放到句尾。", "Das Verb „wohnt“ steht direkt nach dem Fragewort „Wo“.": "動詞 wohnt 緊接在疑問詞 Wo 後面。", "Die Ja/Nein-Frage beginnt mit dem Verb „Kommt“, „mit“ steht am Ende.": "這個是非問句用動詞 Kommt 開頭，mit 在句尾。", "Die Ortsangabe ist Position 1, danach folgt das Verb „wartet“.": "地點在第一位，後面接動詞 wartet。", "Die Ortsangabe „Im Park“ ist Position 1, das Verb „spielen“ folgt direkt.": "地點 Im Park 在第一位，動詞 spielen 緊接在後。", "Die Zeitangabe ist Position 1, danach kommt sofort „trifft“.": "時間在第一位，後面馬上接 trifft。", "Die Zeitangabe steht auf Position 1, das Verb „trinkt“ auf Position 2.": "時間在第一位，動詞 trinkt 在第二位。", "Die meisten Verben: haben (auch mit Akkusativ: etwas legen, ändern, anfangen).": "大部分動詞用 haben。有 Akkusativ 受詞時也用 haben：etwas legen、ändern、anfangen。", "Im Hauptsatz steht das Verb auf Position 2, nicht am Ende.": "主要子句的動詞在第二位，不放句尾。", "Im Hauptsatz steht das konjugierte Verb an Position 2.": "主要子句裡，變化過的動詞在第二位。", "Im Perfekt steht „habe“ auf Position 2 und das Partizip „gesehen“ am Ende.": "完成式裡，habe 在第二位，過去分詞 gesehen 在句尾。", "Im Perfekt steht „hat“ auf Position 2 und „gelernt“ am Ende.": "完成式裡，hat 在第二位，gelernt 在句尾。", "In Ja/Nein-Fragen steht das Verb ganz vorne (Position 1).": "是非問句的動詞放最前面（第一位）。", "In W-Fragen steht das Verb direkt nach dem Fragewort (Position 2).": "W 問句的動詞緊接在疑問詞後面（第二位）。", "In W-Fragen steht das Verb direkt nach dem Fragewort auf Position 2.": "W 問句的動詞緊接在疑問詞後面，在第二位。", "In der 3. Person Singular heißt es sich: Lillian freut sich.": "第三人稱單數用 sich：Lillian freut sich。", "In der 3. Person heißt das Reflexivpronomen immer sich.": "第三人稱的反身代名詞一律是 sich。", "In der 3. Person heißt das Reflexivpronomen sich.": "第三人稱的反身代名詞是 sich。", "In der 3. Person heißt es sich, auch mit Objekt.": "第三人稱用 sich，後面有受詞也一樣。", "In der Ja/Nein-Frage steht „Kannst“ auf Position 1, „helfen“ am Ende.": "這個是非問句裡，Kannst 在第一位，helfen 在句尾。", "In einer Ja/Nein-Frage steht das Verb ganz vorne.": "是非問句的動詞放最前面。", "Lies das Verb.": "看動詞。", "Wohin?": "Wohin?（移動到哪裡）", "Wo?": "Wo?（在哪裡）", "Lies das kleine Wort: mit, aus, bei, zu, von → Dativ.": "看介系詞：mit、aus、bei、zu、von 接 Dativ。", "Nach dem Fragewort „Was“ kommt sofort das Verb „machst“.": "疑問詞 Was 後面馬上接動詞 machst。", "Nach dem Fragewort „Wie“ steht das Verb auf Position 2.": "疑問詞 Wie 後面的動詞在第二位。", "Nach dem Fragewort „Wo“ kommt direkt das Verb „kauft“.": "疑問詞 Wo 後面直接接動詞 kauft。", "Nach dem Objekt „Dieses Spiel“ kommt sofort das Verb „kennt“.": "受詞 Dieses Spiel 後面馬上接動詞 kennt。", "Nach der Ortsangabe steht das Verb „habe“ auf Position 2, nicht am Ende.": "地點後面，動詞 habe 在第二位，不放句尾。", "Nach der Ortsangabe steht das Verb „tragen“ auf Position 2.": "地點後面，動詞 tragen 在第二位。", "Nach der Zeitangabe „Im Sommer“ kommt zuerst das Verb, dann das Subjekt.": "時間 Im Sommer 後面先接動詞，再接主詞。", "Nach für, ohne, durch, um, gegen kommt der Akkusativ.": "für、ohne、durch、um、gegen 後面接 Akkusativ。", "Nach mit, aus, bei, zu, von kommt der Dativ.": "mit、aus、bei、zu、von 後面接 Dativ。", "Nach „Am Montag“ steht das Verb „haben“, erst dann kommt „wir“.": "Am Montag 後面先接動詞 haben，然後才是 wir。", "Nach „Außerdem“ folgt sofort das Verb, dann das Subjekt „ich“.": "Außerdem 後面馬上接動詞，再接主詞 ich。", "Nach „Danach“ steht das Verb „spielt“ auf Position 2.": "Danach 後面，動詞 spielt 在第二位。", "Nach „Darum“ steht das Verb auf Position 2, dann das Subjekt.": "Darum 後面，動詞在第二位，再接主詞。", "Nach „Deshalb“ kommt „muss“, der Infinitiv „aufstehen“ steht am Ende.": "Deshalb 後面接 muss，原形動詞 aufstehen 在句尾。", "Nach „Deshalb“ steht das Verb auf Position 2, das Subjekt folgt danach.": "Deshalb 後面，動詞在第二位，主詞在動詞後面。", "Nach „Im Bus“ kommt das Verb „hört“, dann das Subjekt.": "Im Bus 後面接動詞 hört，再接主詞。", "Nach „In Deutschland“ steht das Verb, dann das Subjekt „viele Leute“.": "In Deutschland 後面接動詞，再接主詞 viele Leute。", "Nach „Nächste Woche“ steht das Verb „hat“ auf Position 2.": "Nächste Woche 後面，動詞 hat 在第二位。", "Nach „Warum“ kommt zuerst das Verb, dann das Subjekt.": "Warum 後面先接動詞，再接主詞。", "Nach „mit“ steht der Dativ, bei „es“ heißt das ihm.": "mit 後面接 Dativ，es 的 Dativ 是 ihm。", "Nach „mit“ steht der Dativ, im Plural heißt das ihnen.": "mit 後面接 Dativ，複數的 Dativ 是 ihnen。", "Ohne weiteres Objekt steht der Akkusativ: mich.": "沒有其他受詞時用 Akkusativ：mich。", "Manche starken Verben ändern bei du und er den Vokal (fahren: du fährst).": "有些強變化動詞在 du 和 er 會換母音（fahren：du fährst）。", "Tipp: Das Ufer liegt am Wasser, und beide sind das.": "小提示：das Ufer 在 das Wasser 旁邊，兩個都是 das。", "Tipp: Die Bibliothek ist dasselbe wie die Bücherei, und Wörter auf -erei sind die.": "小提示：Bibliothek 和 Bücherei 意思一樣，-erei 結尾的字是 die。", "Tipp: Die Tageszeiten sind der: der Morgen, der Mittag, der Abend.": "小提示：一天中的時段是 der：der Morgen、der Mittag、der Abend。", "Tipp: Meist bestimmt der letzte Teil des Wortes den Artikel: der Hafen, also der Flughafen.": "小提示：冠詞通常由字的最後一部分決定：der Hafen，所以是 der Flughafen。", "Tipp: Wörter für einen Mann oder Jungen sind fast immer der: der Vater, der Bruder, der Opa.": "小提示：指男人或男孩的字幾乎都是 der：der Vater、der Bruder、der Opa。", "Tipp: das Diktat wie das Heft.": "小提示：das Diktat 跟 das Heft 的冠詞一樣。", "Du schreibst das Diktat ins Heft.": "你把聽寫寫在 Heft 裡。", "Tipp: das Land wie das Feld.": "小提示：das Land 跟 das Feld 的冠詞一樣。", "Tipp: der Gott wie der König.": "小提示：der Gott 跟 der König 的冠詞一樣。", "Tipp: der Ort wie der Park.": "小提示：der Ort 跟 der Park 的冠詞一樣。", "Tipp: der Weg wie der Garten.": "小提示：der Weg 跟 der Garten 的冠詞一樣。", "Tipp: die Nadel wie die Schere, beide brauchst du beim Nähen.": "小提示：die Nadel 跟 die Schere 的冠詞一樣，縫東西時兩個都要用。", "Tipp: die Welt wie die Erde.": "小提示：die Welt 跟 die Erde 的冠詞一樣。", "Tipp: die Zeit wie die Uhr.": "小提示：die Zeit 跟 die Uhr 的冠詞一樣。", "Tipp: wie die Zeitung und die Übung.": "小提示：跟 die Zeitung 和 die Übung 的冠詞一樣。", "Trennbares Verb ohne ge (ausprobiert, wie probiert).": "分離動詞，不加 ge（ausprobiert，跟 probiert 一樣）。", "Trennbares Verb ohne ge (vorbereitet, wie bereitet).": "分離動詞，不加 ge（vorbereitet，跟 bereitet 一樣）。", "Viele Wörter auf -e sind die.": "很多 -e 結尾的字是 die。", "Viele Wörter auf -er sind der.": "很多 -er 結尾的字是 der。", "Wörter auf -chen sind immer das.": "-chen 結尾的字一律是 das。", "Wörter auf -ung sind die.": "-ung 結尾的字是 die。", "danken verlangt den Dativ, im Plural ihnen.": "danken 要接 Dativ，複數是 ihnen。", "für, ohne, durch, um, gegen → Akkusativ.": "für、ohne、durch、um、gegen 接 Akkusativ。", "für, ohne, durch, um, gegen → immer die Akkusativ-Form": "für、ohne、durch、um、gegen 一律用 Akkusativ 的形式", "geben + Person: Das Baby steht im Dativ, also ihm.": "geben 加人：das Baby 用 Dativ，所以是 ihm。", "geben + Person: Die Person steht im Dativ, im Plural ihnen.": "geben 加人：人用 Dativ，複數是 ihnen。", "gefallen verlangt den Dativ, im Plural ihnen.": "gefallen 要接 Dativ，複數是 ihnen。", "gehören steht immer mit Dativ: mir.": "gehören 一律接 Dativ：mir。", "glauben + Person verlangt den Dativ: mir.": "glauben 加人要接 Dativ：mir。", "helfen verlangt den Dativ, im Plural ihnen.": "helfen 要接 Dativ，複數是 ihnen。", "kaufen für eine Person: Die Person steht im Dativ, also ihr.": "kaufen 幫人買東西：人用 Dativ，所以是 ihr。", "mit, aus, bei, zu, von → immer die Dativ-Form": "mit、aus、bei、zu、von 一律用 Dativ 的形式", "passieren, geschehen, gelingen, begegnen: mit sein.": "passieren、geschehen、gelingen、begegnen：用 sein。", "sein und bleiben: immer mit sein.": "sein 和 bleiben：一律用 sein。", "sich vorstellen im Sinn von „seinen Namen sagen“: Akkusativ, also mich.": "sich vorstellen 是「自我介紹」的意思時用 Akkusativ，所以是 mich。", "sich etwas ansehen: Bei „wir“ heißt es uns.": "sich etwas ansehen：wir 用 uns。", "„Das steht dir gut“ hat den Dativ: dir.": "Das steht dir gut 要用 Dativ：dir。", "„Ist dir kalt?“ steht mit Dativ: dir.": "Ist dir kalt? 要用 Dativ：dir。", "„Wie geht es ...?“ steht mit Dativ: dir.": "Wie geht es ...? 要用 Dativ：dir。", "„stehen“ im Sinn von „gut aussehen“ verlangt den Dativ: ihr.": "stehen 是「好看、適合」的意思時，要接 Dativ：ihr。", "„warten auf“ verlangt den Akkusativ: dich.": "warten auf 要接 Akkusativ：dich。", "„Heute Abend“ zählt als ein Satzteil, das Verb steht direkt danach.": "Heute Abend 算一個句子成分，動詞緊接在後。", "„Wie lange“ zählt als Position 1, danach steht das Verb.": "Wie lange 算第一位，後面接動詞。", "„Mit wem“ ist ein Satzteil auf Position 1, danach kommt das Verb.": "Mit wem 是一個句子成分，在第一位，後面接動詞。", "„Nach der Schule“ ist ein Satzteil auf Position 1, danach folgt direkt das Verb.": "Nach der Schule 是一個句子成分，在第一位，後面直接接動詞。", "„Manchmal“ ist Position 1, das Verb muss direkt danach kommen.": "Manchmal 在第一位，動詞一定要緊接在後。", "„Vor dem Unterricht“ ist Position 1, das Verb steht auf Position 2.": "Vor dem Unterricht 在第一位，動詞在第二位。", "„Oft“ ist Position 1, das Verb „sehen“ steht auf Position 2 und „fern“ am Ende.": "Oft 在第一位，動詞 sehen 在第二位，fern 在句尾。", "„Zum Glück“ ist Position 1, danach kommt „hat“, und „gefunden“ steht am Ende.": "Zum Glück 在第一位，後面接 hat，gefunden 在句尾。", "„Heute“ ist Position 1, danach kommt sofort das Verb „spielt“ und dann „Lillian“.": "Heute 在第一位，後面馬上接動詞 spielt，然後是 Lillian。", "„Hast“ steht auf Position 1, das Partizip „gemacht“ am Ende.": "Hast 在第一位，過去分詞 gemacht 在句尾。", "„hast“ steht nach dem Fragewort auf Position 2, „gemacht“ am Ende.": "hast 在疑問詞後面的第二位，gemacht 在句尾。", "Fast!": "差一點！", "Gleich nochmal!": "再試一次！", "Kein Problem!": "沒關係！", "Nicht ganz!": "不太對！", "Tippe auf die richtige Lösung:": "請點正確答案：", "Wie heißt die Mehrzahl?": "複數是什麼？", "Wie heißt das auf Deutsch?": "德文怎麼說？", "Lies die Karte in Ruhe.": "慢慢讀題目。", "Zu schnell geraten?": "是不是答太快了？", "Ein paar üben wir morgen weiter.": "有幾個明天再繼續練。", "Wochenziel": "每週目標", "lädt ...": "載入中……"};
+  var RX=[[/^(der|die|das|den) \S+ → (er|sie|es|ihn)\.$/,null],[/^Die Mehrzahl ist „die (.+)“\.$/,"複數是 die $1。"],[/^Merke?( dir)?: (der|die|das) (.+)\.$/,"記住：$2 $3。"],[/^Es heißt (mein|meine) (.+) \((der|die|das) (.+)\)\.$/,"要用 $1 $2（$3 $4）。"],[/^Beides geht: (\S+) oder (\S+) (.+)\.$/,"兩個都可以：$1 或 $2 $3。"],[/^Auch richtig: (.+)\.$/,"也對：$1。"],[/^Trennbares Verb: ge steht in der Mitte \((\S+)\)\.$/,"分離動詞：ge 放在中間（$1）。"],[/^(.+): (er|sie) → (sein|ihr), also „(.+)“ \((.+)\)\.$/,"$1：$2 → $3，所以是 $4（$5）。"],[/^(\S+) verlangt den (Dativ|Akkusativ): (\S+)\.$/,"$1 要接 $2：$3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), höflich: (\S+)\.$/,"$1 要接 $2，禮貌用法是 $3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), in der Höflichkeitsform: (\S+)\.$/,"$1 要接 $2，禮貌用法是 $3。"],[/^(\S+) verlangt den (Dativ|Akkusativ), im Plural (\S+)\.$/,"$1 要接 $2，複數是 $3。"],[/^(\S+) steht immer mit Dativ: (\S+)\.$/,"$1 一律接 Dativ：$2。"],[/^(\S+) \+ Person: Die Person steht im Dativ, also (\S+)\.$/,"$1 加人：人用 Dativ，所以是 $2。"],[/^Nach „(\S+)“ steht immer der (Dativ|Akkusativ): (\S+)\.$/,"$1 後面一律接 $2：$3。"],[/^Nach „(\S+)“ steht der (Dativ|Akkusativ), höflich: (\S+)\.$/,"$1 後面接 $2，禮貌用法是 $3。"],[/^Tipp: (\S+) wird (\S+)\.$/,"小提示：$1 變成 $2。"],[/^Im Nebensatz steht das Verb am Ende: (.+)$/,"子句裡的動詞放在句尾：$1"],[/^Wohin\? Da bewegt sich etwas hin\.$/,"Wohin?：表示有東西移動到那裡。"],[/^Wo\? Da bewegt sich nichts, es ist schon da\.$/,"Wo?：沒有移動，東西已經在那裡。"],[/^Kein ge- bei be-, ver-, er-, ent-, emp-, zer- \((\S+)\)\.$/,"be-、ver-、er-、ent-、emp-、zer- 開頭的動詞不加 ge-（$1）。"],[/^Verben auf -ieren: kein ge- \((\S+)\)\.$/,"-ieren 結尾的動詞不加 ge-（$1）。"],[/^Dieses Verb ist nicht trennbar: kein ge- \((\S+)\)\.$/,"這個動詞不可分，不加 ge-（$1）。"],[/^\((\S+) (das|dem|der) = (\S+)\)$/,"（$1 $2 = $3）"],[/^(\S+), (\S+ ?\S*, )?(hat|ist) (.+)\.$/,null],[/^(\S+): ich (.+)\.$/,null],[/^„(\S+)“ steht auf Position 2, das Partizip „(\S+)“ (am Ende|am Satzende|ganz am Ende)\.$/,"$1 在第二位，過去分詞 $2 在句尾。"],[/^„(\S+)“ steht auf Position 2, (der Infinitiv )?„(\S+)“ (ganz )?am Ende\.$/,"$1 在第二位，$3 在句尾。"],[/^Das Modalverb „(\S+)“ steht auf Position 2, „(\S+)“ am Ende\.$/,"情態動詞 $1 在第二位，$2 在句尾。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, (?:deshalb )?(?:steht|kommt) „(\S+)“ vor „(.+)“\.$/,"$1 在第一位，所以 $2 放在 $3 前面。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, deshalb kommt das Verb vor „(.+)“\.$/,"$1 在第一位，所以動詞放在 $2 前面。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, das Verb „(\S+)“ (?:folgt direkt|folgt sofort|steht direkt danach|muss direkt danach kommen)\.$/,"$1 在第一位，動詞 $2 緊接在後。"],[/^„(.+)“ (?:ist|steht auf|zählt als) Position 1, danach kommt sofort (?:das Verb )?„(\S+)“\.$/,"$1 在第一位，後面馬上接 $2。"],[/^„(.+)“ steht vorne, deshalb kommt „(\S+)“ vor dem Subjekt\.$/,"$1 放在前面，所以 $2 放在主詞前面。"],[/^„(.+)“ steht vorne, deshalb kommt das Verb vor „(.+)“\.$/,"$1 放在前面，所以動詞放在 $2 前面。"],[/^„(.+)“ steht vorne, das Verb „(\S+)“ auf Position 2\.$/,"$1 放在前面，動詞 $2 在第二位。"],[/^sich .+: .+\.$/,null],[/^… .+$/,null],[/^.*….*$/,null],[/^Richtig ist: (.+)$/,"正確答案是：$1"],[/^Du hast geschrieben: „(.*)“$/,"你寫的是：「$1」"],[/^Du hast (\d+) Karten geübt, (\d+) auf Anhieb richtig\.$/,"你練習了 $1 張卡片，其中 $2 張一次就答對。"],[/^Noch (\d+) (?:Wort|Wörter), dann sind (\d+) sicher$/,"再練熟 $1 個單字，熟練的單字就有 $2 個"],[/^Noch (\d+) (?:Wort|Wörter) bis zum nächsten Stern$/,"還差 $1 個單字就能拿到下一顆星"],[/^Diese Woche: ([+-]?\d+) sichere Wörter( \(letzte Woche ([+-]?\d+)\))?$/,"本週熟練的單字 $1 個"],[/^Neu: (.+)$/,"新單元：$1"],[/^Hallo (.+)!$/,"你好，$1！"],[/^Ich bin (.+)$/,"我是 $1"]];
   function eins(s){ if(Object.prototype.hasOwnProperty.call(EX,s)) return EX[s]; for(var i=0;i<RX.length;i++){ if(RX[i][0].test(s)) return RX[i][1]===null?"":s.replace(RX[i][0],RX[i][1]); } return ""; }
   function zh(s){ var t=s.replace(/\s+/g," ").trim(); if(!t) return null; if(Object.prototype.hasOwnProperty.call(EX,t)) return EX[t];
     var teile=t.split(/(?<![0-9]\.)(?<=[.!?])\s+/), out=[]; for(var i=0;i<teile.length;i++){ var z=eins(teile[i].trim()); if(z) out.push(z); }
