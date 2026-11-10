@@ -13,6 +13,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `src/`: **Quelle der gemeinsamen App** (ein Kern, ein Steckbrief pro Gruppe), siehe `src/LIESMICH.md`.
 - `index.html` + `finden-gefallen/`: älterer Präpositions-Drill (React), **nicht** Teil der gemeinsamen App.
 - `jason/`: App für **Jason** (Student Chemische Technik, HM München, schwaches B2, liest Chinesisch). Fachwortschatz aus seinen Vorlesungsfolien, **Seite mit Passwort verschlüsselt** (StatiCrypt). Erzeugt. Siehe Abschnitt „jason/“ unten.
+- `lillian/`: App für **Lillian** (A2, Boston, liest Chinesisch; 1:1 bei Mike, sonntags). Vorlage mia-olivia mit `zh`. Nur Themen, die im Unterricht dran waren (`STAGES` im Steckbrief; Mike 2026-11-10), dazu Thema 40 „Aus dem Unterricht“: Wörter aus ihrem Tab in `src/data/lillian_unterricht.txt` (Format wie FACH), mit `fachDazu: true` **zusätzlich** zum normalen Wortschatz, zuerst dran, mit Bedeutungskarte (中文 → Wort mit Artikel). Reflexive Karten mit Dativ (sich die Hände waschen) per `ohneKarten` aus, bis Reflexivpronomen im Dativ im Unterricht dran war. Erzeugt.
 - `english/`: **Kyla Speaks**, Englisch-Sprech-App für **Kyla** (Erwachsene, kein Deutsch, Angst vor dem Sprechen, iPhone). Eigene kleine App, **nicht** Teil des Deutsch-Kerns; von Hand gepflegt, kein build.py. Siehe Abschnitt unten.
 
 ## Arbeitsablauf (immer so)

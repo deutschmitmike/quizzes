@@ -664,7 +664,7 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
 
 const ADJ_LEAD={nom:["Das ist","Hier ist","Da ist"], akk:["Ich sehe","Ich suche","Mia hat","Olivia braucht","Ich finde"], dat:["Ich erzähle von","Mia träumt von","Olivia spricht von"]};
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-09-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-10-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -8843,7 +8843,9 @@ const FACH=[]; { let th=0; ``.split("\n").forEach(l=>{ l=l.trim(); if(!l) return
   const nur=f[5]==="A";   // nur Auswahl, nicht tippen (Jason: Fugen -n-/-en-/-e-/-s- nicht selbst bilden)
   if(f[0]==="ABK") FACH.push({abk:true,th,kurz:f[1],lang:f[2],zh:f[3],alt,nur}); else FACH.push({th,art:f[0],w:f[1],pl:f[2]==="-"?"":f[2],zh:f[3],alt,plAlt,nur}); }); }
 const FACH_NUR=new Set(FACH.filter(x=>x.nur&&!x.abk).map(x=>x.w)), FACH_PL2={}; FACH.forEach(x=>{ if(x.plAlt&&x.plAlt.length) FACH_PL2[x.w]=x.plAlt; });
-if(FACH.length){ [G,P,ZH_N,NRANK,IMGS].forEach(o=>{ for(const k in o) delete o[k]; });   // kein Kinderwortschatz, keine Fotos, keine Kinder-Bedeutungen
+const FACH_ALLEIN=FACH.length>0&&!CFG.fachDazu;   // fachDazu (Lillian, 2026-11-10): Unterrichtswoerter ZUSAETZLICH zum normalen Wortschatz, zuerst dran, mit Bedeutungskarte
+if(CFG.fachDazu) FACH.forEach((x,i)=>{ if(x.abk) return; G[x.w]=x.art; if(x.pl) P[x.w]=x.pl; ZH_N[x.w]=x.zh; NRANK[x.w]=-100000+i; });
+if(FACH_ALLEIN){ [G,P,ZH_N,NRANK,IMGS].forEach(o=>{ for(const k in o) delete o[k]; });   // kein Kinderwortschatz, keine Fotos, keine Kinder-Bedeutungen
   FACH.forEach((x,i)=>{ if(x.abk) return; G[x.w]=x.art; if(x.pl) P[x.w]=x.pl; ZH_N[x.w]=x.zh; NRANK[x.w]=i; }); }
 function fachItems(){ const o=[]; FACH.forEach(x=>{ if(x.abk){ o.push({id:"ab:"+x.kurz,stage:x.th,kind:"abk",word:x.kurz,x}); return; }
   o.push({id:"b:"+x.w,stage:x.th,kind:"bed",word:x.w,x}); o.push({id:"g:"+x.w,stage:x.th,kind:"genus",word:x.w,answer:x.art});
@@ -8857,12 +8859,12 @@ function fachNah(a,b){ const A=a.w.toLowerCase(), B=b.w.toLowerCase(), za=zhKern
   return (CFG.fachNichtZusammen||[]).some(p=>p.includes(a.w)&&p.includes(b.w)); }
 function bedCard(it){ const x=it.x, corr=x.art+" "+x.w, ok=y=>!y.abk&&y.w!==x.w&&!fachNah(x,y), gleich=FACH.filter(y=>ok(y)&&y.th===x.th), pool=gleich.length?gleich:FACH.filter(ok), o=rnd(pool.length?pool:FACH.filter(y=>!y.abk&&y.w!==x.w));
   return {prompt:'<div class="hint">Wie heißt das auf Deutsch?'+(CFG.uiZh?'<br><small>德文怎麼說？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word" lang="zh-Hant">'+esc(x.zh)+'</div>',
-    options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art))+" "+x.w, o.art+" "+o.w].concat(CFG.antworten4?(()=>{ const p2=pool.filter(y=>y.w!==o.w&&!fachNah(o,y)), q=p2.length?rnd(p2):null; return q?[q.art+" "+q.w]:[]; })():[])), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
+    options:shuffle([corr, rnd(["der","die","das"].filter(a=>a!==x.art&&!(a==="die"&&x.pl===x.w)&&!x.alt.includes(a+" "+x.w)))+" "+x.w, o.art+" "+o.w].concat(CFG.antworten4?(()=>{ const p2=pool.filter(y=>y.w!==o.w&&!fachNah(o,y)), q=p2.length?rnd(p2):null; return q?[q.art+" "+q.w]:[]; })():[])), correct:corr, scaffold:"",   // falscher Artikel + anderes Wort derselben Vorlesung
     explain:corr+(x.pl?", die "+x.pl:"")+"."+(x.alt.length?" Auch richtig: "+x.alt.join(", ")+".":""), speak:corr, typed:x.nur?undefined:[corr].concat(x.alt), typedHint:"mit Artikel, Anfang: "+x.w.charAt(0)+"…"+(CFG.uiZh?"（加冠詞）":"")}; }
 function abkCard(it){ const x=it.x, andere=shuffle(FACH.filter(y=>y.abk&&y.lang!==x.lang)).slice(0,CFG.antworten4?3:2).map(y=>y.lang);
   return {prompt:'<div class="hint">Wofür steht die Abkürzung?'+(CFG.uiZh?'<br><small>這個縮寫代表什麼？</small>':'')+'</div><div class="hint" style="font-size:13px;">'+esc(fachThema(it))+'</div><div class="word">'+esc(x.kurz)+'</div>',
     options:shuffle([x.lang].concat(andere)), correct:x.lang, scaffold:"", explain:x.kurz+" = "+x.lang+" ("+x.zh+")"+(x.alt.length?". Auch richtig: "+x.alt.join(", "):"")+".", speak:x.lang, typed:x.nur?undefined:[x.lang].concat(x.alt), typedHint:"ohne Artikel, Anfang: "+x.lang.charAt(0)+"…"}; }
-function buildItems(){if(FACH.length) return fachItems();
+function buildItems(){if(FACH_ALLEIN) return fachItems();
   const items=[];
   Object.keys(G).forEach(w=>items.push({id:"g:"+w,stage:1,kind:"genus",word:w,answer:G[w]}));
   const OHNE_PL=new Set(["Geld", "Papier", "Spaß", "Hilfe", "Luft", "Himmel", "Haut", "Ordnung", "Schluss", "Honig", "Öl", "Schokolade", "Marmelade", "Müsli", "Kreide", "Pappe", "Asche", "Brühe", "Seide", "Teig", "Tinte", "Wachs", "Lack", "Garn", "Kompost", "Getreide", "Pulver", "Sprudel", "Gemüse", "Geschirr", "Besteck", "Donner", "Nebel", "Frost", "Dampf", "Glut", "Grippe", "Freude", "Not", "Brust", "Mops", "Fett", "Unkraut", "Moos", "Schoß", "Strom", "Mittag"]);   // Mike 2026-09-27: keine Mehrzahl-Karte fuer Woerter, die man praktisch nur in der Einzahl benutzt (Artikel-Karte bleibt)
@@ -8884,7 +8886,7 @@ function buildItems(){if(FACH.length) return fachItems();
     if(v.irr&&pratSents(v).length) items.push({id:"pt:"+v.inf,stage:16,kind:"prat",word:v.inf}); });
   topicItems().forEach(it=>items.push(it));   // Stufe 17+ (nur Stufen, die die Gruppe hat)   // Stufe 17-20
   return items;}
-const ITEMS=buildItems().filter(it=>!(CFG.ohneKarten||[]).includes(it.id)&&STAGES.some(x=>x.id===it.stage));   // nur Themen, die im Steckbrief stehen (Elinor: 1, 2, 7, 8)   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
+const ITEMS=buildItems().concat(CFG.fachDazu?FACH.filter(x=>!x.abk).map(x=>({id:"b:"+x.w,stage:x.th,kind:"bed",word:x.w,x})):[]).filter(it=>!(CFG.ohneKarten||[]).includes(it.id)&&STAGES.some(x=>x.id===it.stage));   // nur Themen, die im Steckbrief stehen (Elinor: 1, 2, 7, 8)   // ohneKarten im Steckbrief: einzelne unpassende Karten (auch in src/tests/entfernt.txt eintragen)
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
 // Merkhilfen fuer Problemwoerter (Wochenbericht 2026-11-08: Karten mit ueber 15 offenen Fehlerpunkten), Karten-ID -> ein Satz, steht nach einer falschen Antwort unter der Erklaerung
 const MERKHILFE={
@@ -9725,7 +9727,7 @@ function startSession(mode){
       const START=startPhase(), da=st=>STAGES.some(x=>x.id===st)&&(!START||START.includes(st)||(FOCUS&&+FOCUS.stage===st));   // sanfter Start: erste Tage nur einige Themen (ein Lehrer-Schwerpunkt gilt trotzdem)
       const GROUPS=[], GW=[]; GROUPS_ALL.forEach((g,i)=>{ if(g.flat().some(da)){ GROUPS.push(g.map(t=>t.filter(da)).filter(t=>t.length)); GW.push(GW_ALL[i]); } });   // Themen in Stufen-Ebenen: Artikel, Plural, Praepositionen, Pronomen, Adjektive, Verben
       const orderStage=st=>{ const c=ITEMS.filter(it=>it.stage===st&&!S.cards[it.id]);
-        if(FACH.length) return c;   // Fachwortschatz: Reihenfolge der Datei (Bedeutung, Artikel, Mehrzahl je Wort)
+        if(FACH_ALLEIN||(CFG.fachDazu&&FACH.some(x=>x.th===st))) return c;   // Fachwortschatz: Reihenfolge der Datei (Bedeutung, Artikel, Mehrzahl je Wort)
         if(st===1){ const byG={der:[],die:[],das:[]}; c.sort((a,b)=>nounKey(a)-nounKey(b)).forEach(it=>byG[G[it.word]].push(it));   // haeufigste zuerst, Artikel ausgewogen
           const wk=weakGenus(); const ord= wk ? shuffle(["der","die","das"].filter(g=>g!==wk)).flatMap(g=>[wk,g]) : shuffle(["der","die","das"]); const p=[]; let x=0;   // schwaechster Artikel doppelt
           while(byG.der.length||byG.die.length||byG.das.length){ const g=ord[x%ord.length]; if(byG[g].length) p.push(byG[g].shift()); x++; } return p; }

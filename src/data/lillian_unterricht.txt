@@ -1,0 +1,57 @@
+# Lillian: Wörter aus ihrem Unterricht (Tab „Lillian 2026“), zusätzlich zum normalen Wortschatz (Steckbrief fachDazu).
+# Format: Artikel|Wort|Plural ("-" = keine Mehrzahl-Karte)|中文|weitere richtige Antworten|A
+# Wörter nie umbenennen oder löschen (Karten-IDs b:, g:, p:). Neue Wörter unten ergänzen.
+## 40 Aus dem Unterricht
+der|Löffel|Löffel|湯匙||
+das|Messer|Messer|刀子||
+die|Gabel|Gabeln|叉子||
+der|Radiergummi|Radiergummis|橡皮擦|das Radiergummi|
+der|Turnschuh|Turnschuhe|運動鞋||
+das|Klebeband|Klebebänder|膠帶||
+die|Mappe|Mappen|資料夾|der Ordner|
+der|Taschenrechner|Taschenrechner|計算機||
+das|Mäppchen|Mäppchen|筆袋|das Federmäppchen|
+die|Schere|Scheren|剪刀||
+das|Heft|Hefte|筆記本|das Notizbuch;das Notizheft|
+das|Lineal|Lineale|直尺||
+der|Bleistift|Bleistifte|鉛筆||
+die|Schultasche|Schultaschen|書包|der Schulrucksack;der Rucksack|
+der|Kugelschreiber|Kugelschreiber|原子筆|der Kuli|
+der|Schokoriegel|Schokoriegel|巧克力棒||
+der|Pullover|Pullover|毛衣|der Pulli|
+das|Kleid|Kleider|洋裝||
+der|Rock|Röcke|裙子||
+der|Rucksack|Rucksäcke|背包||
+der|Teppich|Teppiche|地毯||
+die|Lampe|Lampen|燈||
+der|Fernseher|Fernseher|電視機||
+das|Sofa|Sofas|沙發||
+der|Stuhl|Stühle|椅子||
+der|Schrank|Schränke|櫃子||
+die|Spülmaschine|Spülmaschinen|洗碗機||
+der|Krimi|Krimis|偵探小說||
+die|Apotheke|Apotheken|藥局||
+die|Frisur|Frisuren|髮型||
+der|Sonnenaufgang|Sonnenaufgänge|日出||
+das|Erdbeben|Erdbeben|地震||
+das|Haustier|Haustiere|寵物||
+der|Fehler|Fehler|錯誤||
+die|Bushaltestelle|Bushaltestellen|公車站||
+der|Zahnarzt|Zahnärzte|牙醫||
+die|Bäckerei|Bäckereien|麵包店||
+der|Ausweis|Ausweise|證件||
+der|Regenschirm|Regenschirme|雨傘||
+die|Brille|Brillen|眼鏡||
+der|Schlüssel|Schlüssel|鑰匙||
+der|Koffer|Koffer|行李箱||
+die|Prüfung|Prüfungen|考試||
+die|Verspätung|Verspätungen|誤點||
+der|Ausflug|Ausflüge|郊遊||
+die|Kindheit|-|童年||
+das|Ergebnis|Ergebnisse|結果||
+das|Praktikum|Praktika|實習||
+der|Stau|Staus|塞車||
+der|Lärm|-|噪音||
+die|Heizung|Heizungen|暖氣||
+der|Vermieter|Vermieter|房東||
+das|Geschenk|Geschenke|禮物||
