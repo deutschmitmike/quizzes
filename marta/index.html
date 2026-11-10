@@ -625,7 +625,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Kyana"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-10-1"});
+const CFG=Object.assign({},GROUP,{teacher:false, build:"2026-11-10-2"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -1515,7 +1515,9 @@ function auxRule(v){ if(v.aux==="h") return "Die meisten Verben: haben (auch mit
   if(/^(passieren|geschehen|gelingen|begegnen)$/.test(v.inf)) return "passieren, geschehen, gelingen, begegnen: mit sein.";
   return "Bewegung (Ortswechsel) oder Veränderung (ohne Akkusativ): sein."; }
 function partRule(v){ if(v.sep) return v.part.slice(v.sep.length,v.sep.length+2)==="ge" ? " Trennbares Verb: ge steht in der Mitte ("+v.part+")." : " Trennbares Verb ohne ge ("+v.part+", wie "+v.part.slice(v.sep.length)+").";
-  if(!/^ge/.test(v.part)) return " Kein ge- bei be-, ver-, er-, ent-, emp-, zer-, über-, unter-, wieder- und bei -ieren.";
+  if(!/^ge/.test(v.part)){ if(/ieren$/.test(v.inf)) return " Verben auf -ieren: kein ge- ("+v.part+").";   // Mike/Pruefer 2026-11-10: frueher pauschal "Kein ge- bei … über-, unter-, wieder-" (falsch, wiedersehen ist trennbar)
+    if(/^(be|ver|er|ent|emp|zer)/.test(v.inf)) return " Kein ge- bei be-, ver-, er-, ent-, emp-, zer- ("+v.part+").";
+    return " Dieses Verb ist nicht trennbar: kein ge- ("+v.part+")."; }
   return ""; }
 function verbCard(it){ const v=VBY[it.word];
   if(it.kind==="perf"){ const ss=perfSents(v), s=ss[Math.floor(Math.random()*ss.length)];
@@ -2227,7 +2229,7 @@ function topicCard(it){
     [reg,other].concat(PERS.map(q=>v.forms[q])).forEach(x=>{ if(x&&x!==k1&&opts.indexOf(x)<0&&opts.length<3) opts.push(x); });
     if(opts.length<3){ const st=(v.sep?v.inf.slice(v.sep.length):v.inf).replace(/(e?n)$/,"")+"st"; if(opts.indexOf(st)<0) opts.push(st); }   // heißst, sitzst: typischer Fehler, nie richtig
     return {prompt:'<div class="hint">'+(it.kind==="pres"?"Präsens":"Modalverb")+'</div>'+big+v.inf+'</div><div class="sentence" style="margin-top:10px">'+s.t.replace("{V}",'<span class="blank">?</span>')+'</div>',
-      options:shuffle(opts), correct:corr, scaffold:it.kind==="modal"?"Modalverben: ich und er ohne Endung (ich kann, er muss).":"Endungen: ich -e, du -st, er/sie/es -t, wir -en, ihr -t, sie -en. Starke Verben ändern bei du und er den Vokal (fahren: du fährst).",
+      options:shuffle(opts), correct:corr, scaffold:it.kind==="modal"?"Modalverben: ich und er ohne Endung (ich kann, er muss).":"Endungen: ich -e, du -st, er/sie/es -t, wir -en, ihr -t, sie -en. Manche starken Verben ändern bei du und er den Vokal (fahren: du fährst).",
       explain:v.inf+": ich "+v.forms["1s"]+", du "+v.forms["2s"]+", er/sie/es "+v.forms["3s"]+({"1p":", wir ","2p":", ihr ","3p":", sie "}[s.p]?{"1p":", wir ","2p":", ihr ","3p":", sie "}[s.p]+corr:"")+(v.sep?" … "+v.sep:"")+".", speak:s.t.replace("{V}",corr), blankFill:true, fills:[corr],
       typed:[corr], typedHint:"z. B. fährst"}; }
   if(it.kind==="nsatz"){ const n=NSATZ[it.idx];
@@ -2327,7 +2329,7 @@ const ITEMS=buildItems().concat(CFG.fachDazu?FACH.filter(x=>!x.abk).map(x=>({id:
 const byId={}; ITEMS.forEach(it=>byId[it.id]=it);
 // Merkhilfen fuer Problemwoerter (Wochenbericht 2026-11-08: Karten mit ueber 15 offenen Fehlerpunkten), Karten-ID -> ein Satz, steht nach einer falschen Antwort unter der Erklaerung
 const MERKHILFE={
-  "g:Diktat":"Tipp: das Diktat wie das Heft, in das du es schreibst.",
+  "g:Diktat":"Tipp: das Diktat wie das Heft. Du schreibst das Diktat ins Heft.",
   "g:Bibliothek":"Tipp: Die Bibliothek ist dasselbe wie die Bücherei, und Wörter auf -erei sind die.",
   "g:Ufer":"Tipp: Das Ufer liegt am Wasser, und beide sind das.",
   "g:Nadel":"Tipp: die Nadel wie die Schere, beide brauchst du beim Nähen.",
@@ -2428,7 +2430,7 @@ function cardData0(it){
   options=options.map(o=>(o!==correct && o===merge(x.prep,"die") && G[w]!=="die" && P[w]===w) ? ["der","dem"].map(a=>merge(x.prep,a)).find(a=>a!==correct&&!options.includes(a))||o : o);   // "für die Lehrer" waere ein richtiger Mehrzahl-Satz
   options=shuffle([...new Set(options)]);
   let rule;
-  if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da ist etwas schon.";
+  if(it.stage===3 || (it.stage===6&&x.wechsel)) rule = cc==="akk" ? "Wohin? Da bewegt sich etwas hin." : "Wo? Da bewegt sich nichts, es ist schon da.";
   else if(it.stage===4 || (it.stage===6&&cc==="dat")) rule = "Nach mit, aus, bei, zu, von kommt der Dativ.";
   else rule = "Nach für, ohne, durch, um, gegen kommt der Akkusativ.";
   if(x.kurz){ const k=o=>o==="auf das"?"aufs":o; options=options.map(k); if(correct==="auf das") correct="aufs"; }   // umgangssprachlich normal: aufs Klo
@@ -3471,7 +3473,7 @@ function renderHome(){
   const STEP=20, within=sicher%STEP;                       // kleine Etappen statt erschreckendem "/1395"
   document.getElementById("progFill").style.width=(100*within/STEP)+"%";
   document.getElementById("progPct").textContent=sicher+" sicher";
-  document.getElementById("progLabel").textContent="Noch "+(STEP-within)+" Wörter, dann sind "+(sicher-within+STEP)+" sicher";
+  document.getElementById("progLabel").textContent="Noch "+(STEP-within)+((STEP-within)===1?" Wort":" Wörter")+", dann sind "+(sicher-within+STEP)+" sicher";
   const t=today();
   const due=ITEMS.filter(it=>S.cards[it.id]&&S.cards[it.id].due<=t).length;
   const newToday=Object.keys(S.cards).filter(id=>S.cards[id].born===t).length;
