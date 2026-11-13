@@ -6523,3 +6523,13 @@ Die Fernbedienung liegt auf dem Sofa.|遙控器在沙發上。
 Die Fernbedienung liegt auf dem Tisch.|遙控器在桌子上。
 Olivia legt die Fernbedienung unter das Kissen.|Olivia 把遙控器放到枕頭底下。
 Die Fernbedienung liegt unter dem Kissen.|遙控器在枕頭底下。
+Olivia ist im Sommer bis zur kleinen Insel im See geschwommen.|Olivia 夏天的時候游到了湖裡的小島。
+Wir sind gestern im Freibad von einer Seite zur anderen geschwommen.|我們昨天在露天游泳池從一邊游到另一邊。
+Olivia schwamm im Sommer bis zur kleinen Insel im See.|Olivia 夏天的時候游到了湖裡的小島。
+Wir schwammen gestern im Freibad von einer Seite zur anderen.|我們昨天在露天游泳池從一邊游到另一邊。
+Am Sonntag bin ich mit meiner Oma im Park spazieren gegangen.|星期天我和奶奶在公園散步了。
+Mia und Olivia sind nach dem Essen an der Elbe spazieren gegangen.|Mia 和 Olivia 吃完飯後去易北河邊散步了。
+Ich habe die Aufgabe im Kopf gerechnet.|這題我用心算算出來了。
+Mia hat gestern eine Stunde lang Matheaufgaben gerechnet.|Mia 昨天算了一個小時的數學題。
+Ich habe das Poster über mein Bett gehängt.|我把海報掛在床的上方。
+Olivia hat ihre nasse Jacke an die Heizung gehängt.|Olivia 把她的濕外套掛在暖氣上。

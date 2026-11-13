@@ -290,3 +290,7 @@ umsteigen|stieg|umgestiegen|s|um|1p:In Frankfurt {A} wir {P}.
 herunterladen|lud|heruntergeladen|h|herunter|3s:Olivia {A} eine neue App {P}.
 auswandern|-|ausgewandert|s|aus|3s:Olivias Onkel {A} nach Kanada {P}.
 chatten|-|gechattet|h||3p:Mia und Olivia {A} bis Mitternacht {P}.
+schwimmen|schwamm|geschwommen|s||3s:Olivia {A} im Sommer bis zur kleinen Insel im See {P}.;1p:Wir {A} gestern im Freibad von einer Seite zur anderen {P}.
+spazieren gehen|-|spazieren gegangen|s|spazieren |1s:Am Sonntag {A} ich mit meiner Oma im Park {P}.;3p:Mia und Olivia {A} nach dem Essen an der Elbe {P}.|xw=spazieren gegeht
+rechnen|-|gerechnet|h||1s:Ich {A} die Aufgabe im Kopf {P}.;3s:Mia {A} gestern eine Stunde lang Matheaufgaben {P}.
+hängen|-|gehängt|h||1s:Ich {A} das Poster über mein Bett {P}.;3s:Olivia {A} ihre nasse Jacke an die Heizung {P}.|xw=gehangen
