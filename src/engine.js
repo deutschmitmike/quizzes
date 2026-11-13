@@ -1661,7 +1661,7 @@ function startSession(mode){
           const wk=weakGenus(); const ord= wk ? shuffle(["der","die","das"].filter(g=>g!==wk)).flatMap(g=>[wk,g]) : shuffle(["der","die","das"]); const p=[]; let x=0;   // schwaechster Artikel doppelt
           while(byG.der.length||byG.die.length||byG.das.length){ const g=ord[x%ord.length]; if(byG[g].length) p.push(byG[g].shift()); x++; } return p; }
         if(st===2) return c.sort((a,b)=>nounKey(a)-nounKey(b));
-        if(st===15||st===16) return c.sort((a,b)=>VBY[a.word].rank-VBY[b.word].rank);
+        if(st===15||st===16){ const vz=CFG.verbenZuerst||[], vk=it=>{ const i=vz.indexOf(it.word); return i>=0?i:1000+VBY[it.word].rank; }; return c.sort((a,b)=>vk(a)-vk(b)); }   // verbenZuerst im Steckbrief (Mia & Olivia, Mike 2026-11-13): Alltagsverben zuerst, sonst Haeufigkeit
         if(st===17||st===18) return c;   // Praesens/Modalverben: Reihenfolge der Datei = Haeufigkeit
         return shuffle(c); };
       const seenIn=st=>ITEMS.filter(it=>it.stage===st&&S.cards[it.id]).length, leftIn=st=>ITEMS.some(it=>it.stage===st&&!S.cards[it.id]);
