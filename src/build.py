@@ -51,7 +51,7 @@ def fach_daten(cfg, g):
         if fehlt: sys.exit("FEHLER: Woerter aus src/data/%s.txt verschwunden (Lernstand ginge verloren): %s. BUILD NICHT VEROEFFENTLICHEN." % (name, ", ".join(sorted(fehlt)[:8])))
     return t
 # Seiten mit Passwort (Steckbrief "passwort": true, z. B. Jason): nach den Tests mit StatiCrypt verschluesseln, auch wenn die Tests scheitern.
-# Passwort liegt ausserhalb aller Repos: ~/Desktop/claude cowork/passwoerter/<ordner>.txt; StatiCrypt in ~/Unterricht/tools/node_modules.
+# Passwort liegt ausserhalb aller Repos: ~/Documents/werkstatt/passwoerter/<ordner>.txt; StatiCrypt in ~/Unterricht/tools/node_modules.
 # Fehlt etwas, bricht der Build ab, damit nie eine unverschluesselte Seite veroeffentlicht wird.
 geschuetzt = []
 def verschluesseln():
@@ -59,7 +59,7 @@ def verschluesseln():
     sc = os.path.expanduser("~/Unterricht/tools/node_modules/.bin/staticrypt")
     if not os.path.exists(sc): sys.exit("FEHLER: StatiCrypt fehlt (cd ~/Unterricht/tools && npm install --no-save staticrypt@3.5.4). BUILD NICHT VEROEFFENTLICHEN.")
     for page, cfg in geschuetzt:
-        pf = os.path.expanduser("~/Desktop/claude cowork/passwoerter/%s.txt" % cfg["folder"])
+        pf = os.path.expanduser("~/Documents/werkstatt/passwoerter/%s.txt" % cfg["folder"])
         if not os.path.exists(pf): sys.exit("FEHLER: Passwortdatei %s fehlt. BUILD NICHT VEROEFFENTLICHEN." % pf)
         if not re.fullmatch(r"[0-9a-f]{32}", cfg.get("passwortSalt", "")): sys.exit("FEHLER: passwortSalt im Steckbrief %s fehlt." % cfg["folder"])
         env = dict(os.environ, STATICRYPT_PASSWORD=open(pf, encoding="utf-8").read().strip())

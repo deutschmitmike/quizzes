@@ -37,7 +37,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 
 ## Inhaltliche Regeln (Mike)
 - Keine Emojis auf Karten (Frage, Knöpfe, Lösung, Erklärung). Wortbilder nur als echte Fotos (Pexels), nie Emojis oder Illustrationen.
-- Homonyme mit zwei Genera nicht neu aufnehmen (Kiefer, See, Tau …). Ausnahme, weil schon gelernt (Karten-IDs!): *Schild, Leiter, Steuer, Band, Laster, Pony* bleiben, brauchen aber ein eindeutiges Foto der gemeinten Bedeutung (Band = Geschenkband). Gestrichene Wörter: `~/Desktop/claude cowork/wortliste/streichliste.txt`.
+- Homonyme mit zwei Genera nicht neu aufnehmen (Kiefer, See, Tau …). Ausnahme, weil schon gelernt (Karten-IDs!): *Schild, Leiter, Steuer, Band, Laster, Pony* bleiben, brauchen aber ein eindeutiges Foto der gemeinten Bedeutung (Band = Geschenkband). Gestrichene Wörter: `~/Documents/werkstatt/wortliste/streichliste.txt`.
 - Wortfotos: Claude wählt selbst und sieht jedes Foto an (Kontaktbögen `wortliste/foto_boegen.js`), Übernahme mit `wortliste/fotos_uebernehmen.py`. Nichts Anzügliches oder Gruseliges, kein Foto, das eher ein anderes Wort zeigt. Jedes konkrete Nomen bekommt ein Foto, **auch wenn es dem Foto eines Wortes mit anderem Artikel ähnelt** (Robbe/Seehund, Zug/Bahn …; Mike 2026-09-27). Gibt es ein eindeutigeres Foto, das bevorzugen (Hase = Feldhase, Eule = Schleiereule).
 - Nomen kommen nach Häufigkeit dran (`NRANK`, Untertitel-Häufigkeit), Krimi- und Schimpfwörter spät.
 - Auswahlkarten (Lücke, Satzbau): **nur eine Option darf einen korrekten Satz ergeben**, auch umgangssprachlich nicht zwei. Beispiel: bei Konjunktiv II nie „können“ als Falschantwort in „___ Sie mir helfen?“.
@@ -72,9 +72,9 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - `node src/tests/sim_effekt.js <seite>` misst die Effektivität mit einem Lerner, der vergisst. Der größte Hebel ist die Übungszeit (Rundengröße).
 
 ## Außerhalb des Repos
-- Wochenbericht alle Schüler (Montag, ein Bericht für alle): `~/Desktop/claude cowork/mia-olivia-berichte/alle_bericht.js`. Der alte Kyana-Bericht (`kyana-berichte/`) ist abgeschaltet.
-- Tägliches Backup aller Spielstände: `~/Desktop/claude cowork/backups/` (`backup.js`).
-- Wortlisten, Übersetzungen, Prüfungen: `~/Desktop/claude cowork/wortliste/`.
+- Wochenbericht alle Schüler (Montag, ein Bericht für alle): `~/Documents/werkstatt/mia-olivia-berichte/alle_bericht.js`. Der alte Kyana-Bericht (`kyana-berichte/`) ist abgeschaltet.
+- Tägliches Backup aller Spielstände: `~/Documents/werkstatt/backups/` (`backup.js`).
+- Wortlisten, Übersetzungen, Prüfungen: `~/Documents/werkstatt/wortliste/`.
 
 ## english/ (Kyla Speaks, seit 2026-10-02)
 - Dateien: `index.html` (Ladeseite + CSS), `app.js` (Logik), `data.js` (Inhalte), `lehrer.html` (Mikes Korrekturseite, Deutsch), `version.json`. **Versionsnummer nur in `english/version.json`** (Format `JJJJ-MM-TT-N`), die Ladeseite hängt sie an data.js/app.js; bei jeder Änderung hochzählen und Mike ansagen. Unabhängig von `src/BUILD`.
@@ -94,7 +94,7 @@ Lokaler Klon: `~/Documents/quizzes`. Das ist die Wahrheit. Nicht in Temp-/Scratc
 - Wörter, Folieninhalte und später Bilder liegen **nur privat** in `~/Unterricht/schueler/jason/app/jason_fach.txt` (Steckbrief `fachPfad`). **Nie** nach `src/data/` oder sonst ins öffentliche Repo kopieren; ins Repo kommt nur die verschlüsselte `jason/index.html` und `index_lehrer.html`. build.py bricht ab, wenn eine Gruppe mit `fachPfad` kein `passwort` hat.
 - Format im Kopf der Datei und von `FACH` in engine.js: `## 31 Thema`, dann `Artikel|Wort|Plural|中文|weitere richtige Antworten|A` (A = nur Auswahl, nie tippen; zurzeit bei keinem Wort gesetzt: Mike 2026-10-25, Fachwörter dürfen alle ab Box 3 getippt werden) und `ABK|Kurzform|Langform|中文||A`. Karten-IDs `b:Wort`, `g:Wort`, `p:Wort`, `ab:Kurzform`: Wörter nie umbenennen oder löschen (build.py prüft gegen den letzten Commit in ~/Unterricht; entfernen nur mit `[jason] b:Wort$` in entfernt.txt).
 - Themen = Vorlesungen (Stufen 31 bis 38, `focusOpts`), Lehrer-Schwerpunkt zieht eine Vorlesung vor. In einer Auswahl stehen nie zwei nahe Wörter zusammen (`fachNah` in engine.js, Paare in `fachNichtZusammen` im Steckbrief).
-- Verschlüsselung: build.py verschlüsselt nach den Tests (auch wenn sie scheitern) mit `~/Unterricht/tools/node_modules/.bin/staticrypt` (3.5.4) und dem Passwort aus `~/Desktop/claude cowork/passwoerter/jason.txt`; Salt `passwortSalt` im Steckbrief nie ändern (sonst gilt „Angemeldet bleiben“ nicht mehr). Fehlt eins davon, bricht der Build ab. Der Vergleich „Karten verschwunden“ für jason/index.html meldet nur einen Hinweis (die Seite im Commit ist verschlüsselt); dafür prüft build.py die Wörterliste.
+- Verschlüsselung: build.py verschlüsselt nach den Tests (auch wenn sie scheitern) mit `~/Unterricht/tools/node_modules/.bin/staticrypt` (3.5.4) und dem Passwort aus `~/Documents/werkstatt/passwoerter/jason.txt`; Salt `passwortSalt` im Steckbrief nie ändern (sonst gilt „Angemeldet bleiben“ nicht mehr). Fehlt eins davon, bricht der Build ab. Der Vergleich „Karten verschwunden“ für jason/index.html meldet nur einen Hinweis (die Seite im Commit ist verschlüsselt); dafür prüft build.py die Wörterliste.
 - Aussprache (Mike 2026-10-31): `fachAudio: "audio/"` im Steckbrief. Nach jeder Antwort spielt die App `jason/audio/<fnv(d.speak)>.mp3` (ElevenLabs, Stimme David, eleven_multilingual_v2, mp3_22050_32). Neue Wörter: `XI=$(security find-generic-password -s elevenlabs -w) python3 -I ~/Unterricht/schueler/jason/app/audio_erzeugen.py` erzeugt nur fehlende Dateien; danach bauen und `jason/audio/` mit committen. Key nie in Dateien.
 - Bedienung zweisprachig (`uiZh`): Kartenhinweise im Kern mit Chinesisch darunter; übrige Beschriftungen übersetzt ein kleines Skript in `src/groups/jason.html` und `jason_lehrer.html` (Wörterbuch EX/RX, Antwortknöpfe `.opt` bleiben unverändert). Neue Texte dort ergänzen.
 - Wochenziel 7 Übungstage (`wochenZiel: 7`, Haken/Kreuz je Tag wie bei Mia & Olivia), 60 Karten pro Runde, bis 40 neue pro Tag (Mike 2026-10-31).
