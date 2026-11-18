@@ -568,7 +568,7 @@ const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]
 
 const PAKK_WHO=["Elinor"], PAKK_VERB=["sieht"];
 
-const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-16-1"});
+const CFG=Object.assign({},GROUP,{teacher:true, build:"2026-11-18-1"});
 // ===== Gemeinsamer Kern aller Deutsch-Spiele (der-die-das/Kyana, Mia & Olivia, ...) =====
 // Gruppenspezifisches steht in src/groups/<gruppe>.js (CFG + Inhalte). Zusammensetzen: python3 src/build.py
 "use strict";
@@ -3186,6 +3186,56 @@ function pronCard(it){ const w=it.word, g=G[w], fills=[];
   else { const p=rnd(PAKK_S), v=GROSS.has(w)?p[rnd([1,3,5])]:p[1+Math.floor(Math.random()*5)]; /* Sofa: kaufen/brauchen/nehmen, nicht suchen/finden */ html=p[0]+" "+v+" "+akk+" "+w+".<br>"+p[0]+" "+v+" "+blankLine("{B}",corr,fills,true)+"."; }
   return {prompt:'<div class="hint">ihn, sie oder es?</div>'+img+'<div class="sentence">'+html+'</div>', options:["ihn","sie","es"], correct:corr,
     scaffold:"den → ihn, die → sie, das → es", explain:akk+" "+w+" → "+corr+".", speak:"", blankFill:true, fills, typed:[corr], typedHint:"ihn, sie oder es"}; }
+// ===== Stufe 26: der oder den? Wer macht etwas (Nominativ) und was (Akkusativ), zwei Luecken in einem Satz (Mike 2026-11-18, zuerst nur Kyana) =====
+// Wer: Mensch oder Tier. Was: immer ein Ding oder Essen. Keine Woerter mit -en im Akkusativ (der Junge -> den Jungen) als Was.
+// Antworten: 3 Paare. Nie ein Paar, das einen grammatisch richtigen Satz ergibt, auch nicht mit umgedrehten Rollen ("Den Vater sucht der Schlueessel"), Pruefung 2026-11-18.
+// Auch Saetze ohne der-Wort ("Die Mutter sucht die Tasche"): die und das bleiben, sonst waere "hinten immer den" ein Rate-Muster.
+// IDs na:<Rahmen>:<Wer>:<Was>: neue Rahmen nur ans Ende, Woerter in einem Rahmen nur anhaengen.
+const NA=[
+ {v:"sucht",s:["Vater","Mutter","Kind"],o:["Schlüssel","Ball","Löffel","Tasche","Buch","Brille","Handy"]},
+ {v:"frisst",s:["Hund","Katze","Maus"],o:["Kuchen","Käse","Wurst","Brot","Futter"]},
+ {v:"isst",s:["Junge","Oma","Mädchen"],o:["Apfel","Kuchen","Banane","Ei","Suppe","Brot"]},
+ {v:"trinkt",s:["Opa","Frau","Kind"],o:["Saft","Tee","Milch","Wasser","Limonade"]},   // ohne Kakao: "das Kakao" sagt man regional
+ {v:"liest",s:["Lehrer","Lehrerin","Opa"],o:["Brief","Zettel","Zeitung","Buch","Geschichte","Heft"]},
+ {v:"malt",s:["Junge","Mädchen","Oma"],o:["Baum","Stern","Mond","Sonne","Haus","Blume","Pferd"]},
+ {v:"kauft",s:["Vater","Oma","Frau"],o:["Kuchen","Stuhl","Teppich","Lampe","Fahrrad","Torte","Brot"]},
+ {v:"holt",s:["Hund","Junge","Mädchen"],o:["Ball","Stock","Zeitung","Leine","Spielzeug"]},
+ {v:"trägt",s:["Mann","Frau","Junge"],o:["Koffer","Hut","Rucksack","Jacke","Mütze","Tasche","Paket"]},
+ {v:"spült",s:["Vater","Mutter","Kind"],o:["Teller","Becher","Tasse","Glas","Schüssel","Messer"]},
+ {v:"braucht",s:["Opa","Mädchen","Frau"],o:["Stift","Schirm","Brille","Heft","Schere","Pflaster"]},
+ {v:"öffnet",s:["Lehrer","Mutter","Kind"],o:["Schrank","Kühlschrank","Tür","Fenster","Brief","Dose","Paket"]},
+ {v:"mag",s:["Junge","Mädchen","Opa"],o:["Kuchen","Käse","Torte","Eis","Salat","Suppe","Obst"]},
+ {v:"hat",s:["Mädchen","Junge","Lehrerin"],o:["Ball","Roller","Puppe","Fahrrad","Kette","Handy"]},
+ {v:"baut",s:["Junge","Vater","Kind"],o:["Turm","Burg","Haus","Brücke","Zelt"]},
+ {v:"verliert",s:["Opa","Mutter","Kind"],o:["Schlüssel","Schal","Handschuh","Mütze","Brille","Handy"]}
+];
+function naItems(){ const o=[]; NA.forEach((f,fi)=>f.s.forEach(s=>f.o.forEach(w=>{ if(s!==w) o.push({id:"na:"+fi+":"+s+":"+w,stage:26,kind:"nomakk",fi,s,w}); }))); return o; }
+const NA_NOM={der:"der",die:"die",das:"das"}, NA_AKK={der:"den",die:"die",das:"das"};
+// 4 Antworten als volles Raster: je Luecke richtig + 1 falsches Wort (jedes Wort steht zweimal, die Mehrheit verraet nichts).
+// Kein Paar darf einen richtigen Satz ergeben: kein umgedrehter Satz ("Den Vater sucht der Schluessel"), keine Mehrzahl
+// ("die Schlüssel", "Die Lehrer öffnet der Schrank"), kein Dativ vorne ("Der Oma malt …"). Kein Wort, das nie richtig ist (dem).
+// Die falschen Woerter sind ueber die Genera gestreut, damit {der, das}, {die, das}, {den, das}, {den, die} nichts verraten. Pruefung 2026-11-18.
+function naFalsch(gs,go,s,w){ const r=a=>a[Math.floor(Math.random()*a.length)], plAnders=x=>!!(P[x]&&P[x]!==x);
+  let a2;
+  if(gs==="der") a2 = (go==="der"&&Math.random()<0.5) ? "den" : "das";   // "den" nur bei der-Was ("Den Vater sucht die Tasche" waere richtig); nie "die": "Die Lehrer" waere Mehrzahl
+  else if(gs==="die") a2 = r(["den","den","das"]);                              // nie "der": "Der Oma malt das Haus" waere Dativ vorne
+  else a2 = /en$/.test(s) ? "der" : r(["den","der"].concat(plAnders(s)?["die","die"]:[]));   // "den Mädchen" waere Dativ Mehrzahl, "die Mädchen" Mehrzahl
+  let b2;
+  if(go==="der") b2 = r((["das"]).concat(plAnders(w)?["die","die"]:[]).concat(gs==="der"&&a2!=="den"?["der","der"]:[]));   // "das" seltener, sonst ist in {den, das} fast immer den richtig   // "der" hinten nur, wenn vorne kein "den" steht (sonst "Den Vater sucht der Schlüssel")
+  else { const x=Math.random(), anderes = go==="die" ? "das" : (plAnders(w)?"die":null);   // "das Tasche", "die Buch" (nicht "die Fenster": Mehrzahl)
+    b2 = x<0.5 ? "den" : (x<0.8&&anderes) ? anderes : "der";
+    if(a2==="den"&&b2==="der") b2 = anderes&&Math.random()<0.5 ? anderes : "den"; }   // "den … der" waere per Regel allein loesbar (vorne nie den, hinten nie der), dann braucht es kein Genus
+  return [a2,b2]; }
+function naOk(gs,go,a,b){ return (a===NA_NOM[gs]&&b===NA_AKK[go]) || (a===NA_AKK[gs]&&b===NA_NOM[go]); }   // auch umgedrehte Rollen zaehlen als richtiger Satz
+function naOpts(gs,go,s,w){ const a1=NA_NOM[gs], b1=NA_AKK[go], [a2,b2]=naFalsch(gs,go,s,w), corr=a1+" … "+b1;
+  return {corr, options:shuffle([[a1,b1],[a1,b2],[a2,b1],[a2,b2]].map(([a,b])=>a+" … "+b))}; }
+function nomakkCard(it){ const f=NA[it.fi], gs=G[it.s], go=G[it.w], o=naOpts(gs,go,it.s,it.w), nom=NA_NOM[gs], akk=NA_AKK[go];
+  const pron={der:"er",die:"sie",das:"es"}[gs], cap=x=>x.charAt(0).toUpperCase()+x.slice(1);
+  const satz=cap(nom)+" "+it.s+" "+f.v+" "+akk+" "+it.w+".";
+  return {prompt:'<div class="hint">Welche Artikel passen?</div><div class="sentence"><span class="blank">?</span> '+it.s+' '+f.v+' <span class="blank">?</span> '+it.w+'.</div>',
+    options:o.options, correct:o.corr, scaffold:"Wer? Bleibt gleich. Was? Nur der wird zu den.",
+    explain:"Wer "+f.v+" etwas? "+nom+" "+it.s+" (bleibt so). Was "+f.v+" "+pron+"? "+akk+" "+it.w+(go==="der"?" (der wird zu den).":" ("+go+" bleibt so)."),
+    speak:satz, blankFill:true, fills:[cap(nom),akk], typed:[nom+" "+akk], typedHint:"zwei Wörter mit Leerzeichen, erst die erste Lücke"}; }
 // ===== selbst schreiben (sichere Karten): Plural, Perfekt, Präteritum =====
 function normAns(s){ return (s||"").toLowerCase().replace(/…|\.\.\./g," ").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(); }
 // ===== Vergleich mit der eigenen Vorwoche (statt Rangliste) =====
@@ -3941,6 +3991,7 @@ function buildItems(){if(FACH_ALLEIN) return fachItems();
   EXTRA.forEach((w,i)=>{const er=i%2===0; const who=w==="Auto"?(er?"der Vater":"die Mutter"):(er?PER_ER:PER_SIE)[Math.floor(i/2)%5]; items.push({id:"ps:"+w,stage:9,kind:"poss3",word:w,gp:er?"er":"sie",who:who});});
   EXTRA.forEach(w=>items.push({id:"pa:"+w,stage:10,kind:"pakk",word:w}));
   buildAdj().forEach(it=>items.push(it));
+  if(STAGES.some(x=>x.id===26)) naItems().forEach(it=>items.push(it));   // der oder den? (nur Gruppen mit Stufe 26)
   if(STAGES.some(x=>x.id===15)) VERBS.forEach(v=>{ if(perfSents(v).length) items.push({id:"pf:"+v.inf,stage:15,kind:"perf",word:v.inf});
     if(v.irr&&pratSents(v).length) items.push({id:"pt:"+v.inf,stage:16,kind:"prat",word:v.inf}); });
   topicItems().forEach(it=>items.push(it));   // Stufe 17+ (nur Stufen, die die Gruppe hat)   // Stufe 17-20
@@ -3974,6 +4025,7 @@ function cardData(it){ const d=cardData0(it); if(d&&MERKHILFE[it.id]) d.explain=
 function cardData0(it){
   if(it.kind==="bed") return bedCard(it); if(it.kind==="abk") return abkCard(it);   // Fachwortschatz (CFG.fach)
   if(it.kind==="perf"||it.kind==="prat") return verbCard(it);
+  if(it.kind==="nomakk") return nomakkCard(it);
   if(CFG.teenPron && /^(pron|poss|poss3|pakk)$/.test(it.kind)) return pronCard(it);   // Stufe 7-10: Alltagsnomen, wechselnde Saetze
   if(/^(pres|modal|nsatz|komp|order|cloze)$/.test(it.kind)) return topicCard(it);   // Stufe 17-20
   if(it.kind==="genus"){

@@ -85,6 +85,11 @@ const GROUP={
    [
     14
    ]
+  ],
+  [
+   [
+    26
+   ]
   ]
  ],
  "topicWeights": [
@@ -92,6 +97,7 @@ const GROUP={
   1,
   2,
   1,
+  2,
   2
  ],
  "sound": false,
@@ -352,7 +358,8 @@ const STAGES=[
  {id:11,name:"Adjektive: der oder ein?",desc:"Nominativ: der große, ein großer"},
  {id:12,name:"Adjektive im Akkusativ",desc:"den und einen großen ..."},
  {id:13,name:"Adjektive im Dativ",desc:"mit dem, mit einem: immer -en"},
- {id:14,name:"Adjektive gemischt",desc:"alle Artikel, alle Fälle"}
+ {id:14,name:"Adjektive gemischt",desc:"alle Artikel, alle Fälle"},
+ {id:26,name:"der oder den?",desc:"Der Bär frisst den Honig."}
 ];
 const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze mit Beispiel
  2:"Mehrzahl heißt: mehr als eins. Der Artikel ist dann immer die: der Ball → die Bälle.",
@@ -367,7 +374,8 @@ const INTRO={   // kurz halten (Mike 2026-09-27): hoechstens zwei kurze Saetze m
  11:"Nach der, die, das: -e. Nach ein: -er oder -es, nach eine: -e. Ein großer Hund, ein kleines Kind, eine rote Blume.",
  12:"Beim der-Wort: den großen Hund, einen großen Hund. Sonst wie vorher.",
  13:"Nach mit immer -en: mit dem großen Hund, mit einer kleinen Katze.",
- 14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?"
+ 14:"Alles gemischt. Schau auf den Artikel: -e, -er, -es oder -en?",
+ 26:"Der Bär (wer?) frisst den Honig (was?). Nur bei „was?“ wird der zu den."
 };
 const ADJ_LEAD={nom:["Das ist"], akk:["Ich sehe"], dat:["Hier ist ein Bild mit"]};   // passt zu jedem Nomen (nicht: mit einem wilden Elch spielen)
 

@@ -8,7 +8,7 @@ const DET = /^(genus|plural|case|pron|poss|poss3|pakk|adj|nsatz|komp|order|cloze
 let fails = 0, warns = 0;
 const fail = (f, m) => { fails++; console.log("  FEHLER " + f + ": " + m); };
 const warn = (f, m) => { warns++; console.log("  Hinweis " + f + ": " + m); };
-const EXP = "{ITEMS,byId,cardData,label,STAGES,S:()=>S,setS:x=>{S=x},fresh,KEY,EXTRA_ROUNDS,CFG,MAX:()=>MAX_SESSION,startDaily,startSession,commitNext,today," +
+const EXP = "{G:(typeof G!=='undefined'?G:{}),P:(typeof P!=='undefined'?P:{}),ITEMS,byId,cardData,label,STAGES,S:()=>S,setS:x=>{S=x},fresh,KEY,EXTRA_ROUNDS,CFG,MAX:()=>MAX_SESSION,startDaily,startSession,commitNext,today," +
   "queue:()=>queue,current:()=>current,missSess:()=>missSess,setPending:p=>{pending=p},show,switchPlayer:(typeof switchPlayer==='function'?switchPlayer:null)," +
   "lbPickName:(typeof lbPickName==='function'?lbPickName:null),VERBS:(typeof VERBS!=='undefined'?VERBS:[]),wrongPart:(typeof wrongPart==='function'?wrongPart:null)," +
   "ZH_S:(typeof ZH_S!=='undefined'?ZH_S:{}),VBY,perfSents,pratSents,pratOpts,AUXF,capAt0,PBY,KBY,fullSent,nameSwap:(typeof nameSwap==='function'?nameSwap:null)}";
@@ -35,6 +35,12 @@ for (const rel of process.argv.slice(2)) {
     if (d.options && new Set(d.options).size !== d.options.length) fail(name, it.id + ": doppelte Optionen " + d.options.join("/"));
     if (X.CFG.antworten4 && /^(bed|abk|plural)$/.test(it.kind) && d.options && d.options.length !== 4) warn(name, it.id + ": " + d.options.length + " statt 4 Antworten");   // Jason (Mike 2026-11-01)
     if (/undefined|NaN|\[object/.test(txt)) fail(name, it.id + ": kaputter Text: " + txt.slice(0, 120));
+    if (it.kind === "nomakk") {   // der oder den? (Stufe 26, 2026-11-18): kein falsches Paar darf einen richtigen Satz ergeben, auch nicht umgedreht oder als Mehrzahl
+      const NOM = { der: "der", die: "die", das: "das" }, AKK = { der: "den", die: "die", das: "das" }, pl = w => !(X.P[w] && X.P[w] !== w);
+      const f = (w, c) => [c[X.G[w]]].concat(pl(w) ? ["die"] : []), sN = f(it.s, NOM), sA = f(it.s, AKK), oN = f(it.w, NOM), oA = f(it.w, AKK);
+      for (const o of d.options) { if (o === d.correct) continue; const [a, b] = o.split(" … ");
+        if ((sN.includes(a) && oA.includes(b)) || (sA.includes(a) && oN.includes(b)) || a === "dem" || b === "dem") fail(name, it.id + ": falsche Antwort ergibt richtigen Satz oder dem: " + o); }
+      if (d.options.length !== 4) fail(name, it.id + ": " + d.options.length + " statt 4 Antworten"); }
     if (EMO.test(txt)) fail(name, it.id + ": Emoji auf der Karte");
     if (d.fills) { const nb = (d.prompt.match(/class="blank"/g) || []).length; if (d.fills.length !== nb) fail(name, it.id + ": Luecken " + nb + " / Fuellungen " + d.fills.length); }
     if (d.tiles) { const r = [d.tiles.fixed].concat(d.tiles.tiles).join(" ") + d.tiles.punct; if (r !== d.correct) fail(name, it.id + ": Satzbausteine ergeben nicht den richtigen Satz: " + r); }   // Kaertchen in richtiger Reihenfolge = Loesung
