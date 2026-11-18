@@ -34,7 +34,7 @@ const GROUP={
   15
  ],
  "roundFull": [
-  20,
+  15,
   15,
   15
  ],
